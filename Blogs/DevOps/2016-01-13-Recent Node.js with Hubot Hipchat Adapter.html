@@ -1,0 +1,13 @@
+Today I had a strange issue when setting up Hubot with Hipchat
+according to the installation instructions from <a href="https://github.com/hipchat/hubot-hipchat">hubot-hipchat</a>.
+
+The build with <pre>yo hubot --adapter hipchat</pre>
+
+fails because it downloads the most recent hubot-hipchat NPM package 2.12.0 and then tries to extract 2.7.5 which of course fails.
+
+The simple workaround is
+
+<ul>
+<li>To patch the package.json of the partial installation and add and explicit hubot-hipchat require for 2.12.0.</li>
+<li>Rerun the "yo" command and say no when being asked to overwrite package.json</li>
+</ul>

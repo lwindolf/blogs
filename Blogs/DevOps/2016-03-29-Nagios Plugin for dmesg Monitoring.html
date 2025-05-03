@@ -1,0 +1,36 @@
+So far I found no easy solution to monitor for Linux kernel messages. So here is a simple Nagios plugin to scan dmesg output for interesting stuff:
+
+<pre class="brush:bash">#!/bin/bash
+
+SEVERITIES="err,alert,emerg,crit"
+WHITELIST="microcode: |\
+Firmware Bug|\
+i8042: No controller|\
+Odd, counter constraints enabled but no core perfctrs detected|\
+Failed to access perfctr msr|\
+echo 0 > /proc/sys"
+
+# Check for critical dmesg lines from this day
+date=$(date "+%a %b %e")
+output=$(dmesg -T -l "$SEVERITIES" | egrep -v "$WHITELIST" | grep "$date" | tail -5)
+
+if [ "$output" == "" ]; then
+	echo "All is fine."
+	exit 0
+fi
+
+echo "$output" | xargs
+exit 1
+</pre>
+
+"Features" of the script above:
+
+<ul>
+<li>It gives you the 5 most recent messages from today</li>
+<li>It allows to whitelist common but useless errors in $WHITELIST</li>
+<li>It uses "dmesg" to work when you already have disk I/O errors and to be faster than syslog parsing</li>
+</ul>
+
+This script helped a lot to early on detect I/O errors, recoverable as well as corruptions. It even worked when entire root partition wasn't readable anymore, because then the Nagios check failed with "NRPE: unable to read output" which indicated that dmesg didn't work anymore. By always showing all errors from the entire day one cannot miss recovered errors that happened in non-office hours.
+
+Another good thing about the check is detecting OOM kills or fast spawning of processes.

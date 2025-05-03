@@ -1,0 +1,9 @@
+---
+categories: Bash
+---
+Today was a good day, as I stumbled over <a href="http://architects.dzone.com/articles/context-specific-history-bash">this post</a> (at <a href="http://architects.dzone.com">http://architects.dzone.com</a>) hinting on the following bash key bindings:
+
+<pre>bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'</pre>
+
+It changes the behaviour of the up and down cursor keys to not go blindly through the history but only through items matching the current prompt. Of course at the disadvantage of having to clear the line to go through the full history. But as this can be achieved by a Ctrl-C at any time it is still preferrable to Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R Ctrl+R ....

@@ -1,0 +1,7 @@
+You have a text file with broken encoding? You want to strip it from all invalid characters?
+
+Here is how to do it:
+
+<code>iconv -c -t ASCII input.txt</code>
+
+The result will be printed to stdout. The -c switch does the stripping. Using -t you can select every target encoding you like.

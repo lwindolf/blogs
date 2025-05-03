@@ -1,0 +1,78 @@
+<b>Crash Variant #1</b>
+
+Sometimes flvtool2 1.0.6 crashes on FLVs created by ffmpeg or mencoder. The FLV video itself is playable without the metadata and looks fine, still flvtool2 crashes like this:
+
+<code>
+$ flvtool2 -kUP -metadatacreator:'some label' video.flv
+ERROR: EOFError
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/amf_string_buffer.rb:37:in `read'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/amf_string_buffer.rb:243:in `read__STRING'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/audio_tag.rb:56:in `read_header'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/audio_tag.rb:47:in `after_initialize'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/tag.rb:56:in `initialize'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/stream.rb:447:in `new'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/stream.rb:447:in `read_tags'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flv/stream.rb:58:in `initialize'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:272:in `new'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:272:in `open_stream'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:238:in `process_files'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:225:in `each'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:225:in `process_files'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2/base.rb:44:in `execute!'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2.rb:168:in `execute!'
+ERROR: /usr/lib/ruby/site_ruby/1.8/flvtool2.rb:228
+ERROR: /usr/bin/flvtool2:2:in `require'
+ERROR: /usr/bin/flvtool2:2
+$
+</code>
+
+In the Wowza Media Server support forum <a href="http://www.wowzamedia.com/forums/showthread.php?t=467">is a hint</a> on how to patch flvtool2 to solve the issue:
+
+<pre>
+--- /usr/local/lib/site_ruby/1.8/flv/audio_tag.rb	2009-11-12 10:46:13.000000000 +0100
++++ lib/flv/audio_tag.rb	2010-03-17 11:25:35.000000000 +0100
+@@ -44,7 +44,9 @@
+     
+     def after_initialize(new_object)
+       @tag_type = AUDIO
+-      read_header
++      if data_size > 0
++      	read_header
++      end
+     end
+ 
+     def name
+</pre>
+
+<b>Crash Variant #2</b>
+
+Here is another crashing variant:
+
+<code>
+$ flvtool2 -kUP -metadatacreator:'some label' video.flv
+ERROR: EOFError
+ERROR: /usr/local/lib/site_ruby/1.8/flv/amf_string_buffer.rb:37:in `read'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/amf_string_buffer.rb:75:in `read__AMF_string'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/amf_string_buffer.rb:90:in `read__AMF_mixed_array'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/amf_string_buffer.rb:134:in `read__AMF_data'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/meta_tag.rb:40:in `after_initialize'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/tag.rb:56:in `initialize'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/stream.rb:451:in `new'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/stream.rb:451:in `read_tags'
+ERROR: /usr/local/lib/site_ruby/1.8/flv/stream.rb:58:in `initialize'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:272:in `new'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:272:in `open_stream'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:238:in `process_files'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:225:in `each'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:225:in `process_files'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2/base.rb:44:in `execute!'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2.rb:168:in `execute!'
+ERROR: /usr/local/lib/site_ruby/1.8/flvtool2.rb:228
+ERROR: /usr/local/bin/flvtool2:2:in `require'
+ERROR: /usr/local/bin/flvtool2:2
+$
+</code>
+
+I have not yet found a solution...
+
+Update: I have found crash variant #2 to often happen with larger files. Using <a href="http://mirror.facebook.net/facebook/flvtool++/">flvtool++</a> instead of flvtool2 always solved the problem. Using flvtool++ is also a good idea as it is much faster than flvtool2. Still both tools have their problems. More about this in the <a href="http://lzone.de/Comparison+of+FLV+and+MP4+metadata+tagging+tools+%28injectors%29">Comparison of FLV and MP4 metadata tagging tools</a>.

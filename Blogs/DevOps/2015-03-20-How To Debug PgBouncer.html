@@ -1,0 +1,28 @@
+When you use Postgres with pgbouncer when you have database problems you want to have a look at pgbouncer too. To inspect pgbouncer operation ensure to add at least one user you defined in the user credentials file (e.g. on Debian per-default /etc/pgbouncer/userlist.txt) to the "stats_users" key in pgbouncer.ini:
+
+<pre>stats_users = myuser</pre>
+
+Now reload pgbouner and use this user "myuser" to connect to pgbouncer with psql by requesting the special "pgbouncer" database:
+
+<pre>psql -p 6432 -U myuser -W pgbouncer</pre>
+
+At the psql prompt list the supported pgbouncer commands with
+
+<pre>SHOW HELP;</pre>
+
+PgBouncer will present all statistics and configuration options:
+
+<pre>pgbouncer=# SHOW HELP;
+NOTICE:  Console usage
+DETAIL:  
+	SHOW HELP|CONFIG|DATABASES|POOLS|CLIENTS|SERVERS|VERSION
+	SHOW STATS|FDS|SOCKETS|ACTIVE_SOCKETS|LISTS|MEM
+	SET key = arg
+	RELOAD
+	PAUSE [<db>]
+	SUSPEND
+	RESUME [<db>]
+	SHUTDOWN
+</pre>
+
+The "SHOW" commands are all self-explanatory. Very useful are the "SUSPEND" and "RESUME" commands when you use pools.

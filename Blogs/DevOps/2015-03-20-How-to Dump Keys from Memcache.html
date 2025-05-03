@@ -1,0 +1,150 @@
+---
+categories: memcached
+---
+You spent already 50GB on the memcache cluster, but you still see many evictions and the cache hit ratio doesn't look good since a few days. The developers swear that they didn't change the caching recently, they checked the code twice and have found no problem.
+
+What now? How to get some insight into the black box of memcached? One way would be to add logging to the application to see and count what is being read and written and then to guess from this about the cache efficiency. For to debug what's happening we need to set how the cache keys are used by the application.
+
+<h3>An Easier Way</h3>
+
+Memcache itself provides a means to peek into its content. The memcache protocol provides <a href="/articles/memcached.htm">commands</a> to peek into the data that is organized by slabs (categories of data of a given size range). There are some significant limitations though:
+
+<ol>
+<li>You can only dump keys per slab class (keys with roughly the same content size)</li>
+<li>You can only dump one page per slab class (1MB of data)</li>
+<li>This is an unofficial feature that <a href="https://groups.google.com/forum/?fromgroups=#!topic/memcached/1-T8I-RVGKM">might be removed anytime.</a></li>
+</ol>
+
+The second limitation is propably the hardest because 1MB of several gigabytes is almost nothing. Still it can be useful to watch how you use a subset of your keys. But this might depend on your use case.
+
+If you don't care about the technical details just skip to the <a href="#tools">tools section</a> to learn about what tools allow you to easily dump everything. Alternatively follow the following guide and try the commands <a href="/articles/memcached.htm">using telnet</a> against your memcached setup.
+
+<h3>How it Works</h3>
+
+First you need to know how memcache organizes its memory. If you start memcache with option "-vv" you see the slab classes it creates. For example
+
+<pre>$ memcached -vv
+slab class   1: chunk size        96 perslab   10922
+slab class   2: chunk size       120 perslab    8738
+slab class   3: chunk size       152 perslab    6898
+slab class   4: chunk size       192 perslab    5461
+[...]
+</pre>
+
+In the configuration printed above memcache will keep fit 6898 pieces of data between 121 and 152 byte in a single slab of 1MB size (6898*152). All slabs are sized as 1MB per default. Use the following command to print all currently existing slabs:
+
+<pre>stats slabs</pre>
+
+If you've added a single key to an empty memcached 1.4.13 with
+
+<pre>set mykey 0 60 1
+1
+STORED
+</pre>
+
+you'll now see the following result for the "stats slabs" command:
+
+<pre>stats slabs
+STAT 1:chunk_size 96
+STAT 1:chunks_per_page 10922
+STAT 1:total_pages 1
+STAT 1:total_chunks 10922
+STAT 1:used_chunks 1
+STAT 1:free_chunks 0
+STAT 1:free_chunks_end 10921
+STAT 1:mem_requested 71
+STAT 1:get_hits 0
+STAT 1:cmd_set 2
+STAT 1:delete_hits 0
+STAT 1:incr_hits 0
+STAT 1:decr_hits 0
+STAT 1:cas_hits 0
+STAT 1:cas_badval 0
+STAT 1:touch_hits 0
+STAT active_slabs 1
+STAT total_malloced 1048512
+END
+</pre>
+
+The example shows that we have only one active slab type #1. Our key being just one byte large fits into this as the smallest possible chunk size. The slab statistics show that currently on one page of the slab class exists and that only one chunk is used.
+
+<b>Most importantly it shows a counter for each write operation (set, incr, decr, cas, touch) and one for gets. Using those you can determine a hit ratio!</b>
+
+You can also fetch another set of infos using "stats items" with interesting counters concerning evictions and out of memory counters.
+
+<pre>
+stats items
+STAT items:1:number 1
+STAT items:1:age 4
+STAT items:1:evicted 0
+STAT items:1:evicted_nonzero 0
+STAT items:1:evicted_time 0
+STAT items:1:outofmemory 0
+STAT items:1:tailrepairs 0
+STAT items:1:reclaimed 0
+STAT items:1:expired_unfetched 0
+STAT items:1:evicted_unfetched 0
+END
+</pre>
+
+<h3>What We Can Guess Already...</h3>
+
+Given the statistics infos per slabs class we can already guess a lot of thing about the application behaviour:
+
+<ol>
+<li>How is the cache ratio for different content sizes?
+<ul>
+   <li>How good is the caching of large HTML chunks?</li>
+</ul>
+</li>
+<li>How much memory do we spend on different content sizes?
+<ul>
+   <li>How much do we spend on simple numeric counters?</li>
+   <li>How much do we spend on our session data?</li>
+   <li>How much do we spend on large HTML chunks?</li>
+</ul>
+</li>
+<li>How many large objects can we cache at all?</li>
+</ol>
+
+Of course to answer the questions you need to know about the cache objects of your application.
+
+<h3>Now: How to Dump Keys?</h3>
+
+Keys can be dumped per slabs class using the "stats cachedump" command. 
+
+<pre>stats cachedump &lt;slab class> &lt;number of items to dump></pre>
+
+To dump our single key in class #1 run
+
+<pre>
+stats cachedump 1 1000
+ITEM mykey [1 b; 1350677968 s]
+END
+</pre>
+
+The "cachedump" returns one item per line. The first number in the braces gives the size in bytes, the second the timestamp of the creation. Given the key name you can now also dump its value using
+
+<pre>get mykey
+VALUE mykey 0 1
+1
+END
+</pre>
+
+This is it: iterate over all slabs classes you want, extract the key names and if need dump there contents.
+
+<a name="tools"/>
+<h3>Dumping Tools</h3>
+
+There are different dumping tools sometimes just scripts out there that help you with printing memcache keys:
+
+<table border="1" cellpadding="3px">
+<tr><td>PHP</td><td><a href="http://snipt.org/xtP">simple script</a></td><td>Prints key names.</td></tr>
+<tr><td>Perl</td><td><a href="https://wiki.jasig.org/download/attachments/13572172/memcached-clean.pl?version=1&modificationDate=1229693957401">simple script</a></td><td>Prints keys and values</td></tr>
+<tr><td>Ruby</td><td><a href="https://gist.github.com/1365005">simple script</a></td><td>Prints key names.</td>
+<tr><td>Perl</td><td><a href="http://search.cpan.org/~dmaki/Memcached-libmemcached-0.4202/src/libmemcached/docs/memdump.pod">memdump</td><td>Tool in CPAN module <a href="http://search.cpan.org/~dmaki/Memcached-libmemcached/">Memcached-libmemcached</a></td></tr>
+<tr><td>PHP</td><td><a href="http://livebookmark.net/journal/2008/05/21/memcachephp-stats-like-apcphp/">memcache.php</a></td><td>Memcache Monitoring GUI that also allows dumping keys</td></tr>
+<tr><td>libmemcached</td><td><a href="http://blog.evanweaver.com/2009/04/20/peeping-into-memcached/">peep</a></td><td><p><b>Does freeze your memcached process!!!</b></p><p>Be careful when using this in production. Still using it you can workaround the 1MB limitation and really dump <b>all</b> keys.</p></td></tr>
+</table>
+
+

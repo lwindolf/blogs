@@ -1,0 +1,14 @@
+If you don't build your own GtkTreePaths and thus are able to calculate the one to select, then for flat lists at least you can use the GtkTreeModel function that returns the nth child of a given GtkTreeIter. By passing NULL for the parent you get the nth child on the top-level of the tree.
+
+The code looks like this:
+
+<pre>
+GtkTreeIter iter;
+
+if (gtk_tree_model_iter_nth_child (treemodel, &iter, NULL, position)) {
+   GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview)
+
+   if (selection) 
+      gtk_tree_selection_select_iter (selection, &iter);
+}
+</pre>

@@ -1,0 +1,24 @@
+When preparing videos for Apples HTTP streaming for iPad/iPhone you need to split your video into 10s chunks and provide a play list for Quicktime to process.
+
+The problem lies with frame exact splitting of arbitrary video input material. Wether you split the file using <a href="http://ffmpeg.org">ffmpeg</a> or the <a href="http://www.espend.de/artikel/iphone-ipad-ipod-http-streaming-segmenter-and-m3u8-windows.html">Apple segmenter tool</a> you often end up with 
+<ul>
+<li>asynchronous audio in some or all segments</li>
+<li>missing video frames at the start of each segment</li>
+<li>audio glitches between two segements</li>
+<li>missing audio+video between otherwise audio-synchronous consecutive segments</li>
+</ul>
+When using the Apple segmenter the only safe way to split files is to convert into an intermediate format which allows frame-exact splitting. As the segmenter only supports transport stream only MPEG-2 TS and MPEG-4 TS do make sense.
+
+To allow frame-exact splitting on problematic input files the easiest way is to blow them up to consist only of I-frames. The parameter for this depends on the output video codec.
+
+An ffmpeg command line for MPEG-2 TS can look like this:
+
+<code>ffmpeg -i inputfile -vcodec mpeg2video -pix_fmt yuv422p -qscale 1 -qmin 1 -intra outputfile</code>
+
+The relevant piece is the "-intra" switch. For MPEG-4 TS something like the following should work:
+
+<code>ffmpeg -i inputfile -vcodec libx264 -vpre slow -vpre baseline -acodec libfaac -ab 128k -ar 44100 -intra -b 2000k -minrate 2000k -maxrate 2000k outputfile</code>
+
+Note: It is important to watch the resulting muxing overhead which might lower the effective bitrate a lot!
+
+The resulting output files should be safe to be passed to the Apple segmenter.

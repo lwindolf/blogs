@@ -1,0 +1,52 @@
+When watching thousands of log lines from some long running script you might want to have color coding to highlight new sections of the process or to have errors standing out when scrolling through the terminal buffer.
+
+Using colors in a script with <a href="http://kedar.nitty-witty.com/blog/how-to-echo-colored-text-in-shell-script">tput</a> or <a href="/node/23">escape sequences</a> is quite easy, but you also want to check when not to use colors to avoid messing up terminals not supporting them or when logging to a file.
+
+<h3>How to Check for Terminal Support</h3>
+
+There are at least the following two ways to check for color support. The first variant is using infocmp
+
+<pre>$ TERM=linux infocmp -L1 | grep color
+[...]
+	max_colors#8,
+[...]
+</pre>
+
+or using tput 
+
+<pre>$ TERM=vt100 tput colors
+-1
+
+$ TERM=linux tput colors
+8
+</pre>
+
+tput is propably the best choice.
+
+<h3>Checking the Terminal</h3>
+
+So a sane check for color support along with a check for output redirection could look like this
+
+<pre>#!/bin/bash
+
+use_colors=1
+
+# Check wether stdout is redirected
+if [ ! -t 1 ]; then
+    use_colors=0
+fi
+
+max_colors=$(tput colors)
+if [ $max_colors -lt 8 ]; then 
+    use_colors=0
+fi
+
+[...]
+</pre>
+
+This should ensure no ANSI sequences ending up in your logs while still printing colors on every capable terminal.
+
+<h3>Use More Colors!</h3>
+
+And finally if normal colors are not enough for you: use the <a href="http://www.frexx.de/xterm-256-notes/">secret 256 color mode</a> of your terminal! I'm not sure how to test for this but it seems to be related to the "max_pairs" terminal capability listed by infocmp.
+

@@ -1,0 +1,243 @@
+---
+categories: MySQL
+---
+Below you find a unordered list of solutions by tasks useful for a MySQL DBA:
+
+<h3>Live Monitoring of MySQL</h3>
+
+There are two useful tools:
+
+<ul>
+<li>mytop</li>
+<li>innotop</li>
+</ul>
+
+with "mytop" being an own Debian package, while "innotop" is included in the "mysql-client" package. From both innotop has the more advanced functionality. Both need to be called with credentials to connect to the database:
+
+<pre>mytop -u &lt;user> -p&lt;password>
+innotop -u &lt;user> -p&lt;password>
+</pre>
+
+Alternatively you can provide a .mytop file to provide the credentials automatically.
+
+<h3>Show MySQL Status</h3>
+
+You can get a very simple status by just entering "\s" in the "mysql" command line client prompt:
+
+<pre>mysql> \s</pre>
+
+You can show the replication status using
+
+<pre>SHOW SLAVE STATUS \G
+SHOW MASTER STATUS \G</pre>
+
+Note that the "\G" instead of ";" just makes the output more readable.
+
+If you have configured slaves to report names you can list them on the master with:
+
+<pre>SHOW SLAVE HOSTS;</pre>
+
+<h3>Check InnoDB status</h3>
+
+<pre>show /*!50000 ENGINE*/ INNODB STATUS;</pre>
+
+<h3>List Databases/Tables/Colums</h3>
+
+You can either use the "mysqlshow" tool:
+
+<pre>mysqlshow                         # List all databases
+mysqlshow &lt;database>              # List all tables of the given database
+mysqlshow &lt;database> &lt;table>      # List all columns of the given table in the given DB
+</pre>
+
+And you can also do it using queries:
+
+<pre>SHOW DATABASES;
+
+USE &lt;database>;
+SHOW TABLES;
+DESCRIBE &lt;table>;
+</pre>
+
+<h3>Check and Change Live Configuration Parameters</h3>
+
+Note that you cannot change all existing parameters. Some like innodb_pool_buffer require a DB restart.
+
+<pre>
+show variables;                          # List all configuration settings
+show variables like 'key_buffer_size';   # List a specific parameter
+
+set global key_buffer_size=100000000;    # Set a specific parameter
+
+# Finally ensure to edit my.cnf to make the change persistent
+</pre>
+
+<h3>MySQL Parameter Optimization</h3>
+
+You can check MySQL parameters of a running instance using tools like 
+
+<ul>
+<li><a rel="nofollow" href="https://raw.github.com/rackerhacker/MySQLTuner-perl/master/mysqltuner.pl">MySQLTuner</a></li>
+<li><a rel="nofollow" href="https://launchpad.net/mysql-tuning-primer">MySQL Tuning - Primer</a></li>
+<li><a rel="nofollow" href="http://www.percona.com/doc/percona-toolkit/2.1/pt-variable-advisor.html">pt-variable-advisor</a></li>
+</ul>
+
+Also have a look at this <a rel="nofollow" href="http://www.theadminzone.com/forums/showthread.php?t=8150">MySQL config parameter explanation</a>.
+
+<h3>Remote MySQL Dump and Import</h3>
+
+The following command allows dumping a database from one source host that doesn't see the target host when executed on a third host that can access both. If both hosts can see each other and one has SSH access to the other you can simply drop one of the ssh calls.
+
+<pre>
+ssh &lt;user@source host> "mysqldump --single-transaction -u root --password=&lt;DB root pwd> &lt;DB name>" | ssh &lt;user@target host> "mysql -u root --password=&lt;DB root pwd> &lt;DB name>"</pre>
+
+<h3>How to solve: Could not find target log during relay log initialization</h3>
+
+Happens on corrupted/missing relay logs. To get the DB working
+
+<ul>
+<li>Stop MySQL</li>
+<li>Remove /var/lib/mysql/relay-log-index.*</li>
+<li>Remove all relay log files</li>
+<li>Remove relog log file index</li>
+<li>Start MySQL</li>
+</ul>
+
+<h3>mysqldump: Error 2013: Lost connection to MySQL server during query when dumping table</h3>
+
+This is caused by timeouts when copying overly large database tables. The default network timeouts are very short per-default. So you can workaround this by increasing network timeouts
+
+<pre>set global net_write_timeout = 100000;
+set global net_read_timeout = 100000;</pre>
+
+<h3>Forgotten MySQL root Password</h3>
+
+<pre>
+# 1. Stop MySQL and start without grant checks
+
+/usr/bin/mysqld_safe --skip-grant-tables &
+mysql --user=root mysql
+
+# 2. Change root password
+UPDATE user SET password=PASSWORD('xxxxx') WHERE user = 'root';
+</pre>
+
+<h3>Import a CSV file into MySQL</h3>
+
+<pre>LOAD DATA IN '&lt;CSV filename>' INTO TABLE &lt;table name> FIELDS TERMINATED BY ',' (&lt;name of column #1>,<&lt;name of column #2>,<...>);
+</pre>
+
+<h3>MySQL Pager - Output Handling</h3>
+
+Using "PAGER" or \P you can control output handling. Instead of having 10k lines scrolling by you can write everything to a file or use "less" to scroll through it for example.
+
+To use less issue
+<pre>pager less</pre>
+
+Page output into a script
+<pre>pager /home/joe/myscript.sh</pre>
+
+Or if you have Percona installed get a tree-like "EXPLAIN" output with
+<pre>pager mk-visual-explain</pre>
+and then run the "EXPLAIN" query.
+
+<h3>MySQL - Check Query Cache</h3>
+<pre>
+# Check if enabled
+SHOW VARIABLES LIKE 'have_query_cache';
+
+# Statistics
+SHOW STATUS LIKE 'Qcache%';</pre>
+
+<h3>Check for currently running MySQL queries</h3>
+
+<pre>
+show processlist;
+show full processlist;
+</pre>
+
+Filter items in process list by setting grep as a pager. The following example will only print replication connections:
+
+<pre>
+\P grep system
+show processlist;
+</pre>
+
+To abort/terminate a statement determine it's id and kill it:
+<pre>
+kill &lt;id>;    # Kill running queries by id from process listing
+</pre>
+
+<h3>Show Recent Commands</h3>
+
+<pre>SHOW BINLOG EVENTS;
+SHOW BINLOG EVENTS IN '&lt;some bin file name>';
+</pre>
+
+<h3>Inspect a MySQL binlog file</h3>
+
+There is an extra tool to inspect bin logs:
+
+<pre>mysqlbinlog &lt;binary log file></pre>
+
+<h3>Skip one statement on replication issue HA_ERR_FOUND_DUPP_KEY</h3>
+
+If replication stops with "HA_ERR_FOUND_DUPP_KEY" you can skip the current statement and continue with the next one by running:
+
+<pre>STOP SLAVE;
+ SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
+START SLAVE;</pre>
+
+<h3>Changing Replication Format</h3>
+
+When you want to change the replication format of a running setup you might want to follow this steps:
+
+<ol>
+<li>Ensure you have a database backup</li>
+<li>Make master read-only by running <pre>FLUSH TABLES WITH READ LOCK;</pre></li>
+<li>Wait until all slaves do catch up</li>
+<li>Stop all slaves (shutdown MySQL)</li>
+<li>On master: <pre>FLUSH LOGS;
+SET GLOBAL binlog_format='xxxxxx';
+FLUSH LOGS;
+UNLOCK TABLES;</pre> (ensure to replace 'xxxxxx' with for example 'ROW')</li>
+<li>Start all slaves</li>
+<li>Ensure to put the new binlog_format in all /etc/mysql/my.cnf</li>
+</ol>
+
+Note: the second "FLUSH LOGS;" ensures that the a new binary log is opened on the master with the new binlog_format. The stopping of the slaves ensures that they open a new relay log matching the new binlog_format.
+
+<h3>Munin MySQL Plugin Setup on Debian</h3>
+
+<pre>apt-get install libcache-cache-perl
+
+for i in `./mysql_ suggest`
+do
+   do ln -sf /usr/share/munin/plugins/mysql_ $i;
+done
+
+/etc/init.d/munin-node reload</pre>
+
+
+<h3>Fix Slow Replication</h3>
+
+When replication is slow check the status of the replication connection. If it is too often in "invalidating query cache" status you need to decrease your query cache size. You might even consider disabling query cache for the moment if the DB load does allow it:
+
+<pre>
+set global query_cache_size=0;
+</pre>
+
+<h3>Debug DB Response Time</h3>
+
+There is generic TCP response analysis tool developed by Percona called <a href="http://www.percona.com/docs/wiki/tcprstat:start">tcprstat</a>. Download the binary from Percona, make it executable and run it like
+
+<pre>tcprstat -p 3306 -t 1 -n 0</pre>
+
+to get continuous statistics on the response time. This is helpful each time some developer claims the DB doesn't respond fast enough!
+
+<h3>Further Reading</h3>
+
+If you think about buying MySQL books...
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=tf_til&ad_type=product_link&tracking_id=lz08-20&marketplace=amazon&region=US&placement=1449374026&asins=1449374026&linkId=AJHSBV6M5SOQWOV5&show_border=true&link_opens_in_new_window=true">
+</iframe>

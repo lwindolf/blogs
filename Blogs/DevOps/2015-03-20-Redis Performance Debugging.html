@@ -1,0 +1,63 @@
+---
+categories: Redis
+---
+
+Here are some simple hints on debugging Redis performance issues.
+
+<h3>Monitoring Live Redis Queries</h3>
+
+Run the "monitor" command to see queries as they are sent against an Redis instance. Do not use on high traffic instance!
+
+<pre>redis-cli monitor</pre>
+
+The output looks like this
+
+<pre>
+redis 127.0.0.1:6379> MONITOR
+OK
+1371241093.375324 "monitor"
+1371241109.735725 "keys" "*"
+1371241152.344504 "set" "testkey" "1"
+1371241165.169184 "get" "testkey"
+</pre>
+
+<h3>Analyzing Slow Commands</h3>
+
+When there are too many queries better use "slowlog" to see the top slow queries running against your Redis instance:
+
+<pre>slowlog get 25		# print top 25 slow queries
+slowlog len		
+slowlog reset
+</pre>
+
+<h3>Debugging Latency</h3>
+
+If you suspect latency to be an issue use "redis-cli" built-in support for latency measuring. First measure system latency on your Redis server with
+
+<pre>redis-cli --intrinsic-latency 100</pre>
+
+and then sample from your Redis clients with
+
+<pre>redis-cli --latency -h &lt;host&gt; -p &lt;port&gt;</pre>
+
+If you have problems with high latency check if transparent huge pages are disabled. Disable it with
+
+<pre>echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</pre>
+
+<h3>Check Background Save Settings</h3>
+
+If your instance seemingly freezes peridiocally you probably have background dumping enabled. 
+
+<pre>grep ^save /etc/redis/redis.conf</pre>
+
+Comment out all save lines and setup a cron job to do dumping or a Redis slave who can dump whenever he wants to.
+
+Alternatively you can try to mitigate the effect using the "no-appendfsync-on-rewrite" option (set to "yes") in redis.conf.
+
+<h3>Check fsync Setting</h3>
+
+Per default Redis runs fsync() every 1s. Other possibilities are "always" and "no".
+
+<pre>grep ^appendfsync /etc/redis/redis.conf</pre>
+
+So if you do not care about DB corruption you might want to set "no" here.

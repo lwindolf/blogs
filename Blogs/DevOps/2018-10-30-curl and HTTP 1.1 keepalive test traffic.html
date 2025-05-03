@@ -1,0 +1,58 @@
+Curl is really helpful for debugging when after recognizing a problem
+you need to decide wether it is a network issue, a DNS problem, an 
+app server problem or an application performance problem.
+
+To try to isolate the problem type you can run curl like this
+
+<pre> curl -w "$(date +%FT%T)    dns %{time_namelookup}    connect %{time_connect}   firstbyte %{time_starttransfer}   total %{time_total}   HTTP %{http_code}\n" -o /dev/null -s "https://example.com"</pre>
+
+which executed in a loop will give you a nice request trace like this:
+
+<pre>
+2018-10-30T23:08:53    dns 0,012667    connect 0,112453   firstbyte 0,440164   total 0,440420   HTTP 200
+2018-10-30T23:08:54    dns 0,060853    connect 0,161769   firstbyte 0,506141   total 0,506381   HTTP 200
+2018-10-30T23:08:56    dns 0,028415    connect 0,128208   firstbyte 0,463084   total 0,463375   HTTP 200
+2018-10-30T23:08:57    dns 0,012420    connect 0,113948   firstbyte 0,460305   total 0,460630   HTTP 200
+2018-10-30T23:08:59    dns 0,028618    connect 0,128600   firstbyte 0,465260   total 0,465624   HTTP 200
+[...]
+</pre>
+
+Now the columns help you identifying problem classes with 'dns' being obvious,
+'connect' (meaning time to connect) helping you identifying OS or network issues,
+while 'firstbyte' giving a hint on app server responsiveness and the difference
+of 'firstbyte' and 'total' usually indicates actual application response time.
+
+But what about HTTP/1.1 and persistent connections. So your test client has to
+open 1 connection and send subsequent requests on this connection?
+
+Even this is possible using the -K switch of curl which allows you to pass a file
+of URLs to fetch. Together with --keepalive curl will execute all URLs on the
+same server connection. Here is an example: 
+
+<pre>curl -sw "$(date +%FT%T)    dns %{time_namelookup}    connect %{time_connect}   firstbyte %{time_starttransfer}   total %{time_total}   HTTP %{http_code}\n" --keepalive -K <(printf 'url="https://example.com/"\n%.0s' {1..10000}) 2>/dev/null | grep dns</pre>
+
+The curl command looks similar to before expect that you now do not need a loop, as we
+use three pieces of bash magic to create the loop. First we pass a sequence of numbers
+{1..10000} to printf, which is the number of requests we want to perform, but we choose
+<a href="https://stackoverflow.com/questions/5349718/how-can-i-repeat-a-character-in-bash">a 'useless' pattern in printf "%.0s"</a> so the number is not printed and the string stays static (just
+the URL we want). This way we get the URL printed 10000 times as input for curl. Using
+the bash construct "<()" we create an ad-hoc file handle which we pass to -K. Note how
+output redirection (-o) doesn't work when fetching multiple URLs with -K as curl want
+a separat output handle per URL which we cannot provide. We workaround this by filtering
+for our intended -w output with "|grep dns".
+
+Running this get us
+
+<pre>2018-10-30T23:28:19    dns 0,012510    connect 0,114990   firstbyte 0,465874   total 0,466031   HTTP 200
+2018-10-30T23:28:19    dns 0,000087    connect 0,000093   firstbyte 0,195553   total 0,195697   HTTP 200
+2018-10-30T23:28:19    dns 0,000065    connect 0,000069   firstbyte 0,104634   total 0,104775   HTTP 200
+2018-10-30T23:28:19    dns 0,000101    connect 0,000105   firstbyte 0,103206   total 0,103354   HTTP 200
+2018-10-30T23:28:19    dns 0,000068    connect 0,000073   firstbyte 0,103591   total 0,104184   HTTP 200
+[...]
+</pre>
+
+Note how only the first 'dns' and 'connect' time was in millisecond range, while all following
+'dns' and 'connect' values are mere µseconds indicating a reused connection and no new DNS query.
+
+Hope this helps! How do you guys do ad-hoc debugging of problems with persistent connection? 
+Especially finding sporadic errors. Would be great if you could leave a comment with suggestions!

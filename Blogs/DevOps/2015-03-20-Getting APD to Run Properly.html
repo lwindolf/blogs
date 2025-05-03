@@ -1,0 +1,50 @@
+<p>This is a short summary of everything to is a precondition to be able to run <a href="http://pear.php.net/apd">APD</a> as a PHP profiler. The description applies for PHP 5.6.2 and APD 1.0.1 and might be/is incorrect for other PHP/APD versions.</p>
+
+<p class="title">Absolute Preconditions</p>
+<p>
+Do not start if you didn't ensure the following:
+</p><ul>
+	<li>Deactivate the Zend platform or any other PHP optimizer. In general it is wise to disable all Zend extensions.</li>
+	<li>Install a debugging enabled PHP version (compiled using --enable-debug)</li>
+
+</ul>
+<p></p>
+
+<p class="title">Correct APD Compilation</p>
+<p>
+If you have a working PEAR setup you might want to setup APD as described in this <a href="http://www.linuxjournal.com/article/7213">Linux Journal article</a>. Also try distribution packages. Otherwise APD is build as following:
+</p><ul>
+	<li>Extract tarball.</li>
+	<li>Change working directory into tarball.</li>
+	<li>Run <pre>&lt;apache root&gt;/bin/phpize</pre></li>
+
+	<li>Run <pre>./configure</pre> Add "--with-php-config=&lt;apache root&gt;/bin/php-config" if configure fails.</li>
+	<li>Compile and install everything using <pre>make
+make install</pre></li>
+	<li>Edit php.ini and add at least <pre>zend_extension=&lt;path from make install&gt;/apd.so
+apd.statement=1
+apd.tracedir=/tmp/apd-traces</pre></li>
+
+	<li>Create the output directory specified in php.ini.</li>
+</ul>
+Now before restarting your Apache ensure that the APD extension works properly. To do so simply run PHP <pre>&lt;apache root&gt;/bin/php</pre> Once entered no message should be given if the extension is loaded properly. If you get an error message here that the "apd.so" extension could not be loaded you have a problem. Ensure that you compiled against the correct PHP/Apache version and are using the same PHP runtime right now.
+<p></p>
+<p>
+If PHP doesn't complain about anything enter </p><pre>&lt;?php
+phpinfo();
+?&gt;</pre> and check for some lines about the APD. If you find them you are ready for work.<p></p>
+
+<p class="title">Getting Some Traces</p>
+<p>
+To start tracing first restart your Apache to allow the PHP module to load APD. Next you need to identify a script to trace. Add the APD call at the top of the script: </p><pre>apd_set_pprof_trace();</pre> Then make some requests and remove the statement again to avoid causing further harm.
+<p></p>
+<p>
+Now have a look at the trace directory. You should find files with a naming scheme of "pprof[0-9]*.[0-9]" here. Decode them using the "pprofp" tool from your APD source tarball. Example: </p><pre>&lt;apache root&gt;/bin/php &lt;apd source root&gt;/pprofp -u &lt;trace file&gt;</pre> Redirect stdout if necessary. Use -t instead of -u (summary output) to get calling trees.
+
+<p></p>
+
+<p class="title">Tracing Pitfalls</p>
+<p>
+When you create traces with -t you get a summary output too, but it doesn't contain the per-call durations. I suggest to always create both a call tree and a summary trace.
+</p>
+

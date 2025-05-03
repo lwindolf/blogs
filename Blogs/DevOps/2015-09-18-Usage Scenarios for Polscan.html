@@ -1,0 +1,117 @@
+The generic sysadmin policy scanner for Debian based distros "Polscan" (<a href="https://github.com/lwindolf/polscan">https://github.com/lwindolf/polscan</a>) I wrote <a href="/blog/Building%20a%20Generic%20Sysadmin%20Policy%20Scanner">about recently</a>
+is coming further along. Right now I am focussing on how to get it really
+useful in daily work with a lot of systems, which usually means a lot
+of findings. And the question is: how does the presentation of the findings
+help you with working on all of them?
+
+For me there are roughly four scenarios when working with any sort of auditing
+tool or policy scanner.
+
+<h3>Possible Scenarios</h3>
+
+<h4>1. Everything under control</h4>
+
+<img src="/images/undercontrol.jpg" style="float:left; margin-right: 24px;margin-bottom:24px"/>
+<b>Scenario:</b> That's the easy one. Your system automation is top notch there are no
+messy legacy systems, no hacks, no old construction places, no migrations.
+Everything is polished and when a new issue appears you automate it away, and
+10min later it gets silentely applied on all your systems.
+
+<b>Presentation of Findings:</b> You are in control, so you have a top level
+view, birds eye perspective. You spot abberations and tackle them. You can
+optically find the rogue policies/groups with a red number. And if there are
+none you work on reducing warnings, because you are bored. You spend most
+of your time in the summary view waiting for the auditor to present him
+with full compliance to everything he asks :-)
+
+<hr style='clear:both'/>
+<h4>2. I'm swamped!</h4>
+
+<img src="/images/swamped.jpg" style="float:right; margin-left:24px; margin-bottom:24px; width:40%"/>
+<b>Scenario:</b> You are afraid of adding more policies, as it would look
+even worse. You feel like you never will be able to get a clean system and
+at the same time your professional pride tells you have to get it under control!
+
+<b>Presentation of Findings:</b> If there is no progress you do not need
+to try to fix anything. So it's most important to check for progress. What you
+care most about is the trend curve of all the findings. It gives you hope that
+one day all systems will be clean.
+
+The problem here is that a ternary state OK/WARNING/FAILED does not cover
+how policies have different priorities. And that 2 findings out of all 500
+might be absolutely critical, while 200 others are low impact issues. A
+trending curve does not show that you have fixed the 2 critical ones, but
+it nags you about not fixing all those 500 problems.
+
+<hr style='clear:both'/>
+<h4>3. Let's improve something today</h4>
+
+<img src="/images/makeithappen.jpg" style="float:left; margin-right: 24px;margin-bottom:24px; width:30%"/>
+<b>Scenario:</b> It's like scenario #2, but with a positive psychological
+perspective. You do not care that there are a lot of issues, but you are
+highly motivated to solve some of them. You browse through the results 
+intending to pick low hanging fruits and will eliminate them with your
+"Just do it" attitude.
+
+<b>Presentation of Findings:</b> Skimming results is important. Statistics
+also are because you want to work on stuff that affects a lot of systems.
+You would like to see metrics of your progress instantly.
+
+<hr style='clear:both'/>
+<h3>What works already</h3>
+
+I personally usually find myself in scenario #2, but I know colleguages
+often have the spontanuous motivation and perspective of scenario #3. And
+I believe in a small startup company with only a few systems being the 
+sole sysadmin you might find yourself in scenario #1 (happy you!).
+
+With all three scenarios being realistic use cases I want them to work in
+polscan. Currently the main screen of polscan looks like this:
+
+<img src="/images/polscan-deltas.png" width="100%"/>
+
+So how are the different scenarios supported already and where not?
+
+<ol>
+<li><b>Scenario #1</b>: "Everything under control"
+<ul>
+<li>Overview with drill down links is implemented</li>
+<li>Well supported scenario</li>
+</ul>
+</li>
+<li><b>Scenario #2</b>: "I'm swamped!"
+<ul>
+<li>Overview has 30 days trending graph for critical findings</li>
+<li>Policy/Group drill down result views also have the trending graph</li>
+<li>Progress is easy to track</li>
+<li>Overview has 'New' and 'Solved' tables giving delta statistics</li>
+<li>'New' and 'Solved' result drill-down is still missing</li>
+</ul>
+</li>
+<li><b>Scenario #3</b>: "Let's fix something"
+<ul>
+<li>The per-policy grouping in the overview allows tackling large blocks of findings.</li>
+<li>No support yet to group hosts (e.g. with same security updates) to work on those</li>
+<li>No instant feedback on achievements</li>
+</ul>
+</li>
+</ol>
+
+<h3>What I'm working on</h3>
+
+Next things to improve the scenarios:
+
+<ul>
+<li>Separate result table views (with filtering) for 'New' and 'Solved' results</li>
+<li>Drill-down in even more places</li>
+<li>Merging the scanner documentation in the GUI</li>
+<li>Also show warnings in trending graph</li>
+<li>Maybe show 'new' and 'solved' count in trending graph too</li>
+<li>Think about a concept to group by lists that are in the 'Details' field. This would be excessively useful for policies like 'Pending Updates'</li>
+<li>In general allow group changes in result tables (e.g. group by 'Details' field for a certain policy to get a host histogram</li>
+</ul>
+
+I guess I stop here as to much concept takes away implementation time!
+
+<b>Nonetheless if you've read through here I want to hear your opinion! <br/>
+What is your use case? In which mode are you working and what do you need most?</b>

@@ -1,0 +1,39 @@
+---
+categories: SSH
+---
+OpenSSH 7+ <a href="http://www.openssh.com/legacy.html">deprecates</a> weak key exchange algorithm diffie-hellman-group1-sha1 and DSA public keys for both host and user keys which lead to the following error messages:
+
+<pre>Unable to negotiate with 172.16.0.10 port 22: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1</pre>
+
+or a simple permission denied when using a user DSA public key or 
+
+<pre>Unable to negotiate with 127.0.0.1: no matching host key type found.
+Their offer: ssh-dss</pre>
+
+when connecting to a host with a DSA host key.
+
+<h3>Workaround</h3>
+
+
+Allow the different deprecated features in ~/.ssh/config
+
+<pre>
+Host myserver
+  # To make pub ssh-dss keys work again
+  PubkeyAcceptedKeyTypes +ssh-dss
+
+  # To make host ssh-dss keys work again
+  HostkeyAlgorithms +ssh-dss
+
+  # To allow weak remote key exchange algorithm
+  KexAlgorithms +diffie-hellman-group1-sha1
+</pre>
+
+Alternatively pass those three options using -o. For example allow the key exchange when running SSH
+
+<pre>ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 &lt;host></pre>
+
+<h3>Solution</h3>
+
+Replace all your dss keys to avoid keys stopping to work. And upgrade all SSH version to avoid
+offering legacy key exchange algorithms.

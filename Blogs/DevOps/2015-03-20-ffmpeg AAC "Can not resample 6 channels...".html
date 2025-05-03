@@ -1,0 +1,26 @@
+When you try to encode with ffmpeg and you end up with such an error
+
+<pre>
+Resampling with input channels greater than 2 unsupported.
+Can not resample 6 channels @ 48000 Hz to 6 channels @ 48000
+</pre>
+
+you are probably trying to encode from AAC with 5.1 audio to less than 6 channels or different audio sampling rate. 
+
+There are three solutions:
+<ol>
+<li>As a solution either do not reduce the audio channels and change the audio sampling rate or do convert the audio with faad first.</li>
+<li>Apply one of the available ffmpeg patches to fix the AAC 6 channel issue...</li>
+<li>Split video and audio and convert audio separately.</li>
+</ol>
+
+The third solution can be done as following:
+
+<ol>
+<li>Extract audio with ffmpeg: <pre>ffmpeg -y -i source.avi -acodec copy source.6.aac</pre></li>
+<li>Convert audio with faad: <pre>faad -d -o source.2.pcm source.6.aac</pre></li>
+<li>Merge video and audio again with ffmpeg: <pre>ffmpeg -y -i source.avi -i source.2.pcm -map 0:0 -map 1:0 -vcodec copy -acodec copy output.avi</pre></li>
+</ol>
+
+<b>Update</b>: As hinted by a fellow commenter the big disadvantage is the quality loss as faad can only convert into PCM 16bit.
+

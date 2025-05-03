@@ -1,0 +1,18 @@
+<h3>How to detect screen sessions of other users:</h3>
+
+<pre>screen -ls &lt;user name>/</pre>
+
+<h3>How to open screen to other users:</h3>
+
+<ol>
+<li>Ctrl-A :multiuser on</li>
+<li>Ctrl-A :acladd &lt;user to grant access></li>
+</ol>
+
+<h3>Attach to other users screen session:</h3>
+
+With session name
+<pre>screen -x &lt;user name>/&lt;session name></pre>
+
+With PID and tty
+<pre>screen -x &lt;user name>/&lt;pid>.&lt;ptty>.&lt;host></pre>

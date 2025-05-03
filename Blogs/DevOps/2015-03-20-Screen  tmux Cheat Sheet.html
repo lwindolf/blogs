@@ -1,0 +1,86 @@
+Here is a side by side comparison of screen and tmux commands and hotkeys.
+
+<table border="2px" cellpadding="6px">
+<thead>
+<tr>
+<th>Function</th>
+<th>Screen</th>
+<th>tmux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start instance</td>
+<td>screen
+screen -S &lt;name></td>
+<td>tmux</td>
+</tr>
+<tr>
+<td>Attach to instance</td>
+<td>screen -r &lt;name>
+screen -x &lt;name></td>
+<td>tmux attach</td>
+</tr>
+<tr>
+<td>List instances</td>
+<td>screen -ls
+screen -ls &lt;user name>/</td>
+<td>tmux ls</td>
+</tr>
+<tr>
+<td>New Window</td>
+<td>^a c</td>
+<td>^b c</td>
+</tr>
+<tr>
+<td>Switch Window</td>
+<td>^a n
+^a p</td>
+<td>^b n
+^b p</td>
+</tr>
+<tr>
+<td>List Windows</td>
+<td>^a "</td>
+<td>^b w</td>
+</tr>
+<tr>
+<td>Name Window</td>
+<td>^a A</td>
+<td>^b ,</td>
+</tr>
+<tr>
+<td>Split Horizontal</td>
+<td>^a S</td>
+<td>^b "</td>
+</tr>
+<tr>
+<td>Split Vertical</td>
+<td>^a |</td>
+<td>^b %</td>
+</tr>
+<tr>
+<td>Switch Pane</td>
+<td>^a Tab</td>
+<td>^b o</td>
+</tr>
+<tr>
+<td>Kill Pane</td>
+<td>^a x</td>
+<td>^b x</td>
+</tr>
+<tr>
+<td>Paging</td>
+<td></td>
+<td>^b PgUp
+^b PgDown</td>
+</tr>
+<tr>
+<td>Scrolling Mode</td>
+<td>^a [</td>
+<td>^b [</td>
+</tr>
+</tbody>
+</table>
+
+

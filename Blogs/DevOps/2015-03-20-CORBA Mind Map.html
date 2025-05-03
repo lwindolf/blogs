@@ -1,0 +1,1767 @@
+An old mind map on CORBA from University time...
+
+<div class='infobox'>Best viewed with the Flash browser: <a href="/freemind/mindmaps.html?CORBA.mm">click here!</a></div>
+
+<style type="text/css">
+    span.foldopened { color: white; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: visible;
+    cursor:hand; }
+
+
+    span.foldclosed { color: #666666; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: hidden;
+    cursor:hand; }
+
+    span.foldspecial { color: #666666; font-size: xx-small; border-style: none solid solid none;
+    border-color: #CCCCCC; border-width: 1; font-family: sans-serif; padding: 0em 0.1em 0em 0.1em; background: #e0e0e0;
+    cursor:hand; }
+
+    li { list-style: none; }
+
+    span.l { color: red; font-weight: bold; }
+</style>
+
+<script language="JavaScript">
+   // Here we implement folding. It works fine with MSIE5.5, MSIE6.0 and
+   // Mozilla 0.9.6.
+
+   if (document.layers) {
+      //Netscape 4 specific code
+      pre = 'document.';
+      post = ''; }
+   if (document.getElementById) {
+      //Netscape 6 specific code
+      pre = 'document.getElementById("';
+      post = '").style'; }
+   if (document.all) {
+      //IE4+ specific code
+      pre = 'document.all.';
+      post = '.style'; }
+
+function layer_exists(layer) {
+   try {
+      eval(pre + layer + post);
+      return true; }
+   catch (error) {
+      return false; }}
+
+function show_layer(layer) {
+   eval(pre + layer + post).position = 'relative'; 
+   eval(pre + layer + post).visibility = 'visible'; }
+
+function hide_layer(layer) {
+   eval(pre + layer + post).visibility = 'hidden';
+   eval(pre + layer + post).position = 'absolute'; }
+
+function hide_folder(folder) {
+    hide_folding_layer(folder)
+    show_layer('show'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function show_folder(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_layer('show'+folder+'_'+i); }
+}
+function show_folder_completely(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+
+
+function hide_folding_layer(folder) {
+   var i;
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folding_layer(folder+'_'+i); }
+
+   hide_layer('hide'+folder);
+   hide_layer('show'+folder);
+   hide_layer('fold'+folder);
+
+   scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function fold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folder(folder+'_'+i); }
+}
+
+function unfold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+</script>
+<SPAN class=foldspecial onclick="fold_document()">All +</SPAN>
+<SPAN class=foldspecial onclick="unfold_document()">All -</SPAN>
+<p><h3>CORBA</h3>
+<ul><li><span id="show1_1" class="foldclosed" onClick="show_folder('1_1')" style="POSITION: absolute">+</span> <span id="hide1_1" class="foldopened" onClick="hide_folder('1_1')">-</Span>C++ Language Mapping
+<ul id="fold1_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1" class="foldclosed" onClick="show_folder('1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1" class="foldopened" onClick="hide_folder('1_1_1')">-</Span>
+client side
+<ul id="fold1_1_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_1" class="foldclosed" onClick="show_folder('1_1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_1" class="foldopened" onClick="hide_folder('1_1_1_1')">-</Span>
+interface
+<ul id="fold1_1_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>interface maps to abstract classes
+
+</li>
+<li>actual proxy classes are subclasses
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_2" class="foldclosed" onClick="show_folder('1_1_1_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_2" class="foldopened" onClick="hide_folder('1_1_1_2')">-</Span>
+interface inheritance
+<ul id="fold1_1_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>object references can be widened and narrowed
+
+</li>
+<li><span id="show1_1_1_2_1" class="foldclosed" onClick="show_folder('1_1_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_2_1" class="foldopened" onClick="hide_folder('1_1_1_2_1')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">widening</span>
+<ul id="fold1_1_1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>no type conversion
+
+</li>
+<li>no duplication
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_2_2" class="foldclosed" onClick="show_folder('1_1_1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_2_2" class="foldopened" onClick="hide_folder('1_1_1_2_2')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">narrowing</span>
+<ul id="fold1_1_1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>requires explicit operation that may
+
+create a new stub object
+
+
+
+</li>
+<li>always triggers duplication
+
+</li>
+<li>potential remote communication
+
+to validate target type
+
+</li>
+<li>returns _nil on failure
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_3" class="foldclosed" onClick="show_folder('1_1_1_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_3" class="foldopened" onClick="hide_folder('1_1_1_3')">-</Span>
+object references
+<ul id="fold1_1_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>local reference counting
+
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">xxx_ptr for pointer-like types</span>
+
+</li>
+<li><span id="show1_1_1_3_1" class="foldclosed" onClick="show_folder('1_1_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_3_1" class="foldopened" onClick="hide_folder('1_1_1_3_1')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">xxx_var for auto-managed references</span>
+<ul id="fold1_1_1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>constructor invokes duplicate
+
+</li>
+<li>destructor invokes release
+
+</li>
+<li>can be used like pointers
+
+(typically overload operator-&gt;)
+
+</li>
+
+</ul>
+</li>
+<li>CORBA::release(obj)
+
+</li>
+<li>xxx::_duplicate to create new object
+<ul><li>implemented by the interface class
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_3_2" class="foldclosed" onClick="show_folder('1_1_1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_3_2" class="foldopened" onClick="hide_folder('1_1_1_3_2')">-</Span>
+lifecycle
+<ul id="fold1_1_1_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>a client never creates object references
+
+</li>
+<li><span id="show1_1_1_3_2_1" class="foldclosed" onClick="show_folder('1_1_1_3_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_3_2_1" class="foldopened" onClick="hide_folder('1_1_1_3_2_1')">-</Span>
+a client can get an object reference
+<ul id="fold1_1_1_3_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>as result/out parameter of operation
+
+</li>
+<li>initial reference
+
+</li>
+<li>narrowing
+
+</li>
+<li>nil reference
+
+</li>
+
+</ul>
+</li>
+<li>a client keeps references and may duplicate it
+
+</li>
+<li>eventually the client releases the references
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_4" class="foldclosed" onClick="show_folder('1_1_1_4')" style="POSITION: absolute">+</span> <span id="hide1_1_1_4" class="foldopened" onClick="hide_folder('1_1_1_4')">-</Span>
+ORB
+<ul id="fold1_1_1_4" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_4_1" class="foldclosed" onClick="show_folder('1_1_1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_4_1" class="foldopened" onClick="hide_folder('1_1_1_4_1')">-</Span>
+ORB_init
+<ul id="fold1_1_1_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>may get cmd line parameters
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_4_2" class="foldclosed" onClick="show_folder('1_1_1_4_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_4_2" class="foldopened" onClick="hide_folder('1_1_1_4_2')">-</Span>
+operations to create stringified
+
+object references
+<ul id="fold1_1_1_4_2" style="POSITION: relative; VISIBILITY: visible;"><li>IOR
+
+</li>
+<li>corbaloc
+
+</li>
+<li>corbaname
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5" class="foldclosed" onClick="show_folder('1_1_1_5')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5" class="foldopened" onClick="hide_folder('1_1_1_5')">-</Span>
+operations
+<ul id="fold1_1_1_5" style="POSITION: relative; VISIBILITY: visible;"><li>map to member functions with same name
+
+</li>
+<li><span id="show1_1_1_5_1" class="foldclosed" onClick="show_folder('1_1_1_5_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1" class="foldopened" onClick="hide_folder('1_1_1_5_1')">-</Span>
+parameter passing
+<ul id="fold1_1_1_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>must consider memory mgmt
+
+</li>
+<li>must differ between fixed- and variable-sized types
+
+</li>
+<li>must consider parameter directionality
+
+</li>
+<li><span id="show1_1_1_5_1_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_1')">-</Span>
+out parameters in general
+<ul id="fold1_1_1_5_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>_out suffix
+
+</li>
+<li>fixed size -&gt; &amp;
+
+</li>
+<li>variable size -&gt; T_out performs memory mgmt
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_2')">-</Span>
+passing of simple types
+<ul id="fold1_1_1_5_1_2" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_5_1_2_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_2_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_2_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>pass by value
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_2_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_2_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_2_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>passed as _out type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_2_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_2_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_2_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_2_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>passed by reference
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_2_4" class="foldclosed" onClick="show_folder('1_1_1_5_1_2_4')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_2_4" class="foldopened" onClick="hide_folder('1_1_1_5_1_2_4')">-</Span>
+result
+<ul id="fold1_1_1_5_1_2_4" style="POSITION: relative; VISIBILITY: visible;"><li>passed as return value
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_3')">-</Span>
+passing of fixed-size types
+<ul id="fold1_1_1_5_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>goal: avoid copy
+
+</li>
+<li><span id="show1_1_1_5_1_3_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_3_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_3_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>pass as const &amp;
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_3_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_3_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_3_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>as _out type (can also pass _var)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_3_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_3_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_3_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_3_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_3_3" style="POSITION: relative; VISIBILITY: visible;"><li>reference
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_4" class="foldclosed" onClick="show_folder('1_1_1_5_1_4')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_4" class="foldopened" onClick="hide_folder('1_1_1_5_1_4')">-</Span>
+passing of variable-length string types
+<ul id="fold1_1_1_5_1_4" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_5_1_4_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_4_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_4_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>const char *
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_4_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_4_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_4_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_4_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_4_2" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA::String_out
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_4_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_4_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_4_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_4_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_4_3" style="POSITION: relative; VISIBILITY: visible;"><li>char *
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_5" class="foldclosed" onClick="show_folder('1_1_1_5_1_5')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_5" class="foldopened" onClick="hide_folder('1_1_1_5_1_5')">-</Span>
+passing of variable-length complex types
+<ul id="fold1_1_1_5_1_5" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_5_1_5_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_5_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_5_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_5_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>const &amp; (to avoid copying)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_5_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_5_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_5_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_5_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_5_2" style="POSITION: relative; VISIBILITY: visible;"><li>as _out type
+
+</li>
+<li>caller must explicitly deallocate using delete
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_5_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_5_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_5_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_5_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_5_3" style="POSITION: relative; VISIBILITY: visible;"><li>references
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_6" class="foldclosed" onClick="show_folder('1_1_1_5_1_6')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_6" class="foldopened" onClick="hide_folder('1_1_1_5_1_6')">-</Span>
+passing of object reference
+<ul id="fold1_1_1_5_1_6" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_5_1_6_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_6_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_6_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_6_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_6_1" style="POSITION: relative; VISIBILITY: visible;"><li>as _ptr type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_6_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_6_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_6_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_6_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_6_2" style="POSITION: relative; VISIBILITY: visible;"><li>as _ptr reference or _var type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_6_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_6_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_6_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_6_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_6_3" style="POSITION: relative; VISIBILITY: visible;"><li>as _ptr reference
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_7" class="foldclosed" onClick="show_folder('1_1_1_5_1_7')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_7" class="foldopened" onClick="hide_folder('1_1_1_5_1_7')">-</Span>
+passing _var types
+<ul id="fold1_1_1_5_1_7" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_1_5_1_7_1" class="foldclosed" onClick="show_folder('1_1_1_5_1_7_1')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_7_1" class="foldopened" onClick="hide_folder('1_1_1_5_1_7_1')">-</Span>
+in
+<ul id="fold1_1_1_5_1_7_1" style="POSITION: relative; VISIBILITY: visible;"><li>const _var &amp;
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_7_2" class="foldclosed" onClick="show_folder('1_1_1_5_1_7_2')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_7_2" class="foldopened" onClick="hide_folder('1_1_1_5_1_7_2')">-</Span>
+out
+<ul id="fold1_1_1_5_1_7_2" style="POSITION: relative; VISIBILITY: visible;"><li>_var type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_5_1_7_3" class="foldclosed" onClick="show_folder('1_1_1_5_1_7_3')" style="POSITION: absolute">+</span> <span id="hide1_1_1_5_1_7_3" class="foldopened" onClick="hide_folder('1_1_1_5_1_7_3')">-</Span>
+inout
+<ul id="fold1_1_1_5_1_7_3" style="POSITION: relative; VISIBILITY: visible;"><li>_var reference
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_6" class="foldclosed" onClick="show_folder('1_1_1_6')" style="POSITION: absolute">+</span> <span id="hide1_1_1_6" class="foldopened" onClick="hide_folder('1_1_1_6')">-</Span>
+attributes
+<ul id="fold1_1_1_6" style="POSITION: relative; VISIBILITY: visible;"><li>map to pair of get/set methods
+
+overloaded on attribute name
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_1_7" class="foldclosed" onClick="show_folder('1_1_1_7')" style="POSITION: absolute">+</span> <span id="hide1_1_1_7" class="foldopened" onClick="hide_folder('1_1_1_7')">-</Span>
+exception
+<ul id="fold1_1_1_7" style="POSITION: relative; VISIBILITY: visible;"><li>mapped to own classes
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2" class="foldclosed" onClick="show_folder('1_1_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2" class="foldopened" onClick="hide_folder('1_1_2')">-</Span>
+server side
+<ul id="fold1_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>the server side mapping is a
+
+generalization of the client side
+
+mapping
+
+</li>
+<li><span id="show1_1_2_1" class="foldclosed" onClick="show_folder('1_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_2_1" class="foldopened" onClick="hide_folder('1_1_2_1')">-</Span>
+skeleton class for each interface
+<ul id="fold1_1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>class with prefix POA_
+
+</li>
+
+</ul>
+</li>
+<li>servant classes inherit from skeleton class
+
+</li>
+<li><span id="show1_1_2_2" class="foldclosed" onClick="show_folder('1_1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2" class="foldopened" onClick="hide_folder('1_1_2_2')">-</Span>
+ORB initialization steps
+<ul id="fold1_1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_2_2_1" class="foldclosed" onClick="show_folder('1_1_2_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_1" class="foldopened" onClick="hide_folder('1_1_2_2_1')">-</Span>
+1.Initialize ORB
+<ul id="fold1_1_2_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA::ORB_init();
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_2_2" class="foldclosed" onClick="show_folder('1_1_2_2_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_2" class="foldopened" onClick="hide_folder('1_1_2_2_2')">-</Span>
+2. get RootPOA
+<ul id="fold1_1_2_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>orb-&gt;resolve_initial_references("RootPOA");
+
+</li>
+
+</ul>
+</li>
+<li>3. Narrow RootPOA to PortableServer::POA
+
+</li>
+<li><span id="show1_1_2_2_3" class="foldclosed" onClick="show_folder('1_1_2_2_3')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_3" class="foldopened" onClick="hide_folder('1_1_2_2_3')">-</Span>
+4. Obtain servant manager
+<ul id="fold1_1_2_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>poa-&gt;the_POAManager();
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_2_4" class="foldclosed" onClick="show_folder('1_1_2_2_4')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_4" class="foldopened" onClick="hide_folder('1_1_2_2_4')">-</Span>
+5. Activate servant manager
+<ul id="fold1_1_2_2_4" style="POSITION: relative; VISIBILITY: visible;"><li>poa-&gt;activate();
+
+</li>
+
+</ul>
+</li>
+<li>6. Create servant instance
+
+</li>
+<li><span id="show1_1_2_2_5" class="foldclosed" onClick="show_folder('1_1_2_2_5')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_5" class="foldopened" onClick="hide_folder('1_1_2_2_5')">-</Span>
+7. Activate servant
+<ul id="fold1_1_2_2_5" style="POSITION: relative; VISIBILITY: visible;"><li>servant-&gt;_this();
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_2_6" class="foldclosed" onClick="show_folder('1_1_2_2_6')" style="POSITION: absolute">+</span> <span id="hide1_1_2_2_6" class="foldopened" onClick="hide_folder('1_1_2_2_6')">-</Span>
+8. Start ORB mainloop
+<ul id="fold1_1_2_2_6" style="POSITION: relative; VISIBILITY: visible;"><li>orb-&gt;run()
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3" class="foldclosed" onClick="show_folder('1_1_2_3')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3" class="foldopened" onClick="hide_folder('1_1_2_3')">-</Span>
+parameter passing to servants
+<ul id="fold1_1_2_3" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_2_3_1" class="foldclosed" onClick="show_folder('1_1_2_3_1')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_1" class="foldopened" onClick="hide_folder('1_1_2_3_1')">-</Span>
+simple types
+<ul id="fold1_1_2_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>pass by value of reference (depending on direction)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_2" class="foldclosed" onClick="show_folder('1_1_2_3_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_2" class="foldopened" onClick="hide_folder('1_1_2_3_2')">-</Span>
+fixed-length complex types
+<ul id="fold1_1_2_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>(const) reference
+
+</li>
+<li>_out type for output parameters
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_3" class="foldclosed" onClick="show_folder('1_1_2_3_3')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_3" class="foldopened" onClick="hide_folder('1_1_2_3_3')">-</Span>
+strings
+<ul id="fold1_1_2_3_3" style="POSITION: relative; VISIBILITY: visible;"><li>pass as char * or references 
+
+</li>
+<li>String_out for output
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_4" class="foldclosed" onClick="show_folder('1_1_2_3_4')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_4" class="foldopened" onClick="hide_folder('1_1_2_3_4')">-</Span>
+complex types &amp; any
+<ul id="fold1_1_2_3_4" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_2_3_4_1" class="foldclosed" onClick="show_folder('1_1_2_3_4_1')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_4_1" class="foldopened" onClick="hide_folder('1_1_2_3_4_1')">-</Span>
+in
+<ul id="fold1_1_2_3_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>pass by const reference
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_4_2" class="foldclosed" onClick="show_folder('1_1_2_3_4_2')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_4_2" class="foldopened" onClick="hide_folder('1_1_2_3_4_2')">-</Span>
+out
+<ul id="fold1_1_2_3_4_2" style="POSITION: relative; VISIBILITY: visible;"><li>pass by reference
+
+</li>
+<li>use _out type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_4_3" class="foldclosed" onClick="show_folder('1_1_2_3_4_3')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_4_3" class="foldopened" onClick="hide_folder('1_1_2_3_4_3')">-</Span>
+result
+<ul id="fold1_1_2_3_4_3" style="POSITION: relative; VISIBILITY: visible;"><li>return pointer
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_3_5" class="foldclosed" onClick="show_folder('1_1_2_3_5')" style="POSITION: absolute">+</span> <span id="hide1_1_2_3_5" class="foldopened" onClick="hide_folder('1_1_2_3_5')">-</Span>
+object references
+<ul id="fold1_1_2_3_5" style="POSITION: relative; VISIBILITY: visible;"><li>pass _ptr value or reference
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_2_4" class="foldclosed" onClick="show_folder('1_1_2_4')" style="POSITION: absolute">+</span> <span id="hide1_1_2_4" class="foldopened" onClick="hide_folder('1_1_2_4')">-</Span>
+raising exceptions
+<ul id="fold1_1_2_4" style="POSITION: relative; VISIBILITY: visible;"><li>throw by value
+
+</li>
+<li>catch by reference
+
+</li>
+
+</ul>
+</li>
+<li>ORB deallocates all in and inout parameters
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3" class="foldclosed" onClick="show_folder('1_1_3')" style="POSITION: absolute">+</span> <span id="hide1_1_3" class="foldopened" onClick="hide_folder('1_1_3')">-</Span>
+types
+<ul id="fold1_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>here you find a node for each IDL
+
+construct and a child node for the
+
+C++ mapping
+
+</li>
+<li><span id="show1_1_3_1" class="foldclosed" onClick="show_folder('1_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_1_3_1" class="foldopened" onClick="hide_folder('1_1_3_1')">-</Span>
+module
+<ul id="fold1_1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>namespace
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_2" class="foldclosed" onClick="show_folder('1_1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_1_3_2" class="foldopened" onClick="hide_folder('1_1_3_2')">-</Span>
+enum
+<ul id="fold1_1_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>enum
+
+</li>
+<li>dummy values allowed to
+
+enforces 32bit enum values
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_3" class="foldclosed" onClick="show_folder('1_1_3_3')" style="POSITION: absolute">+</span> <span id="hide1_1_3_3" class="foldopened" onClick="hide_folder('1_1_3_3')">-</Span>
+const
+<ul id="fold1_1_3_3" style="POSITION: relative; VISIBILITY: visible;"><li>static const (in classes)
+
+</li>
+<li>const (outside classes)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_4" class="foldclosed" onClick="show_folder('1_1_3_4')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4" class="foldopened" onClick="hide_folder('1_1_3_4')">-</Span>
+primitive types
+<ul id="fold1_1_3_4" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_3_4_1" class="foldclosed" onClick="show_folder('1_1_3_4_1')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_1" class="foldopened" onClick="hide_folder('1_1_3_4_1')">-</Span>
+boolean
+<ul id="fold1_1_3_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA::Boolean
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_4_2" class="foldclosed" onClick="show_folder('1_1_3_4_2')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_2" class="foldopened" onClick="hide_folder('1_1_3_4_2')">-</Span>
+strings
+<ul id="fold1_1_3_4_2" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_3_4_2_1" class="foldclosed" onClick="show_folder('1_1_3_4_2_1')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_2_1" class="foldopened" onClick="hide_folder('1_1_3_4_2_1')">-</Span>
+char
+<ul id="fold1_1_3_4_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA::Char
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_4_2_2" class="foldclosed" onClick="show_folder('1_1_3_4_2_2')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_2_2" class="foldopened" onClick="hide_folder('1_1_3_4_2_2')">-</Span>
+wchar
+<ul id="fold1_1_3_4_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA:WChar
+
+</li>
+
+</ul>
+</li>
+<li>helper functions for allocation,
+
+duplication and freeing
+
+</li>
+<li>terminated with \0
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_4_3" class="foldclosed" onClick="show_folder('1_1_3_4_3')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_3" class="foldopened" onClick="hide_folder('1_1_3_4_3')">-</Span>
+short
+<ul id="fold1_1_3_4_3" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA:Short
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_4_4" class="foldclosed" onClick="show_folder('1_1_3_4_4')" style="POSITION: absolute">+</span> <span id="hide1_1_3_4_4" class="foldopened" onClick="hide_folder('1_1_3_4_4')">-</Span>
+float
+<ul id="fold1_1_3_4_4" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA:float
+
+</li>
+
+</ul>
+</li>
+<li>...
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_5" class="foldclosed" onClick="show_folder('1_1_3_5')" style="POSITION: absolute">+</span> <span id="hide1_1_3_5" class="foldopened" onClick="hide_folder('1_1_3_5')">-</Span>
+variable length types
+<ul id="fold1_1_3_5" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_1_3_5_1" class="foldclosed" onClick="show_folder('1_1_3_5_1')" style="POSITION: absolute">+</span> <span id="hide1_1_3_5_1" class="foldopened" onClick="hide_folder('1_1_3_5_1')">-</Span>
+memory mgmt convention
+<ul id="fold1_1_3_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>producer allocates
+
+</li>
+<li>consumer deallocates
+
+</li>
+<li>example: results on client side:
+
+ORB allocates, caller deallocates
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_5_2" class="foldclosed" onClick="show_folder('1_1_3_5_2')" style="POSITION: absolute">+</span> <span id="hide1_1_3_5_2" class="foldopened" onClick="hide_folder('1_1_3_5_2')">-</Span>
+_var types are generated
+<ul id="fold1_1_3_5_2" style="POSITION: relative; VISIBILITY: visible;"><li>wrappers for lower-level mapped types
+
+</li>
+<li>manages storage for lower-level type
+
+</li>
+<li>generated for both fixed-size and 
+
+variable-sized types
+
+</li>
+
+</ul>
+</li>
+<li>example string -&gt; CORBA::String_var
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_6" class="foldclosed" onClick="show_folder('1_1_3_6')" style="POSITION: absolute">+</span> <span id="hide1_1_3_6" class="foldopened" onClick="hide_folder('1_1_3_6')">-</Span>
+struct
+<ul id="fold1_1_3_6" style="POSITION: relative; VISIBILITY: visible;"><li>fixed-length fields are mapped like primitive types
+
+</li>
+<li>variable-length fields are mapped to memory-managed classes
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_7" class="foldclosed" onClick="show_folder('1_1_3_7')" style="POSITION: absolute">+</span> <span id="hide1_1_3_7" class="foldopened" onClick="hide_folder('1_1_3_7')">-</Span>
+sequence
+<ul id="fold1_1_3_7" style="POSITION: relative; VISIBILITY: visible;"><li>maps to vector-like type
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_1_3_8" class="foldclosed" onClick="show_folder('1_1_3_8')" style="POSITION: absolute">+</span> <span id="hide1_1_3_8" class="foldopened" onClick="hide_folder('1_1_3_8')">-</Span>
+union
+<ul id="fold1_1_3_8" style="POSITION: relative; VISIBILITY: visible;"><li>does not map to C++ unions
+
+because they have no discriminator
+
+</li>
+<li>union discriminator is set by using
+
+one of the access methods
+
+</li>
+<li>rw access methods provided for all
+
+possible types
+
+</li>
+<li>for default case there is a _default() method
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_2" class="foldclosed" onClick="show_folder('1_2')" style="POSITION: absolute">+</span> <span id="hide1_2" class="foldopened" onClick="hide_folder('1_2')">-</Span>CCM
+<ul id="fold1_2" style="POSITION: relative; VISIBILITY: visible;"><li>CORBA Component Model, 
+
+introduced with CORBA 3
+
+</li>
+<li>includes IDL extension (CIDL)
+
+</li>
+<li>implementation framework
+
+</li>
+<li>container framework
+
+</li>
+<li>simplifies state mgmt and persistance
+
+</li>
+<li>packaging + deployment specification
+
+</li>
+
+</ul>
+</li>
+<li><span style="color: #009999;">about this mindmap</span>
+<ul><li><p>Creator: Lars Windolf
+<p><a href="http://www.dcl.hpi.uni-potsdam.de" target="_blank"><span class=l>~</span>&nbsp;heavily base on a CCM lecture
+
+by Martin L&#246;wis (HPI, Uni Potsdam)
+</a>
+<p>last modified: 29.09.2004
+</li>
+</ul>
+</li>
+<li><span id="show1_3" class="foldclosed" onClick="show_folder('1_3')" style="POSITION: absolute">+</span> <span id="hide1_3" class="foldopened" onClick="hide_folder('1_3')">-</Span>IDL
+<ul id="fold1_3" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_3_1" class="foldclosed" onClick="show_folder('1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_3_1" class="foldopened" onClick="hide_folder('1_3_1')">-</Span>
+Interface
+<ul id="fold1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li><p><span id="show1_3_1_1" class="foldclosed" onClick="show_folder('1_3_1_1')" style="POSITION: absolute">+</span> <span id="hide1_3_1_1" class="foldopened" onClick="hide_folder('1_3_1_1')">-</Span>
+defines object services
+<ul id="fold1_3_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>horizontal services
+
+</li>
+
+</ul><p><span id="show1_3_1_2" class="foldclosed" onClick="show_folder('1_3_1_2')" style="POSITION: absolute">+</span> <span id="hide1_3_1_2" class="foldopened" onClick="hide_folder('1_3_1_2')">-</Span>
+defines domain interfaces
+<ul id="fold1_3_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>vertical services
+
+</li>
+
+</ul><p>defines application interfaces
+<p>no private/protected possible
+<p>smallest unit of distribution
+<p>can have exceptions
+<p>is a type (can be passed with operations,
+
+but passing is always done per reference,
+
+valuetypes can used for per value passing)
+<p><span id="show1_3_1_3" class="foldclosed" onClick="show_folder('1_3_1_3')" style="POSITION: absolute">+</span> <span id="hide1_3_1_3" class="foldopened" onClick="hide_folder('1_3_1_3')">-</Span>
+interfaces can be derived from other interfaces
+<ul id="fold1_3_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>but still no function overloading allowed
+
+</li>
+
+</ul><p>multiple inheritance allowed
+</li>
+</ul>
+</li>
+<li><span id="show1_3_2" class="foldclosed" onClick="show_folder('1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_3_2" class="foldopened" onClick="hide_folder('1_3_2')">-</Span>
+IDL user roles
+<ul id="fold1_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>IDL developer
+<ul><li>write IDL specification
+
+</li>
+
+</ul>
+</li>
+<li>server developer
+<ul><li>provides server implementation
+
+</li>
+
+</ul>
+</li>
+<li>application developer
+<ul><li>implements client application
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_3_3" class="foldclosed" onClick="show_folder('1_3_3')" style="POSITION: absolute">+</span> <span id="hide1_3_3" class="foldopened" onClick="hide_folder('1_3_3')">-</Span>
+Exceptions
+<ul id="fold1_3_3" style="POSITION: relative; VISIBILITY: visible;"><li>IDL developer can defines new ones
+
+</li>
+<li><span id="show1_3_3_1" class="foldclosed" onClick="show_folder('1_3_3_1')" style="POSITION: absolute">+</span> <span id="hide1_3_3_1" class="foldopened" onClick="hide_folder('1_3_3_1')">-</Span>
+CORBA provides system exceptions
+<ul id="fold1_3_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>need not to be defined to be thrown
+
+</li>
+
+</ul>
+</li>
+<li>can have members like structures
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">defines an interface contract 
+
+between client and server</span>
+
+</li>
+<li>compiled by IDL compiler
+
+provided with language mapping
+
+</li>
+<li>purely declarative
+
+</li>
+<li>Java/C++ syntax
+
+</li>
+<li>only IDL types can be used
+
+for client/server communication
+
+</li>
+<li><span id="show1_3_4" class="foldclosed" onClick="show_folder('1_3_4')" style="POSITION: absolute">+</span> <span id="hide1_3_4" class="foldopened" onClick="hide_folder('1_3_4')">-</Span>
+Types
+<ul id="fold1_3_4" style="POSITION: relative; VISIBILITY: visible;"><li><p>there are a lot of standard types
+<p><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">a struct statement can only define
+
+a type and no data, the defined type
+
+has to be used anywhere to make 
+
+any effect</span>
+<p><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">recursive type definitions can only 
+
+be created by using sequences</span>
+</li>
+</ul>
+</li>
+<li><span id="show1_3_5" class="foldclosed" onClick="show_folder('1_3_5')" style="POSITION: absolute">+</span> <span id="hide1_3_5" class="foldopened" onClick="hide_folder('1_3_5')">-</Span>
+Valuetype
+<ul id="fold1_3_5" style="POSITION: relative; VISIBILITY: visible;"><li><p>creates an interfaces that when used
+
+is passed by value and not by reference
+<p>to prevent one communcation round-trip 
+
+per object data access
+<p><span id="show1_3_5_1" class="foldclosed" onClick="show_folder('1_3_5_1')" style="POSITION: absolute">+</span> <span id="hide1_3_5_1" class="foldopened" onClick="hide_folder('1_3_5_1')">-</Span>
+use cases
+<ul id="fold1_3_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>extensible structures
+
+</li>
+<li>recursive and cyclic structures
+
+</li>
+<li>allows complete implementation
+
+of Java RMI with CORBA
+
+</li>
+
+</ul><p>needs a factory to create an instance
+
+in the receiving ORB, application must
+
+register the value factory
+<p>receiving ORB must know complete
+
+structure
+<p>method definitions require local
+
+implementations
+<p>can be truncatable (receiving ORB
+
+omits unknown fields)
+<p>can be recursive
+<p>can have private fields
+<p>value boxes: can be used to create
+
+valuetypes from standard types, this
+
+is useful for building recursive 
+
+valuetypes containing standard type
+
+fields
+</li>
+</ul>
+</li>
+<li><span id="show1_3_6" class="foldclosed" onClick="show_folder('1_3_6')" style="POSITION: absolute">+</span> <span id="hide1_3_6" class="foldopened" onClick="hide_folder('1_3_6')">-</Span>
+Operations
+<ul id="fold1_3_6" style="POSITION: relative; VISIBILITY: visible;"><li>have a name
+
+</li>
+<li>have a return type
+
+</li>
+<li><span id="show1_3_6_1" class="foldclosed" onClick="show_folder('1_3_6_1')" style="POSITION: absolute">+</span> <span id="hide1_3_6_1" class="foldopened" onClick="hide_folder('1_3_6_1')">-</Span>
+can have parameters
+<ul id="fold1_3_6_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_3_6_1_1" class="foldclosed" onClick="show_folder('1_3_6_1_1')" style="POSITION: absolute">+</span> <span id="hide1_3_6_1_1" class="foldopened" onClick="hide_folder('1_3_6_1_1')">-</Span>
+parameters have directionality
+<ul id="fold1_3_6_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>in
+
+</li>
+<li>out
+
+</li>
+<li>inout
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>can throw exceptions
+
+</li>
+<li>can be oneway
+
+</li>
+<li><span id="show1_3_6_2" class="foldclosed" onClick="show_folder('1_3_6_2')" style="POSITION: absolute">+</span> <span id="hide1_3_6_2" class="foldopened" onClick="hide_folder('1_3_6_2')">-</Span>
+can have context clauses
+<ul id="fold1_3_6_2" style="POSITION: relative; VISIBILITY: visible;"><li>a feature to pass something
+
+similar to Unix environment vars
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">no function overloading</span>
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_3_7" class="foldclosed" onClick="show_folder('1_3_7')" style="POSITION: absolute">+</span> <span id="hide1_3_7" class="foldopened" onClick="hide_folder('1_3_7')">-</Span>
+Attributes
+<ul id="fold1_3_7" style="POSITION: relative; VISIBILITY: visible;"><li>cause the generation of set/get operations
+
+</li>
+<li>can be read-only (no get operation)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_3_8" class="foldclosed" onClick="show_folder('1_3_8')" style="POSITION: absolute">+</span> <span id="hide1_3_8" class="foldopened" onClick="hide_folder('1_3_8')">-</Span>
+Modules
+<ul id="fold1_3_8" style="POSITION: relative; VISIBILITY: visible;"><li>to define namespaces
+
+</li>
+<li>can be extended
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4" class="foldclosed" onClick="show_folder('1_4')" style="POSITION: absolute">+</span> <span id="hide1_4" class="foldopened" onClick="hide_folder('1_4')">-</Span>architecture
+<ul id="fold1_4" style="POSITION: relative; VISIBILITY: visible;"><li>OO RPC's
+
+</li>
+<li><span id="show1_4_1" class="foldclosed" onClick="show_folder('1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1" class="foldopened" onClick="hide_folder('1_4_1')">-</Span>
+Object Services
+<ul id="fold1_4_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_4_1_1" class="foldclosed" onClick="show_folder('1_4_1_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1_1" class="foldopened" onClick="hide_folder('1_4_1_1')">-</Span>
+what are object services?
+<ul id="fold1_4_1_1" style="POSITION: relative; VISIBILITY: visible;"><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Object Services are infrastructure
+
+services, independent from specific
+
+applications.</span>
+
+</li>
+<li>Are defined in IDL
+
+</li>
+<li>can be implemented independently
+
+from a specific CORBA implementation
+
+(cf. ORB services)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_1_2" class="foldclosed" onClick="show_folder('1_4_1_2')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2" class="foldopened" onClick="hide_folder('1_4_1_2')">-</Span>
+Naming Service
+<ul id="fold1_4_1_2" style="POSITION: relative; VISIBILITY: visible;"><li><p>associates names with object references
+<p>can be used instead of IORs to find the "initial"
+
+application object
+<p>ORB provides standard interface to locate
+
+name service :
+
+
+
+orb-&gt;resolve_initial_references("NameService");
+<p><span id="show1_4_1_2_1" class="foldclosed" onClick="show_folder('1_4_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_1" class="foldopened" onClick="hide_folder('1_4_1_2_1')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">binding</span>
+<ul id="fold1_4_1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>inserting a name
+
+</li>
+
+</ul><p><span id="show1_4_1_2_2" class="foldclosed" onClick="show_folder('1_4_1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_2" class="foldopened" onClick="hide_folder('1_4_1_2_2')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">unbinding</span>
+<ul id="fold1_4_1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>deleting a name
+
+</li>
+
+</ul><p><span id="show1_4_1_2_3" class="foldclosed" onClick="show_folder('1_4_1_2_3')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_3" class="foldopened" onClick="hide_folder('1_4_1_2_3')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">names</span>
+<ul id="fold1_4_1_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>have an id
+
+</li>
+<li>have a kind
+
+</li>
+<li>a name defines a path relative 
+
+to the naming context
+
+</li>
+
+</ul><p><span id="show1_4_1_2_4" class="foldclosed" onClick="show_folder('1_4_1_2_4')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_4" class="foldopened" onClick="hide_folder('1_4_1_2_4')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">URLs</span>
+<ul id="fold1_4_1_2_4" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_4_1_2_4_1" class="foldclosed" onClick="show_folder('1_4_1_2_4_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_4_1" class="foldopened" onClick="hide_folder('1_4_1_2_4_1')">-</Span>
+corbaloc
+<ul id="fold1_4_1_2_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>syntax: host,port,object key
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_1_2_4_2" class="foldclosed" onClick="show_folder('1_4_1_2_4_2')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_4_2" class="foldopened" onClick="hide_folder('1_4_1_2_4_2')">-</Span>
+corbaname
+<ul id="fold1_4_1_2_4_2" style="POSITION: relative; VISIBILITY: visible;"><li>string version of name service entry
+
+</li>
+<li>syntax: host, default object key, #, path
+
+</li>
+
+</ul>
+</li>
+
+</ul><p>there where propietary approaches...
+<p><span id="show1_4_1_2_5" class="foldclosed" onClick="show_folder('1_4_1_2_5')" style="POSITION: absolute">+</span> <span id="hide1_4_1_2_5" class="foldopened" onClick="hide_folder('1_4_1_2_5')">-</Span>
+and there is INS
+<ul id="fold1_4_1_2_5" style="POSITION: relative; VISIBILITY: visible;"><li>Interoparable Naming Service
+
+</li>
+<li>std cmd line -ORBInitRef NameService=...
+
+</li>
+<li>shorter URLs
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>Trading Services
+
+</li>
+<li>Property Service
+
+</li>
+<li><span id="show1_4_1_3" class="foldclosed" onClick="show_folder('1_4_1_3')" style="POSITION: absolute">+</span> <span id="hide1_4_1_3" class="foldopened" onClick="hide_folder('1_4_1_3')">-</Span>
+Event Service
+<ul id="fold1_4_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>alternative for call-based client-server
+
+architecture
+
+</li>
+<li>simple decoupled communication
+
+</li>
+<li>1:n communication possible
+
+</li>
+<li>n:n medium may be used
+
+</li>
+<li>source of messages does not know consumers
+
+</li>
+<li>emitting messages is typically non-blocking
+
+</li>
+<li><span id="show1_4_1_3_1" class="foldclosed" onClick="show_folder('1_4_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1_3_1" class="foldopened" onClick="hide_folder('1_4_1_3_1')">-</Span>
+OMG standardized interfaces
+<ul id="fold1_4_1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>for event consumers and suppliers
+
+</li>
+<li>for push and pull communication
+
+</li>
+<li>for typed and untyped communication
+
+</li>
+<li>also available: event channel interfaces
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_1_4" class="foldclosed" onClick="show_folder('1_4_1_4')" style="POSITION: absolute">+</span> <span id="hide1_4_1_4" class="foldopened" onClick="hide_folder('1_4_1_4')">-</Span>
+Notification Service
+<ul id="fold1_4_1_4" style="POSITION: relative; VISIBILITY: visible;"><li>extension of Event Service
+
+</li>
+
+</ul>
+</li>
+<li>(Transactions)
+
+</li>
+<li>(Persistency)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_2" class="foldclosed" onClick="show_folder('1_4_2')" style="POSITION: absolute">+</span> <span id="hide1_4_2" class="foldopened" onClick="hide_folder('1_4_2')">-</Span>
+interoperability protocols
+<ul id="fold1_4_2" style="POSITION: relative; VISIBILITY: visible;"><li>CDR (Common Data Representation)
+
+</li>
+<li>GIOP (General Inter-ORB Protocol)
+
+</li>
+<li>IIOP (Internet Inter-ORB Protocol)
+
+</li>
+<li><span id="show1_4_2_1" class="foldclosed" onClick="show_folder('1_4_2_1')" style="POSITION: absolute">+</span> <span id="hide1_4_2_1" class="foldopened" onClick="hide_folder('1_4_2_1')">-</Span>
+alternative protocols
+<ul id="fold1_4_2_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_4_2_1_1" class="foldclosed" onClick="show_folder('1_4_2_1_1')" style="POSITION: absolute">+</span> <span id="hide1_4_2_1_1" class="foldopened" onClick="hide_folder('1_4_2_1_1')">-</Span>
+ESIOP: environment specific
+<ul id="fold1_4_2_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>e.g. DCE-CIOP
+
+</li>
+
+</ul>
+</li>
+<li>SCCP (Signal Control Part) IOP
+
+</li>
+<li>pluggable protocols
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_3" class="foldclosed" onClick="show_folder('1_4_3')" style="POSITION: absolute">+</span> <span id="hide1_4_3" class="foldopened" onClick="hide_folder('1_4_3')">-</Span>
+standard control flow
+<ul id="fold1_4_3" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_4_3_1" class="foldclosed" onClick="show_folder('1_4_3_1')" style="POSITION: absolute">+</span> <span id="hide1_4_3_1" class="foldopened" onClick="hide_folder('1_4_3_1')">-</Span>
+1. client sends request
+<ul id="fold1_4_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>client ORB analyses object reference
+
+</li>
+<li>connects to server if necessary
+
+</li>
+<li>sends request
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_3_2" class="foldclosed" onClick="show_folder('1_4_3_2')" style="POSITION: absolute">+</span> <span id="hide1_4_3_2" class="foldopened" onClick="hide_folder('1_4_3_2')">-</Span>
+2. ORB receives request
+<ul id="fold1_4_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>activates server
+
+</li>
+<li>activates target servant
+
+</li>
+<li>invokes method
+
+</li>
+<li>sends back reply
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5" class="foldclosed" onClick="show_folder('1_5')" style="POSITION: absolute">+</span> <span id="hide1_5" class="foldopened" onClick="hide_folder('1_5')">-</Span>ORB
+<ul id="fold1_5" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_5_1" class="foldclosed" onClick="show_folder('1_5_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1" class="foldopened" onClick="hide_folder('1_5_1')">-</Span>
+POA
+<ul id="fold1_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>replaces BOA (CORBA 2.1)
+
+</li>
+<li><span style="font-family: SansSerif, sans-serif; ">POA interfaces are local</span>
+
+</li>
+<li><span id="show1_5_1_1" class="foldclosed" onClick="show_folder('1_5_1_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_1" class="foldopened" onClick="hide_folder('1_5_1_1')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">details object activation</span>
+<ul id="fold1_5_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>POA has an active object map
+
+</li>
+
+</ul>
+</li>
+<li>on creation each POA is assigned 
+
+to a POA manager
+
+</li>
+<li>a POA defines a namespace for servants
+
+</li>
+<li><span id="show1_5_1_2" class="foldclosed" onClick="show_folder('1_5_1_2')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2" class="foldopened" onClick="hide_folder('1_5_1_2')">-</Span>
+servant
+<ul id="fold1_5_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>implementation object, determines run-time
+
+semantics of one or more CORBA objects
+
+</li>
+<li>has an ObjectID (unique within a POA)
+
+</li>
+<li>can be active or inactive
+
+</li>
+<li><span id="show1_5_1_2_1" class="foldclosed" onClick="show_folder('1_5_1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2_1" class="foldopened" onClick="hide_folder('1_5_1_2_1')">-</Span>
+default servant
+<ul id="fold1_5_1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>servant associated with all ObjectIDs
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_2_2" class="foldclosed" onClick="show_folder('1_5_1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2_2" class="foldopened" onClick="hide_folder('1_5_1_2_2')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-style: italic; ">etherealization</span>
+<ul id="fold1_5_1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>the action of detaching a servant
+
+from an ObjectID
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_2_3" class="foldclosed" onClick="show_folder('1_5_1_2_3')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2_3" class="foldopened" onClick="hide_folder('1_5_1_2_3')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-style: italic; ">incarnation</span>
+<ul id="fold1_5_1_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>the action of creating or specifying a
+
+servant for a given ObjectID
+
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">object reference needs to be given</span>
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_2_4" class="foldclosed" onClick="show_folder('1_5_1_2_4')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2_4" class="foldopened" onClick="hide_folder('1_5_1_2_4')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-style: italic; ">activation</span>
+<ul id="fold1_5_1_2_4" style="POSITION: relative; VISIBILITY: visible;"><li>creates object reference
+
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">servant must be given</span>
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_3" class="foldclosed" onClick="show_folder('1_5_1_3')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3" class="foldopened" onClick="hide_folder('1_5_1_3')">-</Span>
+POA manager
+<ul id="fold1_5_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>controls flow of requests for one or multiple POAs
+
+</li>
+<li><span id="show1_5_1_3_1" class="foldclosed" onClick="show_folder('1_5_1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3_1" class="foldopened" onClick="hide_folder('1_5_1_3_1')">-</Span>
+has an activity state
+<ul id="fold1_5_1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_5_1_3_1_1" class="foldclosed" onClick="show_folder('1_5_1_3_1_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3_1_1" class="foldopened" onClick="hide_folder('1_5_1_3_1_1')">-</Span>
+active
+<ul id="fold1_5_1_3_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>requests are processed
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_3_1_2" class="foldclosed" onClick="show_folder('1_5_1_3_1_2')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3_1_2" class="foldopened" onClick="hide_folder('1_5_1_3_1_2')">-</Span>
+holding
+<ul id="fold1_5_1_3_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>requests are saved
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_3_1_3" class="foldclosed" onClick="show_folder('1_5_1_3_1_3')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3_1_3" class="foldopened" onClick="hide_folder('1_5_1_3_1_3')">-</Span>
+discarding
+<ul id="fold1_5_1_3_1_3" style="POSITION: relative; VISIBILITY: visible;"><li>requests are refused with TRANSIENT exception
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_3_1_4" class="foldclosed" onClick="show_folder('1_5_1_3_1_4')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3_1_4" class="foldopened" onClick="hide_folder('1_5_1_3_1_4')">-</Span>
+inactive
+<ul id="fold1_5_1_3_1_4" style="POSITION: relative; VISIBILITY: visible;"><li>requests rejected
+
+</li>
+<li>connections are shut down
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_4" class="foldclosed" onClick="show_folder('1_5_1_4')" style="POSITION: absolute">+</span> <span id="hide1_5_1_4" class="foldopened" onClick="hide_folder('1_5_1_4')">-</Span>
+responsibilities
+<ul id="fold1_5_1_4" style="POSITION: relative; VISIBILITY: visible;"><li>assigns object references to servants
+
+</li>
+<li>transparently activates servants
+
+</li>
+<li><span id="show1_5_1_4_1" class="foldclosed" onClick="show_folder('1_5_1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_4_1" class="foldopened" onClick="hide_folder('1_5_1_4_1')">-</Span>
+assigns policy to servants
+<ul id="fold1_5_1_4_1" style="POSITION: relative; VISIBILITY: visible;"><li>all servants within a POA have the same 
+
+implementation characteristics (policies)
+
+</li>
+<li>the root POA has a standardized
+
+set of policies
+
+</li>
+
+</ul>
+</li>
+<li>determines relevant servant for incoming
+
+requests and invokes the requested operation
+
+at the servant
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_5" class="foldclosed" onClick="show_folder('1_5_1_5')" style="POSITION: absolute">+</span> <span id="hide1_5_1_5" class="foldopened" onClick="hide_folder('1_5_1_5')">-</Span>
+object references
+<ul id="fold1_5_1_5" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_5_1_5_1" class="foldclosed" onClick="show_folder('1_5_1_5_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_5_1" class="foldopened" onClick="hide_folder('1_5_1_5_1')">-</Span>
+consists of
+<ul id="fold1_5_1_5_1" style="POSITION: relative; VISIBILITY: visible;"><li>repository id
+
+</li>
+<li>transport address
+
+</li>
+<li><span id="show1_5_1_5_1_1" class="foldclosed" onClick="show_folder('1_5_1_5_1_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_5_1_1" class="foldopened" onClick="hide_folder('1_5_1_5_1_1')">-</Span>
+object key
+<ul id="fold1_5_1_5_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>POA Name
+
+</li>
+<li>ObjectID
+
+</li>
+<li>the object key is a specific 
+
+format for each ORB
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_2" class="foldclosed" onClick="show_folder('1_5_2')" style="POSITION: absolute">+</span> <span id="hide1_5_2" class="foldopened" onClick="hide_folder('1_5_2')">-</Span>
+BOA
+<ul id="fold1_5_2" style="POSITION: relative; VISIBILITY: visible;"><li>deprecated
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_6" class="foldclosed" onClick="show_folder('1_6')" style="POSITION: absolute">+</span> <span id="hide1_6" class="foldopened" onClick="hide_folder('1_6')">-</Span><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">open, standardized and portable middleware platform</span>
+<ul id="fold1_6" style="POSITION: relative; VISIBILITY: visible;"><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">no more socket programming!</span>
+
+</li>
+<li>programming conventions and
+
+design patterns
+
+</li>
+<li><span id="show1_6_1" class="foldclosed" onClick="show_folder('1_6_1')" style="POSITION: absolute">+</span> <span id="hide1_6_1" class="foldopened" onClick="hide_folder('1_6_1')">-</Span>
+<span style="color: #009900;">advantages</span>
+<ul id="fold1_6_1" style="POSITION: relative; VISIBILITY: visible;"><li>vendor independent
+
+</li>
+<li>platform independent
+
+</li>
+<li>solves repetive tasks for developers 
+
+of distributed systems
+
+</li>
+<li>there are a lot of language mappings
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_6_2" class="foldclosed" onClick="show_folder('1_6_2')" style="POSITION: absolute">+</span> <span id="hide1_6_2" class="foldopened" onClick="hide_folder('1_6_2')">-</Span>
+<span style="color: #990000;">disadvantages</span>
+<ul id="fold1_6_2" style="POSITION: relative; VISIBILITY: visible;"><li>no reference implementation
+
+</li>
+<li>consensus/compromise architecture
+
+</li>
+<li>not perfect
+
+</li>
+<li>can be overkill
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7" class="foldclosed" onClick="show_folder('1_7')" style="POSITION: absolute">+</span> <span id="hide1_7" class="foldopened" onClick="hide_folder('1_7')">-</Span>CORBA objects
+<ul id="fold1_7" style="POSITION: relative; VISIBILITY: visible;"><li>have interfaces defined in IDL
+
+</li>
+<li>implemented in programming
+
+language mapping
+
+</li>
+<li><span id="show1_7_1" class="foldclosed" onClick="show_folder('1_7_1')" style="POSITION: absolute">+</span> <span id="hide1_7_1" class="foldopened" onClick="hide_folder('1_7_1')">-</Span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">objects are accessed through
+
+object references</span>
+<ul id="fold1_7_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_7_1_1" class="foldclosed" onClick="show_folder('1_7_1_1')" style="POSITION: absolute">+</span> <span id="hide1_7_1_1" class="foldopened" onClick="hide_folder('1_7_1_1')">-</Span>
+reference
+<ul id="fold1_7_1_1" style="POSITION: relative; VISIBILITY: visible;"><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">identifies exactly one object</span>
+
+</li>
+<li>more than one reference my refer one object
+
+</li>
+<li>is strongly type
+
+</li>
+<li><span id="show1_7_1_1_1" class="foldclosed" onClick="show_folder('1_7_1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_7_1_1_1" class="foldopened" onClick="hide_folder('1_7_1_1_1')">-</Span>
+references are opaque
+<ul id="fold1_7_1_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>IOR (interoperable object ref) needed
+
+to use between incompatible ORBs
+
+</li>
+
+</ul>
+</li>
+<li>can be "nil" (does not yet refer to an object)
+
+</li>
+<li>can dangle (object doesn't exist anymore)
+
+</li>
+<li>allows late banding
+
+</li>
+<li>maybe persistent
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_8" class="foldclosed" onClick="show_folder('1_8')" style="POSITION: absolute">+</span> <span id="hide1_8" class="foldopened" onClick="hide_folder('1_8')">-</Span>is transparent
+in terms of
+<ul id="fold1_8" style="POSITION: relative; VISIBILITY: visible;"><li>language
+
+</li>
+<li>location
+
+</li>
+<li>service
+
+</li>
+<li>implementation
+
+</li>
+<li>architecture
+
+</li>
+<li>operation system
+
+</li>
+<li>(protocol)
+
+</li>
+<li>(transport)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_9" class="foldclosed" onClick="show_folder('1_9')" style="POSITION: absolute">+</span> <span id="hide1_9" class="foldopened" onClick="hide_folder('1_9')">-</Span>CORBA 2 vs. 3
+<ul id="fold1_9" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_9_1" class="foldclosed" onClick="show_folder('1_9_1')" style="POSITION: absolute">+</span> <span id="hide1_9_1" class="foldopened" onClick="hide_folder('1_9_1')">-</Span>
+in v2 objects are restricted to single interface
+<ul id="fold1_9_1" style="POSITION: relative; VISIBILITY: visible;"><li>separate service and mgmt interface
+
+</li>
+<li>async communication hard to implement
+
+</li>
+
+</ul>
+</li>
+<li>handling a large number of objects requires 
+
+significant book-keeping in application
+
+</li>
+<li>deployment of applications is difficult
+
+</li>
+
+</ul>
+</li>
+
+</ul><SCRIPT language=JavaScript>
+fold_document();
+</SCRIPT>

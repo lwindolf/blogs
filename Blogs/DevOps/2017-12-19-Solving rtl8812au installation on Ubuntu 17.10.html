@@ -1,0 +1,66 @@
+After several fruitless attempts on getting my <a href="https://www.amazon.de/Elekele%C2%AE-Adapter-600Mbit-Wireless-Windows/dp/B074CVBRCB/ref=sr_1_2?dd=6XRtcxdbqGv4g6w5wptAzg%2C%2C&ie=UTF8&qid=1513333939&sr=8-2&keywords=usb%2Bwifi%2Badapter&refinements=p_90%3A6712313031&th=1">new dual band Wifi stick</a> to work on my PC I went the hard way to compiling the driver.
+
+<h2>Figuring out which driver to use</h2>
+
+As drivers do support device ids the first thing is to determine the id
+
+<pre>
+$ lsusb
+[...]
+Bus 002 Device 013: ID 0bda:a811 Realtek Semiconductor Corp. 
+</pre>
+
+So the id being "0bda:a811" you can <a href="https://encrypted.google.com/search?hl=de&q=0bda%3Aa811">search online</a> for a list of driver names. Google suggests rtl8812au as related searches...
+
+<h2>Finding a source repo</h2>
+
+At github you can find several source repos for the rtl8812au driver in
+of different age. It seems that Realtek is supplying the source on some
+driver CDs and different people independently put them online. The hard
+part is to find the most recent one, as only this has fixes for recent
+kernels.
+
+One with patches for kernel 4.13.x is the one from <a href="https://github.com/VitalKoshalew/rtl8812AU/tree/driver-4.3.22-beta-mod">Vital Koshalev</a> which has already a PR against the most commonly referenced repo of <a href="https://github.com/diederikdehaas/rtl8812AU">diederikdehaas</a> which doesn't work yet!.
+
+<h2>Getting the right source</h2>
+
+So fetch the source as following
+
+<pre>git clone https://github.com/VitalKoshalew/rtl8812AU.git
+git checkout driver-4.3.22-beta-mod</pre>
+
+<h2>Compilation + Installation of rtl8812AU</h2>
+
+The instructions are from the README.md and are to be run as root:
+
+<pre>
+DRV_NAME=rtl8812AU
+DRV_VERSION=4.3.22-beta-mod
+mkdir /usr/src/${DRV_NAME}-${DRV_VERSION}
+git archive driver-${DRV_VERSION} | tar -x -C /usr/src/${DRV_NAME}-${DRV_VERSION}
+dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
+dkms build -m ${DRV_NAME} -v ${DRV_VERSION}
+dkms install -m ${DRV_NAME} -v ${DRV_VERSION}
+</pre>
+
+See also <?add topic='DKMS'?>
+
+<h2>Loading rtl8812AU</h2>
+
+If everything worked well you should now be able to issue
+
+<pre>modprobe 8812au</pre>
+
+Note the missing "rtl"!!!
+
+If the module loads, but the wifi stick doesn't work immediately it might be that the rtlwifi driver 
+is preventing the self-compiled module from working. So remove it with
+
+<pre>rmmod rtlwifi</pre>
+
+It will complain about dependencies. You need to rmmod those too. Afterwards the new driver should load properly.
+To make disabling rtlwifi persistent add it to the modprobe blacklist:
+
+<pre>echo "blacklist rtlwifi" >>/etc/modprobe.d/blacklist.conf</pre>
+
+Please leave feedback on the instructions if you have problems!

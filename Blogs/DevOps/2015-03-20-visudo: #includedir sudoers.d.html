@@ -1,0 +1,20 @@
+WTF. Today I fell for <a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=613639">this sudo madness</a> and uncommented this "comment" in /etc/sudoers:
+
+<pre>
+#includedir /etc/sudoers.d
+</pre>
+
+which gives a 
+
+<pre>visudo: >>> /etc/sudoers: syntax error near line 28 &lt;&lt;&lt;</pre>
+
+Let's check the "sudoers" manpage again: full of <a href="http://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form">EBNF</a> notations! But nothing in the EBNF about comments being commands. At least under <b>Other special characters and reserved words</b> one finds
+
+<pre>The pound sign ('#') is used to indicate a comment (unless it is part
+of a #include directive or unless it occurs in the context of a user
+name and is followed by one or more digits, in which case it is treated
+as a uid).  Both the comment character and any text after it, up to the
+end of the line, are ignored.</pre>
+
+Cannot this be done in a better way? 
+

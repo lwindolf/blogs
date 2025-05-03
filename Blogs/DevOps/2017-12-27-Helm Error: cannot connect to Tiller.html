@@ -1,0 +1,23 @@
+---
+categories: [Helm, kubernetes]
+---
+Today I ran "helm" and got the following error:
+
+<pre>$ helm status
+Error: could not find tiller
+</pre>
+
+It took me some minutes to find the root cause. First thing I thought was, that
+the tiller installation was gone/broken, which turned out to be fine. The root cause
+was that the helm client didn't select the correct namespace and probably stayed in
+the current namespace (where tiller isn't located).
+
+This is due to the use of an environment variable $TILLER_NAMESPACE (as suggested
+in the <a href="https://blog.openshift.com/getting-started-helm-openshift/">setup docs</a>)
+which I forgot to persist in my shell.
+
+So running
+
+<pre>$ TILLER_NAMESPACE=tiller helm status</pre>
+
+solved the issue.

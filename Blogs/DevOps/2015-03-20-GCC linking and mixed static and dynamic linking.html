@@ -1,0 +1,3 @@
+GCC syntax schema to link some libraries statically and others dynamically:
+
+<code>gcc &lt;options&gt; &lt;sources> -o &lt;binary> <strong>-Wl,-Bstatic</strong> &lt;list of static libs> <strong>-Wl,Bdynamic</strong> &lt;list of dynamic libs></code>

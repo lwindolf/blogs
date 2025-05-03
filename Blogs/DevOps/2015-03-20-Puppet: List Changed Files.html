@@ -1,0 +1,20 @@
+---
+categories: Puppet
+---
+If you want to know which files where changed by puppet in the last days:
+
+<pre>cd /var/lib/puppet
+for i in $(find clientbucket/ -name paths); do
+	echo "$(stat -c %y $i | sed 's/\..*//')       $(cat $i)";
+done | sort -n</pre>
+
+will give you an output like
+
+<pre>
+[...]
+2015-02-10 12:36:25       /etc/resolv.conf
+2015-02-17 10:52:09       /etc/bash.bashrc
+2015-02-20 14:48:18       /etc/snmp/snmpd.conf
+2015-02-20 14:50:53       /etc/snmp/snmpd.conf
+[...]
+</pre>

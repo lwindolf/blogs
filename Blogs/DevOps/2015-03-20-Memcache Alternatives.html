@@ -1,0 +1,23 @@
+---
+categories: memcached
+---
+If you are using memcached or are planning to you might wonder wether, giving the age of memcached being over 10 years, it is the right tool for a scalable, robust and easy to use key-value store.
+
+Below is a list of tools competing with memcached in some manner and a probably subjective rating of each.
+
+<table border="1" cellpadding="3px">
+<tr><th>Name</th><th>Difference</th><th>Why [Not] Use It?</th></tr>
+<tr><td>memcached</td><td>%</td><td>Because it simple and fast</td></tr>
+<tr><td>memcachedb</td><td>Persistence with BDB</td><td>Because it is a simple and fast as memcached and allows easy persistence and backup. But not maintained anymore since 2008!</td></tr>
+<tr><td>BDB</td><td>Simple and old</td><td>Use when you want an embedded database. Rarely used for web platforms. Has replication.</td></tr>
+<tr><td><a href="http://www.couchbase.com/">CouchDB, CouchBase</a></td><td>HTTP transport. Tries to find a middleground between heavy RDBMS and a key-value store cache.</td><td>Sharding, replication and online rebalancing. Often found in small Hadoop setup. Easy drop-in for memcached caching in nginx.</td></tr>
+<tr><td><a href="http://aws.amazon.com/en/dynamodb/">DynamoDB</a></td><td>HTTP transport, Amazon cloud</td><td>If you are in AWS anyway and want sharding and persistency</td>
+<tr><td><a href="http://redis.io">Redis</a></td><td>Hashes, Lists, Scanning for Keys, Replication</td><td>Great bindings. Good documentation. Flexible yet simple data types.
+
+Slower than memcached (<a href="http://systoilet.wordpress.com/2010/08/09/redis-vs-memcached/">read more</a>).</td></tr>
+<tr><td><a href="http://basho.com/riak/">Riak</a></td><td>Sharded partitioning in a commerical cloud.</td><td>Key-value store as a service. Transparent scaling. Automatic sharding. Map reduce support.</td></tr>
+<tr><td>Sphinx</td><td>Search Engine with SQL query caching</td><td>Supports sharding and full text search. Useful for static medium data sets (e.g. web site product search)</td></tr>
+<tr><td>MySQL 5.6</td><td>Full RDBMS with memcached API</td><td>Because you can run queries against the DB via memcached protocol.</td></tr>
+</table>
+
+There are many more key-value stores. If you wonder what else is out there look at the <a href="http://db-engines.com/en/ranking">db-engines.com</a> rankings.

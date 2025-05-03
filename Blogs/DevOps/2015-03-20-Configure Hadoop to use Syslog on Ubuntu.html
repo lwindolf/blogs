@@ -1,0 +1,41 @@
+If you come here and search for a good description on how to use syslog with Hadoop you might have run into this issue:
+
+As documented on apache.org (<a href="http://wiki.apache.org/hadoop/HowToConfigure">HowToConfigurate</a>) you have setup the log4j configuration similar to this
+
+<code># Log at INFO level to DRFAAUDIT, SYSLOG appenders
+log4j.logger.org.apache.hadoop.hdfs.server.namenode.FSNamesystem.audit=INFO,DRFAAUDIT,SYSLOG
+
+# Do not forward audit events to parent appenders (i.e. namenode)
+log4j.additivity.org.apache.hadoop.hdfs.server.namenode.FSNamesystem.audit=false
+
+# Configure local appender
+log4j.appender.DRFAAUDIT=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.DRFAAUDIT.File=/var/log/audit.log
+log4j.appender.DRFAAUDIT.DatePattern=.yyyy-MM-dd
+log4j.appender.DRFAAUDIT.layout=org.apache.log4j.PatternLayout
+log4j.appender.DRFAAUDIT.layout.ConversionPattern=%d{ISO8601} %p %c: %m%n
+
+# Configure syslog appender
+log4j.appender.SYSLOG=org.apache.log4j.net.SyslogAppender
+log4j.appender.SYSLOG.syslogHost=loghost
+log4j.appender.SYSLOG.layout=org.apache.log4j.PatternLayout
+log4j.appender.SYSLOG.layout.ConversionPattern=%d{ISO8601} %p %c: %m%n
+log4j.appender.SYSLOG.Facility=LOCAL1</code>
+
+It is important to have "SYSLOG" in the "...FSNamesystem.audit" definition at the top and to define such a "SYSLOG" appender below with "log4j.appender.SYSLOG". There you configure your loghost and facility.
+
+Now it might be that you still do not get anything in syslog on your loghost when using Hadoop version 0.18 up to at least 0.20. I found a solution to this only at this Japanese <a href="http://www.sssg.org/blogs/naoya/archives/1659">blog post</a> which suggested to modify the Hadoop start helper script <b>/usr/lib/hadoop/bin/hadoop-daemon.sh</b> to make it work.
+
+You need to change the environment variables
+
+<code>export HADOOP_ROOT_LOGGER="INFO,DRFA"
+export HADOOP_SECURITY_LOGGER="INFO,DRFAS"</code>
+
+to include "SYSLOG":
+
+<code>export HADOOP_ROOT_LOGGER="INFO,SYSLOG,DRFA"
+export HADOOP_SECURITY_LOGGER="INFO,SYSLOG,DRFAS"</code>
+
+After making this change the syslog logging will work.
+
+

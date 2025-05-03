@@ -1,0 +1,18 @@
+When you can't get ACL shared mailboxes visible with Dovecot and Thunderbird here are some debugging tipps:
+
+<ol>
+<li>Thunderbird fetches the ACLs on startup (and maybe at some other interval). So for testing restart Thunderbird on each change you make.</li>
+<li>Ensure the shared mailboxes index can be written. You probably have it configured like <pre>plugin {
+  acl_shared_dict = file:/var/lib/dovecot/db/shared-mailboxes.db
+}</pre> Check if such a file was created and is populated with new entries when you add ACLs from the mail client. As long as entries do not appear here, nothing can work.</li>
+<li>Enable debugging in the dovecot log or use the "debug" flag and check the ACLs for the user who should see a shared mailbox like this:
+
+<pre>doveadm acl debug -u john.smith@example.com shared/users/box</pre>
+<ul>
+<li>Watch out for missing directories</li>
+<li>Watch out for permission issues</li>
+<li>Watch out for strangely created paths this could hint a misconfigured namespace prefix</li>
+</li>
+</ol>
+
+See also <?add topic='Mail'?>

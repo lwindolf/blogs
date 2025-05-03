@@ -1,0 +1,897 @@
+Diese Mind Map gibt eine kurze Übersicht über die Terminologie des Fundamental Modelling Concepts (FMC) Standards der am Hasso Plattner Institut der Uni Potsdam für die Systemmodellierung oberhalb von UML entworfen wurde. Wie viele gute Bemühungen hat FMC allerdings keine große Verbreitung gefunden.
+
+<div class='infobox'>Die Mindmap wird am besten mit dem Flash-Viewer angezeigt: <a href="/freemind/mindmaps.html?fmc.mm">bitte hier klicken!</a></div>
+
+<style type="text/css">
+    span.foldopened { color: white; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: visible;
+    cursor:hand; }
+
+
+    span.foldclosed { color: #666666; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: hidden;
+    cursor:hand; }
+
+    span.foldspecial { color: #666666; font-size: xx-small; border-style: none solid solid none;
+    border-color: #CCCCCC; border-width: 1; font-family: sans-serif; padding: 0em 0.1em 0em 0.1em; background: #e0e0e0;
+    cursor:hand; }
+
+    li { list-style: none; }
+
+    span.l { color: red; font-weight: bold; }
+
+</style>
+
+<script language="JavaScript">
+   // Here we implement folding. It works fine with MSIE5.5, MSIE6.0 and
+   // Mozilla 0.9.6.
+
+   if (document.layers) {
+      //Netscape 4 specific code
+      pre = 'document.';
+      post = ''; }
+   if (document.getElementById) {
+      //Netscape 6 specific code
+      pre = 'document.getElementById("';
+      post = '").style'; }
+   if (document.all) {
+      //IE4+ specific code
+      pre = 'document.all.';
+      post = '.style'; }
+
+function layer_exists(layer) {
+   try {
+      eval(pre + layer + post);
+      return true; }
+   catch (error) {
+      return false; }}
+
+function show_layer(layer) {
+   eval(pre + layer + post).position = 'relative'; 
+   eval(pre + layer + post).visibility = 'visible'; }
+
+function hide_layer(layer) {
+   eval(pre + layer + post).visibility = 'hidden';
+   eval(pre + layer + post).position = 'absolute'; }
+
+function hide_folder(folder) {
+    hide_folding_layer(folder)
+    show_layer('show'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function show_folder(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_layer('show'+folder+'_'+i); }
+}
+function show_folder_completely(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+
+
+function hide_folding_layer(folder) {
+   var i;
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folding_layer(folder+'_'+i); }
+
+   hide_layer('hide'+folder);
+   hide_layer('show'+folder);
+   hide_layer('fold'+folder);
+
+   scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function fold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folder(folder+'_'+i); }
+}
+
+function unfold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+</script>
+<SPAN class=foldspecial onclick="fold_document()">All +</SPAN>
+<SPAN class=foldspecial onclick="unfold_document()">All -</SPAN>
+<p><h3>Systemmodellierung und FMC</h3>
+<ul><li><span id="show1_1" class="foldclosed" onClick="show_folder('1_1')" style="POSITION: absolute">+</span> <span id="hide1_1" class="foldopened" onClick="hide_folder('1_1')">-</Span>System
+<ul id="fold1_1" style="POSITION: relative; VISIBILITY: visible;"><li>ein konkretes oder konkret vorstellbares
+
+Gebilde aus Komponenten
+
+</li>
+<li>zeigt Verhalten als Ergebnis des 
+
+Zusammenwirkens der Systemteile
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_2" class="foldclosed" onClick="show_folder('1_2')" style="POSITION: absolute">+</span> <span id="hide1_2" class="foldopened" onClick="hide_folder('1_2')">-</Span>Modellierung
+<ul id="fold1_2" style="POSITION: relative; VISIBILITY: visible;"><li><p>Ziel: Erfassen der wesentlichen bzw. interessierenden
+
+Merkmale eines Systems zwecks Bewahrung oder 
+
+Weitergabe dieses Wissens
+<p>schafft die Grundlage f&#252;r die effiziente Kommunikation
+
+bei der arbeitsteiligen Softwareentwicklung
+<p>erstellt eine Beschreibung f&#252;r Menschen
+
+Sinn ist die Komplexit&#228;tsbeherrschung
+<p>Vorgang des Modellierens
+<ul><li><p>1. Finden/Festlegen eines/mehrerer 
+
+Systemmodelle
+<p>2. Darstellung des/der Modelle und damit
+
+Erstellung einer Beschreibung ein oder 
+
+mehrerer f&#252;r menschliches Verst&#228;ndnis
+
+optimierter Teile (Pl&#228;ne)
+<p>bei komplexen Systemen sind stets mehrere,
+
+unterschiedliche Systemmodelle gegeben,
+
+entsprechend der unterschiedlichen 
+
+Abstraktionsebenen
+<p>die Betrachtungsebene ergibt sich aus 
+
+dem jeweiligen Interesse:
+
+- nur ein bestimmter Teil des Systems
+
+- nur ein bestimmter Anwendungsfall
+
+- gew&#228;hlte Abstraktionsh&#246;he
+</li>
+</ul><p> besondere Anforderungen
+<ul><li><p><span id="show1_2_1" class="foldclosed" onClick="show_folder('1_2_1')" style="POSITION: absolute">+</span> <span id="hide1_2_1" class="foldopened" onClick="hide_folder('1_2_1')">-</Span>
+Anschaulichkeit
+<ul id="fold1_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>prim&#228;r graphische Darstellung
+
+</li>
+<li>semiformal
+
+</li>
+<li>anschauliche begriffliche Basis
+
+</li>
+
+</ul><p><span id="show1_2_2" class="foldclosed" onClick="show_folder('1_2_2')" style="POSITION: absolute">+</span> <span id="hide1_2_2" class="foldopened" onClick="hide_folder('1_2_2')">-</Span>
+Einfachheit
+<ul id="fold1_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>wenige einfache grafische Elemente bzw. Grundbegriffe
+
+</li>
+
+</ul><p><span id="show1_2_3" class="foldclosed" onClick="show_folder('1_2_3')" style="POSITION: absolute">+</span> <span id="hide1_2_3" class="foldopened" onClick="hide_folder('1_2_3')">-</Span>
+Universalit&#228;t
+<ul id="fold1_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>Grundelemente so einfach aber auch so vielseitig als m&#246;glich
+
+</li>
+<li>m&#246;glichst alle Systeme (Typen) sollen beschreibbar sein
+
+</li>
+
+</ul><p>"Separation of Concerns"
+<ul><li>gedanklich trennbare Aspekte m&#252;ssen
+
+getrent beschreibbar sein
+
+</li>
+
+</ul><p><span id="show1_2_4" class="foldclosed" onClick="show_folder('1_2_4')" style="POSITION: absolute">+</span> <span id="hide1_2_4" class="foldopened" onClick="hide_folder('1_2_4')">-</Span>
+&#196;sthetik
+<ul id="fold1_2_4" style="POSITION: relative; VISIBILITY: visible;"><li>anschauliches klares Layout steigert
+
+Akzeptanz und Nutzen der Beschreibung
+
+</li>
+
+</ul><p>im Gegensatz dazu: Maschinenbeschreibung:
+
+- formal, Syntax und Semantik explizit 
+
+ &nbsp;&nbsp;formal festgelegt
+
+- Vollst&#228;ndigkeit
+
+- konsistent, keine Widerspr&#252;che
+</li>
+</ul></li>
+</ul>
+</li>
+<li><span id="show1_3" class="foldclosed" onClick="show_folder('1_3')" style="POSITION: absolute">+</span> <span id="hide1_3" class="foldopened" onClick="hide_folder('1_3')">-</Span>Systemmodell
+<ul id="fold1_3" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_3_1" class="foldclosed" onClick="show_folder('1_3_1')" style="POSITION: absolute">+</span> <span id="hide1_3_1" class="foldopened" onClick="hide_folder('1_3_1')">-</Span>
+grundlegende Aspekte
+<ul id="fold1_3_1" style="POSITION: relative; VISIBILITY: visible;"><li><p>Unterscheidung verschiedener Systemmodellen
+
+und ihrer Beziehungen
+<p>Strukturtypen _innerhalb eines_ Modells:
+
+- Verhalten (dynamisches System)
+
+- Aufbau (dynamisches System)
+
+- Wertestrukturen (informationelles System!)
+</li>
+</ul>
+</li>
+<li><span id="show1_3_2" class="foldclosed" onClick="show_folder('1_3_2')" style="POSITION: absolute">+</span> <span id="hide1_3_2" class="foldopened" onClick="hide_folder('1_3_2')">-</Span>
+3 Strukturtypen
+<ul id="fold1_3_2" style="POSITION: relative; VISIBILITY: visible;"><li>im Zeitpunkt 
+
+vorliegende
+<ul><li><span id="show1_3_2_1" class="foldclosed" onClick="show_folder('1_3_2_1')" style="POSITION: absolute">+</span> <span id="hide1_3_2_1" class="foldopened" onClick="hide_folder('1_3_2_1')">-</Span>
+Aufbaustruktur
+<ul id="fold1_3_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>Wie ist das System aufgebaut?
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_3_2_2" class="foldclosed" onClick="show_folder('1_3_2_2')" style="POSITION: absolute">+</span> <span id="hide1_3_2_2" class="foldopened" onClick="hide_folder('1_3_2_2')">-</Span>
+Wertestruktur
+<ul id="fold1_3_2_2" style="POSITION: relative; VISIBILITY: visible;"><li>welche Information (Art) ist im System vorhanden
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>in Zeitintervallen 
+
+betrachtbare
+<ul><li><span id="show1_3_2_3" class="foldclosed" onClick="show_folder('1_3_2_3')" style="POSITION: absolute">+</span> <span id="hide1_3_2_3" class="foldopened" onClick="hide_folder('1_3_2_3')">-</Span>
+Ablaufstruktur
+<ul id="fold1_3_2_3" style="POSITION: relative; VISIBILITY: visible;"><li>Welche Vorg&#228;nge passieren im System?
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>diese 3 Typen findet man auch in FMC
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_3_3" class="foldclosed" onClick="show_folder('1_3_3')" style="POSITION: absolute">+</span> <span id="hide1_3_3" class="foldopened" onClick="hide_folder('1_3_3')">-</Span>
+Implementierung
+<ul id="fold1_3_3" style="POSITION: relative; VISIBILITY: visible;"><li><p>ein Modell B ist die Implementierung von
+
+Modell A, wenn sich Modell B durch
+
+Entwurfsentscheidungen von A herleitet.
+<p>Auswahl aus alternativen Mitteln treffen
+<p>elementare vs. nicht-elementare 
+
+Entwurfsentscheidungen...
+<p>unabh&#228;ngige vs. abh&#228;ngige Entwurfs-
+
+entscheidungen: zwei Entwurfsent-
+
+scheidungen sind unabh&#228;ngig wenn 
+
+keine die andere voraussetzt
+</li>
+</ul>
+</li>
+<li>aufgabenvollst&#228;ndige vs. aufgaben-
+
+unvollst&#228;ndige Modelle...
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4" class="foldclosed" onClick="show_folder('1_4')" style="POSITION: absolute">+</span> <span id="hide1_4" class="foldopened" onClick="hide_folder('1_4')">-</Span>Architektur
+<ul id="fold1_4" style="POSITION: relative; VISIBILITY: visible;"><li>nach Hofmeister, Nord &amp; Soni:
+
+"Applied Software Architecture"
+
+</li>
+<li>Grundaussagen f&#252;r
+
+gute SW-Architektur
+<ul><li><p>kritischer Faktor f&#252;r den Produkterfolg
+
+(&#220;berschaubarkeit/Verst&#228;ndlichkeit f&#252;r
+
+alle Stakeholder mu&#223; gew&#228;hrleistet sein)
+<p>"design plan", "blue print" des Systems
+
+(Aushandeln/Festlegen der Anforderungen
+
+an das System, wichtige Grundlage f&#252;r die
+
+Arbeitsteilung)
+<p>dient der Komplexit&#228;tsbeherrschung
+<p>gibt den aktuellen Entwurfsstand wieder
+</li>
+</ul>
+</li>
+<li>es gibt im Wesentlichen 4 Sichten
+
+</li>
+<li><span id="show1_4_1" class="foldclosed" onClick="show_folder('1_4_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1" class="foldopened" onClick="hide_folder('1_4_1')">-</Span>
+Code Architecture View
+<ul id="fold1_4_1" style="POSITION: relative; VISIBILITY: visible;"><li><span style="color: #000000;font-family: SansSerif, sans-serif; font-weight: bold; ">Strukturierung der Sourcen bzgl. ihrer Form
+
+(SW Paketierung)</span>
+
+</li>
+<li><span id="show1_4_1_1" class="foldclosed" onClick="show_folder('1_4_1_1')" style="POSITION: absolute">+</span> <span id="hide1_4_1_1" class="foldopened" onClick="hide_folder('1_4_1_1')">-</Span>
+Format der Komponenten
+<ul id="fold1_4_1_1" style="POSITION: relative; VISIBILITY: visible;"><li>object code
+
+</li>
+<li>library
+
+</li>
+<li>binary
+
+</li>
+<li>byte code
+
+</li>
+
+</ul>
+</li>
+<li>Aufteilung/Ablage (als Datei, in Verzeichnis,
+
+welche Versionierung...)
+
+</li>
+<li>wirkt sich aus auf...
+<ul><li>CM
+
+</li>
+<li>Installation
+
+</li>
+<li>&#196;nderbarkeit im Betrieb
+
+</li>
+<li>Wiederverwendung
+
+(bei Komponenten)
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_2" class="foldclosed" onClick="show_folder('1_4_2')" style="POSITION: absolute">+</span> <span id="hide1_4_2" class="foldopened" onClick="hide_folder('1_4_2')">-</Span>
+Module Architecture View
+<ul id="fold1_4_2" style="POSITION: relative; VISIBILITY: visible;"><li><span style="color: #000000;font-family: SansSerif, sans-serif; font-weight: bold; ">inhaltliche Strukturisierung der Sourcen
+
+= MODULARISIERUNG</span>
+
+</li>
+<li><span id="show1_4_2_1" class="foldclosed" onClick="show_folder('1_4_2_1')" style="POSITION: absolute">+</span> <span id="hide1_4_2_1" class="foldopened" onClick="hide_folder('1_4_2_1')">-</Span>
+Aufteilung in
+<ul id="fold1_4_2_1" style="POSITION: relative; VISIBILITY: visible;"><li>Prozeduren
+
+</li>
+<li>Klassen
+
+</li>
+<li>Interfaces
+
+</li>
+
+</ul>
+</li>
+<li>Kapselung
+
+</li>
+<li>(Aufruf-)Schichtung
+
+</li>
+<li>wirkt sich auf aus...
+<ul><li>&#196;nderbarkeit des Source
+
+</li>
+<li>Arbeitsteilung
+
+</li>
+<li>Wiederverwendbarkeit
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_3" class="foldclosed" onClick="show_folder('1_4_3')" style="POSITION: absolute">+</span> <span id="hide1_4_3" class="foldopened" onClick="hide_folder('1_4_3')">-</Span>
+Execution Architecture View
+<ul id="fold1_4_3" style="POSITION: relative; VISIBILITY: visible;"><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Systemstrukturen auf tiefer "technischer" Ebene
+
+(entspricht "fertigungsvollst&#228;ndigem Modell")</span>
+
+</li>
+<li><span id="show1_4_3_1" class="foldclosed" onClick="show_folder('1_4_3_1')" style="POSITION: absolute">+</span> <span id="hide1_4_3_1" class="foldopened" onClick="hide_folder('1_4_3_1')">-</Span>
+Abbildung konzeptioneller, 
+
+abstrakter Modellelemente 
+
+auf...
+<ul id="fold1_4_3_1" style="POSITION: relative; VISIBILITY: visible;"><li>Hardwarestruktur:
+
+- Rechnerknoten
+
+- Kommunikationsmittel
+
+
+
+</li>
+<li>Softwarestruktur:
+
+- BS-Prozesse, Threads
+
+- Shared Memory
+
+- Locks
+
+</li>
+
+</ul>
+</li>
+<li>wirkt sich aus auf...
+<ul><li>Verteilung
+
+</li>
+<li>load balancing
+
+</li>
+<li>Replikation
+
+</li>
+<li>Ausfallen
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4_4" class="foldclosed" onClick="show_folder('1_4_4')" style="POSITION: absolute">+</span> <span id="hide1_4_4" class="foldopened" onClick="hide_folder('1_4_4')">-</Span>
+conceptional Architecture View
+<ul id="fold1_4_4" style="POSITION: relative; VISIBILITY: visible;"><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">aufgaben- bzw. anwendungsnahe Sicht</span>
+
+</li>
+<li>Systemkomponenten (Akteure) mit
+
+bestimmter Funktionalit&#228;t
+
+</li>
+<li>besteht typischerweise aus interagierenden
+
+Komponenten (components and connectors)
+
+</li>
+<li>abstrahiert von der Hardware
+
+</li>
+<li>zeigt prinzipiell wie das System seine
+
+Aufgaben/Anforderungen erf&#252;llt
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5" class="foldclosed" onClick="show_folder('1_5')" style="POSITION: absolute">+</span> <span id="hide1_5" class="foldopened" onClick="hide_folder('1_5')">-</Span>FMC
+<ul id="fold1_5" style="POSITION: relative; VISIBILITY: visible;"><li><p>Fundamental Modelling Concepts
+<p><span style="color: #000000;font-family: SansSerif, sans-serif; font-weight: bold; ">Erfassung der _Systemarchitektur_, d.h. aller 
+
+interessierender Systemmodelle und ihrer
+
+Beziehungen.
+
+
+
+Nicht jedoch: Visualisierung von Codestrukturen
+
+(der Software-Architektur)!</span>
+<p><span id="show1_5_1" class="foldclosed" onClick="show_folder('1_5_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1" class="foldopened" onClick="hide_folder('1_5_1')">-</Span>
+Grundelemente der Darstellung: 
+
+FMC-Pl&#228;ne
+<ul id="fold1_5_1" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_5_1_1" class="foldclosed" onClick="show_folder('1_5_1_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_1" class="foldopened" onClick="hide_folder('1_5_1_1')">-</Span>
+Aufbaustruktur
+<ul id="fold1_5_1_1" style="POSITION: relative; VISIBILITY: visible;"><li><p>hat aktive Systemkomponenten
+
+
+
+= AKTEURE
+<p>hat passive Systemkomponenten
+
+
+
+- Orte zu denen Akteure Zugang 
+
+ &nbsp;&nbsp;haben = SPEICHER
+
+
+
+- Orte &#252;ber die Information 
+
+ &nbsp;&nbsp;ausgetausch wird = KAN&#196;LE
+<p><span id="show1_5_1_1_1" class="foldclosed" onClick="show_folder('1_5_1_1_1')" style="POSITION: absolute">+</span> <span id="hide1_5_1_1_1" class="foldopened" onClick="hide_folder('1_5_1_1_1')">-</Span>
+Programmnetz
+<ul id="fold1_5_1_1_1" style="POSITION: relative; VISIBILITY: visible;"><li><p>stellt Programmstrukturen kompakt und
+
+sprachunabh&#228;ngig dar, kennzeichend ist:
+
+jeder Stelle im PN l&#228;&#223;t sich eindeutig eine
+
+Position im Programm (ein bestimmter
+
+Befehlsz&#228;hlerzustand) zuordnen
+</li>
+</ul><p><span id="show1_5_1_1_2" class="foldclosed" onClick="show_folder('1_5_1_1_2')" style="POSITION: absolute">+</span> <span id="hide1_5_1_1_2" class="foldopened" onClick="hide_folder('1_5_1_1_2')">-</Span>
+Aktionsnetz
+<ul id="fold1_5_1_1_2" style="POSITION: relative; VISIBILITY: visible;"><li><p>Dient der Verallgemeinerung von Programm-
+
+strukturen, ist jedoch kein Programmnetz!
+
+Wenigstens eine Stelle im AN ist nicht eindeutig
+
+auf eine Position im Programm abbildbar!
+</li>
+</ul></li>
+</ul>
+</li>
+<li><span id="show1_5_1_2" class="foldclosed" onClick="show_folder('1_5_1_2')" style="POSITION: absolute">+</span> <span id="hide1_5_1_2" class="foldopened" onClick="hide_folder('1_5_1_2')">-</Span>
+Werte(bereichs)struktur
+<ul id="fold1_5_1_2" style="POSITION: relative; VISIBILITY: visible;"><li>Objekte die Attribute haben und 
+
+untereinander in Beziehung stehen 
+
+k&#246;nnen = ENTIT&#196;TEN + ATTRIBUTE
+
+</li>
+<li>Beziehungen dieser Objekte
+
+ = RELATIONEN
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_5_1_3" class="foldclosed" onClick="show_folder('1_5_1_3')" style="POSITION: absolute">+</span> <span id="hide1_5_1_3" class="foldopened" onClick="hide_folder('1_5_1_3')">-</Span>
+Ablaufstruktur
+<ul id="fold1_5_1_3" style="POSITION: relative; VISIBILITY: visible;"><li><p>elementare Aktivit&#228;t eines Akteurs: 
+
+= OPERATION
+
+
+
+Akteur liest Info/Werte von einem oder
+
+mehreren Orten und schreibt abgeleiteten
+
+Wert (das Operationsergebnis) auf einen
+
+Ort.
+<p>Wertewechsel an einem Ort in einem 
+
+Zeitpunkt = EREIGNIS
+<p>KAUSALE BEZIEHUNGEN: Ereignisse
+
+sto&#223;en Operationen an, die wiederum
+
+Ereignisse ausl&#246;sen k&#246;nnen.
+</li>
+</ul>
+</li>
+
+</ul><p>Systemarchitektur
+<ul><li><p><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Menge der Systemmodelle (jeweils Aufbau,
+
+Ablauf und Wertebereich) und deren 
+
+Beziehungen untereinander</span>
+<p>treibende Kraft bei der Aufstellung/Beschreibung
+
+von Systemarchitekturen: Verst&#228;ndlichkeit und
+
+Nachvollziehbarkeit der Systemkonstruktionen
+<p>Vorstellung eines Aufbaus aus interagierenden
+
+Komponenten ist weit verbreitet
+<ul><li>components in FMC:
+
+prim&#228;r operationelle Akteure
+
+</li>
+<li>connectors in FMC:
+
+prim&#228;r steuernde Akteure und
+
+Kommunikationsakteure aber 
+
+auch Orte
+
+</li>
+
+</ul><p><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">die Funktionalit&#228;t l&#228;&#223;t sich im 
+
+System lokalisieren</span>
+</li>
+</ul><p>Softwarearchitektur
+</li>
+</ul>
+</li>
+<li><span id="show1_6" class="foldclosed" onClick="show_folder('1_6')" style="POSITION: absolute">+</span> <span id="hide1_6" class="foldopened" onClick="hide_folder('1_6')">-</Span><span style="color: #00ffff;">&#252;ber diese Mindmap</span>
+<ul id="fold1_6" style="POSITION: relative; VISIBILITY: visible;"><li><p>Autor: Lars Windolf
+<p>Digitalisierung einer Mitschrift aus der
+Vorlesung Systemmodellierung 3
+von Prof. Tabeling am HPI.
+<p>last update: 18.01. 14:30</p>
+</li>
+</ul>
+</li>
+<li><span id="show1_7" class="foldclosed" onClick="show_folder('1_7')" style="POSITION: absolute">+</span> <span id="hide1_7" class="foldopened" onClick="hide_folder('1_7')">-</Span>Begriffe
+<ul id="fold1_7" style="POSITION: relative; VISIBILITY: visible;"><li><span id="show1_7_1" class="foldclosed" onClick="show_folder('1_7_1')" style="POSITION: absolute">+</span> <span id="hide1_7_1" class="foldopened" onClick="hide_folder('1_7_1')">-</Span>
+<span style="color: #0000cc;">Modul</span>
+<ul id="fold1_7_1" style="POSITION: relative; VISIBILITY: visible;"><li>SW-Einheit die Entwurfsentscheidung
+
+enth&#228;lt (Parmas 1972).
+
+</li>
+<li>in OOP: Klassen
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_2" class="foldclosed" onClick="show_folder('1_7_2')" style="POSITION: absolute">+</span> <span id="hide1_7_2" class="foldopened" onClick="hide_folder('1_7_2')">-</Span>
+<span style="color: #0000cc;">Komponente</span>
+<ul id="fold1_7_2" style="POSITION: relative; VISIBILITY: visible;"><li><p>"bin&#228;r wiederverwendbarer" (besser in unmittelbar
+
+auf dem Abwicklersystem abwickelbarer Form/
+
+installierbarer Form vorliegender) Softwarebestandteil
+<p>wiederverwendbar hei&#223;t dabei, universell
+
+und breit einsetzbar
+<p>es gibt einen "Markt" f&#252;r die Komponente
+<p>nach Szyperski:
+
+- unit of independent deployment
+
+- unit of third party composition
+
+- has no (externally) observable state
+</li>
+</ul>
+</li>
+<li><span id="show1_7_3" class="foldclosed" onClick="show_folder('1_7_3')" style="POSITION: absolute">+</span> <span id="hide1_7_3" class="foldopened" onClick="hide_folder('1_7_3')">-</Span>
+<span style="color: #0000cc;">Schnittstelle</span>
+<ul id="fold1_7_3" style="POSITION: relative; VISIBILITY: visible;"><li><p>es gibt Software- und Systemschnittstellen
+<p>Teil eines Moduls auf den aus anderen
+
+Modulen heraus Bezug genommen werden
+
+kann und in dem implementierte Prozeduren,
+
+Datentypen... benannt werden.
+<p>aber auch: Stelle an der ein System gedanklich
+
+"zerschnitten" werden kann, d.h. in aktive
+
+Systemkomponenten getrennt werden kann.
+</li>
+</ul>
+</li>
+<li><span id="show1_7_4" class="foldclosed" onClick="show_folder('1_7_4')" style="POSITION: absolute">+</span> <span id="hide1_7_4" class="foldopened" onClick="hide_folder('1_7_4')">-</Span>
+<span style="color: #0033cc;">ADT</span>
+<ul id="fold1_7_4" style="POSITION: relative; VISIBILITY: visible;"><li>ein Speichertyp mit bestimmten Wertebereich
+
+
+
+</li>
+<li>mit bestimmten repertoirezul&#228;ssigen Operationstypen
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_5" class="foldclosed" onClick="show_folder('1_7_5')" style="POSITION: absolute">+</span> <span id="hide1_7_5" class="foldopened" onClick="hide_folder('1_7_5')">-</Span>
+<span style="color: #cc0000;">Ereignis</span>
+<ul id="fold1_7_5" style="POSITION: relative; VISIBILITY: visible;"><li>elementar bez&#252;glich Beobachtbarkeit
+
+</li>
+<li>findet in einem Zeitpunkt statt
+
+</li>
+<li>findet an einem Ort statt
+
+</li>
+<li>verursacht eine Wert&#228;nderung
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_6" class="foldclosed" onClick="show_folder('1_7_6')" style="POSITION: absolute">+</span> <span id="hide1_7_6" class="foldopened" onClick="hide_folder('1_7_6')">-</Span>
+<span style="color: #cc0033;">Operation</span>
+<ul id="fold1_7_6" style="POSITION: relative; VISIBILITY: visible;"><li><p>elementar bez&#252;glich Verarbeitung
+<p>ein Akteur bestimmt einen "neuen" Wert (Operationsergebnis)
+<p>auf einem Ort (Zielort der Operation)
+<p>Ergebnis h&#228;ngt von Werten ab, die i.d.R. (beachte
+
+Zufallswerte) von mindestens einem Ort gelesen
+
+werden.
+</li>
+</ul>
+</li>
+<li><span id="show1_7_7" class="foldclosed" onClick="show_folder('1_7_7')" style="POSITION: absolute">+</span> <span id="hide1_7_7" class="foldopened" onClick="hide_folder('1_7_7')">-</Span>
+<span style="color: #33cc00;">Akteur</span>
+<ul id="fold1_7_7" style="POSITION: relative; VISIBILITY: visible;"><li>aktive (aktivit&#228;tstragende) Komponente
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_8" class="foldclosed" onClick="show_folder('1_7_8')" style="POSITION: absolute">+</span> <span id="hide1_7_8" class="foldopened" onClick="hide_folder('1_7_8')">-</Span>
+<span style="color: #00cc00;">Ort</span>
+<ul id="fold1_7_8" style="POSITION: relative; VISIBILITY: visible;"><li>passive Komponente
+
+</li>
+<li><span id="show1_7_8_1" class="foldclosed" onClick="show_folder('1_7_8_1')" style="POSITION: absolute">+</span> <span id="hide1_7_8_1" class="foldopened" onClick="hide_folder('1_7_8_1')">-</Span>
+Speicher
+<ul id="fold1_7_8_1" style="POSITION: relative; VISIBILITY: visible;"><li>f&#252;r dauerhafte Informationsspeicherung
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_8_2" class="foldclosed" onClick="show_folder('1_7_8_2')" style="POSITION: absolute">+</span> <span id="hide1_7_8_2" class="foldopened" onClick="hide_folder('1_7_8_2')">-</Span>
+Kan&#228;le
+<ul id="fold1_7_8_2" style="POSITION: relative; VISIBILITY: visible;"><li>f&#252;r fl&#252;chtigen Informationsaustausch
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_9" class="foldclosed" onClick="show_folder('1_7_9')" style="POSITION: absolute">+</span> <span id="hide1_7_9" class="foldopened" onClick="hide_folder('1_7_9')">-</Span>
+<span style="color: #cccc00;">Transition</span>
+<ul id="fold1_7_9" style="POSITION: relative; VISIBILITY: visible;"><li>stellt Typen dar
+
+</li>
+<li>Operationen
+
+</li>
+<li>Ereignisse
+
+</li>
+<li>Aktivit&#228;ten (mehrere Operationen)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_10" class="foldclosed" onClick="show_folder('1_7_10')" style="POSITION: absolute">+</span> <span id="hide1_7_10" class="foldopened" onClick="hide_folder('1_7_10')">-</Span>
+<span style="color: #cccc00;">Stellen</span>
+<ul id="fold1_7_10" style="POSITION: relative; VISIBILITY: visible;"><li>Steuerzust&#228;nde
+
+</li>
+<li>zus&#228;tzliche Bedingungen
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_11" class="foldclosed" onClick="show_folder('1_7_11')" style="POSITION: absolute">+</span> <span id="hide1_7_11" class="foldopened" onClick="hide_folder('1_7_11')">-</Span>
+Objekt
+<ul id="fold1_7_11" style="POSITION: relative; VISIBILITY: visible;"><li>auch Instanz oder Exemplar
+
+</li>
+<li>gegenst&#228;ndliches oder abstraktes Objekt
+
+</li>
+<li>eindeutig identifizierbar
+
+</li>
+<li>eindeutig unterscheidbar
+
+</li>
+<li>hat Werte f&#252;r seine Attribute
+
+</li>
+<li>steht zu anderen Objekten in Relation
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_12" class="foldclosed" onClick="show_folder('1_7_12')" style="POSITION: absolute">+</span> <span id="hide1_7_12" class="foldopened" onClick="hide_folder('1_7_12')">-</Span>
+Attribut
+<ul id="fold1_7_12" style="POSITION: relative; VISIBILITY: visible;"><li>geh&#246;rt immer zu Objekt
+
+</li>
+<li>nicht immer scharfe Abgrenzung
+
+zu Objekten
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7_13" class="foldclosed" onClick="show_folder('1_7_13')" style="POSITION: absolute">+</span> <span id="hide1_7_13" class="foldopened" onClick="hide_folder('1_7_13')">-</Span>
+Aspekt
+<ul id="fold1_7_13" style="POSITION: relative; VISIBILITY: visible;"><li><p>ausgew&#228;hlter (einzelner) Sachverhalt auf einer
+
+bestimmten Betrachtungsebene:
+
+- Aufbau
+
+- Ablauf
+
+- Wertebereich
+<p>aber auch (Beispiele)
+
+- Beschreibung eines Teils des Aufbau
+
+- Beschreibung einer Betriebsphase
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul><SCRIPT language=JavaScript>
+fold_document();
+</SCRIPT>

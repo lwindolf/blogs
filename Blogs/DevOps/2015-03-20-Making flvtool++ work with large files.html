@@ -1,0 +1,29 @@
+The <a href="http://mirror.facebook.net/facebook/flvtool++/">flvtool++</a> by Facebook is a fast FLV metadata tagger, but at least up to v1.2.1 it lacks large file support. Here is a simple patch to make it work with large files:
+
+<pre>--- flvtool++.orig/fout.h	2009-06-19 05:06:47.000000000 +0200
++++ flvtool++/fout.h	2010-10-12 15:51:37.000000000 +0200
+@@ -21,7 +21,7 @@
+   void open(const char* fn) {
+     if (fp) this-&gt;close();
+ 
+-    fp = fopen(fn, "wb");
++    fp = fopen64(fn, "wb");
+     if (fp == NULL) {
+       char errbuf[256];
+       snprintf(errbuf, 255, "Error opening output file \"%s\": %s", fn, strerror(errno));
+
+--- flvtool++.orig/mmfile.h	2009-06-19 05:29:43.000000000 +0200
++++ flvtool++/mmfile.h	2010-10-12 15:46:00.000000000 +0200
+@@ -16,7 +16,7 @@
+ public:
+   mmfile() : fd(-1) {} 
+   mmfile(char* fn) {
+-    fd = open(fn, O_RDONLY);
++    fd = open(fn, O_RDONLY | O_LARGEFILE);
+     if (fd == -1) throw std::runtime_error(string("mmfile: unable to open file ") + string(fn));
+     struct stat statbuf;
+     fstat(fd, &statbuf);
+</pre>
+
+Note: While this patch helps you to process large files flvtool++ will still load the entire file into memory!!! Given this you might want to use a different injector like <a href="http://yamdi.sf.net">yamdi</a>. For a 
+comparsion of existing tools have a look at the <a href="http://lzone.de/Comparison+of+FLV+and+MP4+metadata+tagging+tools+%28injectors%29">Comparison of FLV and MP4 metadata tagging tools</a>.

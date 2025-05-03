@@ -1,0 +1,17 @@
+---
+categories: SSH
+---
+When you use a port knocker like <a href="http://www.zeroflux.org/projects/knock">knockd</a> you might want to do the knocking automatically from your ~/.ssh/config using "ProxyCommand".
+
+<h3>Example Config</h3>
+
+<pre>
+Host myserver
+   User myuser
+   Host myserver.com
+   ProxyCommand bash -c '/usr/bin/knock %h 1000 2000 3000 4000; sleep 1; exec /bin/nc %h %p'
+</pre>
+
+It is important not to forget the "exec" before invoking netcat!
+
+See also <?add topic='SSH'?>

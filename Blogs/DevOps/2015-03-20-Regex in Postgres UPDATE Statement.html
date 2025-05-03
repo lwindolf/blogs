@@ -1,0 +1,11 @@
+
+---
+categories: Postgres
+---
+Want to use regular expressions in Postgres UPDATE statements?
+
+<code>
+BEGIN;
+UPDATE table SET field=regexp_replace(field, 'match pattern', 'replace string', 'g');
+END;
+</code>

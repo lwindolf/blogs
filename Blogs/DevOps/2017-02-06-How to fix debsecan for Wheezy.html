@@ -1,0 +1,26 @@
+Someone at Debian increase security for all Debian servers by breaking debsecan 
+a while ago for everything before Jessie by moving the vulnerability definitions
+from
+
+http://secure-testing.debian.net/debian-secure-testing/project/debsecan/release/1/
+
+to
+
+https://security-tracker.debian.org/tracker/debsecan/release/1
+
+Of course there was <b>no way</b> to issue a security fix for Wheezy debsecan...
+
+<h3>Workaround 1: Hotfix</h3>
+
+So if you still want to scan your Wheezy systems you can hotfix debsecan 
+before running it like this:
+
+<pre>sed -i "s/http:\/\/secure-testing.debian.net\/debian-secure-testing/https:\/\/security-tracker.debian.org\/tracker/;s/project\/debsecan\/release\/1\//debsecan\/release\/1\//" /usr/bin/debsecan 
+</pre>
+
+<h3>Workaround 2: Pass Config</h3>
+
+You can also pass an in-place config file:
+
+<pre>debsecan --config &lt;(echo SOURCE="https://security-tracker.debian.org/tracker/debsecan/release/1/")
+</pre>

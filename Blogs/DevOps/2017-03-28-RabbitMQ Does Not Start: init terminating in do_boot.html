@@ -1,0 +1,39 @@
+If you have a RabbitMQ cluster and a crashed node fails to start again with
+
+<pre>{"init terminating in do_boot",{undef,[{rabbit_prelaunch,start,[]},{init,start_it,1},{init,start_em,1}]}}</pre>
+
+in /var/log/rabbitmq/startup_log and something like
+
+<pre>
+Error description:
+   {could_not_start,rabbitmq_management,
+       {{ "{{" }}shutdown,
+            {failed_to_start_child,rabbit_mgmt_sup,
+                {'EXIT',
+                    {{ "{{" }}shutdown,
+                         [{{ "{{" }}already_started,<9180.461.0>},
+                           {child,undefined,rabbit_mgmt_db,
+                               {rabbit_mgmt_db,start_link,[]},
+                               permanent,4294967295,worker,
+                               [rabbit_mgmt_db]}}]},
+                     {gen_server2,call,
+                         [<0.427.0>,{init,<0.425.0>},infinity]}}}}},
+        {rabbit_mgmt_app,start,[normal,[]]}}}
+
+Log files (may contain more information):
+   /var/log/rabbitmq/rabbit@rabbit-01.log
+   /var/log/rabbitmq/rabbit@rabbit-01-sasl.log
+</pre>
+
+in /var/log/rabbitmq/rabbit@rabbit-01.log then you might want to try to drop the node from
+the cluster by running
+
+<pre>rabbitmqctl forget_cluster_node rabbit@rabbit-01</pre>
+
+one a working cluster node and rejoin the node by running
+
+<pre>rabbitmqctl join_cluster rabbit@rabbit-02</pre>
+
+on the disconnected node (given rabbit-02 is a working cluster member).
+
+<b>Note: Doing this might make you lose messages!</b>

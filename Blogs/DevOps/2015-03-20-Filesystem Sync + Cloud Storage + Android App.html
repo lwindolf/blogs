@@ -1,0 +1,71 @@
+I want to share some ideas I have for after the 1.10 release. One of the more requested features is better synching. Well... Google Reader did provide a choice, but is dead soon. And TinyTinyRSS is an option but requires sysadmin skills to set it up. <b>Native Liferea synchronization would be a better choice.</b> The following post is a collection of some first ideas on how to do it in a very easy, simple and light-weight way.
+
+<h3>Sync Services</h3>
+
+IMO the easiest solution often suggested by users would be a SFTP / WebDAV / Cloud Storage based storage that the user mounts and Liferea just syncs files to. So some well known options would be 
+<table border="1" cellpadding="6px">
+<tr><td>Ubuntu One</td><td>5GB free</td><td>Native in Ubuntu, known to work elsewhere too</td><tr>
+<tr><td>Dropbox</td><td>2GB free</td><td>Packages Debian,Ubuntu,Fedora (<a href="https://www.dropbox.com/install?os=lnx">link</a>)</td></tr>
+<tr><td>SpiderOak</td><td>2GB free</td><td>Packages Debian, Fedora, Slackware (<a href="https://spideroak.com/opendownload/">link</a>)</td></tr>
+<tr><td>Wuala</td><td>2GB free</td><td>Installer for Debian, Ubuntu, Fedora, Redhat, Centos; OpenSuse (<a href="http://www.wuala.com/en/download/linux">link</a>)</td></tr>
+</table>
+
+<h3>Sync Schema</h3>
+
+So at the moment I'm wondering how to implement a synchronization schema that can sync several Liferea instances and a mobile client. Consider this simple schema as a starting point:
+
+<img alt="Sync Concept Chart" src="/images/sync-schema.png"/>
+
+The most important implicit points:
+
+<ol>
+<li>We do not sync all items. Just the reading state!!!</li>
+<li>Users want synchronization to not read things twice</li>
+<li>Users want synchronization to never loose there subscriptions</li>
+<li>Users want synchronization to keep important stuff (flagged items and newsbin)</li>
+<li>Only one client at a time. Locking with lock expiration.</li>
+<li>We rely on RSS/Atom GUIDs for having synchronous item ids amongst different sync clients</li>
+<li>We simplify read state sync by only listing unread ranges</li>
+</ol>
+
+<h3>XML File Layout</h3>
+
+So an implementation might be working with a set of simple XML files in a directory structure like this:
+
+<pre>
+clients/
+clients/01d263e0-dde9-11e2-a28f-0800200c9a66.xml     (Client 1 state)
+clients/0b6f7af0-dde9-11e2-a28f-0800200c9a66.xml      (Client 2 state)
+clients/lock.xml                                                         (might be missing)
+data/feedlist.opml
+data/read-states.xml
+data/items/flagged-chunk1.xml
+data/items/flagged-chunk2.xml
+data/items/flagged-chunk3.xml
+data/items/newsbin-wtwxzo34-chunk1.xml
+data/items/newsbin-wtwxzo34-chunk2.xml
+</pre>
+
+<h3>Sync Logic</h3>
+
+Each client can read files at once and relies on them being being written atomically. As it is XML it shouldn't parse if files are not complete. Then the client can cancel a sync and read again later. If a client can obtain all files it  should:
+
+<ul>
+<li>Check if sync replay is needed (another client did write more recently)</li>
+<li>Merge changes in the feed list, fetch new feeds initially</li>
+<li>Merge all read states that do not match yet</li>
+<li>Merge all new flagged items chunks.</li>
+<li>Merge all new newsbin chunks.</li>
+</ul>
+
+If a clients wants to sync (e.g. periodically, or on user request or on shutdown) it should:
+
+<ul>
+<li>Aquire the lock (even if this might not make sense on delayed sync'ed directories)</li>
+<li>Update the client meta data</li>
+<li>Update read states</li>
+<li>Add new flagged/newsbin item chunks if needed.</li>
+<li>Remove items from older chunks if needed.</li>
+<li>Join chunk files if there are too many.</li>
+<li>Release the lock.</li>
+</ul>

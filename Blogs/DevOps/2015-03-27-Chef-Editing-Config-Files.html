@@ -1,0 +1,46 @@
+Most <a href="http://www.opscode.com/chef/">chef</a> recipes are about installing new software including all config files. Also if they are configuration recipes they usually overwrite the whole file and provide a completely recreated configuration. When you have used <a href="http://sunsite.ualberta.ca/Documentation/Gnu/cfengine-1.5.4/html_node/Reference/cfengine-Reference_64.html">cfengine</a> and <a href="http://projects.puppetlabs.com/projects/1/wiki/puppet_augeas">puppet with augtool</a> before you'll be missing the agile editing of config files.
+
+<h2>In cfengine2...</h2>
+
+You could write
+
+<pre>
+editfiles:
+{ home/.bashrc
+   AppendIfNoSuchLine "alias rm='rm -i'"
+}
+</pre>
+
+<h2>While in puppet...</h2>
+
+You'd have:
+
+<pre>
+augeas { "sshd_config":
+  context => "/files/etc/ssh/sshd_config",
+  changes => [
+    "set PermitRootLogin no",
+  ],
+}
+</pre>
+
+<h2>Now how to do it in Chef?</h2>
+
+Maybe I missed the correct way to do it until now (please comment if this is the case!) but there seems to be no way to use for example augtool with chef and there is no built-in cfengine like editing. The only way I've seen so far is to use Ruby as a scripting language to change files using the Ruby runtime or to use the <a href="http://wiki.opscode.com/display/ChefCN/Resources#Resources-Script">Script</a> ressource which allows running other interpreters like bash, csh, perl, python or ruby.
+
+To use it you can define a block named like the interpreter you need and add a "code" attribute with a "here doc" operator (e.g. <<-EOT) describing the commands. Additionally you specify a working directory and a user for the script to be executed with. Example:
+
+<pre>bash "some_commands" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOT
+       echo "alias rm='rm -i'" >> /root/.bashrc
+    EOT
+end
+</pre>
+
+While it is not a one-liner statement as possible as in cfengine it is very flexible. The Script resource is widely used to perform ad-hoc source compilation and installations in the community codebooks, but we can also use it for standard file editing.
+
+Finally to do conditional editing use <a href="http://wiki.opscode.com/display/chef/Resources#Resources-ConditionalExecution">not_if/only_if</a> clauses at the end of the Script resource block.
+
+See also <?add topic='Chef'?>

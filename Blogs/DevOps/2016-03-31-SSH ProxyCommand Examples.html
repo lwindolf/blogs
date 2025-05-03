@@ -1,0 +1,39 @@
+---
+title: SSH ProxyCommand Examples
+categories: SSH
+---
+Use "ProxyCommand" in your ~/.ssh/config to easily access servers hidden behind port knocking and jump hosts.
+
+Also check out the <?add topic='SSH'?>.
+
+<h3>Use Gateway/Jumphost</h3>
+
+<pre>
+Host unreachable_host
+  ProxyCommand ssh gateway_host exec nc %h %p</pre>
+
+<h3>Automatic Jump Host Proxying</h3>
+
+<pre>
+Host &laquo;your jump host&gt;
+  ForwardAgent yes
+  Hostname &laquo;your jump host&gt;
+  User &laquo;your user name on jump host&gt;
+
+# Note the server list can have wild cards, e.g. &quot;webserver-* database*&quot;
+Host &laquo;server list&gt;
+  ForwardAgent yes
+  User &laquo;your user name on all these hosts&gt;
+  ProxyCommand ssh -q &laquo;your jump host&gt; nc -q0 %h 22
+</pre>
+
+<h3>Automatic Port Knocking</h3>
+
+<pre>
+Host myserver
+   User myuser
+   Host myserver.com
+   ProxyCommand bash -c &#39;/usr/bin/knock %h 1000 2000 3000 4000; sleep 1; exec /bin/nc %h %p&#39;
+</pre>
+
+

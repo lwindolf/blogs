@@ -1,0 +1,191 @@
+---
+categories: Postgres
+---
+<h3>Getting Help in psql</h3>
+
+It doesn't matter if you do not remember a single command as long as you follow the hints given:
+
+<pre>Type:  \copyright for distribution terms
+       \h for help with SQL commands
+       \? for help with psql commands
+       \g or terminate with semicolon to execute query
+       \q to quit
+</pre>
+
+While many know their way around SQL, you might want to always use \? to find the specific psql commands.
+
+<h3>Using Regular Expressions in Postgres</h3>
+
+You can edit column using regular expressions by running regexp_replace()<pre>UPDATE table SET field=regexp_replace(field, 'match pattern', 'replace string', 'g');</pre>
+
+<h3>List Postgres Clusters</h3>
+
+Under Debian use the pg_wrapper command
+
+<pre>pg_lsclusters</pre>
+
+<h3>List Postgres Settings</h3> 
+
+<pre>SHOW ALL;</pre>
+
+<h3>List Databases and Sizes</h3>
+
+<pre>SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database;</pre>
+
+<h3>Analyze Queries in Postgres</h3>
+
+<pre>EXPLAIN ANALYZE &lt;sql statement&gt;;</pre>
+
+<h3>Show Running Queries in Postgres</h3>
+
+<pre>SELECT * FROM pg_stat_activity;</pre>
+
+<h3>Show Blocking Locks</h3>
+
+<pre> SELECT bl.pid AS blocked_pid, a.usename AS blocked_user, 
+         kl.pid AS blocking_pid, ka.usename AS blocking_user, a.current_query AS blocked_statement
+  FROM pg_catalog.pg_locks bl
+       JOIN pg_catalog.pg_stat_activity a
+       ON bl.pid = a.procpid
+       JOIN pg_catalog.pg_locks kl
+            JOIN pg_catalog.pg_stat_activity ka
+            ON kl.pid = ka.procpid
+       ON bl.transactionid = kl.transactionid AND bl.pid != kl.pid
+  WHERE NOT bl.granted ;</pre>
+
+<!--<h3>Show Idle Transactions</h3>-->
+
+<h3>Show Table Usage</h3>
+
+If you want to know accesses or I/O per table or index you can use the pg_stat_*_tables and pg_statio_*_tables relations. For example:
+
+<pre>SELECT * FROM pg_statio_user_tables;</pre>
+
+to show the I/O caused by your relations. Or for the number of accesses and scan types and tuples fetched:
+
+<pre>SELECT * FROM pg_stat_user_tables;</pre>
+
+<h3>Kill Postgres Query</h3>
+
+First find the query and it's PID:
+
+<pre>SELECT procpid, current_query FROM pg_stat_activity;</pre>
+
+And then kill the PID on the Unix shell. Or use
+
+<pre>SELECT pg_terminate_backend('12345');</pre>
+
+<h3>Kill all Connections to a DB</h3>
+
+The following was suggested <a href="http://varwww.com/2013/06/16/kill-postgresql-backend-connections/">here</a>. Replace "TARGET_DB" with the name of the database whose connections should be killed.
+<pre>
+SELECT pg_terminate_backend(pg_stat_activity.procpid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'TARGET_DB';
+</pre>
+
+<h3>Checking Replication</h3>
+
+Compared to MySQL checking for replication delay is rather hard. It is usually good to script this or use ready monitoring tools (e.g. Nagios Postgres check). Still it can be done manually by running this command on the master:
+
+<pre>SELECT pg_current_xlog_location();</pre>
+
+and those two commands on the slave:
+
+<pre>SELECT pg_last_xlog_receive_location();
+SELECT pg_last_xlog_replay_location()</pre>
+
+The first query gives you the most recent xlog position on the master, while the other two queries give you the most recently received xlog and the replay position in this xlog on the slave.
+
+A Nagios check plugin could look like this:
+
+<pre class="brush:bash">#!/bin/bash
+
+# Checks master and slave xlog difference...
+# Pass slave IP/host via $1
+
+PSQL="psql -A -t "
+
+# Get master status
+master=$(echo "SELECT pg_current_xlog_location();" | $PSQL)
+
+# Get slave receive location
+slave=$(echo "select pg_last_xlog_replay_location();" | $PSQL -h$1)
+
+master=$(echo "$master" | sed "s/\/.*//")
+slave=$(echo "$slave" | sed "s/\/.*//")
+
+master_dec=$(echo "ibase=16; $master" | bc)
+slave_dec=$(echo "ibase=16; $slave" | bc)
+diff=$(expr $master_dec - $slave_dec)
+
+if [ "$diff" == "" ]; then
+	echo "Failed to retrieve replication info!"
+	exit 3
+fi
+
+# Choose some good threshold here...
+status=0
+if [ $diff -gt 3 ]; then
+	status=1
+fi
+if [ $diff -gt 5 ]; then
+	status=2
+fi
+
+echo "Master at $master, Slave at $slave , difference: $diff"
+exit $status
+</pre>
+
+<h3>Postgres Backup Mode</h3>
+
+To be able to copy Postgres files e.g. to a slave or a backup you need to put the server into backup mode. <pre>SELECT pg_start_backup('label', true);
+SELECT pg_stop_backup();</pre></li>
+
+Read more: <a rel="nofollow" href="http://www.postgresql.org/docs/9.1/static/continuous-archiving.html#BACKUP-BASE-BACKUP">Postgres - Set Backup Mode</a>
+
+<h3>Debugging PgBouncer</h3>
+
+To inspect pgbouncer operation ensure to add at least one user you defined in the user credentials (e.g. /etc/pgbouncer/userlist.txt) to the "stats_users" key in pgbouncer.ini:
+
+<pre>stats_users = myuser</pre>
+
+Use this user to connect to pgbouncer with psql by requesting the "pgbouncer" database:
+
+<pre>psql -p 6432 -U myuser -W pgbouncer</pre>
+
+At psql prompt list supported commands
+
+<pre>SHOW HELP;</pre>
+
+PgBouncer will present all statistics and configuration options:
+
+<pre>pgbouncer=# SHOW HELP;
+NOTICE:  Console usage
+DETAIL:  
+	SHOW HELP|CONFIG|DATABASES|POOLS|CLIENTS|SERVERS|VERSION
+	SHOW STATS|FDS|SOCKETS|ACTIVE_SOCKETS|LISTS|MEM
+	SET key = arg
+	RELOAD
+	PAUSE [<db>]
+	SUSPEND
+	RESUME [<db>]
+	SHUTDOWN
+</pre>
+
+The "SHOW" commands are all self-explanatory. Very useful are the "SUSPEND" and "RESUME" commands when you use pools.
+
+<h3>PgBouncer Online Restart</h3>
+
+If you ever need to restart pgbouncer under traffic load use "-R" to avoid disconnecting clients. This option gets the new process to reuse the Unix sockets of the old one. A possible use case could be that you think pgbouncer has become stuck, overloaded or instable.
+
+<pre>pgbouncer -R</pre>
+
+Aside from this in most cases SIGHUP should be fine.
+
+<h3>Further Reading</h3>
+
+The must have reading for Postgres is for sure this book:
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=tf_til&ad_type=product_link&tracking_id=lz08-20&marketplace=amazon&region=US&placement=184951030X&asins=184951030X&linkId=JFCR6OGXWHSCGKR7&show_border=true&link_opens_in_new_window=true">
+</iframe>
+
+

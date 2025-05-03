@@ -1,0 +1,50 @@
+Let's expect you already have Munin installed and working and you want to reduce disk I/O and improve responsiveness by adding rrdcached... Here are the complete steps to integrate rrdcached:
+
+<h3>Basic Installation</h3>
+
+First install the stock package
+
+<pre>apt-get install rrdcached</pre>
+
+and integrate it with Munin:
+
+<ol>
+<li>Enable the rrdcached socket line in /etc/munin/munin.conf</li>
+<li>Disable munin-html and munin-graph calls in /usr/bin/munin-cron</li>
+<li>Create /usr/bin/munin-graph with <pre>#!/bin/bash
+
+nice /usr/share/munin/munin-html $@ || exit 1
+
+nice /usr/share/munin/munin-graph --cron $@ || exit 1 </pre> and make it executable</li>
+<li>Add a cron job (e.g. to /etc/cron.d/munin) to start munin-graph: <pre>10 * * * *      munin if [ -x /usr/bin/munin-graph ]; then /usr/bin/munin-graph; fi</pre></li>
+</ol>
+
+<h3>The Critical Stuff</h3>
+
+To get Munin to use rrdcached on Ubuntu 12.04 ensure to follow these vital steps:
+<b>
+<ol>
+<li><b>Add "-s &lt;webserver group>" to $OPT in /etc/init.d/rrdcached </b>(in front of the first -l switch)</li>
+<li><b>Change "-b /var/lib/rrdcached/db/" to "-b /var/lib/munin"</b> (or wherever you keep your RRDs)</li>
+</ol>
+</b>
+So a patched default Debian/Ubuntu with Apache /etc/init.d/rrdcached would have
+
+<pre>OPTS="-s www-data -l unix:/var/run/rrdcached.sock"
+OPTS="$OPTS -j /var/lib/rrdcached/journal/ -F"
+OPTS="$OPTS -b /var/lib/munin/ -B"</pre>
+
+If you do not set the socket user with "-s"  you will see "Permission denied" in /var/log/munin/munin-cgi-graph.log
+
+<pre>[RRD ERROR] Unable to graph /var/lib/munin/
+cgi-tmp/munin-cgi-graph/[...].png : Unable to connect to rrdcached: 
+Permission denied
+</pre>
+
+If you do not change the rrdcached working directory you will see "rrdc_flush" errors in your /var/log/munin/munin-cgi-graph.log
+
+<pre>[RRD ERROR] Unable to graph /var/lib/munin/
+cgi-tmp/munin-cgi-graph/[...].png : 
+rrdc_flush (/var/lib/munin/[...].rrd) failed with status -1.</pre>
+
+Some details on this can be found in the <a href="http://munin-monitoring.org/wiki/rrdcached">Munin wiki</a>.

@@ -1,0 +1,41 @@
+When you want to use free cluster solutions in Debian/Ubuntu you will wonder about their complexity and the big question: which one to use. With this post I want to shed some light on the different software stacks and give some opinions on their advantages and possible pitfalls.
+
+<h3>Heartbeat</h3>
+
+I think heartbeat is probably the oldest still existing wide-spread free failover solution on Linux. It must date back to 1998 or earlier. These days Debian Wheezy has heartbeat2 included which comes bundled together with Pacemaker which will be discussed below. Still you can use Heartbeat standalone as a simply IP-failover solution. And that's all what heartbeat does. From the manpage:
+
+<pre>[...] heartbeat is a basic heartbeat subsystem for Linux-HA. It will 
+run scripts at initialisation, and when machines go up or down. This 
+version will also <b>perform IP address takeover using gratuitous 
+ARPs</b>. It works correctly for a 2-node configuration, and is 
+extensible to larger configurations. [...]
+</pre>
+
+<img src="/images/heartbeat-architecture.svg" title="Heartbeat Architecture"/>
+
+So without any intermediate layer heartbeat manages virtual IPs on multiple nodes which communicate via unicast/broadcast/multicast UDP or Ping, so they can be used as a cluster IP by any service on top.
+
+To get some service-like handling you can hook scripts to be triggered on failover, so could start/stop services as needed. So if you just want to protect youself against physical or network layer problem heartbeat might work out.
+
+<h3>Wackamole</h3>
+
+<a href="http://www.backhand.org/wackamole/">Wackamole</a> is probably as complex as heartbeat, but a bit younger and from 2001. It delegates the problem of detecting peer problems and visibility to the <a href="http://www.spread.org/">Spread toolkit</a>.
+
+<img src="/images/wackamole-architecture.svg" title="wackamole Architecture"/>
+
+Spread is used by other applications e.g. for database replication or Apache SSL session cache sharing. For wackamole it is used to detect the availability of the peers.
+
+The special thing about wackamole is that you have one virtual IP per peer and if a peer disappears this VIP fails over to one who is still in the Spread group. On the homepage the core difference is expressed as follows:
+
+<pre>[...]Wackamole is quite unique in that it operates in a completely peer-to-peer mode within the cluster. Other products that provide the same high-availability guarantees use a "VIP" method. A networking appliance assumes a single virtual IP address and "maps" requests to that IP address to the machines in the cluster. This networking appliance is a single point of failure by itself, so most industry accepted solutions incorporate classic master-slave failover or bonding between two identical appliances. [...]</pre>
+
+My experience with wackamole is that with certain network problems you can run into split brain situations with an isolated node grabbing all virtual IPs and given his visibility in the network killing the traffic by doing so.
+
+So running wackamole from time to time you will have to restart all peers just to get a working Spread group again.
+
+<h3>Pacemaker</h3>
+
+<img src="/images/pacemaker-architecture.svg" title="Pacemaker Architecture"/>
+
+<img src="/images/pacemaker-internals.svg" title="Pacemaker Internals"/>
+

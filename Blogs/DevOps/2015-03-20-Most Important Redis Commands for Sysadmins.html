@@ -1,0 +1,219 @@
+---
+categories: Redis
+---
+
+When you encounter a Redis instance and you quickly want to learn about the setup you just need a few simple commands to peak into the setup. Of course it doesn't hurt to look at the official <a href="http://redis.io/commands">full command documentation</a>, but below is a listing just for sysadmins.
+
+<h3>Accessing Redis</h3>
+
+First thing to know is that you can use "telnet" (usually on default port 6397) <pre>telnet localhost 6397</pre>
+or the Redis CLI client
+<pre>redis-cli</pre> to connect to Redis. The advantage of redis-cli is that you have a help interface and command line history.
+
+<h3>Scripting Redis Commands</h3>
+
+For scripting just pass commands to "redis-cli". For example:
+
+<pre>$ redis-cli INFO | grep connected
+connected_clients:2
+connected_slaves:0
+$</pre>
+
+<h3>Server Statistics</h3>
+
+The statistics command is "INFO" and will give you an output as following:
+
+<pre>$ redis-cli INFO
+redis_version:2.2.12
+redis_git_sha1:00000000
+redis_git_dirty:0
+arch_bits:64
+multiplexing_api:epoll
+process_id:8353
+uptime_in_seconds:2592232
+uptime_in_days:30
+lru_clock:809325
+used_cpu_sys:199.20
+used_cpu_user:309.26
+used_cpu_sys_children:12.04
+used_cpu_user_children:1.47
+connected_clients:2
+connected_slaves:0
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+used_memory:6596112
+used_memory_human:6.29M
+used_memory_rss:17571840
+mem_fragmentation_ratio:2.66
+use_tcmalloc:0
+loading:0
+aof_enabled:0
+changes_since_last_save:0
+bgsave_in_progress:0
+last_save_time:1371241671
+bgrewriteaof_in_progress:0
+total_connections_received:118
+total_commands_processed:1091
+expired_keys:441
+evicted_keys:0
+keyspace_hits:6
+keyspace_misses:1070
+hash_max_zipmap_entries:512
+hash_max_zipmap_value:64
+pubsub_channels:0
+pubsub_patterns:0
+vm_enabled:0
+role:master
+db0:keys=91,expires=88
+</pre>
+
+<h3>Changing Runtime Configuration</h3>
+
+The command
+
+<pre>CONFIG GET *</pre>
+
+gives you a list of all active configuration variables you can change. The output might look like this:
+
+<pre>redis 127.0.0.1:6379> CONFIG GET *
+ 1) "dir"
+ 2) "/var/lib/redis"
+ 3) "dbfilename"
+ 4) "dump.rdb"
+ 5) "requirepass"
+ 6) (nil)
+ 7) "masterauth"
+ 8) (nil)
+ 9) "maxmemory"
+10) "0"
+11) "maxmemory-policy"
+12) "volatile-lru"
+13) "maxmemory-samples"
+14) "3"
+15) "timeout"
+16) "300"
+17) "appendonly"
+18) "no"
+19) "no-appendfsync-on-rewrite"
+20) "no"
+21) "appendfsync"
+22) "everysec"
+23) "save"
+24) "900 1 300 10 60 10000"
+25) "slave-serve-stale-data"
+26) "yes"
+27) "hash-max-zipmap-entries"
+28) "512"
+29) "hash-max-zipmap-value"
+30) "64"
+31) "list-max-ziplist-entries"
+32) "512"
+33) "list-max-ziplist-value"
+34) "64"
+35) "set-max-intset-entries"
+36) "512"
+37) "slowlog-log-slower-than"
+38) "10000"
+39) "slowlog-max-len"
+40) "64"
+</pre>
+
+Note that keys and values are alternating and you can change each key by issuing a "CONFIG SET" command like:
+
+<pre>CONFIG SET timeout 900</pre>
+
+Such a change will be effective instantly. When changing values consider also updating the redis configuration file.
+
+<h3>Multiple Databases</h3>
+
+Redis has a concept of separated namespaces called "databases". You can select the database number you want to use with "SELECT". By default the database with index 0 is used. So issuing
+
+<pre>redis 127.0.0.1:6379> SELECT 1
+OK
+redis 127.0.0.1:6379[1]></pre>
+
+switches to the second database. Note how the prompt changed and now has a "[1]" to indicate the database selection.
+
+To find out how many databases there are you might want to run redis-cli from the shell:
+
+<pre>$ redis-cli INFO | grep ^db
+db0:keys=91,expires=88
+db1:keys=1,expires=0
+</pre>
+
+<h3>Dropping Databases</h3>
+
+To drop the currently selected database run
+
+<pre>FLUSHDB</pre>
+
+to drop all databases at once run
+
+<pre>FLUSHALL</pre>
+
+<h3>Checking for Replication</h3>
+
+To see if the instance is a replication slave or master issue <pre>redis 127.0.0.1:6379> INFO
+[...]
+role:master</pre> and watch for the "role" line which shows either "master" or "slave".
+
+Starting with version 2.8 the "INFO" command also gives you per slave replication status looking like this
+
+<pre>slave0:ip=127.0.0.1,port=6380,state=online,offset=281,lag=0</pre>
+
+<h3>Enabling Replication</h3>
+
+If you quickly need to set up replication just issue
+
+<pre>SLAVEOF &lt;IP> &lt;port></pre>
+
+on a machine that you want to become slave of the given IP. It will immediately get values from the master. Note that this instance will still be writable. If you want it to be read-only change the redis config file (only available in most recent version, e.g. not on Debian).
+
+To revert the slave setting run <pre>SLAVEOF NO ONE</pre>
+
+<h3>Dump Database Backup</h3>
+
+As Redis allows RDB database dumps in background, you can issue a dump at any time. Just run:
+
+<pre>BGSAVE</pre>
+
+When running this command Redis will fork and the new process will dump into the "dbfilename" configured in the Redis configuration without the original process being blocked. Of course the fork itself might cause an interruption.
+
+Use "LASTSAVE" to check when the dump file was last updated. For a simple backup solution just backup the dump file. 
+
+If you need a synchronous save run "SAVE" instead of "BGSAVE".
+
+<h3>Listing Connections</h3>
+
+Starting with version 2.4 you can list connections with
+
+<pre>CLIENT LIST</pre>
+
+and you can terminate connections with
+
+<pre>CLIENT KILL &lt;IP>:&lt;port></pre>
+
+<h3>Monitoring Traffic</h3>
+
+The propably most useful command compared to memcached where you need to trace network traffic is the "MONITOR" command which will dump incoming commands in real time.
+
+<pre>redis 127.0.0.1:6379> MONITOR
+OK
+1371241093.375324 "monitor"
+1371241109.735725 "keys" "*"
+1371241152.344504 "set" "testkey" "1"
+1371241165.169184 "get" "testkey"
+</pre>
+
+<h3>Checking for Keys</h3>
+
+If you want to know if an instance has a key or keys matching some pattern use "KEYS" instead of "GET" to get an overview.
+
+<pre>redis 127.0.0.1:6379> KEYS test*
+1) "testkey2"
+2) "testkey3"
+3) "testkey"
+</pre>
+
+On production servers use "KEYS" with care as you can limit it and it will cause a full scan of all keys!

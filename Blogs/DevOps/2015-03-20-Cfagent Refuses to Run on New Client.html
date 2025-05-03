@@ -1,0 +1,18 @@
+Sometimes Cfengine refuse to run on a new client and simply does not explain what the problem is. The error message (which you only see when running cfagent with -v) looks like this:
+
+<pre>cfengine:client:/var/opt/dsau/cfengine/inputs/update.conf:194: Warning:
+actionsequence is empty
+cfengine:client:/var/opt/dsau/cfengine/inputs/update.conf:194: Warning: perhaps
+cfagent.conf/update.conf have not yet been set up? </pre>
+
+The message "actionsecquence is empty" really means that the cfagent.conf is empty, because it could not be retrieved. The question then is why couldn't it be retrieved. Here is a check list:
+
+<ol>
+<li>update.conf is somehow broken</li>
+<li>Master host cannot be contacted in network</li>
+<li>Master host and client believe the hostname to be a different IP</li>
+</ol>
+
+In my case the problem was caused by the #3 due to different /etc/hosts the hostname did not resolve into the same IP as on the cfengine master.
+
+Usability of cfengine sucks...

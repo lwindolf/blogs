@@ -1,0 +1,148 @@
+A recent issue of the German iX magazin <a href="http://www.heise.de/ix/inhalt/2014/4/60/">featured an article</a> on improving end user security by enabling HTTP security headers
+
+<ul>
+<li>X-XSS-Protection,</li>
+<li>X-Content-Type-Options MIME type sniffing,</li>
+<li>Content-Security-Policy,</li>
+<li>X-Frame-Options,</li>
+<li>and HSTS Strict-Transport-Security.</li>
+</ul>
+
+The article gave the impression of all of them quite common and a good DevOps being unreasonable not implementing them immediately if the application supports them without problems.
+
+This lead me to check my <a href="http://lzone.de/What-Large-Sites-Use-04-2014">monthly domain scan results of April 2014</a> on who is actually using which header on their main pages. Results as always limited to top 200 Alexa sites and all larger German websites.
+
+<h3>Usage of X-XSS-Protection</h3>
+
+Header visible for only 14 of 245 (5%) of the scanned websites. As 2 are just disabling the setting it is only 4% of the websites enabling it.
+
+<table border='1'>
+<tr>
+<th>Website</th><th>Header</th>
+</tr>
+<tr><td><a href="websites/history/www.adcash.com">www.adcash.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.badoo.com">www.badoo.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.blogger.com">www.blogger.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.blogspot.com">www.blogspot.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.facebook.com">www.facebook.com</a></td><td>X-XSS-Protection: 0</td></tr>
+<tr><td><a href="websites/history/www.feedburner.com">www.feedburner.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.github.com">www.github.com</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.google.de">www.google.de</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.live.com">www.live.com</a></td><td>X-XSS-Protection: 0</td></tr>
+<tr><td><a href="websites/history/www.meinestadt.de">www.meinestadt.de</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.openstreetmap.org">www.openstreetmap.org</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.tape.tv">www.tape.tv</a></td><td>X-XSS-Protection: 1; mode=block</td></tr>
+<tr><td><a href="websites/history/www.xing.de">www.xing.de</a></td><td>X-XSS-Protection: 1; mode=block; report=https://www.xing.com/tools/xss_reporter</td></tr>
+<tr><td><a href="websites/history/www.youtube.de">www.youtube.de</a></td><td>X-XSS-Protection: 1; mode=block; report=https://www.google.com/appserve/security-bugs/log/youtube</td></tr>
+</table>
+
+<h3>Usage of X-Content-Type-Options</h3>
+
+Here 15 of 245 websites (6%) enable the option.
+
+<table border='1'>
+<tr>
+<th>Website</th><th>Header</th>
+</tr>
+<tr><td><a href="websites/history/www.blogger.com">www.blogger.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.blogspot.com">www.blogspot.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.deutschepost.de">www.deutschepost.de</a></td><td>X-Content-Type-Options: NOSNIFF</td></tr>
+<tr><td><a href="websites/history/www.facebook.com">www.facebook.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.feedburner.com">www.feedburner.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.github.com">www.github.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.linkedin.com">www.linkedin.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.live.com">www.live.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.meinestadt.de">www.meinestadt.de</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.openstreetmap.org">www.openstreetmap.org</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.spotify.com">www.spotify.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.tape.tv">www.tape.tv</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.wikihow.com">www.wikihow.com</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.wikipedia.org">www.wikipedia.org</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+<tr><td><a href="websites/history/www.youtube.de">www.youtube.de</a></td><td>X-Content-Type-Options: nosniff</td></tr>
+</table>
+
+<h3>Usage of Content-Security-Policy</h3>
+
+Actually only 1 website in the top 200 Alexa ranked websites uses CSP and this lonely site is github. The problem with CSP obviously being the necessity to have a clear structure for the origin domains of the site elements. And the less advertisments and tracking pixels you have the easier it becomes...
+
+<table border='1'>
+<tr>
+<th>Website</th><th>Header</th>
+</tr>
+<tr><td><a href="websites/history/www.github.com">www.github.com</a></td><td>Content-Security-Policy: default-src *; script-src https://github.global.ssl.fastly.net https://ssl.google-analytics.com https://collector-cdn.github.com; style-src 'self' 'unsafe-inline' 'unsafe-eval' https://github.global.ssl.fastly.net; object-src https://github.global.ssl.fastly.net</td></tr>
+</table>
+
+<h3>Usage of X-Frame-Options</h3>
+
+The X-Frame-Options header is currently delivered by 43 of 245 websites (17%). 
+
+<table border='1'>
+<tr>
+<th>Website</th><th>Header</th>
+</tr>
+<tr><td><a href="websites/history/www.adcash.com">www.adcash.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.adf.ly">www.adf.ly</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.avg.com">www.avg.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.badoo.com">www.badoo.com</a></td><td>X-Frame-Options: DENY</td></tr>
+<tr><td><a href="websites/history/www.battle.net">www.battle.net</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.blogger.com">www.blogger.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.blogspot.com">www.blogspot.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.dailymotion.com">www.dailymotion.com</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.deutschepost.de">www.deutschepost.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.ebay.de">www.ebay.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.facebook.com">www.facebook.com</a></td><td>X-Frame-Options: DENY</td></tr>
+<tr><td><a href="websites/history/www.feedburner.com">www.feedburner.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.github.com">www.github.com</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.gmx.de">www.gmx.de</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.gmx.net">www.gmx.net</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.google.de">www.google.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.groupon.de">www.groupon.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.imdb.com">www.imdb.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.indeed.com">www.indeed.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.instagram.com">www.instagram.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.java.com">www.java.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.linkedin.com">www.linkedin.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.live.com">www.live.com</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.mail.ru">www.mail.ru</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.mozilla.org">www.mozilla.org</a></td><td>X-Frame-Options: DENY</td></tr>
+<tr><td><a href="websites/history/www.netflix.com">www.netflix.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.openstreetmap.org">www.openstreetmap.org</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.oracle.com">www.oracle.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.paypal.com">www.paypal.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.pingdom.com">www.pingdom.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.skype.com">www.skype.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.skype.de">www.skype.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.softpedia.com">www.softpedia.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.soundcloud.com">www.soundcloud.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.sourceforge.net">www.sourceforge.net</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.spotify.com">www.spotify.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.stackoverflow.com">www.stackoverflow.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.tape.tv">www.tape.tv</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.web.de">www.web.de</a></td><td>X-Frame-Options: deny</td></tr>
+<tr><td><a href="websites/history/www.wikihow.com">www.wikihow.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.wordpress.com">www.wordpress.com</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+<tr><td><a href="websites/history/www.yandex.ru">www.yandex.ru</a></td><td>X-Frame-Options: DENY</td></tr>
+<tr><td><a href="websites/history/www.youtube.de">www.youtube.de</a></td><td>X-Frame-Options: SAMEORIGIN</td></tr>
+</table>
+
+<h3>Usage of HSTS Strict-Transport-Security</h3>
+
+HSTS headers can only be found on a few front pages (8 of 245). Maybe it is visible more on the login pages and is avoided on front pages for performance reasons, maybe not. That would require further analysis. What can be said is only some larger technology leaders are brave enough to use it on the front page:
+
+<table border='1'>
+<tr>
+<th>Website</th><th>Header</th>
+</tr>
+<tr><td><a href="websites/history/www.blogger.com">www.blogger.com</a></td><td>Strict-Transport-Security: max-age=10893354; includeSubDomains</td></tr>
+<tr><td><a href="websites/history/www.blogspot.com">www.blogspot.com</a></td><td>Strict-Transport-Security: max-age=10893354; includeSubDomains</td></tr>
+<tr><td><a href="websites/history/www.facebook.com">www.facebook.com</a></td><td>Strict-Transport-Security: max-age=2592000</td></tr>
+<tr><td><a href="websites/history/www.feedburner.com">www.feedburner.com</a></td><td>Strict-Transport-Security: max-age=10893354; includeSubDomains</td></tr>
+<tr><td><a href="websites/history/www.github.com">www.github.com</a></td><td>Strict-Transport-Security: max-age=31536000</td></tr>
+<tr><td><a href="websites/history/www.paypal.com">www.paypal.com</a></td><td>Strict-Transport-Security: max-age=14400</td></tr>
+<tr><td><a href="websites/history/www.spotify.com">www.spotify.com</a></td><td>Strict-Transport-Security: max-age=31536000</td></tr>
+<tr><td><a href="websites/history/www.upjers.com">www.upjers.com</a></td><td>Strict-Transport-Security: max-age=47336400</td></tr>
+</table>
+
+<h3>Conclusion</h3>
+
+Security headers are not wide-spread on website front pages at least. Most used is the X-Frame-Option header to prevent clickjacking. Next following is X-Content-Type-Options to prevent MIME sniffing. Both of course are easy to implement as they most probably do not change your websites behaviour. I'd expect to see more HSTS on bank and other online payment service websites, but it might well be that the headers appear only on subsequent redirects when logging in, which this scan doesn't do. With CSP being the hardest to implement, as you need to have complete control over all domain usage by application content and partner content you embed, it is no wonder that only Github.com has implemented it. For me it is an indication how clean their web application actually is.

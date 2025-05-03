@@ -1,0 +1,27 @@
+---
+categories: Puppet
+---
+When you run "puppet agent" and get
+
+<pre>Error: Could not retrieve catalog from remote server: Error 400 on SERVER: invalid byte 
+sequence in US-ASCII at /etc/puppet/modules/vendor/
+</pre>
+
+or run "puppet apply" and get
+
+<pre>Error: Could not retrieve catalog from remote server: Error 400 on SERVER: Could not 
+parse for environment production: invalid byte sequence in US-ASCII at /etc/puppet/manifests/someclass.pp:1
+</pre>
+
+then the root case is probably the currently configured locale. Check the effective Ruby locale with
+
+<pre>ruby -e 'puts Encoding.default_external'</pre>
+
+Ensure that it returns a UTF-8 capable locale, if needed set it and rerun Puppet:
+
+<pre>
+export LANG=de_DE.utf-8
+export LC_ALL=de_DE.utf-8
+</pre>
+
+See also <?add topic='Puppet'?>

@@ -1,0 +1,14 @@
+<a href="http://sysadvent.blogspot.de/2013/12/day-9-getting-pushy-with-chef.html">Sysadvent features</a> a puppetlabs sponsered article (yes, honestly, check the bottom of the page!) about chef enterprise getting push support. It is supposed to be included in the open source release in Q1/2014. 
+
+With this change you can use a push jobs cookbook to define jobs and an extended "knife" with new commands to start and query about jobs:
+
+<pre>knife job start ...
+knife job list</pre>
+
+and 
+
+<pre>knife node status ...</pre>
+
+will tell about job execution status on the remote node.
+
+At a first glance it seems nice. Then again I feel worried when this is intended to get rid of SSH keys. Why do we need to get rid of them exactly? And in exchange for what?

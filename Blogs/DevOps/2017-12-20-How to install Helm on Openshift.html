@@ -1,0 +1,78 @@
+---
+categories: [Helm, kubernetes, Openshift]
+---
+This is a short summary of things to consider when installing Helm on Openshift.
+
+<h2>What is Helm?</h2>
+
+Before going into details: <a href="https://github.com/kubernetes/helm">helm</a> is a self-proclaimed "Kubernetes Package Manager". While this is not entirly false in my opinion it is three things
+
+<ul>
+<li>a package manager for chart repos</li>
+<li>a Kubernetes API automation tool</li>
+<li>a Kubernetes resource abstraction helper</li>
+</ul>
+
+When looking closer it does more of the stuff that automation tools like <a href="/cheat-sheet/Puppet">Puppet</a>, <a href="/cheat-sheet/Chef">Chef</a> and <a href="/cheat-sheet/Ansible">Ansible</a> do.
+
+<h2>Current Installation Issues</h2>
+
+Since kubernetes v1.6.1, which introduced RBAC (role based access control) it became harder
+to properly install helm. Actually the simple installation as suggested on the homepage
+
+<pre># Download and...
+helm init</pre>
+
+seems to work, but as soon as you run commands like
+
+<pre>helm list</pre>
+
+you <a href="https://stackoverflow.com/questions/43499971/helm-error-no-available-release-name-found">get permission errors</a>. This of course being caused by the tighter access control now being in place. Sadly even now being at kubernetes 1.8 helm still wasn't updated to take care of the proper permissions.
+
+<h2>Openshift to the rescue...</h2>
+
+As Redhat somewhat pioneered RBAC in Openshift with their namespace based "projects" concept they are also the ones with a <a href="https://blog.openshift.com/getting-started-helm-openshift/">good solution</a> for the helm RBAC troubles.
+
+
+<h2>Setting up Helm on Openshift</h2>
+
+<h3>Client installation (helm)</h3>
+
+<pre>
+curl -s https://storage.googleapis.com/kubernetes-helm/helm-v2.6.1-linux-amd64.tar.gz | tar xz
+sudo mv linux-amd64/helm /usr/local/bin
+sudo chmod a+x /usr/local/bin/helm
+
+helm init --client-only
+</pre>
+
+<h3>Server installation (tiller)</h3>
+
+With helm being the client only, Helm needs an agent named "tiller" on the kubernetes cluster. Therefore we create a project (namespace) for this agent an install it with "oc create"
+
+<pre>
+export TILLER_NAMESPACE=tiller
+oc new-project tiller
+oc project tiller
+oc process -f https://github.com/openshift/origin/raw/master/examples/helm/tiller-template.yaml -p TILLER_NAMESPACE="${TILLER_NAMESPACE}" | oc create -f -
+oc rollout status deployment tiller
+</pre>
+
+<h3>Preparing your projects (namespaces)</h3>
+
+Finally you have to give tiller access to each of the namespaces you want someone to manage using helm:
+
+<pre>
+export TILLER_NAMESPACE=tiller
+oc project <namespace>
+oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
+</pre>
+
+After you did this you can deploy your first service, e.g.
+
+<pre>
+helm install stable/redis --namespace <namespace>
+</pre>
+
+<hr/>
+See also <?add topic='Helm'?> <?add topic='kubernetes'?> <?add topic='Openshift'?>

@@ -1,0 +1,13 @@
+Why is it so hard to find out which nodes have a given role or recipe in chef?
+
+The only way seems to loop yourself:
+
+<pre class="brush: bash">
+for node in $(knife node list); do
+   if knife node show -r $node | grep 'role\[base\]' >/dev/null; then       
+     echo $node;
+   fi;
+done
+</pre>
+
+Did I miss some other obvious way? I'd like to have some "knife run_list filter ..." command!

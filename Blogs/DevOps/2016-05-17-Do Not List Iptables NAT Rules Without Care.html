@@ -1,0 +1,20 @@
+What I do not want to do ever again is running
+
+<pre>iptables -L -t nat</pre>
+
+on a core production server with many many connections.
+
+<h3>And why?</h3>
+
+Well because running "iptables -L" auto-loads the table
+specific iptables kernel module which for the "nat" table
+is "iptables_nat" which has a dependency on "nf_conntrack".
+
+While "iptables_nat" doesn't do anything when there are
+no configured iptables rules, "nf_conntrack" immediately
+starts to drop connections as it cannot handle the many
+many connections the server has.
+
+The probably only safe way to check for NAT rules is:
+
+<pre>grep -q ^nf_conntrack /proc/modules && iptables -L -t nat</pre>

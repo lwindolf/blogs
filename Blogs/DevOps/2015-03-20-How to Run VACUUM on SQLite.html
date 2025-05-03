@@ -1,0 +1,13 @@
+On any SQLite based database (e.g. Firefox or Liferea) you can run "VACUUM" to reduce the database file size. To do this you need the SQLite command line client which can be run using
+
+<pre>sqlite3 &lt;database file></pre>
+
+When called like this you get a query prompt. To directly run "VACUUM" just call 
+
+<pre>sqlite3 &lt;database file> "VACUUM;"</pre>
+
+Ensure that the program using the database file is not running!
+
+<h3>Alternatives to Manual VACUUM</h3>
+
+If you are unsure how to do it manually you can also use a helper tool like BleachBit which along many other cleanup jobs also performs <a href="http://bleachbit.sourceforge.net/">SQLite</a> database compaction.

@@ -1,0 +1,67 @@
+---
+categories: Openshift
+---
+Today I want to share some hints on ultra-fast bootstrapping developers to use Openshift.
+Given that adoption in your organisation depends on developers daring and wanting to use
+Kubernetes/Openshift I believe showing a clear and easy migration path is the way to go.
+
+<h3>Teach the Basics by Failing!</h3>
+
+Actually why not treating Openshift as a user-friendly self-service? Naively approach it
+and try stuff.
+
+So hold a workshop. Ask people to:
+
+<ol>
+<li><b>Not use the CLI for now!!!</b> Don't even think about it. Automation comes later!</li>
+<li><b>Login and create a project.</b> That usually works well. <br/><img width='80%' src='/images/openshift1.png'/></li>
+<li><b>Decide on Docker Image / Source to Image.</b> In the second dialog of the project creation you get presented with those three tabs<br/> <img width='80%' src='/images/openshift2.png'/><br/>
+Let them choose their poison.
+<p>Let the image pull fail because they don't find docker images and don't know that they cannot just fetch stuff from docker.com. Explain why this is the case. Show them where to find your preferred base and runtime images in you internal registry which of course is already configured, ready to be used. Show them the base image you suggest.</p>
+<p>Let the template creation fail using an already prepared template. Show were to look up the build error and explain where to find the infamously <b>hidden secrets option</b> everyone needs.
+</li>
+<li><b>Once the first build fails:</b> explain the logic of applications in Openshift and that they did not only create a project, but also an application. Show the difference of locating builds and deployments. Show how to access logs of both and how to find 'Edit' hidden in the 'Actions' menu.</li>
+<li><b>When the build fails du to SSH connection refused:</b> Explain that (even when using a source secret you already prepared) you need to put the public key in your favourite SCM either globally, per project or per repo for the code pull to work.</li>
+<li><b>When people check the pod first and see it isn't running:</b> Explain again and again the holy trinity of checking stuff:
+<ol>
+<li>First check the build</li>
+<li>Then check the deployment</li>
+<li>Only then check if pods do come up</li>
+</ol>
+</li>
+<li><b>Finally the pod is green!</b> People will access the deployed application and ask you how? Now is the time to have a short excurse on service and routing. Maybe show an already configured defautl. If some service isn't accessible:
+<ol>
+<li>Show how to get the pods TCP endpoint</li>
+<li>Show how to attach to a container via the GUI / CLI</li>
+</ol>
+</ol>
+
+<h3>Have Docs and Examples Ready</h3>
+
+Most important of course is preparation. Do prepare
+
+<ol>
+<li>Walkthrough screenshots</li>
+<li>At least one runtime template</li>
+<li>At least one base image on your own registry</li>
+<li>At least one S2I ready source repository with a hello-world app</li>
+<li>Global project settings with <ul>
+<li>a default SSH key for source pulling</li>
+<li>access configured for your own docker registry</li>
+</ul></li>
+<li>Maybe make an example project visible for all newbies</li>
+</ol>
+</ol>
+
+<h3>Things to avoid...</h3>
+
+This is of course quite opinionated, but think about it:
+
+<ul>
+<li>Talk everyone out of setting up Minishift. You just do not want to support this.</li>
+<li>Talk everyone out of getting Compose, Swarm, ... to live along side Openshift. You just do not want to support this. And save everyone the time to spend on having both in their development toolchain.</li>
+</ul>
+
+<h3>Finally...</h3>
+
+Be prepared to iterate this again and again as often as needed.

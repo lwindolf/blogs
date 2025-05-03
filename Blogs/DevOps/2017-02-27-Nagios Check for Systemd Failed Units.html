@@ -1,0 +1,22 @@
+Just a short bash script to check for faulty systemd units to avoid <a href="https://github.com/kbytesys/pynagsystemd/blob/master/bin/pynagsystemd.py">107 lines of Python</a>...
+
+<pre>#!/bin/bash
+
+
+if [ -f /bin/systemctl ]; then
+	failed=$(/bin/systemctl --failed --no-legend)
+	failed=${failed/ */}		# Strip everything after first space
+	failed=${failed/.service/}	# Strip .service suffix
+
+	if [ "$failed" != "" ]; then
+		echo "Failed units: $failed"
+		exit 1
+	else
+		echo "No failed units."
+		exit 0
+	fi
+else
+	echo "No systemd. Nothing was checked!"
+	exit 0
+fi
+</pre>

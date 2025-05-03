@@ -1,0 +1,22 @@
+If you are unlucky you might see the following ffmpeg error message:
+<code>Output #0, image2, to 'output.ppm':
+    Stream #0.0: Video: ppm, rgb24, 144x108, q=2-31, 200 kb/s, 90k tbn, 29.97 tbc
+Stream mapping:
+  Stream #0.0 -> #0.0
+Press [q] to stop encoding
+av_interleaved_write_frame(): I/O error occurred
+Usually that means that input file is truncated and/or corrupted.
+</code>
+
+The above error message was produced with a command like this
+<code>ffmpeg  -v 0 -y -i 'input.flv'  -ss 00:00:01 -vframes 1 -an -sameq -vcodec ppm -s 140x100 'output.ppm'
+</code>
+
+There are several possible reasons for the error message "av_interleaved_write_frame(): I/O error occurred".
+<ol>
+<li>You are extracting a thumb and forgot to specify to extract a single frame only (-vframes 1)</ul>
+<li>You have a broken input file.</ul>
+<li>And finally: The target file cannot be written.</ul>
+</ol>
+
+The above was caused by problem three. After a lot of trying I found that the target directory did not exist. Quite confusing.

@@ -1,0 +1,153 @@
+<h3>Update Exported Shares</h3>
+
+After editing /etc/exports run
+
+<pre>exportfs -a</pre>
+
+<h3>List Exported Shares</h3>
+
+<pre># showmount -e
+Export list for myserver:
+/export/home       10.1.0.0/24
+#</pre>
+
+<h3>List Mounts on NFS-Server</h3>
+
+<pre># showmount 
+Hosts on myserver:
+10.1.0.15
+#</pre>
+
+<h3>List active Protocols/Services</h3>
+
+To list local services run:
+
+<pre># rpcinfo -p
+   program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100000    2   tcp    111  portmapper
+    100000    4   udp    111  portmapper
+    100000    3   udp    111  portmapper
+    100000    2   udp    111  portmapper
+    100024    1   udp  48555  status
+    100024    1   tcp  49225  status
+    100003    2   tcp   2049  nfs
+    100003    3   tcp   2049  nfs
+    100003    4   tcp   2049  nfs
+    100227    2   tcp   2049
+    100227    3   tcp   2049
+    100003    2   udp   2049  nfs
+    100003    3   udp   2049  nfs
+    100003    4   udp   2049  nfs
+    100227    2   udp   2049
+    100227    3   udp   2049
+    100021    1   udp  51841  nlockmgr
+    100021    3   udp  51841  nlockmgr
+    100021    4   udp  51841  nlockmgr
+    100021    1   tcp  37319  nlockmgr
+    100021    3   tcp  37319  nlockmgr
+    100021    4   tcp  37319  nlockmgr
+    100005    1   udp  57376  mountd
+    100005    1   tcp  37565  mountd
+    100005    2   udp  36255  mountd
+    100005    2   tcp  36682  mountd
+    100005    3   udp  54897  mountd
+    100005    3   tcp  51122  mountd
+</pre>
+
+Above output is from an NFS server. You can also run it for remote servers by passing an IP. NFS clients usually just run status and portmapper:
+
+<pre># rpcinfo -p 10.1.0.15
+   program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100000    2   tcp    111  portmapper
+    100000    4   udp    111  portmapper
+    100000    3   udp    111  portmapper
+    100000    2   udp    111  portmapper
+    100024    1   udp  44152  status
+    100024    1   tcp  53182  status
+</pre>
+
+
+<h3>Mounting NFSv4 Shares</h3>
+
+The difference in mounting is that you need to provide "nfs4" and transport and port options like this:
+
+<pre>mount -t nfs4 -o proto=tcp,port=2049 server:/export/home /mnt</pre>
+
+<h3>Ensure NFSv4 Id Mapper Running</h3>
+
+When using NFSv4 share ensure to have the id mapper running on all clients. On Debian you need to explicitely start it:
+
+<pre>service idmapd start</pre>
+
+<h3>Configure NFSv4 User Mappings</h3>
+
+You might want to set useful NFSv4 default mappings and some explicit mappings for unknown users:
+
+<pre>#cat /etc/idmapd.conf
+[...]
+[Mapping]
+Nobody-User = nobody
+Nobody-Group = nogroup
+
+[Static]
+someuser@otherserver = localuser
+</pre>
+
+<h3>Tuning NFS Client Mount Options</h3>
+
+Try the following client mount option changes:
+
+<ul>
+<li>Use "hard" instead of "soft"</li>
+<li>Add "intr" to allow for dead server and killable client programs</li>
+<li>Increase "mtu" to maximum</li>
+<li>Increase "rsize" and "wsize" to maximum supported by clients and server</li>
+<li>Remove "sync"</li>
+</ul>
+
+After changing and remounting check for effective options using "nfsstat -m" which will give you a list like this:
+
+<pre>$ nfsstat -m
+/data from 10.1.0.16:/data
+ Flags:	rw,relatime,vers=4.0,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,port=0,timeo=600,retrans=2,sec=sys,clientaddr=10.1.0.16,local_lock=none,addr=10.1.0.15
+$
+</pre>
+
+<h3>Tuning NFS Server</h3>
+
+For the exported filesystem mount options:
+<ul>
+<li>Use "noatime"</li>
+<li>Use "async" if you can (risk of data corruption)</li>
+<li>Use "no_subtree_check"</li>
+</ul>
+
+Other than that:
+
+<ul>
+<li>Use CFQ I/O scheduler</li>
+<li>Increase /sys/block/sda/device/block/sda/queue/max_sectors_kb</li>
+<li>Check /sys/block/sda/device/block/sda/queue/read_ahead_kb</li>
+<li>Increase number of nfsd threads</li>
+</ul>
+
+<h3>Getting NFS Statistics</h3>
+
+Use "nfsstat" for detailed NFS statistics! The options are "-c" for client and "-s" for server statistics. On the server caching statistics are most interesting,
+
+<pre>
+# nfsstat -o rc
+Server reply cache:
+hits       misses     nocache
+0          63619      885550  
+#</pre>
+
+on the client probably errors and retries.
+
+Also note that you can get live per-interval results when running with "--sleep=&lt;interval>". For example
+
+<pre># nfsstat -o fh --sleep=2</pre>

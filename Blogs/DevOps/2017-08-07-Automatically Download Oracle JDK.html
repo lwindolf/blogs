@@ -1,0 +1,11 @@
+When downloading Oracle JDK via scripts you might run into the login page.
+
+While in the past it was sufficient to do something like
+
+<pre>wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz</pre>
+
+you now also need to ignore https:// as you will get redirected. So when using wget you might want to run
+
+<pre>wget -c --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz</pre>
+
+Note the added "-c" and "--no-check-certificate" options.

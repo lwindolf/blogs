@@ -1,0 +1,55 @@
+A while ago I took the time to register with <a href="http://coverity.com">Coverity</a>, which if
+you do not know is a company specialized in scanning C source code
+for problems, and scan the Liferea code base.
+
+I was quite happy with the results. A screenshot:
+
+<img src="/images/coverity-2015-02.png" title="Coverity Scan Results"/>
+
+So according to Coverity Liferea has a comparetivly low defect density. 
+For me this means you guys do good testing and contribute high quality code! Even
+if mistakes end up in the code they are immediately spotted by the 
+community.
+
+<h2>The 16 Defects</h2>
+
+From those 16 reported defects most are C constructs used in Liferea
+that Coverity deems suspicious, because they might masks errors. Such
+are dead case conditions or fall-through default branches. 
+
+There were several potentially uninitialized variables and 4 real
+bugs that all could have caused memory corruptions. Finding those
+really improved Liferea. Read on for an example.
+
+<h2>Find the Defect!</h2>
+
+If you want to test your defect detection skills try this example
+uncovered by Coverity. I probably read the same code dozens of times
+but was blind to the obvious:
+
+<pre>
+gchar *
+enclosure_get_mime (const gchar *str)
+{
+       enclosurePtr enclosure = enclosure_from_string(str);
+       gchar *mime = NULL;
+ 
+       if (enclosure)
+                mime = g_strdup (enclosure->url);
+
+       enclosure_free (enclosure);
+ 
+       return mime;
+}
+</pre>
+
+Of course the unconditional free'ing is the problem. Easy to spot, right?
+Well obviously not, this problem was in the code for a longer time and
+I suspect it caused quite some crashes on feed parsing. Well, try to read
+above code snippet again, this time without knowing there is a problem.
+Isn't there this nice if condition, the nice formatting, someone must
+have thought about all this, so no danger at all, right? 
+
+What is to be learned? Well, it's worth scanning the code more often.
+And it is great that many companies like Coverity allow OSS projects
+to use their services for free.

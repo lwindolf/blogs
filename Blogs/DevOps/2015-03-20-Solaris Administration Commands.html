@@ -1,0 +1,158 @@
+This is a list of non-trivial Solaris commands and can be used as a cheat sheet or link collection. If you find errors or want to add something please post a comment below!
+
+<h3>Debugging</h3>
+
+<ul>
+<li>mdb - Analysing core files: <pre>
+$ mdb core.xxxx        # Open core file
+> ::status             # Print core summary
+
+> ::stacks             # Backtrace
+> ::stacks -v          # Backtrace verbose
+
+> ::quit
+</pre>
+</li>
+<li><a href="http://docs.sun.com/app/docs/doc/817-0404/chapter1-9?a=view">Changing Solaris Kernel Parameters</a>: <pre># mdb -kw
+> maxusers/W 500
+> $q
+</pre></li>
+<li>Library Dependencies of a running process: <pre>pldd &lt;pid></pre></li>
+<li>Details of Memory Usage - pmap: <pre># pmap 19463
+19463:  -sh
+08047000       4K rw---    [ stack ]
+08050000      76K r-x--  /sbin/sh
+08073000       4K rw---  /sbin/sh
+08074000      16K rw---    [ heap ]
+FEE60000      24K r-x--  /lib/libgen.so.1
+FEE76000       4K rw---  /lib/libgen.so.1
+FEE80000    1072K r-x--  /lib/libc.so.1
+FEF90000      24K rwx--    [ anon ]
+FEF9C000      32K rw---  /lib/libc.so.1
+FEFA4000       8K rw---  /lib/libc.so.1
+FEFC4000     156K r-x--  /lib/ld.so.1
+FEFF0000       4K rwx--    [ anon ]
+FEFF7000       4K rwxs-    [ anon ]
+FEFFB000       8K rwx--  /lib/ld.so.1
+FEFFD000       4K rwx--  /lib/ld.so.1
+ total      1440K
+</pre></li>
+<li><a href="http://developers.sun.com/solaris/articles/kstatc.html">kstat API</a>: Accessing Solaris kernel statistics using C-API</li>
+<li><a href="http://gd.tuwien.ac.at/linuxcommand.org/man_pages/infocmp1.html">infocmp - Compare terminal settings</a>: This is not Solaris specific, but you need it quite often. <pre>infocmp -L</pre></li>
+<li><a href="http://www.solarisinternals.com/wiki/index.php/DTraceToolkit">DTraceToolkit</a>: Useful dtrace scripts for all types of debugging tasks.</li>
+<li><a href="http://www.camelrichard.org/topics/Solaris/Three_Solaris_Hogs_for_Testing">How to kill a Solaris machine</a></li>
+</ul>
+
+<h3>Network</h3>
+
+<ul>
+<li><a href="http://stupidunixlinuxtricks.blogspot.com/2008/03/snoop-and-tcpdump.html">snoop vs. tcpdump</a>: How to use snoop: <pre>snoop -v -d qfe0 -x0 host 192.168.1.87
+snoop -v -d qfe0 -x0 port 22
+</pre></li>
+<li>Show installed NIcs: <pre>dladm show-dev 
+dladm show-link</pre></li>
+<li><a href="http://prefetch.net/articles/solarisiscsi.html">iSCSI on Solaris</a></li>
+<li><a href="http://gurkulindia.com/main/2011/04/soalris-find-network-interface-names-that-are-available-but-not-plumbed/">Find unknown NIC</a>: When you do not know the network interface name and don't want to guess: simple plumb all unplumbed NICs with <pre>ifconfig plumb -a</pre></li>
+</ul>
+
+<h3>Legacy</h3>
+
+<ul>
+<li><a href="">Extend 256 file descriptor limit for 32bit binaries</a>: This requires preloading a helper library <pre>% ulimit -n 256
+
+% echo 'rlim_fd_max/D' | mdb -k | awk '{ print $2 }'  # determine allowed maximum
+65536
+
+% ulimit -n 65536
+
+% export LD_PRELOAD_32=/usr/lib/extendedFILE.so.1</pre></li>
+<li>Determine if Solaris is 32 or 64 bit: <pre>isainfo -b</pre></li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+<li><a href="http://sourceforge.net/projects/setoolkit/">SEtoolkit</a>: Performance data gathering script collection based on orcallator.</li>
+<li><a href="http://www.orcaware.com/orca/docs/orcallator.html">Orcallator</a>: Provides a variety of Solaris specific probes.</li>
+<li><a href="http://www.brendangregg.com/K9Toolkit/nicstat.c">NICstat</a>: Source (C) for a monitoring NICs in Solaris. vmstat/iostat like command line client.</li>
+<li><a href="http://munin-monitoring.org/wiki/SolarisInstallation">Munin on Solaris</a></li>
+</ul>
+
+<h3>Package Installation</h3>
+
+<ul>
+<li>Resolve File to Package: <pre>pkgchk -l -p /usr/bin/ls</pre></li>
+</ul>
+
+<h3>Service Management</h3>
+
+<ul>
+<li>svcs - List Service Infos <pre>
+svcs -a              # List all installed services and their current state
+svcs -d &lt;service>    # List all dependencies of a service
+svcs -D &lt;service>    # List who is depending on a service
+svcs -xv             # List why something is failed
+</pre></li>
+<li>svcadm - Control Services<pre>
+svcadm enable &lt;service>
+svcadm disable &lt;service>
+svcadm refresh &lt;service>    # like init reload
+svcadm restart &lt;service>
+
+svcadm clear &lt;service>      # Clear errors: try starting again...
+</pre></li>
+</ul>
+
+<h3>General</h3>
+
+<ul>
+<li><a href="http://www.brandonhutchinson.com/Solaris_JumpStart_notes.html">Jumpstart HowTo</a></li>
+<li><a href="http://kalali.me/configuring-dhcp-server-in-solaris/">SUNWdhcs DHCPd Setup</a></li>
+<li><a href="http://www.garex.net/sun/packaging/index.html">Sun Packaging Guide</a></li>
+<li><a href="http://developers.sun.com/solaris/articles/event_completion.html">Solaris Event Notification API</a></li>
+<li><a href="http://delicious.com/redirect?url=http%3A//www.sun.com/products-n-solutions/hardware/docs/html/806-1377-10/index.html">Suns OpenBoot PROM reference manual</a></li>
+<li><a href="http://docs.oracle.com/cd/E19683-01/817-0573/">Solaris IPv6 Administration Guide</a></li>
+<li>ALOM/iLOM - Get OS Console: <pre>start /SP/console</pre> If the console is already in use you can kill it with <pre>stop /SP/console</pre></li>
+<li><a href="http://docs.oracle.com/cd/E19102-01/n440.srvr/817-5481-11/sadm_util.html">ALOM - Set/Get Infos from CLI</a>: When you want to fetch infos or change settings from a running system (e.g. from scripts) you can use the scadm (or rscadm) command. Examples: <pre># Show log
+scadm loghistory
+
+# Send a normal or critical console message
+scadm send_event "Important"
+scadm send_event -c "Critical!"
+
+# Dump all or single settings
+scadm show 
+scadm show sc_customerinfo
+</pre></li>
+<li>Dump HW Infos: <pre>prtconf -v</pre></li>
+<li><a href="http://lildude.co.uk/zfs-cheatsheet">ZFS Cheat Sheet</a>: <pre>
+# Analysis
+zpool list             # List pools
+zpool status -v        # Tree like summary of all disks
+zpool iostat 1         # iostat for all ZFS pools
+zpool history          # Show recent commands
+
+# Handling properties
+zfs get all z0
+zfs get all z0/data
+zfs set sharenfs=on z0/data
+zfs set sharesmb=on z0/data
+zfs set compression=on z0/data
+
+# Mounting 
+zfs mount               # List all ZFS mount points
+zfs set mountpoint=/export/data z0/data
+zfs mount /export/data
+zfs unmount /export/data
+
+# NFS Shares
+zfs set sharenfs=on z1/backup/mydata         # Enable as NFS share
+zfs get sharenfs z1/backup/mydata            # List share options
+zfs sharenfs="&lt;options>" z1/backup/mydata    # Overwrite share options
+
+# Create and load snapshots
+zfs snapshot z0/data@backup-20120601
+zfs rollback z0/data@backup-20120601
+</pre></li>
+</ul>
+

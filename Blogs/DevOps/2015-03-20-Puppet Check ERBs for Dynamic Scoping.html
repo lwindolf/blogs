@@ -1,0 +1,24 @@
+---
+categories: Puppet
+---
+If you ever need to upgrade a code base to Puppet 3.0 and strip all dynamic scoping from your templates:
+
+<pre>for file in $( find . -name "*.erb" | sort); do 
+    echo "------------ [ $file ]"; 
+    if grep -q "<%[^>]*$" $file; then 
+        content=$(sed '/<%/,/%>/!d' $file); 
+    else
+        content=$(grep "<%" $file); 
+    fi;
+    echo "$content" | egrep "(.each|if |%=)" | egrep -v "scope.lookupvar|@|scope\["; 
+done
+
+</pre>
+
+This is of course just a fuzzy match, but should catch quite some of the dynamic scope expressions there are. The limits of this solution are: 
+<ul>
+<li>false positives on loop and declared variables that must not be scoped</li>
+<li>and false negatives when mixing of correct scope and missing scope in the same line.</li>
+</ul>
+
+So use with care.

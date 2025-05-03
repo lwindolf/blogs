@@ -1,0 +1,52 @@
+<b>Update:</b> According to the AWS status page the incident
+was a problem related to BGP route leaking. AWS does not hint
+on a leap second related incident as originally suggested by
+this post!
+
+
+Tonight we had another leap second and not without suffering at
+the same time. At the end of the post you can find two screenshots 
+of outages suggested by <a href="http://downdetector.com">downdetector.com</a>.
+The screenshots were taken shortly after midnight UTC 
+and you can easily spot those sites with problems by the
+disting peak at the right site of the graph.
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Top Memcache -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-3885525830723411"
+     data-ad-slot="4912570252"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<h3>AWS Outage</h3>
+
+What is common to many of the affected sites: them
+being hosted at AWS which had some problems. 
+
+<a href="http://status.aws.amazon.com/">Quote:</a>
+
+<blockquote>
+[RESOLVED] Internet connectivity issues
+
+Between 5:25 PM and 6:07 PM PDT we experienced an Internet connectivity issue with a provider outside of our network which affected traffic from some end-user networks. The issue has been resolved and the service is operating normally.
+
+The root cause of this issue was an external Internet service provider incorrectly accepting a set of routes for some AWS addresses from a third-party who inadvertently advertised these routes. Providers should normally reject these routes by policy, but in this case the routes were accepted and propagated to other ISPs affecting some end-user’s ability to access AWS resources. Once we identified the provider and third-party network, we took action to route traffic around this incorrect routing configuration. We have worked with this external Internet service provider to ensure that this does not reoccur.
+</blockquote>
+
+<h3>Incident Details</h3>
+
+<ul>
+<li><a href="http://mashable.com/2015/06/30/aws-disruption/?utm_medium=feed&utm_source=rss&utm_source=twitterfeed&utm_medium=twitter">Mashable: AWS Disruption</a></li>
+<li><a href="https://blog.thousandeyes.com/route-leak-causes-amazon-and-aws-outage/">ThousandEyes: Route leak causes Amazon and AWS outage</a></li>
+<li><a href="https://twitter.com/DynResearch/status/616059353821487104/photo/1">Leap second causes ~5 minutes of transient global routing instability</a></li>
+</ul>
+
+<h3>Graphs from downdetector.com</h3>
+
+Note that those graphs indicate user reported issues:
+
+<img src="/images/downdetector-leap-1.png"/>
+<img src="/images/downdetector-leap-2.png"/>

@@ -1,0 +1,67 @@
+Looking at NS records today <a href="http://lzone.de/blog/Whom+you+can+DDoS+via+DynDNS">some of yesterdays affected companies</a> decided to change things after
+the DoS on Dyn. As the NS record is not really a customer facing feature
+this is more an indication of Dyn's customers expectations. One could argue
+switching away from Dyn could mean fear of more downtimes to come.
+
+Here is a summary of changed NS records so far:
+
+<table border='1'>
+<tr><th>Site</th><th>Before (15.10.)</th><th>After (22.10.)</th></tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/about.com">about.com</a>
+</td>
+<td>dynect.net</td>
+<td>nsone.com</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/etsy.com">etsy.com</a>
+</td>
+<td>dynect.net</td>
+<td>dynect.net<br/>
+awsdns</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/github.com">github.com</a>
+</td>
+<td>dynect.net</td>
+<td>awsdns</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/paypal.com">paypal.com</a>
+</td>
+<td>dynect.net</td>
+<td>dynect.net<br/>
+ultradns.org<br/>
+paypal.com</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/xhamster.com">xhamster.com</a>
+</td>
+<td>dynect.net</td>
+<td>anycastns*.org</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/zendesk.com">zendesk.com</a>
+</td>
+<td>dynect.net</td>
+<td>ultradns.*</td>
+</tr>
+<tr>
+<td>
+<a href="http://lzone.de/websites/history/speedtest.net">speedtest.net</a>
+</td>
+<td>dynect.net</td>
+<td>awsdns</td>
+</tr>
+</table>
+
+I did only check some NS records for changes, just several of the top sites.
+There are two note-worthy non-changers being Twitter and Github though, everyone
+else seems to have mitigated. Some to using two providers, several switching to
+AWS DNS or UltraDNS exclusively.

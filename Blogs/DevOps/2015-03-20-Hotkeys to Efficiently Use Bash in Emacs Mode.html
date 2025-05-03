@@ -1,0 +1,54 @@
+---
+categories: Bash
+---
+When watching other people familiar with Linux type commands on a bash shell what one often needs is <b>a lot of patience</b>. It seems that many of us (and I include myself) do not know or regularily forget about the biggest timesavers.
+
+Here is a list of maybe trivial things I consider absolutely helpful to efficiently use Bash in Emacs mode.
+
+<h3>1. Jump Words not Characters!</h3>
+
+When scrolling through a long command: save time by holding Ctrl to skip words. Alternatively press ESC before each cursor press or use Alt-B and Alt-F.
+
+<h3>2. Kill Words not Characters!</h3>
+
+The same when deleting stuff. Don't press Backspace 30 times. Use a hotkey to do it in one step:
+
+<ul>
+<li>Alt-Backspace or Ctrl-w to delete a word backwards (the difference lies in delimiters)</li>
+<li>Alt-d to delete a word from start</li>
+</ul>
+
+<h3>3. Lookup Filenames while Writing</h3>
+
+Do not cancel writing commands just because you forgot a path somewhere on the system. Look it up while writing the command. If paths are in quotes, temporarily disable the quotes to make expansion work again.
+
+<h3>4. Save Cancelled Commands</h3>
+
+If you still decide to cancel a command because you want to look something up, then keep it in the history. Just type a "#" in front of it and Enter to safely store it for later reference.
+
+<h3>5. Use Ctrl-A and Ctrl-E</h3>
+
+Most beginners do scroll around a lot for no good reason. This hurts on slow connections. Do never scroll to the start/end of the command. Use Ctrl-a for start of line and Ctrl-E for end of line. When in screen use Ctrl-a-a instead of Ctrl-a!
+
+<h3>6. Do not overuse Ctrl-R!</h3>
+
+Many users heavily rely on Ctrl-R for reverse history search and use it to go back >50 times to find a command of 10 characters! Just type the 10 characters! Or if you thought it was only 10 steps away in the history just cancel when you do not find it early on. This is mostly a psychological thing: "it might be around the corner" but wastes a lot of time.
+
+When your command is only a few steps away in the history use the Up/Down leys until you find it. Cancel this once you press as many times as your command is long!
+
+<h3>7. Use Undo!</h3>
+
+Avoid rewriting stuff if you mess up.
+
+<b>Case 1:</b> If you delete something and want to restore it use Ctrl+_ (Ctrl+Shift+Dash) to undo the last change.
+
+<b>Case 2:</b>If you have edited a history entry you got using Ctrl-R or Up/Down navigation and want to restore it to it's original value use Alt-R. In general try to avoid editing history commands as this is confusing!
+
+<h3>8. Use History with Line Numbers</h3>
+
+Often I see people calling "history" and then mouse copy&pasting a command the find. The faster thing to do is to type "!&lt;number>" to execute a specific command. Usually just 4-5 characters eliminating the possibility of pasting the wrong copy buffer or a command with line breaks after a lot of fiddling with the mouse.
+
+<h3>What Else?</h3>
+
+There might be other useful commands, but I think I've listed the time savers above. Feel free to comment your suggestions!
+

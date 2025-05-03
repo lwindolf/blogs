@@ -1,0 +1,16 @@
+Use one of the following commands to resolve an open port to a running process.
+
+<h3>How to use lsof</h3>
+
+<pre>lsof -i :80</pre>
+    
+<h3>Alternative using netstat</h3>
+
+<pre>netstat -tlnp | grep :80</pre>
+
+<h3>Alternative using ss</h3>
+
+Using ss has the advantage of given the full process name (not truncated like netstat)
+and also prints all PIDs having the port open, as lsof does.
+
+<pre>ss -tlnp | grep :80</pre>

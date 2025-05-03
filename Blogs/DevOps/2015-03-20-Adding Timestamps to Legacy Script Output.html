@@ -1,0 +1,31 @@
+Imagine a legacy script. Very long, complex and business critical. No time for a rewrite and no fixed requirements. But you want to have timestamps added to the output it produces.
+
+<h3>Search and Replace</h3>
+
+One way to do this is find each and every echo and replace it.
+
+<pre>echo "Doing X with $file."</pre>
+
+becomes
+
+<pre>log "Doing X with $file."</pre>
+
+and you implement log() as a function prefixing the timestamp. The danger here is to not replace some echo that needs being redirected somewhere else.
+
+<h3>Alternative: Wrap in a Subshell</h3>
+
+Instead of modifying all echo's one could do the following and just "wrap" the whole script:
+
+<pre class="brush: bash">
+#!/bin/bash
+
+$(
+
+&lt;the original script body>
+
+) | stdbuf -i0 -o0 -e0 awk '{ print strftime("%Y-%m-%d %H:%M:%S"), $0; }'
+</pre>
+
+You can drop the stdbuf invocation that unbuffers the pipe if you do not need 100% exact timestamps. Of course you can use this also with any slow running command on the shell no matter how complex, just add the pipe command.
+
+<b>The obvious advantage:</b> you do not touch the legacy code and can be 100% sure the script is still working after adding the timestamps.

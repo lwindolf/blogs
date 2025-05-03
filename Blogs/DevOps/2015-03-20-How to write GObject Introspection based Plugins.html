@@ -1,0 +1,271 @@
+This is a short introduction in how to write plugins (in this case Python plugins) for a <a href="http://developer.gnome.org/gtk3/">GTK+ 3.0</a> application. One of the major new features in GTK+ 3.0 is <a href="https://live.gnome.org/GObjectIntrospection/">GObject Introspection</a> which allows applications to be accessed from practically any scripting language out there.
+
+The motivation for this post is that when I tried to add plugin support to <a href="http://liferea.sf.net">Liferea</a> with <a href="https://live.gnome.org/Libpeas">libpeas</a> it took me three days to work me through the somewhat sparse documentation which at no point is a good HowTo on how to proceed step by step. This post tries to give one...
+
+<h2>1. Implement a Plugin Engine with libpeas</h2>
+
+For the integration of libpeas you need to write a lot of boiler plate code for initialisation and plugin path registration. Take the gtranslator gtr-plugins-engince.c implementation as an <a href="http://git.gnome.org/browse/gtranslator/plain/src/gtr-plugins-engine.c">example</a>.
+
+Most important are the path registrations with <a href="http://developer.gnome.org/libpeas/0.9/PeasEngine.html#peas-engine-add-search-path">peas_engine_add_search_path</a>:
+
+<pre>  peas_engine_add_search_path (PEAS_ENGINE (engine),
+                               gtr_dirs_get_user_plugins_dir (),
+                               gtr_dirs_get_user_plugins_dir ());
+
+  peas_engine_add_search_path (PEAS_ENGINE (engine),
+                               gtr_dirs_get_gtr_plugins_dir (),
+                               gtr_dirs_get_gtr_plugins_data_dir ());
+</pre>
+
+It is useful to have two registrations one pointing to some user writable subdirectory in $HOME and a second one for package installed plugins in a path like /usr/share/&lt;application>/plugins. Finally ensure to call the init method of this boiler plate code during your initialization.
+
+<h2>2. Implement Plugin Preferences with libpeasgtk</h2>
+
+To libpeas also belongs a UI library providing a plugin preference tab that you can add to your preferences dialog. Here is a screenshot from the implementation in Liferea:
+
+<span class="screenshot"><img src="/images/libpeasgtk.png"/></span>
+
+To add such a tab add the a "Plugins" tab to your preferences dialog and the following code to the plugin dialog setup:
+
+<pre>#include &lt;libpeas-gtk/peas-gtk-plugin-manager.h>
+
+[...]
+
+/* assuming "plugins_box" is an existing tab container widget */
+
+GtkWidget *alignment;
+
+alignment = gtk_alignment_new (0., 0., 1., 1.);
+gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 12, 12, 12, 12);
+
+widget = peas_gtk_plugin_manager_new (NULL);
+gtk_container_add (GTK_CONTAINER (alignment), widget);
+gtk_box_pack_start (GTK_BOX (plugins_box), alignment, TRUE, TRUE, 0);
+</pre>
+
+At this point you can already compile everything and test it. The new tab with the plugin manager should show up empty but working.
+
+<h2>3. Define Activatable Class</h2>
+
+We've initialized the plugin library in step 1. Now we need to add some hooks to the program so called "Activatables" which we'll use in the code to create a <a href="http://developer.gnome.org/libpeas/stable/PeasExtensionSet.html">PeasExtensionSet</a> representing all plugins providing this interface.
+
+For example gtranslator has an <a href="http://git.gnome.org/browse/gtranslator/tree/src/gtr-window-activatable.h">GtrWindowActivable</a> interface for plugins that should be triggered when a gtranslator window is created. It looks like this:
+
+<pre>struct _GtrWindowActivatableInterface
+{
+  GTypeInterface g_iface;
+
+  /* Virtual public methods */
+  void (*activate) (GtrWindowActivatable * activatable);
+  void (*deactivate) (GtrWindowActivatable * activatable);
+  void (*update_state) (GtrWindowActivatable * activatable);
+};</pre>
+
+The activate() and deactivate() methods are to be called by conventing using the "extension-added" / "extension-removed" signal emitted by the PeasExtensionSet. The additional method update_state() is called in the gtranslator code when user interactions happen and the plugin needs to reflect it.
+
+Add as many methods you need many plugins do not need special methods as they can connect to application signals themselves. So keep the Activatable interface simple!
+
+As for how many Activatables to add: in the most simple case in a single main window application you could just implement a single Activatable for the main window and all plugins no matter what they do initialize with the main window.
+
+<h2>4. Implement and Use the Activatable Class</h2>
+
+No we've defined Activatables and need to implement and use the corresponding class. The interface implementation itself is just a lot of boilerplate code: check out <a href="http://git.gnome.org/browse/gtranslator/tree/src/gtr-window-activatable.c">gtr-window-activatable.c</a> implementing GtrWindowActivatable.
+
+In the class the Activable belongs to (in case of gtranslator GtrWindowActivatable belongs to GtrWindow) a PeasExtensionSet needs to be initialized:
+
+<pre>window->priv->extensions = peas_extension_set_new (PEAS_ENGINE (gtr_plugins_engine_get_default ()),
+                                                     GTR_TYPE_WINDOW_ACTIVATABLE,
+                                                     "window", window,
+                                                     NULL);
+
+  g_signal_connect (window->priv->extensions,
+                    "extension-added",
+                    G_CALLBACK (extension_added),
+                    window);
+  g_signal_connect (window->priv->extensions,
+                    "extension-removed",
+                    G_CALLBACK (extension_removed),
+                    window);
+</pre>
+
+The extension set instance, representing all plugins implementing the interface, is used to trigger the methods on all or only selected plugins. One of the first things to do after creating the extension set is to initialize all plugins using the signal "extension-added":
+
+<pre>  peas_extension_set_foreach (window->priv->extensions,
+                              (PeasExtensionSetForeachFunc) extension_added,
+                              window);
+</pre>
+
+As there might be more than one registered extension we need to implement a PeasExtensionSetForeachFunc method handling each plugin. This method uses the previously implemented interface. Example from gtranslator:
+
+<pre>static void
+extension_added (PeasExtensionSet *extensions,
+                 PeasPluginInfo   *info,
+                 PeasExtension    *exten,
+                 GtrWindow        *window)
+{
+  gtr_window_activatable_activate (GTR_WINDOW_ACTIVATABLE (exten));
+}</pre>
+
+<i>Note: Up until libpeas version 1.1 you'd simply call peas_extension_call() to issue the name of the interface method to trigger instead.</i>
+
+<pre>peas_extension_call (extension, "activate");</pre>
+
+Ensure to
+<ol>
+<li>Initially call the "extension-added" signal handler for each plugin registered at startup using peas_extension_set_foreach()</li>
+<li>Implement and connect the "extension-added" / "extension-removed" signal handlers</li>
+<li>Implement one PeasExtensionSetForeachFunc for each additional interface method you defined in step 3</li>
+<li>Provide a caller method running peas_extension_set_foreach() for each of those interface methods.</li>
+</ol>
+
+<h2>5. Expose some API</h2>
+
+Now you are almost ready to code a plugin. But for it to access business logic you might want to expose some API from your program. This is done using markup in the function/interface/class definitions and running g-ir-scanner on the code to create a GObject introspection metadata (one .gir and one .typelib file per package).
+
+To learn about the markup checkt the <a href="https://live.gnome.org/GObjectIntrospection/Annotations">Annotation Guide</a> and other projects for examples. During compilation g-ir-scanner will issue warnings on incomplete or wrong syntax.
+
+<h2>6. Write a Plugin</h2>
+
+When writing plugins you always have to create two things:
+
+<ul>
+<li>A .plugin file describing the plugin</li>
+<li>At least one executable/script implementing the plugin</li>
+</ul>
+
+Those files you should put into a seperate "plugins" directory in your source tree as they need an extra install target. Assuming you'd want to write a python plugin named "myplugin.py" you'd create a "myplugin.plugin" with the following content
+
+<pre>[Plugin]
+Module=myplugin
+Loader=python
+IAge=2
+Name=My Plugin
+Description=My example plugin for testing only
+Authors=Joe, Sue
+Copyright=Copyright © 2012 Joe
+Website=...
+Help=...
+</pre>
+
+Now for the plugin: in Python you'd import packages from the GObject Introspection repository like this
+
+<pre>from gi.repository import GObject
+from gi.repository import Peas
+from gi.repository import PeasGtk
+from gi.repository import Gtk
+from gi.repository import &lt;your package prefix>
+</pre>
+
+The imports of GObject, Peas, PeasGtk and your package are mandatory. Others depend on what you want to do with your plugin. Usually you'll want to interact with Gtk.
+
+Next you need to implement a simple class with all the interface methods we defined earlier:
+
+<pre>class MyPlugin(GObject.Object, &lt;your package prefix>.&lt;Type>Activatable):
+    __gtype_name__ = 'MyPlugin'
+
+    object = GObject.property(type=GObject.Object)
+
+    def do_activate(self):
+        print "activate"
+
+    def do_deactivate(self):
+        print "deactivate"
+
+    def do_update_state(self):
+        print "updated state!"
+</pre>
+
+Ensure to fill in the proper package prefix for your program and the correct Activatable name (like GtkWindowActivatable). Now flesh out the methods. That's all. 
+
+Things to now:
+
+<ul>
+<li>Your binding will use some namespace separation schema. Python uses dots to separate the elements in the inheritance hierarchy. If unsure check the <a href="http://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Gtk.html">inofficial online API</a></li>
+<li>If you have a syntax error during activation libpeas will permanently deactivate your plugin in the preferences. You need to manually reenable it.</li>
+<li>You can disable/enable your plugin multiple times to debug problems during activation.</li>
+<li>To avoid endless "make install" calls register a plugin engine directory in your home directory and edit experimental plugins there.</li>
+</ul>
+
+<h2>7. Setup autotools Install Hooks</h2>
+
+If you use automake extend the Makefile.am in your sources directory by something similar to
+
+<pre>
+if HAVE_INTROSPECTION
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS = Gtranslator-3.0.gir
+
+Gtranslator-3.0.gir: gtranslator
+INTROSPECTION_SCANNER_ARGS = -I$(top_srcdir) --warn-all --identifier-prefix=Gtr
+Gtranslator_3_0_gir_NAMESPACE = Gtranslator
+Gtranslator_3_0_gir_VERSION = 3.0
+Gtranslator_3_0_gir_PROGRAM = $(builddir)/gtranslator
+Gtranslator_3_0_gir_FILES = $(INST_H_FILES) $(libgtranslator_c_files)
+Gtranslator_3_0_gir_INCLUDES = Gtk-3.0 GtkSource-3.0
+
+girdir = $(datadir)/gtranslator/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/gtranslator/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES =	\
+	$(gir_DATA)	\
+	$(typelib_DATA)	\
+	$(BUILT_SOURCES) \
+	$(BUILT_SOURCES_PRIVATE)
+endif</pre>
+
+Ensure to
+<ol>
+<li>Pass all files you want to have scanned to xxx_gir_FILES</li>
+<li>To provide a namespace prefix in INTROSPECTION_SCANNER_ARGS with --identifier-prefix=xxx</li>
+<li>To add --accept-unprefixed to INTROSPECTION_SCANNER_ARGS if you have no common prefix</li>
+</ol>
+
+Next create an install target for the plugins you have:
+
+<pre>plugindir = $(pkglibdir)/plugins
+plugin_DATA = \
+        plugins/one_plugin.py \
+        plugins/one_plugin.plugin \
+        plugins/another_plugin.pl \
+        plugins/another_plugin.plugin
+</pre>
+
+Additionally add package dependencies and GIR macros to configure.ac
+
+<pre>pkg_modules="[...]
+       libpeas-1.0 >= 1.0.0
+       libpeas-gtk-1.0 >= 1.0.0"
+
+GOBJECT_INTROSPECTION_CHECK([0.9.3])
+GLIB_GSETTINGS
+</pre>
+
+<h2>8. Try to Compile Everything</h2>
+
+Check that when running "make"
+
+<ol>
+<li>Everything compiles</li>
+<li>g-ir-scanner doesn't complain too much</li>
+<li>A .gir and .typelib file is placed in your sources directory</li>
+</ol>
+
+Check that when running "make install"
+
+<ol>
+<li>Your .gir file is installed in &lt;prefix>/share/&lt;package>/gir-1.0/</li>
+<li>Your plugins are installed to  &lt;prefix>/lib/&lt;package>/plugins/</li>
+</ol>
+
+Launch the program and
+
+<ol>
+<li>Enable the plugins using the preferences for the first time</li>
+<li>If in doubt always check if the plugin is still enabled (it will get disabled on syntax errors during activation</li>
+<li>Add a lot of debug output to your plugin and watch it telling your things on the console the program is running at</li>
+</ol>
+
+This should do. Please post comments if you miss stuff or find errors! I hope this tutorial helps the one or the other reader.

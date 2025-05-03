@@ -1,0 +1,11 @@
+When porting older code and examples of d3.js visualizations you might encounter the following exception:
+
+<pre>TypeError: d3.scale is undefined</pre>
+
+The causing code might be something like:
+
+<pre>var xscale = d3.scale.linear().range([0, chartWidth]);</pre>
+
+The problem is an API change from d3.scale.linear() to d3.scaleLinear() with d3.js 4.0. So to fix it rewrite the code with
+
+<pre>var xscale = d3.scaleLinear().range([0, chartWidth]);</pre>

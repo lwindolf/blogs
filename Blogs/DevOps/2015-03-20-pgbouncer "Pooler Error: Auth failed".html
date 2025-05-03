@@ -1,0 +1,10 @@
+---
+categories: Postgres
+---
+If connections to your pgbouncer setup fail with "Pooler Error: Auth failed" check the following configuration values in your pgbouncer.ini
+
+<ul>
+<li><b>auth_file = ...</b> : Ensure to point this path to your pg_auth file in your Postgres setup.</li>
+<li><b>auth_type = ...</b> : Ensure to set the correct authentication type. E.g. "md5" for MD5 hashed passwords.</li>
+<li>Check if your pg_auth file has the needed passwords entries.</li>
+</ul>

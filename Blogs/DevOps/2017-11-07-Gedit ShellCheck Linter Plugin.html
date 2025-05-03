@@ -1,0 +1,26 @@
+Today I had enough of the missing shell linting support in Gedit. So I took the time 
+and derived a <a href='https://github.com/lwindolf/gedit-shellcheck'>gedit-shellcheck</a>
+plugin from an already existing <a href="https://github.com/Meseira/gedit-jshint">JSHint</a>
+plugin written by Xavier Gendre.
+
+<h3>Usage</h3>
+
+The linter can be run using Ctrl-J or from the Tools menu 'Check with ShellCheck'. Here is a screenshot
+
+<img src='/images/gedit-shellcheck.png' title='Screenshot of Gedit with gedit-shellcheck output'/>
+
+<h3>Setup</h3>
+
+To use the plugin you need <a href='https://www.shellcheck.net/'>ShellCheck</a>
+
+<pre>apt install shellcheck</pre>
+
+and you need to place the plugin in your Gedit plugins folder.
+
+<pre>
+git clone https://github.com/lwindolf/gedit-shellcheck.git
+mkdir -p ~/.local/share/gedit/plugins/
+cp -r gedit-shellcheck/shellcheck.plugin gedit-shellcheck/shellcheck/ ~/.local/share/gedit/plugins/
+</pre>
+
+Finally restart Gedit and activate the plugin.

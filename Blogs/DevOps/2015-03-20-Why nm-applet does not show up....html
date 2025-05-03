@@ -1,0 +1,27 @@
+When search online for answers on how the Network Manager doesn't show up in the GNOME notification area one find hundreds of confused forum posts (mostly Ubuntu).
+
+There are only two reasons:
+
+<ol>
+<li>Your Network Manager setup is somehow broken</li>
+<li>There is no network device to manage</li>
+</ol>
+
+The second case is propably going on in most of the cases. When you check your /etc/network/interfaces and see something like:
+
+<pre>
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+</pre>
+
+... it cannot work, as Network Manager to manage your connections it needs to look like:
+
+<pre>
+auto lo
+iface lo inet loopback
+</pre>
+
+Restart Network Manager (e.g. "/etc/init.d/network-manager restart") for the nm-applet icon to show up.

@@ -1,0 +1,31 @@
+---
+categories: Puppet
+---
+If you are using Facter 2+, which is what you do when you run at least Puppet4, then you have structured facts (meaning nested values) like those:
+
+<pre>
+processors => {
+  count => 2,
+  isa => "unknown",
+  models => [
+    "QEMU Virtual CPU version 2.1.2",
+    "QEMU Virtual CPU version 2.1.2"
+  ],
+  physicalcount => 2
+}
+</pre>
+
+Now you cannot match those using 
+
+<pre>mco find -F &lt;fact name>=&lt;fact value></pre>
+
+If you try you just get an empty result. The <a href="https://docs.puppet.com/mcollective/releasenotes.html#2_6_0">only way</a> to match structured facts is using -S
+
+<pre>mco find -S 'fact("&lt;fact name>").value=&lt;value>'</pre>
+
+For example:
+
+<pre>mco find -S 'fact("networking.network").value=192.168.5.0'
+mco find -S 'fact("os.distro.codename").value=jessie'</pre>
+
+See also <a href="https://lzone.de/cheat-sheet/Mcollective">Mcollective Cheat Sheet</a>

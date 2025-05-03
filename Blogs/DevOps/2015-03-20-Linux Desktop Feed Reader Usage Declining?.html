@@ -1,0 +1,63 @@
+When working on your open source pet project there is always the ego boost of asking yourself how popular is this thing that we are building. Who is using it? Why is there no feedback. Or why are there suddenly so many bug reports? So what is the amount of users of Liferea and other feed readers and how is it changing?
+
+<h3>Popcon</h3>
+
+Well for Debian and Ubuntu there is the famous popularity contest which tracks installation and usage count per package. Let's look into the statistics over the years. Note that while the Debian graph is official from the Debian <a href="http://popcon.debian.org">popcon.debian.org</a>, the Ubuntu graph is from <a href="http://www.lesbonscomptes.com/upopcon/">lesbonscomptes.com/upopcon</a> as Ubuntu itself doesn't provide a graphs. Also the Ubuntu graph only covers the time from 2010 to now, while the Debian graph dates back to 2004.
+
+<h3>Liferea and Akregator</h3>
+
+The two widely used feed readers under Debian/Ubuntu are Liferea (GTK) and Akregator (KDE). While it is possible that more people use Thunderbird or Firefox for feed reading it cannot be measured using popcon as there is no dedicated package for Thunderbird nor Firefox that could indicate the feed reading habits of their users. So we can only look at the standalone feed reader packages.
+
+<b>Debian</b>
+
+<img width="100%" src="/images/debian-liferea-akregator-popcon-2014-08.png"/>
+
+<b>Ubuntu</b>
+
+<img width="100%" src="/images/ubuntu-liferea-akregator-popcon-2014-08.png"/>
+
+The graphs indicate a decline from up to over 4000+ users on each distributions which seems to have been peak usage to recently roughly over 1k Debian users and 700 Ubuntu users. Interesting is the difference on Debian with until 2014 more Liferea users vs. Ubuntu which always had more Akregator users.
+
+<h3>Other Market Shares</h3>
+
+Of course there are several other news readers for Debian and Ubuntu. Note that Ubuntu has RSSOwl which Debian hasn't. Snownews isn't listed in the Debian graph anymore as it was dropped with Wheezy.
+
+<b>Debian</b>
+
+<img width="100%" src="/images/debian-smaller-feedreaders-popcon-2014-08.png"/>
+
+<b>Ubuntu</b>
+
+<img width="100%" src="/images/ubuntu-smaller-feedreaders-popcon-2014-08.png"/>
+
+All other feed readers on Ubuntu count roughly 250+ votes in 2010 and roughly 80 in 2014.
+
+<h3>Installation Base</h3>
+
+Usage is falling. Well there are mobile devices and the reduced visibility of syndication techniques in the browser (we do not have the feed button in the browser location bar anymore)... So people might just not install feed readers anymore. Is this the case? Let's limit the analysis just on Liferea and Akregator.
+
+<b>Debian</b>
+
+On Debian the install base of Liferea is rapidly declining as it is not in the default desktop selection, while Akregator installations still grow maybe due to the kde-pim integration.
+
+<img width="100%" src="/images/debian-install-base-popcon-2014-08.png"/>
+
+<b>Ubuntu</b>
+
+A different situation on Ubuntu. <strike><del>Both feed readers are in the default desktop packages of their respective desktop environments. So installations seem to scale linearly upwards along with the growth of Ubuntu installations.</del></strike> <b>Update:</b> Jeff Fortin hinted on only Akregator being in a default package selection on Ubuntu. This makes the linear growth of the Liferea install base strange. 
+
+<img width="100%" src="/images/ubuntu-install-base-popcon-2014-08.png"/>
+
+<h3>It looks bleak... Checking the baseline!</h3>
+
+Well let do some verification of the results to be sure popcon can be trusted. Let's have a look at a basic Debian package needed during installation like "debianutils" which users do not unselect and which is automatically used. And let's also add a basic GNOME package like "gnome-session" which always will be used if GNOME is used.
+
+Here are the Ubuntu popcon results for both
+
+<img width="100%" src="/images/ubuntu-baseline-popcon-2014-08.png"/>
+
+It looks (most obvious with "debian-utils") that there was a 50% reduction of the popcon votes in over 2013. <b>Please note that the staircase steps in all the Ubuntu curves do probably indicate there are only 2 samples in the given time range!</b> I guess the decline was rather continuous as can be found in the Debian curve. When checking the installations at the same time there is no drop. So some mechanic in the popcon voting counting could have changed. I found no hints online why this is the case so far.
+
+<h3>Conclusion</h3>
+
+At this point I think the results are too confusing to actually read much into it. I believe all graphs indicate a decline of the feed reader usage over the years, especially after the peak in 2010, and at the same time the graphs indicate changes in the vote counting with differences in Ubuntu and Debian.

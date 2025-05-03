@@ -1,0 +1,12 @@
+The answer is simple: do not "dry-run", do "why-run"!
+
+<pre>chef-client --why-run
+chef-client -W</pre>
+
+And the output looks nicer when using "-Fmin"
+
+<pre>chef-client -Fmin -W</pre>
+
+As with all other automation tools, the dry-run mode is not very predictive. Still it might indicate some of the things that will happen.
+
+See also <?add topic='Chef'?>

@@ -1,0 +1,74 @@
+The following is a HowTo describing the setup of OCLint for any C/C++ project using autotools.
+
+<h2>1. OCLint Setup</h2>
+
+First step is downloading OCLint, as there are no package so far, it's just extracting the tarball somewhere in $HOME. Check out the latest release link on <a href="http://archives.oclint.org/releases/">http://archives.oclint.org/releases/</a>.
+
+<pre>cd
+wget "http://archives.oclint.org/releases/0.8/oclint-0.8.1-x86_64-linux-3.13.0-35-generic.tar.gz"
+tar zxvf oclint-0.8.1-x86_64-linux-3.13.0-35-generic.tar.gz 
+</pre>
+
+This should leave you with a copy of OCLint in ~/oclint-0.8.1
+
+<h2>2. Bear Setup</h2>
+
+As project usually consist of a lot of source files in different subdirectories it is hard for a linter to know where to look for files. While "cmake" has support for dumping a list of source files it processes during a run "make" doesn't. This is where the "Bear" wrapper comes to play: instead of
+
+<pre>make</pre>
+
+you run 
+
+<pre>bear make</pre>
+
+so "bear" can track all files being compiled. It will dump a JSON file "compile_commands.json" which OCLint can use to do analysis of all files.
+
+To setup Bear do the following
+
+<pre>
+cd
+git clone https://github.com/rizsotto/Bear.git
+cd Bear
+cmake .
+make
+</pre>
+
+<h2>3. Analyzing Code</h2>
+
+Now we have all the tools we need. Let's download some autotools project like <a href="http://lzone.de/liferea">Liferea</a>. Before doing code analysis it should be downloaded and build at least once:
+
+<pre>
+git clone https://github.com/lwindolf/liferea.git
+cd liferea
+sh autogen.sh
+make
+</pre>
+
+Now we collect all code file compilation instructions with bear:
+
+<pre>
+make clean
+bear make
+</pre>
+
+And if this succeed we can start a complete analysis with
+
+<pre>~/oclint-0.8.1/bin/oclint-json-compilation-database</pre>
+
+which will run OCLint with the input from "compile_commands.json" produced by "bear". Don't call "oclint" directly as you'd need to pass all compile flags manually.
+
+If all went well you could see code analysis lines like those:
+
+<pre>
+[...]
+conf.c:263:9: useless parentheses P3 
+conf.c:274:9: useless parentheses P3 
+conf.c:284:9: useless parentheses P3 
+conf.c:46:1: high cyclomatic complexity P2 Cyclomatic Complexity Number 33 exceeds limit of 10
+conf.c:157:1: high cyclomatic complexity P2 Cyclomatic Complexity Number 12 exceeds limit of 10
+conf.c:229:1: high cyclomatic complexity P2 Cyclomatic Complexity Number 30 exceeds limit of 10
+conf.c:78:1: long method P3 Method with 55 lines exceeds limit of 50
+conf.c:50:2: short variable name P3 Variable name with 2 characters is shorter than the threshold of 3
+conf.c:52:2: short variable name P3 Variable name with 1 characters is shorter than the threshold of 3
+[...]
+</pre>

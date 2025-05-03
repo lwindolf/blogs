@@ -1,0 +1,60 @@
+---
+categories: Puppet
+---
+When using Hiera + Eyaml + GPG as Puppet configuration backend one can run into a multitude of really bad error message. The problem here is mostly the obscene layering of libraries e.g. Eyaml on top of Eyaml-GPG on top of either GPGME or Ruby GPG on top on GnuPG. Most errors originate from/are reported by GnuPG and are badly unspecified.
+
+This post gives some hints on some of the errors
+
+<h3>[hiera-eyaml-core] General error</h3>
+
+This is one of the worst errors you can get. One common cause is an expired GPG key. Check for it using
+
+<pre>LANG=C gpg -k | grep expired</pre>
+
+and remove the expired key with 
+
+<pre>gpg --delete-key &lt;name</pre>
+
+As the error label indicates this can have other causes. In such a case check out the GPGME Debugging section below.
+
+<h3>[hiera-eyaml-core] no such file to load -- hiera/backend/eyaml/encryptors/gpg</h3>
+
+If you got this you probably forgot to install the Ruby GEM. Fix it by running
+
+<pre>gem install hiera-eyaml-gpg</pre>
+
+<h3>[hiera-eyaml-core] GPG command (gpg --homedir /home/lars/.gnupg --quiet --no-secmem-warning --no-permission-warning --no-tty --yes --decrypt) failed with: gpg: Sorry, no terminal at all requested - can't get input</h3>
+
+This error indicates a problem getting your secret key password. As Eyaml triggers GPG in background no password prompt can be issued. So the only way to get one is the PHP agent. In this case it might be dead.Check if one is running:
+
+<pre>pgrep -fl gpg-agent</pre>
+
+<h3>[gpg] !!! Fatal: Failed to decrypt ciphertext (check settings and that you are a recipient) [hiera-eyaml-core] !!! Decryption failed</h3>
+
+If you get this error message you might want to check if you have a matching private key listed in your GPG recipient using
+
+<pre>gpg -K</pre>
+
+<h3>GPGME Debugging</h3>
+
+No matter what error message you get if you cannot solve consider enabling debug traces by setting
+
+<pre>export GPGME_DEBUG=9</pre>
+
+Then run "eyaml" and check the output for sections of "_gpgme_io_read" that indicate the GnuPG responses like this one:
+
+<pre>GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_run_io_cb: call: item=0x2363d70, handler (0x21abc30, 7)
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: enter: fd=0x7, buffer=0x238b6c0, count=1024
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 5b474e5550473a5d 20494e565f524543 [GNUPG:] INV_REC
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 5020302035444136 3939343530393537 P 0 5DA699450957
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 3346354543394341 4138413232433134 3F5EC9CAA8A22C14
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 3846433938453339 374335430a5b474e 8FC98E397C5C.[GN
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 5550473a5d204641 494c55524520656e UPG:] FAILURE en
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: check: 6372797074203533 0a               crypt 53.
+GPGME 2016-06-16 12:33:55 <0x45b7>    _gpgme_io_read: leave: result=89</pre>
+
+If you overlook the bad wrapping you see the following info here:
+
+<pre>INV_RECP 0 5DA699450957.... FAILURE encrypt 53</pre>
+
+Google for those messages and you often get a GnuPG related result hinting on the cause. Above trace is about an invalid key with fingerprint 5DA699450957.... which you can find with listing your GPG keys and checking for expiration messages.

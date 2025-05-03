@@ -1,0 +1,46 @@
+---
+categories: memcached
+---
+A short HowTo on memcached consistent hashing. Of course also works with memcached protocol compatible software as CouchBase, MySQL...
+
+<h2>Papers</h2>
+
+Papers to read to learn about what consistent hashing is about:
+<ul>
+<li><a href="http://www8.org/w8-papers/2a-webserver/caching/paper2.html">Web Caching with Consistent Hashing</a></li>
+<li><a href="http://www.akamai.com/dl/technical_publications/ConsistenHashingandRandomTreesDistributedCachingprotocolsforrelievingHotSpotsontheworldwideweb.pdf">Consistent Hashing and Random Trees</a> (PDF)</li>
+</ul>
+
+<h2>Consistent Hashing with nginx</h2>
+
+<pre> upstream somestream {
+      consistent_hash $request_uri;
+      server 10.0.0.1:11211;
+      server 10.0.0.2:11211;
+      ...
+    }</pre>
+
+<h2>Consistent Hashing with PHP</h2>
+
+Note: the order of setOption() and addServers() is important. When using OPT_LIBKETAMA_COMPATIBLE
+the hashing is compatible with all other runtimes using libmemcached.
+
+<pre>$memcached = new Memcached();
+$memcached->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
+$memcached->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
+$memcached->addServers($servers);</pre>
+
+<h2>Consistent Hashing in Perl</h2>
+
+As in PHP the order of setOptions() and addServers() matters. After all both languages use the same library in the background, so behaviour is the same.
+
+<pre>$m = new Memcached('mymemcache');
+$m->setOptions(array(
+   ...
+   Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
+   Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
+   ...
+));
+$m->addServers(...);
+</pre>
+

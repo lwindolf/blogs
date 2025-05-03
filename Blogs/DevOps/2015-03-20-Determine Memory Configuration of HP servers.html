@@ -1,0 +1,7 @@
+Use dmidecode like this 
+
+<pre>dmidecode 2>&1 |grep -A17 -i "Memory Device" |egrep "Memory Device|Locator: PROC|Size" |grep -v "No Module Installed" |grep -A1 -B1 "Size:"</pre>
+
+The "Locator:" line gives you the slot assignements as listed in the HP documentation, e.g. the <a href="http://h20000.www2.hp.com/bizsupport/TechSupport/Document.jsp?lang=en&cc=bg&taskId=120&prodSeriesId=4091412&prodTypeId=15351&objectID=c02215414">HP ProLiant DL380 G7</a> page.
+
+Of course you can also look this up in the ILO GUI.

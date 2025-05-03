@@ -1,0 +1,12 @@
+When setting up Hubot you can run into
+
+<pre>Error: EACCES, permission denied '/home/xyz/.config/configstore/insight-yo.yml'</pre>
+
+when installing Hubot with yeoman (check out <a href="https://github.com/yeoman/yeoman/issues/1292">Github #1292</a>).
+
+The solution is simple:
+
+<ul>
+<li>Do not install the NPM modules globally</li>
+<li>Or properly use sudo when installing</li>
+</ul>

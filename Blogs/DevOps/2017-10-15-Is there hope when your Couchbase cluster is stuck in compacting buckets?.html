@@ -1,0 +1,48 @@
+Well to be anticlimactic: no.
+
+<h3>Scope</h3>
+
+This seems to be at least a Couchbase 3.x problem. So far I haven't experienced it with Couchbase 4.
+Of both versions I only know about the so called community edition. 
+
+As for the frequency: Couchbase 3 getting stuck on bucket compacting is propabilistic.
+In the setups I've run so far it happens every half a year. But this might be load-dependant.
+Actually never having had the issue on some "smaller" clusters, I actually think it is.
+
+<h3>The Symptoms</h3>
+
+If you do not monitor explicitly for the compacting status, you will probably noticy
+by some nodes disks running full. Compacting not working anymore means, the Couchbase disk
+fragmentation growing and finally filling you disks.
+
+If you look in the GUI you will see a constant "Compacting..." indicator in the top right 
+of the admin GUI. In normal operation it never takes more than some minutes to finish
+(again depending on your usage).
+
+<h3>Things that do not work...</h3>
+
+<ul>
+<li><b>Removing nodes:</b> actually in this cluster state you cannot remove nodes anymore.
+It seems the compacting operation is locking the cluster. So disconnecting the disk
+full nodes won't work and neither won't help.</li>
+<li><b>Restarting the cluster:</b> wether it is rebooting or simply restarting all
+instances in sequence or putting the entire cluster down and restarting it, won't help
+as the compacting issue stays persistent (see root cause below).</li>
+<li><b>Removing load:</b> also doesn't help. The cluster doesn't recover if it has no requests anymore</li>
+</ul>
+
+<h3>What does help...</h3>
+
+<ul>
+<li><b>Reinstall your cluster:</b> Yeah!</li>
+<li><b>Stopping traffic + flushing buckets:</b> If you can afford the downtime / cold-cache
+stop all traffic, flush the causing buckets and reenable traffic.</li>
+</ul>
+
+<h3>The root cause</h3>
+
+What actually happened is a data structure corruption from which Couchbase 3 does not recover.
+This is also the reason why flushing buckets helps.
+
+There are several bug reports in Couchbase 2, 3 and 4 about compacting stuck for different
+reasons. In general Couchbase is not a very stable product in this regard...

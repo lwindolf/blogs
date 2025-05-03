@@ -1,0 +1,18 @@
+When you run Ubuntu 12.04 VM on XenServer 6.0 (kernel 2.6.32.12) you can get the following errors and your local file systems will mount read-only. Also see <a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=637234">Debian #637234</a> or <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/824089">Ubuntu #824089</a>.
+
+<pre>blkfront: barrier: empty write xvda op failed
+blkfront: xvda: barrier or flush: disabled</pre>
+
+You also won't be able to remount read-write using "mount -o remount,rw /" as this will give you a kernel error like this
+
+<pre>EXT4-fs (xvda1): re-mounted. Opts: errors=remount-ro</pre>
+ 
+This problem more or less sporadically affects paravirtualized Ubuntu 12.04 VMs. Note that officially Ubuntu 12.04 is not listed as a supported system in the <a href="http://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CFQQFjAA&url=http%3A%2F%2Fsupport.citrix.com%2Fservlet%2FKbServlet%2Fdownload%2F28749-102-664875%2FXenServer-6.0.0-guest.pdf&ei=wX3PT-nGB4SY8gPN5s3MDA&usg=AFQjCNEw_YCuOYYwcYR2f04880XOOM_gzw">Citrix documentation</a>. Note that this problem doesn't affect fully virtualized VMs.
+
+<b>The Solution:</b>
+
+<ul>
+<li>According to the Debian bug report the correct solution is to upgrade the dom0 kernel to at least 2.6.32-41. </li>
+<li>To solve the problem without upgrading the dom0 kernel: reboot until you get a writable filesystem and add "barrier=0" to the mount options of all your local filesystems.</li>
+<li>Alternatively: do not use paravirtualization :-)</li>
+</ul>

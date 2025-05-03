@@ -1,0 +1,28 @@
+There is a new maintenance release for the 1.10 line. It tries to fix startup crashes reported by several users and fixes a bug with launching links in the external browser. Please upgrade!
+
+<h2>ChangeLog</h2>
+
+<pre>    * Fixes Github #134: Broken default news feed.
+      (reported by pvdl)
+    * Fixes Github #133: Subscribe into TheOldReader categories
+    * Fixes Github #122: Crashes at launch, "segmentation fault"
+      (reported by geoffm)
+    * Fixes some memory leaks
+      (patch by Rich Coe)
+    * Fixes Github #145: Incorrect method triggered for 'Launch External'
+      (patch by mozbugbox)
+    * Fixes Github #48: Window stays hidden on next start after Ctrl+W
+      (reported by Jeff Fortin)
+    * Expose LifereaHtmlView to GObject Introspection
+      (patch by mozbugbox)
+    * Improves Google Reader API error handling
+    * Now using HTTPS only when accessing TheOldReader
+    * Added LifereaNodeSourceActivatable interface to allow plugins
+      implementing new node source types.
+    * Downgrade enclosure drop warning from Glib warning to debug trace.
+</pre>
+
+<h2>Download</h2>
+
+You can download the release on Github:
+<a href="https://github.com/lwindolf/liferea/releases/tag/v1.10.14">https://github.com/lwindolf/liferea/releases/tag/v1.10.14</a>

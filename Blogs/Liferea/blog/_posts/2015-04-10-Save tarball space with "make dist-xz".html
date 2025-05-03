@@ -1,0 +1,14 @@
+I read about <a href="http://phoronix.com/forums/showthread.php?74391-Ubuntu-13-04-To-Look-At-XZ-Compressed-Packages">Ubuntu considering</a> it for 13.04 and I think compressing with <a href="http://tukaani.org/xz/">XZ</a> really makes a difference. When creating a tarball for Liferea 1.9.6 the following compression ratios can be achieved:
+
+<table>
+<tr><th>Compression</th><th>Size</th><th>Extract Tarball With</th></tr>
+<tr><td>uncompressed   </td><td>8,0MB</td><td></td></tr>
+<tr><td>make dist      </td><td>1,88MB</td><td>tar zxf ...</td></tr>
+<tr><td>make dist-bzip2</td><td>1,35MB</td><td>tar jxf ...</td></tr>
+<tr><td>make dist-zlma </td><td>1,16MB</td><td>tar Jxf ...</td></tr>
+<tr><td>make dist-xz   </td><td>1,14MB</td><td>tar Jxf ...</td></tr>
+</table>
+
+XZ as well as zlma is supported by automake starting with <a href="http://www.flameeyes.eu/autotools-mythbuster/forwardporting/automake.html">version 1.12</a>.
+
+Also check <a href="http://stephane.lesimple.fr/blog/2010-07-20/lzop-vs-compress-vs-gzip-vs-bzip2-vs-lzma-vs-lzma2xz-benchmark-reloaded.html">here</a> for an in-depth speed and efficiency comparison of the Linux compression zoo.

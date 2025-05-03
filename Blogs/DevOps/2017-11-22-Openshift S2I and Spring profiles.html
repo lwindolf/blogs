@@ -1,0 +1,20 @@
+---
+categories: Openshift
+---
+When porting Springboot applications to Openshift using S2I (source to image)
+directly from a git repo you cannot rely on a start script passing the proper
+-Dspring.profiles.active=&lt;profile name> parameter like this
+
+<pre>java -Dspring.profiles.active=development -jar yourApplication.jar</pre>
+
+The only proper ways for injecting application configuration are
+
+<ol>
+<li>Add it to the artifact/repository (meeh)</li>
+<li>Mount it using a config map</li>
+<li>Pass it via Docker environment variables</li>
+</ol>
+
+And for Openshift variant #3 works fine as there is an environment variable <b>SPRING_PROFILES_ACTIVE</b>
+which you can add in your deployment configuration and set it to your favourite spring profile name.
+

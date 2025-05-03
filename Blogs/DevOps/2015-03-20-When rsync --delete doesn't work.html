@@ -1,0 +1,7 @@
+<a href="http://www.davidgrant.ca/rsync_delete_dangerous">David Grant</a> explains why rsync might silentely refuse to delete anything. It happens when you call rsync <strong>without a trailing slash in the source path</strong> like this:
+
+<code>rsync -az -e ssh --delete /data server:/data</code>
+
+It just won't delete anything. It will when running it like this:
+
+<code>rsync -az -e ssh --delete /data/ server:/data</code>

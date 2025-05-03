@@ -1,0 +1,20 @@
+---
+categories: [Apache, ulimit]
+---
+When on Ubuntu setting ulimits is strange enough as upstart does ignore /etc/security/limits.conf. You need to use the <a href="http://upstart.ubuntu.com/wiki/Stanzas#limit">"limit" stanza</a> to change any limit.
+
+But try it with Apache and it won't help as Debian invented another way to ensure Apache ulimits can be changed. So you need to always check
+
+<pre>/etc/apache2/envvars</pre>
+
+which in a fresh installation contains a line 
+
+<pre>#APACHE_ULIMIT_MAX_FILES="ulimit -n 65535"</pre>
+
+Uncomment it to set any max file limit you want. Restart Apache and verify the process limit in /proc/&lt;pid&gt;/limits which should give you something like
+
+<pre>$ egrep "^Limit|Max open files" /proc/3643/limits
+Limit Soft Limit Hard Limit Units 
+Max open files 1024 4096 files
+$
+</pre>

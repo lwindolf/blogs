@@ -1,0 +1,32 @@
+<p>
+This post is a comparison of the performance of different tools available to tag FLV and MP4 containers with specific metadata (e.g. title, keyframes, generator or other custom fields...). For FLV containers flvtool2, flvtool++ and yamdi are compared. For the MP4 container MP4box, AtomicParsley and ffmpeg are compared.
+</p>
+
+<p>
+Here are the IMO three most important FLV taggers tested on a 125MB FLV:
+</p>
+
+<table>
+<tr><th>Name</th><th>Duration</th><th>Large Files</th><th>In Memory</th><th>Custom Tags</th><th>Command</th></tr>
+<tr><td><a href="http://www.inlet-media.de/flvtool2/">flvtool2 1.0.6</a></td><td>3min 11s</td><td>no</td><td>no</td><td>yes</td><td>flvtool2 -UP -band:Test -user:Test -date:1995 -genres:pop test.flv </td></tr>
+<tr><td><a href="http://mirror.facebook.net/facebook/flvtool++/">flvtool++ 1.2.1</a></td><td>3s</td><td>no</td><td>yes</td><td>yes</td><td>flvtool++ test.flv -tag band "Test" -tag user "Test" -tag date "1995" -tag genres "pop" test2.flv</td></tr>
+<tr><td><a href="http://yamdi.sourceforge.net/">yamdi 1.6</a></td><td>1.5s</td><td>yes</td><td>no</td><td>no<br/>(<a href="/Custom+FLV+Tags+with+Yamdi">patch</a>)</td><td>yamdi -i test.flv -o test2.flv -c "Test"</td></tr>
+</table>
+
+<p>
+The performance of flvtool2 is horrendous. For films of 120min it will take hours to process. Therefore: <b>Do not use it!</b> Use Facebooks flvtool++ instead. I guess the bad performance results from it being built in Ruby. Also notice the "Large File" column indicating large file support which officially only yamdi support (by adding compile flag -D_FILE_OFFSET_BITS=64). Another important point is the "In Memory" column indicating that flvtool++ loads the entire file into memory when tagging, which is problematic when tagging large files. Given this results only <b>yamdi should be used for FLV tagging</b>!
+</p>
+
+<p>
+Now for the MP4 tagging. Here you can select between a lot of tools from the net, but only a few of them are command line based and available for Unix. The MP4 test file used is 100MB large.
+</p>
+
+<table>
+<tr><th>Name</th><th>Duration</th><th>Command</th></tr>
+<tr><td><a href="http://atomicparsley.sourceforge.net/">AtomicParsely</a></td><td>0.6s</td><td>AtomicParsley test.mp4 --artist "Test" --genre "Test" --year "1995" </td></tr>
+<tr><td><a href="http://www.videohelp.com/tools/mp4box">mp4box</a></td><td>0.6s</td><td>MP4Box -itags Name=Test:Artist=Me:disk=95/100 test.mp4 </td></tr>
+<tr><td><a href="http://ffmpeg.org">ffmpeg 0.6</a></td><td>0.8s</td><td>ffmpeg -i test.mp4 -metadata title="Test" -metadata artist="Test" -metadata date="1995" -acodec copy -vcodec copy test2.mp4 </td></tr>
+</table>
+
+<p>
+Given that recent ffmpeg brings the tagging for MP4 out of the box (it doesn't for FLV though) you do not even need an external tool to add the metadata,

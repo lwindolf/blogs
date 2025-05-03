@@ -1,0 +1,19 @@
+Today I learned that the makers of cfengine have launched a <a href="http://cfengine.com/cfengine-design-center">"Design Center"</a> which essentially is a <a href="https://github.com/cfengine/design-center">git repository</a> with recipes (called "sketches") for cfengine. This really helps learning the cfengine syntax and getting quick results. It also saves googling wildy for hints on how to do special stuff.
+
+Beside just copy&pasting the sketches that cfengine guarantees to be runnable without modifications the design center <a href="https://github.com/cfengine/design-center/wiki">wiki explains</a> <b>how to directly install sketches from the repository using <a href="https://github.com/cfengine/design-center/wiki/Getting-started-with-cf%E2%80%93sketch">cf-sketch</a>.</b>
+
+Using cf-sketch you can search for installable recipes:
+
+<pre># cf-sketch --search utilities
+Monitoring::nagios_plugin_agent /tmp/design-center/sketches/utilities/nagios_plugin_agent
+[...]</pre>
+
+...and install them:
+
+<pre># cf-sketch --install Monitoring::nagios_plugin_agent</pre>
+
+cf-sketch itself is a Perl program that need to be set up separately by running
+
+<pre>git clone https://github.com/cfengine/design-center/
+cd design-center/tools/cf-sketch
+make install</pre>

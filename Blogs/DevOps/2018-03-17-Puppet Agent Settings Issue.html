@@ -1,0 +1,58 @@
+---
+categories: Puppet
+---
+Experienced a strange puppet agent 4.8 configuration issue this week.
+To properly distribute the agent runs over time to even out 
+puppet master load I wanted to configure the splay settings properly.
+There are two settings:
+
+<ul>
+<li>A boolean "splay" to enable/disable splaying</li>
+<li>A range limiter "splayLimit" to control the randomization</li>
+</ul>
+
+What first confused me was the "splay" was not on per-default. Of
+course when using the open source version it makes sense to have it
+off. Having it on per-default sounds more like an enterprise feature :-)
+
+No matter the default after deploying an agent config with settings like this
+
+<pre>[agent]
+runInterval = 3600
+splay = true
+splayLimit = 3600
+</pre>
+
+... nothing happened. Runs were still not randomized. Checking the active
+configuration with
+
+<pre># puppet config print | grep splay
+splay=false
+splayLimit=1800
+</pre>
+
+turned out that my config settings were not working at all. What was
+utterly confusing is that even the runInterval was reported as 1800
+(which is the default value). But while the splay just did not work
+the effective runInterval was 3600!
+
+After hours of debugging it, I happened to read the puppet documentation section
+that covers the config sections like [agent] and [main]. It says that
+[main] configures global settings and other sections can override the
+settings in [main], which makes sense.
+
+But it just doesn't work this way. In the end the solution was using [main] as config
+section instead of [agent]:
+
+<pre>[main]
+runInterval=3600
+splay=true
+splayLimit=3600
+</pre>
+
+and with this config "puppet config print" finally reported the settings
+as effective and the runtime behaviour had the expected randomization.
+
+Maybe I misread something somewhere, but this is really hard to debug.
+And INI file are not really helpful in Unix. Overriding works better
+default files and with drop dirs.

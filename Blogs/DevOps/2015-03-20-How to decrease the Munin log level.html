@@ -1,0 +1,20 @@
+Munin tends to spam the log files it writes (munin-update.log, munin-graph.log...) with many lines at INFO log level. It also doesn't respect syslog log levels as it uses Log4perl.
+
+In difference to the munin-node configuration (munin-node.conf) there is no "log_level" setting in the munin.conf at least in the versions I'm using right now.
+
+So let's fix the code. In /usr/share/munin/munin-&lt;update|graph> find the following lines:
+
+<pre>logger_open($config->{'logdir'});
+logger_debug() if $config->{debug} or defined($ENV{CGI_DEBUG});
+</pre>
+
+and change it to
+
+<pre>logger_open($config->{'logdir'});
+logger_debug() if $config->{debug} or defined($ENV{CGI_DEBUG});
+logger_level("warn"); 
+</pre>
+
+As parameter to logger_level() you can provide "debug", "info", "warn", "error" or "fatal" (see manpage "Munin::Master::Logger".
+
+<b>And finally: silent logs!</b>

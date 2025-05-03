@@ -1,0 +1,101 @@
+This is a short compilation of ffmpeg/mplayer compilation pitfalls:
+
+<strong>libx264:</strong>
+If compilation fails with an error about the numbers of parameters in common/cpu.c 
+you need to check which glibc version is used. Remove the second parameter to 
+sched_getaffinity() if necessary and recompile.
+
+<strong>ffmpeg+x264</strong>
+ffmpeg configure fails with:
+<pre>ERROR: libx264 not found
+If you think configure made a mistake, make sure you are using the latest
+version from SVN.  If the latest version fails, report the problem to the
+ffmpeg-user@mplayerhq.hu mailing list or IRC #ffmpeg on irc.freenode.net.
+Include the log file "config.err" produced by configure as this will help
+solving the problem.</pre>
+
+This can be caused by two effects:
+<ul>
+<li>Unintended library is used for linking. Check wether you have different ones installed. Avoid this and uninstall them if possible. If necessary use LD_LIBRARY_PATH or --extra-ldflags to change the search order.</li>
+<li>Incompatible combination of ffmpeg and libx264. Older libx264 provide a method x264_encoder_open which older ffmpeg versions do check for. More recent libx264 add a version number to the method name. Now when you compile a new libx264 against an older ffmpeg the libx264 detection that relies on the symbol name fails. As a workaround you could hack the configure script to check for "x264_encoder_open_78" instead of "x264_encoder_open" (given that 78 is the libx264 version you use).</li>
+</ul>
+
+<strong>ffmpeg+x264</strong>
+ffmpeg compilation fails on AMD64 with:
+<pre>libavcodec/svq3.c: In function 'svq3_decode_slice_header':
+libavcodec/svq3.c:721: warning: cast discards qualifiers from pointer target type
+libavcodec/svq3.c:724: warning: cast discards qualifiers from pointer target type
+libavcodec/svq3.c: In function 'svq3_decode_init':
+libavcodec/svq3.c:870: warning: dereferencing type-punned pointer will break strict-aliasing rules
+/tmp/ccSySbTo.s: Assembler messages:
+/tmp/ccSySbTo.s:10644: Error: suffix or operands invalid for `add'
+/tmp/ccSySbTo.s:10656: Error: suffix or operands invalid for `add'
+/tmp/ccSySbTo.s:12294: Error: suffix or operands invalid for `add'
+/tmp/ccSySbTo.s:12306: Error: suffix or operands invalid for `add'
+make: *** [libavcodec/h264.o] Error 1
+</pre>
+This <a href="https://www.x86-64.org/pipermail/bugs/2001-May/000397.html">post</a> explains that this is related to a glibc issue and how to patch it.
+
+<strong>ffmpeg+x264</strong>
+ffmpeg compilation fails with:
+<pre>libavcodec/libx264.c: In function 'encode_nals':
+libavcodec/libx264.c:60: warning: implicit declaration of function 'x264_nal_encode'
+libavcodec/libx264.c: In function 'X264_init':
+libavcodec/libx264.c:169: error: 'x264_param_t' has no member named 'b_bframe_pyramid'
+make: *** [libavcodec/libx264.o] Error 1
+</pre>
+This means you are using incompatible ffmpeg and libx264 versions. Try to upgrade ffmpeg or to downgrade libx264.
+
+<strong>ffmpeg+video4linux</strong>
+<pre>/usr/include/linux/videodev.h:55: error: syntax error before "ulong"
+/usr/include/linux/videodev.h:71: error: syntax error before '}' token
+</pre>
+Workaround: 
+
+<pre>--- configure.ac.080605 2005-06-08 21:56:04.000000000 +1200
++++ configure.ac        2005-06-08 21:56:42.000000000 +1200
+@@ -1226,6 +1226,7 @@
+ AC_CHECK_HEADERS(linux/videodev.h,,,
+ [#ifdef HAVE_SYS_TIME_H
+ #include &lt;sys/time.h>
++#include &lt;sys/types.h>
+ #endif
+ #ifdef HAVE_ASM_TYPES_H
+ #include &lt;asm/types.h>
+</pre>
+
+http://www.winehq.org/pipermail/wine-devel/2005-June/037400.html
+
+oder Workaround:
+--disable-demuxer=v4l --disable-muxer=v4l --disable-demuxer=v4l2 --disable-muxer=v4l2
+
+
+<strong>ffmpeg+old make</strong>
+<pre>make: *** No rule to make target `libavdevice/libavdevice.so', needed by `all'.  Stop.
+</pre>
+Problem: GNU make is too old, you need at least v3.81
+
+http://www.mail-archive.com/ffmpeg-issues@live.polito.it/msg01284.html
+
+<pre>make: *** No rule to make target `install-libs', needed by `install'.  Stop.
+</pre>
+Problem: GNU make is too old, you need at least v3.81
+
+http://ffmpeg.arrozcru.org/forum/viewtopic.php?f=1&t=833
+
+<strong>Mplayer+old make</strong>
+<pre>make: expand.c:489: allocated_variable_append: Assertion `current_variable_set_list->next != 0' failed.
+</pre>
+Problem: GNU make is too old, you need at least v3.81
+
+<strong>MPlayer</strong>
+<pre>i386/dsputil_mmx.o i386/dsputil_mmx.c
+i386/dsputil_mmx.c: In function `transpose4x4':
+i386/dsputil_mmx.c:621: error: can't find a register in class `GENERAL_REGS' while reloading `asm'
+</pre>
+
+Workaround: Add the following to your configure call 
+--extra-cflags="-O3 -fomit-frame-pointer"
+
+Note: if this somehow helped you and you know something to be added feel free to post a comment!
+

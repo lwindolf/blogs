@@ -1,0 +1,48 @@
+When <a href="http://www.lzone.de/Improved%20Unread%20Counters">implementing</a> an improved unread news counter rendering for Liferea if found it necessary to detect wether there is a light or dark GTK theme active. The reason for this was that I didn't want to use the foreground and background colors which are often black and something very bright. So instead from the GtkStyle struct which looks like this
+
+<pre class="brush:c">
+typedef struct {
+  GdkColor fg[5];
+  GdkColor bg[5];
+  GdkColor light[5];
+  GdkColor dark[5];
+  GdkColor mid[5];
+  GdkColor text[5];
+  GdkColor base[5];
+  GdkColor text_aa[5];          /* Halfway between text/base */
+[...]
+</pre>
+
+I decided to use the "dark" and "bg" colors with "dark" for background and "bg" for the number text. For a light standard theme this results mostly to a white number on some shaded background. This is how it looks (e.g. the number "4" behind the feed "Boing Boing"):
+
+<img src="/images/new-counter-rendering.png"/>
+
+<h3>Inverse Colors For Dark Theme Are Hard!</h3>
+
+The problem is when you use for example the "High Contrast Inverse" dark theme. Then "dark" suddenly is undistinguishable from "bg" which makes sense of course. So we need to choose different colors with dark themes. Actually the implementation uses "bg" as foreground and "light" for background.
+
+<h3>How to Detect Dark Themes</h3>
+
+To do the color switching I first googled for a official GTK solution but found none. If you know of one please let me know! For the meantime I implemented the following simple logic:
+
+<pre class="brush:c">
+	gint		textAvg, bgAvg;
+
+	textAvg = style->text[GTK_STATE_NORMAL].red / 256 +
+	        style->text[GTK_STATE_NORMAL].green / 256 +
+	        style->text[GTK_STATE_NORMAL].blue / 256;
+
+	bgAvg = style->bg[GTK_STATE_NORMAL].red / 256 +
+	        style->bg[GTK_STATE_NORMAL].green / 256 +
+	        style->bg[GTK_STATE_NORMAL].blue / 256;
+
+	if (textAvg > bgAvg)
+		darkTheme = TRUE;
+</pre>
+
+As "text" color and "background" color should always be contrasting colors the comparison of the sum of their RGB components should produce a useful result. If the theme is a colorful one (e.g. a very saturated red theme) it might sometimes cause the opposite result than intended, but still background and foreground will be contrasting enough that the results stays readable, only the number background will not contrast well to the widget background.
+
+<img src="/images/dark-theme-unread-count.png"/>
+
+For light or dark themes the comparison should always work well and produce optimal contrast. Now it is up to the Liferea users to decide wether they like it or not.
+

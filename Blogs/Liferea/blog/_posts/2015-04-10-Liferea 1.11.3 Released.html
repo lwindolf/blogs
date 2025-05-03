@@ -1,0 +1,33 @@
+There is a new release for the unstable line: Liferea 1.11.3. This release fixes several issues and introduces an improvement of the rendering of the 3 pane "Wide View" mode to save screen space on 16x9 screens. This is intended to improve usability in full screen mode on desktops and tablets. This release also introduces folder (categories) support for TheOldReader subscriptions.
+
+Here is a screenshot of the changed "Wide View" mode
+
+<img width='100%' src="https://cloud.githubusercontent.com/assets/3315368/5669079/f04bc1c4-9774-11e4-9b43-1117c972e022.png"/>
+
+Give 1.11.3 a try and send feedback to the mailing list <a href="mailto:liferea-devel@lists.sf.net">liferea-devel@lists.sf.net</a>!
+
+<h2>ChangeLog</h2>
+
+<pre>    * Fixes Github #134: Broken default news feed.
+      (reported by pvdl)
+    * Fixes Github #133: Subscribe into TheOldReader categories
+    * Fixes Github #122: Crashes at launch, "segmentation fault"
+      (reported by geoffm)
+    * Fixes some memory leaks
+      (patch by Rich Coe)
+    * Fixes Github #145: Incorrect method triggered for 'Launch External'
+      (patch by mozbugbox)
+    * Fixes Github #48: Window stays hidden on next start after Ctrl+W
+      (reported by Jeff Fortin)
+    * Expose LifereaHtmlView to GObject Introspection
+      (patch by mozbugbox)
+    * Improves Google Reader API error handling
+    * Now using HTTPS only when accessing TheOldReader
+    * Added LifereaNodeSourceActivatable interface to allow plugins
+      implementing new node source types.
+    * Downgrade enclosure drop warning from Glib warning to debug trace.</pre>
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+https://github.com/lwindolf/liferea/releases/tag/v1.11.3

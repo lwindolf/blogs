@@ -1,0 +1,11 @@
+Try decoding a video with SVQ3 video codec with multithreading enabled (e.g. -threads 4) ffmpeg r25526 simply refuses to decode it:
+
+<code>Stream #0.0(eng): Video: svq3, yuvj420p, 640x476, 1732 kb/s, 25 fps, 25 tbr, 600 tbn, 600 tbc
+...
+[svq3 @ 0x806bfe0] SVQ3 does not support multithreaded decoding, patch welcome! (check latest SVN too)
+...
+Error while opening decoder for input stream #0.0</code>
+
+Instead of simply just using only one thread and just working ffmpeg bails. What a pain.
+
+You need to specify "-threads 1" or no threads option at all for decoding to work.

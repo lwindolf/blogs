@@ -1,0 +1,83 @@
+<strong>Problem:</strong>
+
+<pre>merb : chef-server (api) : worker (port 4000) ~ Connection refused - connect(2) - (Errno::ECONNREFUSED)</pre>
+
+<strong>Solution:</strong> Check why solr is not running and start it <pre>/etc/init.d/chef-solr start</pre>
+
+<hr>
+
+<strong>Problem:</strong>
+
+<pre>merb : chef-server (api) : worker (port 4000) ~ Net::HTTPFatalError: 503 "Service Unavailable" - (Chef::Exceptions::SolrConnectionError)</pre>
+
+
+<strong>Solution:</strong> You need to check solr log for error. You can find 
+<ul>
+<li>the access log in /var/log/chef/2013_03_01.jetty.log (adapt the date)</li><li>the solr error log in /var/log/chef/solr.log</li></ul>Hopefully you find an error trace there.
+
+<hr>
+
+<strong>Problem:</strong>
+
+<pre># chef-expander -n 1
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- http11_client (LoadError)
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/em-http.rb:8:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/em-http-request.rb:1:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/chef/expander/solrizer.rb:24:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/chef/expander/vnode.rb:26:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/chef/expander/vnode_supervisor.rb:28:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/vendor_ruby/chef/expander/cluster_supervisor.rb:25:in `<top (required)>'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+        from /usr/bin/chef-expander:27:in `<main>'
+</pre>
+
+<strong>Solution:</strong> This is a gems dependency issue with the HTTP client gem. Read about it here: <a href="http://tickets.opscode.com/browse/CHEF-3495">http://tickets.opscode.com/browse/CHEF-3495</a>. You might want to check the active Ruby version you have on your system e.g. on Debian run
+
+<pre>update-alternatives --config ruby</pre>
+
+to find out and change it. Note that the emhttp package from Opscode might require a special version. You can check by listing the package files:
+
+<pre>dpkg -L libem-http-request-ruby
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/libem-http-request-ruby
+/usr/share/doc/libem-http-request-ruby/changelog.Debian.gz
+/usr/share/doc/libem-http-request-ruby/copyright
+/usr/lib
+/usr/lib/ruby
+/usr/lib/ruby/vendor_ruby
+/usr/lib/ruby/vendor_ruby/em-http.rb
+/usr/lib/ruby/vendor_ruby/em-http-request.rb
+/usr/lib/ruby/vendor_ruby/em-http
+/usr/lib/ruby/vendor_ruby/em-http/http_options.rb
+/usr/lib/ruby/vendor_ruby/em-http/http_header.rb
+/usr/lib/ruby/vendor_ruby/em-http/client.rb
+/usr/lib/ruby/vendor_ruby/em-http/http_encoding.rb
+/usr/lib/ruby/vendor_ruby/em-http/multi.rb
+/usr/lib/ruby/vendor_ruby/em-http/core_ext
+/usr/lib/ruby/vendor_ruby/em-http/core_ext/bytesize.rb
+/usr/lib/ruby/vendor_ruby/em-http/mock.rb
+/usr/lib/ruby/vendor_ruby/em-http/decoders.rb
+/usr/lib/ruby/vendor_ruby/em-http/version.rb
+/usr/lib/ruby/vendor_ruby/em-http/request.rb
+/usr/lib/ruby/vendor_ruby/1.8
+/usr/lib/ruby/vendor_ruby/1.8/x86_64-linux
+/usr/lib/ruby/vendor_ruby/1.8/x86_64-linux/em_buffer.so
+/usr/lib/ruby/vendor_ruby/1.8/x86_64-linux/http11_client.so
+</pre>
+
+The listing above for example indicates ruby1.8.

@@ -1,0 +1,18 @@
+The Nagios plugin "check_ntp_peer" from Debian package "nagios-plugins-basic" is not very nice. It shouts at you about LI_ALARM bit and negative jitter all the time after a machine reboots despite everything actually being fine.
+
+<pre>
+#!/bin/bash
+
+result=$(/usr/lib/nagios/plugins/check_ntp_peer $@)
+status=$?
+
+if echo "$result" | egrep 'jitter=-1.00000|has the LI_ALARM' >/dev/null; then
+	echo "Unknown state after reboot."
+	exit 0
+fi
+
+echo $result
+exit $status
+</pre>
+
+Using above wrapper you get rid of the warnings. 

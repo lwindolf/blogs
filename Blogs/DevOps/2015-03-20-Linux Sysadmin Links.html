@@ -1,0 +1,1622 @@
+This is a list of non-trivial Linux administration commands and can be used as a cheat sheet or link collection. If you find errors or want to add something please post a comment below!
+
+<h3>Automation Products</h3>
+
+Which automation tools are actually out there?
+
+<ul>
+<li><a rel="nofollow" href="http://trac.mcs.anl.gov/projects/bcfg2/">Bcfg2</a>: Alternative to puppet and cfengine by Argonne National Laboratory. (IMO out-dated)</li><li><a rel="nofollow" href="http://cfengine.com/">cfengine</a> (active, commercially backed, large user base)</li><li><a rel="nofollow" href="http://www.opscode.com/chef/">Chef</a>: Alternative to puppet (Ruby, active, commercially backed, large user base)</li><li><a rel="nofollow" href="https://launchpad.net/juju">JuJu</a>: mostly for Ubuntu, service orchestration tool (Python, commercially backed)</li><li><a rel="nofollow" href="http://puppetlabs.com/">Puppet</a> (Ruby-like + Ruby, active, commercially backed, large user base)</li><li><a rel="nofollow" href="http://www.steve.org.uk/Software/slaughter/">slaughter</a> (Perl, active, small user base)</li><li><a rel="nofollow" href="https://github.com/crafterm/sprinkle">Sprinkle</a> (Ruby, quite recent)</li><li><a rel="nofollow" href="http://en.wikipedia.org/wiki/Comparison_of_open_source_configuration_management_software">Wikipedia Comparison Chart</a>: Check here for other less known and new tools!</li></ul><h3>Automation</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//packages.debian.org/wheezy/augeas-tools">Augeas</a>: Very flexible file editor to be used with Puppet or standalone. Could also work with cfengine. <pre>$ augtool
+augtool&gt; set /files/etc/ssh/sshd_config/PermitRootLogin no
+augtool&gt; save</pre></li><li><a rel="nofollow" href="http://projects.puppetlabs.com/projects/1/wiki/Puppet_Augeas">Augeas - in Puppet</a>: Using Puppet with Augeas <pre>augeas { "sshd_config":
+ changes =&gt; [
+ "set /files/etc/ssh/sshd_config/PermitRootLogin no",
+ ],
+}</pre></li><li>cfengine: Force running shortly after a recent execution <pre>cfagent -K</pre></li><li><a rel="nofollow" href="http://cfengine.com/cfengine-design-center">cfengine - Design Center</a>: Git repository with sketches and examples for cfengine.</li><li><a href="/recipes+for+cfengine">cfengine - cf-sketch</a>: Find and install sketches from the Design Center repository</li><li><a rel="nofollow" href="http://detox.sourceforge.net/">detox</a>: Tool for recursive cleanup of file names. <pre>detox -v -r &lt;directory&gt;</pre></li><li>Chef - List Nodes per Role: <pre>knife search node 'roles:&lt;role name&gt;'</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">Chef - Fix RabbitMQ 100% CPU usage</a></li><li><a href="http://lzone.de/Chef+Recipe+for+Editing+Config+Files">Chef - Edit Files</a>: using a Script resource.</li><li><a rel="nofollow" href="http://gerhardlazu.com/2010/08/using-chef-to-manage-amazon-ec2-instances-part1/">Chef - Manage Amazon EC2 instances</a></li><li><a rel="nofollow" href="http://wiki.opscode.com/display/chef/Nagios+Quick+Start">Chef - Tutorial on how to Setup Nagios in EC2</a></li><li>puppet: Debugging deployment and rules on a local machine. This only makes sense in "one time" mode running in one of the following variants:
+<pre>puppetd --test # enable standard debugging options
+puppetd --debug # enable full debugging
+puppetd --one-time --detailed-exitcodes # Enable exit codes:
+           # 2=changes applied
+           # 4=failure
+</pre></li></ul><h3>Database</h3>
+
+<ul>
+<li><a href="/mysql+administration+commands">MySQL - Administration Commands</a></li>
+<li><a href="/Postgres+Administration+Commands">Postgres - Administration Commands</a></li>
+<li><a rel="nofollow" href="http://www.lognormal.com/blog/2012/09/27/linux-tcpip-tuning/">TCP/IP tuning for scaling</a></li><li><a href="http://lzone.de/node/27">pgbouncer - Debug Pooler Error</a></li>
+</ul><h3>Debian</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//tldp.org/HOWTO/Wireless-Link-sys-WPC11/x295.html">Build Kernel Package</a>: How to build kernel packages with make-pkg <code>cd /usr/src/linux &amp;&amp; make-kpkg clean &amp;&amp; make-kpkg --initrd --revision=myrev kernel_image</code></li><li><a rel="nofollow" href="http://changelog.complete.org/archives/496-how-to-solve-the-following-packages-cannot-be-authenticated">Setup Keyring</a>: How to solve "The following packages cannot be authenticated" <code> apt-get install debian-archive-keyring
+apt-get update</code></li><li><a rel="nofollow" href="http://forums.debian.net/viewtopic.php?f=17&t=40109">Force remove broken "reportbug"</a>: This can happen during dist-upgrades from Etch/Sarge to Lenny.</li><li>Packages - Reconfigure after installation: <code>dpkg-reconfigure -a</code></li><li><a rel="nofollow" href="http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php">dpkg Cheat-Sheet</a>: Query package infos <pre># Resolve file to package
+dpkg -S /etc/fstab
+
+# Print all files of a package
+dpkg -L passwd # provided files
+dpkg -c passwd # owned files
+
+# Find packages by name
+dpkg -l gnome*
+
+# Package details
+dpkg -p passwd
+</pre></li><li>Ubuntu - Access Repositories for older releases. Once a release is deprecated it is moved to old-releases.ubuntu.com. You need to adapt /etc/apt/sources.list to fetch packages from there <pre>sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/' /etc/apt/sources.list</pre></li></ul><h3>Debugging / Performance Tools</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://rajar.am/post/555326598/identifying-process-causing-lots-of-iowait">dmesg - block IO debugging</a>: <pre>echo 1 > /proc/sys/vm/block_dump
+
+# wait some time...
+echo 0 > /proc/sys/vm/block_dump
+
+# Now check syslog for block dump lines
+</pre>
+<li><a rel="nofollow" href="/Filtering+dmesg+Output">dmesg - Filtering Output</a>: <pre>dmesg -T      # Enable human readable timestamps
+dmesg -x      # Show facility and log level
+dmesg -f daemon     # Filter for facility daemon
+dmesg -l err,crit,alert,emerg # Filter for errors
+</pre></li><li><a rel="nofollow" href="http://prefetch.net/blog/index.php/2009/07/01/listing-file-system-lock-files-on-linux-hosts/">lslk - Find file locks</a>: Use lslk to find which PID is blocking an flock() to a file.</li><li><a rel="nofollow" href="http://danielmiessler.com/study/lsof/">lsof</a> - Find owners of open file handles: <pre>lsof      # Complete list
+lsof -i :22    # Filter single TCP port
+lsof -i@192.168.1.5:22 # Filter single connection endpoint
+lsof -u &lt;user&gt;   # Filter per user
+lsof -c &lt;name&gt;   # Filter per process name
+lsof -p 12345    # Filter by PID
+lsof /etc/hosts   # Filter single file
+</pre></li><li><a rel="nofollow" href="https://perf.wiki.kernel.org/articles/t/u/t/Tutorial.html">Perf Tutorial</a>: 2.6+ generic kernel performance statistics tool. <code>perf stat -B some_command</code></li><li><a rel="nofollow" href="http://dag.wieers.com/home-made/dstat/">dstat</a>: Replaces vmstat, iostat, netstat and ifstat and allows to determine PID that is most CPU and most I/O expensive <code>dstat -a --top-bio --top-cpu</code></li><li><a rel="nofollow" href="http://guichaz.free.fr/iotop/">iotop</a>: Python script to monitor I/O like top</li><li><a href="/articles/apd-setup.htm">PHP - How to setup the APD debugger</a></li></ul>
+<h3>Filesystem / Partitioning</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://unetbootin.sourceforge.net/">uNetBootin</a>: Create bootable media for any distribution. Most useful with USB sticks.</li><li><a rel="nofollow" href="http://www.troubleshooters.com/linux/ext2toext3.htm">Convert ext2 to ext3</a>: <code>tune2fs -j /dev/hda1</code></li><li><a rel="nofollow" href="http://www.cyberciti.biz/tips/linux-convert-ext3-to-ext4-file-system.html">Convert ext3 to ext4</a>: <code>tune2fs -O extents,uninit_bg,dir_index /dev/sda1</code></li><li><a rel="nofollow" href="http://www.cyberciti.biz/faq/linux-show-contents-of-filesystem-superblock-inode/">Determine Inode Count</a>: <code>tune2fs -l /dev/sda1 | grep Inode</code></li><li><a href="http://liferea.blogspot.de/2010/06/serious-performance-issues-with-ext4fs.html">Disable ext4 barriers</a>: Add "barrier=0" to the mount options.</li><li><a rel="nofollow" href="http://sujithemmanuel.blogspot.com/2007/04/how-to-add-disk-to-lvm.html">LVM - Add another disk</a>: How to add a disk to an existing volume
+<pre># Setup partition with (use parted for &gt;2TB)
+(parted) mklabel gpt       # only when &gt;2TB
+(parted) mkpart primary lvm 0 4T    # setup disk full size (e.g. 4TB)
+
+pvcreate /dev/sdb1       # Create physical LVM disk
+vgextend vg01 /dev/sdb1      # Add to volume group
+vgextend -L +4t /dev/mapper/vg01-lvdata  # Extend your volume 
+resize2fs /dev/mapper/vg01-lvdata   # Auto-resize file system</pre></li><li><a rel="nofollow" href="/node/21">rsync - --delete doesn't work</a>: How to debug this.</li></ul><h3>Mail</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.cyberciti.biz/tips/howto-postfix-flush-mail-queue.html">Postfix - Drop Mails</a> <pre>postsuper -d ALL
+postsuper -d ALL deferred</pre></li></ul>
+
+<h3>Middleware</h3>
+
+<ul>
+<li>Heartbeat - Manual IP Failover <pre># Either run on the node that should take over
+/usr/share/heartbeat/hb_failover
+
+# Or run on the node to should stop working
+/usr/share/heartbeat/hb_standby</pre>
+</li>
+<li><a href="http://varwww.com/2013/06/18/simple-pacemaker-tutorial-for-ubuntu/">Pacemaker - Setup Steps</a></li>
+<li>RabbitMQ - Commands <pre>rabbitmqctl list_vhosts   # List all defined vhosts
+rabbitmqctl list_queues &lt;vhost&gt; # List all queues for the vhost
+
+rabbitmqctl report    # Dump detailed report on RabbitMQ instance  
+</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">RabbitMQ - Fix Chef 100% CPU usage</a></li>
+<li><a href="http://varwww.com/2013/06/17/clustering-and-queue-mirroring-in-rabbitmq-looks-easy/">RabbitMQ - Setup Clustering</a></li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+<li>Munin - Test Plugins: <pre>/usr/sbin/munin-run &lt;plugin name&gt; # for values
+/usr/sbin/munin-run &lt;plugin name&gt; config # for configuration</pre></li><li>Munin - Manual Update Run: <pre>sudo -u munin /usr/bin/munin-cron</pre></li><li><a rel="nofollow" href="http://articles.slicehost.com/2010/4/9/enabling-munin-node-plug-ins-on-centos">Munin - Test available plugins</a> <pre>/usr/sbin/munin-node-configure --suggest
+
+# and enable them using
+/usr/sbin/munin-node-configure --shell | sh</pre></li></ul><h3>Network</h3>
+
+<ul>
+<li><a href="https://speakerdeck.com/gnb/130-lca2008-nfs-tuning-secrets-d7">NFS - Tuning Secrets</a>: SGI Slides on NFS Performance</li>
+<li>nttcp - TCP performance testing <pre># On sending host
+nttcp -t -s
+
+# On receiving host
+nttcp -r -s
+</pre></li>
+<li>tcpdump - Be verbose and print full package hex dumps: <pre> tcpdump -i eth0 -nN -vvv -xX -s 1500 port &lt;some port&gt;</pre></li>
+<li><a rel="nofollow" href="http://net-snmp.sourceforge.net/wiki/index.php/TUT:snmpwalk">SNMP - Dump all MIBs</a>: When you need to find the MIB for an object known only by name try <code>snmpwalk -c public -v 1 -O s &lt;myhost&gt; .iso | grep &lt;search string&gt;</code></li>
+<li><a rel="nofollow" href="http://bgp.he.net/">Hurricane Electric - BGP Tools</a>: Statistics on all AS as well as links to their looking glasses.</li></ul>
+
+<h3>Package Management</h3>
+
+<ul>
+<li>Debian <pre>apt-get install &lt;package&gt; 
+apt-get remove &lt;package&gt; # Remove files installed by &lt;package&gt;
+apt-get purge &lt;package&gt;  # Remove &lt;package&gt; and all the files it did create
+
+apt-get upgrade    # Upgrade all packages
+apt-get install &lt;package&gt; # Upgrade an install package
+
+apt-get dist-upgrade  # Upgrade distribution
+
+apt-cache search &lt;package&gt; # Check if there is such a package name in the repos
+apt-cache clean    # Remove all downloaded .debs
+
+dpkg -l      # List all installed/known packages
+
+# More dpkg invocations above in the "Debian" section!
+</pre>
+</li><li>Ubuntu (like Debian) with the addition of <pre>do-release-upgrade   # For Ubuntu release upgrades</pre></li><li>OpenSuSE <pre>zypper install &lt;package&gt; 
+
+zypper refresh    # Update repository infos
+
+zypper list-updates
+zypper repos    # List configured repositories
+
+zypper dist-upgrade   # Upgrade distribution
+zypper dup     # Upgrade distribution (alias)
+
+zypper search &lt;package&gt;  # Search for &lt;package&gt;
+zypper search --search-descriptions &lt;package&gt;
+
+zypper clean      # Clean package cache
+
+# For safe updates:
+zypper mr –keep-packages –remote # Enable caching of packages
+zypper dup -D      # Fetch packages using a dry run
+zypper mr –all –no-refresh  # Set cache usage for following dup
+zypper dup      # Upgrade!
+</pre>
+</li><li>Redhat: <pre>up2date</pre></li><li>Centos: 
+<pre>yum update     # Upgrade distro
+yum install &lt;package&gt;  # Install &lt;package&gt;</pre>
+</li></ul><h3>RAID</h3>
+
+<ul>
+<li>mdadm - Commands <pre>cat /proc/mdstat   # Print status
+
+mdadm --detail /dev/md0  # Print status per md
+
+mdadm --manage -r /dev/md0 /dev/sda1 # Remove a disk
+mdadm --zero-superblock /dev/sda1  # Initialize a disk
+mdadm --manage -a /dev/md0 /dev/sda1 # Add a disk
+
+mdadm --manage --set-faulty /dev/md0 /dev/sda1
+</pre></li><li>hpacucli - Commands <pre># Show status of all arrays on all controllers
+hpacucli all show config
+hpacucli all show config detail
+
+# Show status of specific controller
+hpacucli ctrl=0 pd all show
+
+# Show Smart Array status
+hpacucli all show status
+</pre></li><li>LSI MegaRAID - Commands <pre># Get number of controllers
+/opt/MegaRAID/MegaCli/MegaCli64 -adpCount -NoLog
+
+# Get number of logical drives on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdGetNum -a0 -NoLog
+
+# Get info on logical drive #0 on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdInfo -L0 -a0 -NoLog
+</pre></li></ul><h3>Security</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.unixwiz.net/techtips/chroot-practices.html">chroot Best Practices</a></li><li><a rel="nofollow" href="http://www.enyo.de/fw/software/debsecan/">Debian - Package Vulnerability Scanner</a>: <pre>debsecan --suite=sid</pre></li><li><a rel="nofollow" href="http://www.freebsd.org/doc/en/books/handbook/security-portaudit.html">FreeBSD - Package Vulnerability Scanner</a>: <pre>portaudit -Fda</pre></li> 
+<li><a href="/Automated+Linux+Package+Vulnerability+Scanning">Overview of Automated Linux Package Vulnerability Scanning</a></li><li><a rel="nofollow" href="http://aslakjohansen.wordpress.com/tag/aa-complain/">Debug Apparmor</a>: How to determine which permissions prevent some type of access.</li><li><a rel="nofollow" href="http://www.openvas.org/index.html">OpenVAS - Security Scanner</a> (commercial)</li><li><a rel="nofollow" href="http://cromwell-intl.com/security/security-stack-hardening.html">TCP/IP Stack Hardening</a>: Unix network hardening</li><li><a rel="nofollow" href="http://www.dfn-cert.de/informationen/themen/verschluesselung_und_pki/openssl-kurzreferenz.html">OpenSSL Kurzreferenz</a>: All commands to create keys, certificates and certificate requests.</li><li>Print x509 Certificate Infos: <code>openssl x509 -text -in my.crt</code> By replacing "x509" with "ca" or "crt" you can dump other file types too.</li><li><a href="http://lzone.de/node/20">mkpasswd - Create Passwords</a></li></ul><h3>Shell</h3>
+
+<ul>
+<li>date: Convert To Unix Timestamp: <code>date -d "$date" +%s</code></li><li><a rel="nofollow" href="http://anton.lr2.com/2006/04/06/convert-a-unix-epoch-timestamp-to-a-date-in-bash/">date: Convert From Unix Timestamp</a>: <code>date -d "1970-01-01 1234567890 sec GMT"</code></li><li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//www.unix.com/shell-programming-scripting/21877-how-get-month-last-date-unix.html">date: Calculate Last Day of Month</a>: <code>cal $(date "+%M %y") | grep -v ^$ | tail -1 | sed 's/^.* \([0-9]*\)$/\1/'</code></li><li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//unimpressed.org/post/384314353/stupid-shell-tricks-tab-completion">bash: Extend Completion</a>: How to setup your own bash completion schemas. <code>complete -W 'add branch checkout clone commit diff grep init log merge mv pull push rebase rm show status tag' git</code></li><li><a rel="nofollow" href="http://www.burtonini.com/blog/computers/shell-magic-2007-11-19-15-22">bash - kill all childs on exit</a>: <code>trap true TERM
+kill -- -$$</code></li><li><a rel="nofollow" href="http://www.catonmat.net/blog/bash-one-liners-explained-part-four/">bash - Control History Handling</a>:
+<pre>unset HISTFILE      # Stop logging history in this bash instance
+HISTIGNORE="[ ]*"      # Do not log commands with leading spaces
+HISTIGNORE="&"      # Do not log a command multiple times
+
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S" # Log with timestamps
+</pre>
+</li><li><a href="/apply+limits+immediately">bash - apply /etc/security/limits.conf change immediately</a>: <code>sudo -i -u &lt;user&gt;</code></li><li><a rel="nofollow" href="http://www.panix.com/%7Ekylet/unix-att.html">Mail Attachments</a>: Dozens of variants to mail attachments using Unix tools.</li><li><a href="http://lzone.de/follow+file+with+tail+until+removed">tail -f until removed</a>: When you want to tail a file until it gets removed <code>tail --follow=name myfile</code></li><li><a href="/how+to+join+CSV+Files">join - DB-like joining of CSV files</a>: <pre>join -o1.2,2.3 -t ";" -1 1 -2 2 employee.csv tasks.csv</pre></li><li>shell - list all commands: <code>compgen -c |sort -u</code></li><li>shell - Check for interactive terminal: Run "tty" in silent mode and check the exit code <code>tty -s</code></li><li><a href="/node/23">shell - ANSI color matrix</a></li><li>Sorting column: Use the -k switch of "sort" to sort lines by a column. E.g. <pre>cat access.log | sort -k 1</pre></li><li><a rel="nofollow" href="http://www.commandlinefu.com/commands/tagged/583/watch">watch</a>: wait for file/directory changes and run a command <code>watch -d ls -l</code></li><li><a rel="nofollow" href="http://unix.stackexchange.com/questions/25372/turn-off-buffering-in-pipe">Shell - Unbuffer Output</a>: <pre>stdbuf -i0 -o0 -e0 &lt;some command&gt;  # Best solution
+
+unbuffer &lt;some command&gt;     # Wrapper script from expect
+</pre>
+</li><li>dos2unix with vi: <pre>:%s/^V^M//g</pre></li></ul><h3>SSH</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.eng.cam.ac.uk/help/jpmg/ssh/authorized_keys_howto.html">authorized_keys HowTo</a>: Syntax and options...</li><li>Easy Key Copying: Stop editing authorized_keys remote. Use the standard OpenSSH ssh-copy-id instead. <pre>ssh-copy-id [-i keyfile] user@maschine</pre></li><li><a rel="nofollow" href="http://www.statusq.org/archives/2008/07/03/1916/">ProxyCommand</a>: Run SSH over a gateway and forward to other hosts based and/or perform some type of authentication. In .ssh/config you can have: <pre>Host unreachable_host
+  ProxyCommand ssh gateway_host exec nc %h %p</pre></li><li><a rel="nofollow" href="http://sshmenu.sourceforge.net/articles/transparent-mulithop.html">Transparent Multi-Hop</a>: <code>ssh host1 -A -t host2 -A -t host3 ...</code></li><li><a rel="nofollow" href="/?q=node/6">100% non-interactive SSH</a>: What parameters to use to avoid any interaction. <code>ssh -i my_priv_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey user@host -n "/bin/ls"</code></li><li><a rel="nofollow" href="http://jeff.robbins.ws/articles/setting-the-umask-for-sftp-transactions">SFTP chroot with umask</a>: How to enforce a umask with SFTP <code>Subsystem sftp /usr/libexec/openssh/sftp-server -u 0002</code></li><li><a rel="nofollow" href="http://www.unixwiz.net/techtips/ssh-agent-forwarding.html">Agent Forwarding</a> explained with pictures! Configured in /etc/ssh_config with <pre>Host *
+ForwardAgent yes</pre></li><li><a rel="nofollow" href="http://magicmonster.com/kb/net/ssh/socks_proxy.html">How to use a SOCKS Proxy</a> On the client start proxy by <pre>ssh -D &lt;port&gt; &lt;remote host&gt;</pre></li></ul>
+
+<h3>Webserver Stack</h3>
+
+<ul>
+<li><a href="/articles/rewrite-migrate.htm">Apache vs. Lighttpd Rewrite Rules</a>: How to migrate.</li>
+<li>Apache - Rewrite on File Pattern <pre>RewriteCond %{REQUEST_FILENAME} (.*)\.(html|htm)$</pre></li>
+<li>Apache - Rewrite on User Agent <pre>RewriteCond %{HTTP_USER_AGENT} (iPhone|iPad)</pre></li>
+<li><a rel="nofollow" href="http://people.apache.org/~trawick/exception_hook.html">Apache - Exception Hook</a>: Since 2.0.49 Apache has an exception hook to handle crashes. <pre>EnableExceptionHook on</pre></li><li><a href="/memcache+monitoring+GUIs">memcached - List of Monitoring Solutions</a></li>
+<li><a href="/articles/memcached.htm">memcached - List of Telnet Commands</a></li>
+<li><a href="/dump+memcache+keys">memcached - How to Dump Keys</a><pre>stats cachedump &lt;slab class&gt; &lt;number of keys to dump&gt;</pre></li>
+<li><a rel="nofollow" href="http://search.cpan.org/~dmaki/Memcached-libmemcached-0.4202/src/libmemcached/docs/memdump.pod">memcached - Key Dump Tool "memdump"</a></li>
+<li><a rel="nofollow" href="http://www.mikeperham.com/2009/01/14/consistent-hashing-in-memcache-client/">memcached - Persistent Hashing</a>: How to survive server failures without the whole cluster degrading. Of course applies to any cache.</li>
+<li>nginx - Complex Conditions: As nginx does not support complex logic in if() conditions you need to set flags in a smart way to workaround it. <pre># Define a control flag
+set $extra_handling = 0;
+
+# Set the control flag when needed
+if ($variable1 ~* pattern) {
+    set $extra_handling = 1;
+}
+
+# Unset the flag if needed
+if ( $variable2 = 1 ) {
+    set $extra_handling = 0;
+}
+
+if ( $extra_handling = 1 ) {
+    # Trigger intended behaviour
+}</pre></li>
+<li><a href="/Most%20Important%20Redis%20Commands%20for%20Sysadmins">Redis - Most Important Commands for Sysadmins</a></li>
+</ul>
+This is a list of non-trivial Linux administration commands and can be used as a cheat sheet or link collection. If you find errors or want to add something please post a comment below!
+
+<h3>Automation Products</h3>
+
+Which automation tools are actually out there?
+
+<ul>
+<li><a rel="nofollow" href="http://trac.mcs.anl.gov/projects/bcfg2/">Bcfg2</a>: Alternative to puppet and cfengine by Argonne National Laboratory. (IMO out-dated)</li><li><a rel="nofollow" href="http://cfengine.com/">cfengine</a> (active, commercially backed, large user base)</li><li><a rel="nofollow" href="http://www.opscode.com/chef/">Chef</a>: Alternative to puppet (Ruby, active, commercially backed, large user base)</li><li><a rel="nofollow" href="https://launchpad.net/juju">JuJu</a>: mostly for Ubuntu, service orchestration tool (Python, commercially backed)</li><li><a rel="nofollow" href="http://puppetlabs.com/">Puppet</a> (Ruby-like + Ruby, active, commercially backed, large user base)</li><li><a rel="nofollow" href="http://www.steve.org.uk/Software/slaughter/">slaughter</a> (Perl, active, small user base)</li><li><a rel="nofollow" href="https://github.com/crafterm/sprinkle">Sprinkle</a> (Ruby, quite recent)</li><li><a rel="nofollow" href="http://en.wikipedia.org/wiki/Comparison_of_open_source_configuration_management_software">Wikipedia Comparison Chart</a>: Check here for other less known and new tools!</li></ul><h3>Automation</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//packages.debian.org/wheezy/augeas-tools">Augeas</a>: Very flexible file editor to be used with Puppet or standalone. Could also work with cfengine. <pre>$ augtool
+augtool&gt; set /files/etc/ssh/sshd_config/PermitRootLogin no
+augtool&gt; save</pre></li><li><a rel="nofollow" href="http://projects.puppetlabs.com/projects/1/wiki/Puppet_Augeas">Augeas - in Puppet</a>: Using Puppet with Augeas <pre>augeas { "sshd_config":
+ changes =&gt; [
+ "set /files/etc/ssh/sshd_config/PermitRootLogin no",
+ ],
+}</pre></li><li>cfengine: Force running shortly after a recent execution <pre>cfagent -K</pre></li><li><a rel="nofollow" href="http://cfengine.com/cfengine-design-center">cfengine - Design Center</a>: Git repository with sketches and examples for cfengine.</li><li><a href="/recipes+for+cfengine">cfengine - cf-sketch</a>: Find and install sketches from the Design Center repository</li><li><a rel="nofollow" href="http://detox.sourceforge.net/">detox</a>: Tool for recursive cleanup of file names. <pre>detox -v -r &lt;directory&gt;</pre></li><li>Chef - List Nodes per Role: <pre>knife search node 'roles:&lt;role name&gt;'</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">Chef - Fix RabbitMQ 100% CPU usage</a></li><li><a href="http://lzone.de/Chef+Recipe+for+Editing+Config+Files">Chef - Edit Files</a>: using a Script resource.</li><li><a rel="nofollow" href="http://gerhardlazu.com/2010/08/using-chef-to-manage-amazon-ec2-instances-part1/">Chef - Manage Amazon EC2 instances</a></li><li><a rel="nofollow" href="http://wiki.opscode.com/display/chef/Nagios+Quick+Start">Chef - Tutorial on how to Setup Nagios in EC2</a></li><li>puppet: Debugging deployment and rules on a local machine. This only makes sense in "one time" mode running in one of the following variants:
+<pre>puppetd --test # enable standard debugging options
+puppetd --debug # enable full debugging
+puppetd --one-time --detailed-exitcodes # Enable exit codes:
+           # 2=changes applied
+           # 4=failure
+</pre></li></ul><h3>Database</h3>
+
+<ul>
+<li><a href="/mysql+administration+commands">MySQL - Administration Commands</a></li>
+<li><a href="/Postgres+Administration+Commands">Postgres - Administration Commands</a></li>
+<li><a rel="nofollow" href="http://www.lognormal.com/blog/2012/09/27/linux-tcpip-tuning/">TCP/IP tuning for scaling</a></li><li><a href="http://lzone.de/node/27">pgbouncer - Debug Pooler Error</a></li>
+</ul><h3>Debian</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//tldp.org/HOWTO/Wireless-Link-sys-WPC11/x295.html">Build Kernel Package</a>: How to build kernel packages with make-pkg <pre>cd /usr/src/linux &amp;&amp; make-kpkg clean &amp;&amp; make-kpkg --initrd --revision=myrev kernel_image</pre></li><li><a rel="nofollow" href="http://changelog.complete.org/archives/496-how-to-solve-the-following-packages-cannot-be-authenticated">Setup Keyring</a>: How to solve "The following packages cannot be authenticated" <pre> apt-get install debian-archive-keyring
+apt-get update</pre></li><li><a rel="nofollow" href="http://forums.debian.net/viewtopic.php?f=17&t=40109">Force remove broken "reportbug"</a>: This can happen during dist-upgrades from Etch/Sarge to Lenny.</li><li>Packages - Reconfigure after installation: <pre>dpkg-reconfigure -a</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php">dpkg Cheat-Sheet</a>: Query package infos <pre># Resolve file to package
+dpkg -S /etc/fstab
+
+# Print all files of a package
+dpkg -L passwd # provided files
+dpkg -c passwd # owned files
+
+# Find packages by name
+dpkg -l gnome*
+
+# Package details
+dpkg -p passwd
+</pre></li><li>Ubuntu - Access Repositories for older releases. Once a release is deprecated it is moved to old-releases.ubuntu.com. You need to adapt /etc/apt/sources.list to fetch packages from there <pre>sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/' /etc/apt/sources.list</pre></li></ul>
+
+<h3>Debugging / Performance Tools</h3>
+
+<ul>
+<li>Drop Filesystem Cache <pre>echo 1 &gt; /proc/sys/vm/drop_caches</pre></li>
+<li><a rel="nofollow" href="http://rajar.am/post/555326598/identifying-process-causing-lots-of-iowait">dmesg - block IO debugging</a>: <pre>echo 1 > /proc/sys/vm/block_dump
+
+# wait some time...
+echo 0 > /proc/sys/vm/block_dump
+
+# Now check syslog for block dump lines
+</pre>
+<li><a rel="nofollow" href="/Filtering+dmesg+Output">dmesg - Filtering Output</a>: <pre>dmesg -T      # Enable human readable timestamps
+dmesg -x      # Show facility and log level
+dmesg -f daemon     # Filter for facility daemon
+dmesg -l err,crit,alert,emerg # Filter for errors
+</pre></li><li><a rel="nofollow" href="http://prefetch.net/blog/index.php/2009/07/01/listing-file-system-lock-files-on-linux-hosts/">lslk - Find file locks</a>: Use lslk to find which PID is blocking an flock() to a file.</li><li><a rel="nofollow" href="http://danielmiessler.com/study/lsof/">lsof</a> - Find owners of open file handles: <pre>lsof      # Complete list
+lsof -i :22    # Filter single TCP port
+lsof -i@192.168.1.5:22 # Filter single connection endpoint
+lsof -u &lt;user&gt;   # Filter per user
+lsof -c &lt;name&gt;   # Filter per process name
+lsof -p 12345    # Filter by PID
+lsof /etc/hosts   # Filter single file
+</pre></li><li><a rel="nofollow" href="https://perf.wiki.kernel.org/articles/t/u/t/Tutorial.html">Perf Tutorial</a>: 2.6+ generic kernel performance statistics tool. <pre>perf stat -B some_command</pre></li><li><a rel="nofollow" href="http://dag.wieers.com/home-made/dstat/">dstat</a>: Replaces vmstat, iostat, netstat and ifstat and allows to determine PID that is most CPU and most I/O expensive <pre>dstat -a --top-bio --top-cpu</pre></li><li><a rel="nofollow" href="http://guichaz.free.fr/iotop/">iotop</a>: Python script to monitor I/O like top</li><li><a href="/articles/apd-setup.htm">PHP - How to setup the APD debugger</a></li></ul>
+<h3>Filesystem / Partitioning</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://unetbootin.sourceforge.net/">uNetBootin</a>: Create bootable media for any distribution. Most useful with USB sticks.</li><li><a rel="nofollow" href="http://www.troubleshooters.com/linux/ext2toext3.htm">Convert ext2 to ext3</a>: <pre>tune2fs -j /dev/hda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/tips/linux-convert-ext3-to-ext4-file-system.html">Convert ext3 to ext4</a>: <pre>tune2fs -O extents,uninit_bg,dir_index /dev/sda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/faq/linux-show-contents-of-filesystem-superblock-inode/">Determine Inode Count</a>: <pre>tune2fs -l /dev/sda1 | grep Inode</pre></li><li><a href="http://liferea.blogspot.de/2010/06/serious-performance-issues-with-ext4fs.html">Disable ext4 barriers</a>: Add "barrier=0" to the mount options.</li><li><a rel="nofollow" href="http://sujithemmanuel.blogspot.com/2007/04/how-to-add-disk-to-lvm.html">LVM - Add another disk</a>: How to add a disk to an existing volume
+<pre># Setup partition with (use parted for &gt;2TB)
+(parted) mklabel gpt       # only when &gt;2TB
+(parted) mkpart primary lvm 0 4T    # setup disk full size (e.g. 4TB)
+
+pvcreate /dev/sdb1       # Create physical LVM disk
+vgextend vg01 /dev/sdb1      # Add to volume group
+vgextend -L +4t /dev/mapper/vg01-lvdata  # Extend your volume 
+resize2fs /dev/mapper/vg01-lvdata   # Auto-resize file system</pre></li>
+<li>rsync - --delete doesn't work</a>:  It happens when you call rsync without a trailing slash in the source path like this:
+
+<pre>rsync -az -e ssh --delete /data server:/data</pre>
+
+It just won't delete anything. It will when running it like this:
+
+<pre>rsync -az -e ssh --delete /data/ server:/data</pre></li></ul>
+
+<h3>Mail</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.cyberciti.biz/tips/howto-postfix-flush-mail-queue.html">Postfix - Drop Mails</a> <pre>postsuper -d ALL
+postsuper -d ALL deferred</pre></li></ul>
+
+<h3>Middleware</h3>
+
+<ul>
+<li>Heartbeat - Manual IP Failover <pre># Either run on the node that should take over
+/usr/share/heartbeat/hb_failover
+
+# Or run on the node to should stop working
+/usr/share/heartbeat/hb_standby</pre>
+</li>
+<li><a href="http://varwww.com/2013/06/18/simple-pacemaker-tutorial-for-ubuntu/">Pacemaker - Setup Steps</a></li>
+<li>RabbitMQ - Commands <pre>rabbitmqctl list_vhosts   # List all defined vhosts
+rabbitmqctl list_queues &lt;vhost&gt; # List all queues for the vhost
+
+rabbitmqctl report    # Dump detailed report on RabbitMQ instance  
+</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">RabbitMQ - Fix Chef 100% CPU usage</a></li>
+<li><a href="http://varwww.com/2013/06/17/clustering-and-queue-mirroring-in-rabbitmq-looks-easy/">RabbitMQ - Setup Clustering</a></li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+<li>Munin - Test Plugins: <pre>/usr/sbin/munin-run &lt;plugin name&gt; # for values
+/usr/sbin/munin-run &lt;plugin name&gt; config # for configuration</pre></li><li>Munin - Manual Update Run: <pre>sudo -u munin /usr/bin/munin-cron</pre></li><li><a rel="nofollow" href="http://articles.slicehost.com/2010/4/9/enabling-munin-node-plug-ins-on-centos">Munin - Test available plugins</a> <pre>/usr/sbin/munin-node-configure --suggest
+
+# and enable them using
+/usr/sbin/munin-node-configure --shell | sh</pre></li></ul><h3>Network</h3>
+
+<ul>
+<li>ethtool - Usage <pre>
+ethtool eth0                       # Print general info on eth0
+ethtool -i eth0                    # Print kernel module info
+ethtool -S eth0                    # Print eth0 traffic statistics
+ethtool -a eth0                    # Print RX, TX and auto-negotiation settings
+
+# Changing NIC settings...
+ethtool -s eth0 speed 100
+ethtool -s eth0 autoneg off
+ethtool -s eth0 duplex full
+ethtool -s eth0 wol g               # Turn on wake-on-LAN
+</pre> Do not forget to make changes permanent in e.g. /etc/network/interfaces.</li>
+<li><a href="https://speakerdeck.com/gnb/130-lca2008-nfs-tuning-secrets-d7">NFS - Tuning Secrets</a>: SGI Slides on NFS Performance</li>
+<li>nttcp - TCP performance testing <pre># On sending host
+nttcp -t -s
+
+# On receiving host
+nttcp -r -s
+</pre></li>
+<li>tcpdump - Be verbose and print full package hex dumps: <pre> tcpdump -i eth0 -nN -vvv -xX -s 1500 port &lt;some port&gt;</pre></li>
+<li><a rel="nofollow" href="http://net-snmp.sourceforge.net/wiki/index.php/TUT:snmpwalk">SNMP - Dump all MIBs</a>: When you need to find the MIB for an object known only by name try <pre>snmpwalk -c public -v 1 -O s &lt;myhost&gt; .iso | grep &lt;search string&gt;</pre></li>
+<li><a rel="nofollow" href="http://bgp.he.net/">Hurricane Electric - BGP Tools</a>: Statistics on all AS as well as links to their looking glasses.</li></ul>
+
+<h3>Package Management</h3>
+
+<ul>
+<li>Debian <pre>apt-get install &lt;package&gt; 
+apt-get remove &lt;package&gt; # Remove files installed by &lt;package&gt;
+apt-get purge &lt;package&gt;  # Remove &lt;package&gt; and all the files it did create
+
+apt-get upgrade    # Upgrade all packages
+apt-get install &lt;package&gt; # Upgrade an install package
+
+apt-get dist-upgrade  # Upgrade distribution
+
+apt-cache search &lt;package&gt; # Check if there is such a package name in the repos
+apt-cache clean    # Remove all downloaded .debs
+
+dpkg -l      # List all installed/known packages
+
+# More dpkg invocations above in the "Debian" section!
+</pre>
+</li><li>Ubuntu (like Debian) with the addition of <pre>do-release-upgrade   # For Ubuntu release upgrades</pre></li><li>OpenSuSE <pre>zypper install &lt;package&gt; 
+
+zypper refresh    # Update repository infos
+
+zypper list-updates
+zypper repos    # List configured repositories
+
+zypper dist-upgrade   # Upgrade distribution
+zypper dup     # Upgrade distribution (alias)
+
+zypper search &lt;package&gt;  # Search for &lt;package&gt;
+zypper search --search-descriptions &lt;package&gt;
+
+zypper clean      # Clean package cache
+
+# For safe updates:
+zypper mr –keep-packages –remote # Enable caching of packages
+zypper dup -D      # Fetch packages using a dry run
+zypper mr –all –no-refresh  # Set cache usage for following dup
+zypper dup      # Upgrade!
+</pre>
+</li><li>Redhat: <pre>up2date</pre></li><li>Centos: 
+<pre>yum update     # Upgrade distro
+yum install &lt;package&gt;  # Install &lt;package&gt;</pre>
+</li></ul><h3>RAID</h3>
+
+<ul>
+<li>mdadm - Commands <pre>cat /proc/mdstat   # Print status
+
+mdadm --detail /dev/md0  # Print status per md
+
+mdadm --manage -r /dev/md0 /dev/sda1 # Remove a disk
+mdadm --zero-superblock /dev/sda1  # Initialize a disk
+mdadm --manage -a /dev/md0 /dev/sda1 # Add a disk
+
+mdadm --manage --set-faulty /dev/md0 /dev/sda1
+</pre></li><li>hpacucli - Commands <pre># Show status of all arrays on all controllers
+hpacucli all show config
+hpacucli all show config detail
+
+# Show status of specific controller
+hpacucli ctrl=0 pd all show
+
+# Show Smart Array status
+hpacucli all show status
+</pre></li><li>LSI MegaRAID - Commands <pre># Get number of controllers
+/opt/MegaRAID/MegaCli/MegaCli64 -adpCount -NoLog
+
+# Get number of logical drives on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdGetNum -a0 -NoLog
+
+# Get info on logical drive #0 on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdInfo -L0 -a0 -NoLog
+</pre></li></ul><h3>Security</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.unixwiz.net/techtips/chroot-practices.html">chroot Best Practices</a></li><li><a rel="nofollow" href="http://www.enyo.de/fw/software/debsecan/">Debian - Package Vulnerability Scanner</a>: <pre>debsecan --suite=sid</pre></li><li><a rel="nofollow" href="http://www.freebsd.org/doc/en/books/handbook/security-portaudit.html">FreeBSD - Package Vulnerability Scanner</a>: <pre>portaudit -Fda</pre></li> 
+<li><a href="/Automated+Linux+Package+Vulnerability+Scanning">Overview of Automated Linux Package Vulnerability Scanning</a></li><li><a rel="nofollow" href="http://aslakjohansen.wordpress.com/tag/aa-complain/">Debug Apparmor</a>: How to determine which permissions prevent some type of access.</li><li><a rel="nofollow" href="http://www.openvas.org/index.html">OpenVAS - Security Scanner</a> (commercial)</li><li><a rel="nofollow" href="http://cromwell-intl.com/security/security-stack-hardening.html">TCP/IP Stack Hardening</a>: Unix network hardening</li><li><a rel="nofollow" href="http://www.dfn-cert.de/informationen/themen/verschluesselung_und_pki/openssl-kurzreferenz.html">OpenSSL Kurzreferenz</a>: All commands to create keys, certificates and certificate requests.</li><li>Print x509 Certificate Infos: <pre>openssl x509 -text -in my.crt</pre> By replacing "x509" with "ca" or "crt" you can dump other file types too.</li><li><a href="http://lzone.de/node/20">mkpasswd - Create Passwords</a></li></ul><h3>Shell</h3>
+
+<ul>
+<li>date: Convert To Unix Timestamp: <pre>date -d "$date" +%s</pre></li>
+<li><a rel="nofollow" href="http://anton.lr2.com/2006/04/06/convert-a-unix-epoch-timestamp-to-a-date-in-bash/">date: Convert From Unix Timestamp</a>: <pre>date -d "1970-01-01 1234567890 sec GMT"</pre></li>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//www.unix.com/shell-programming-scripting/21877-how-get-month-last-date-unix.html">date: Calculate Last Day of Month</a>: <pre>cal $(date "+%M %y") | grep -v ^$ | tail -1 | sed 's/^.* \([0-9]*\)$/\1/'</pre></li><li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//unimpressed.org/post/384314353/stupid-shell-tricks-tab-completion">bash: Extend Completion</a>: How to setup your own bash completion schemas. <pre>complete -W 'add branch checkout clone commit diff grep init log merge mv pull push rebase rm show status tag' git</pre></li>
+<li>bash - Pass file descriptor insteaf of commands: This can be used with all tools that demand a file name paramter: <pre>diff &lt;(echo abc;echo def) &lt;(echo abc;echo abc)</pre>
+</li>
+<li>bash - Regexp matching: <pre>if [[ "$string" =~ ^[0-9]+$ ]]; then 
+    echo "Is a number"
+fi</pre></li>
+<li>bash - Regexp match extraction variant #1: Note how you need to set the regexp into a variable because you must not quote it in the if condition! <pre>REGEXP="2013:06:23 ([0-9]+):([0-9]+)"
+if [[ "$string" =~ $REGEXP ]]; then
+    echo "Hour ${BASH_REMATCH[1]} Minute ${BASH_REMATCH[2]}"
+fi</pre>
+<li>bash - Regexp match extraction variant #2: Actually using "expr" can much simpler especially when only on value is to be extracted: <pre>
+hour=$(expr match "$string" '2013:06:23 \([0-9]\+\)')
+</pre></li>
+<li><a rel="nofollow" href="http://www.burtonini.com/blog/computers/shell-magic-2007-11-19-15-22">bash - kill all childs on exit</a>: <pre>trap true TERM
+kill -- -$$</pre></li>
+<li><a rel="nofollow" href="http://www.catonmat.net/blog/bash-one-liners-explained-part-four/">bash - Control History Handling</a>:
+<pre>unset HISTFILE      # Stop logging history in this bash instance
+HISTIGNORE="[ ]*"      # Do not log commands with leading spaces
+HISTIGNORE="&"      # Do not log a command multiple times
+
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S" # Log with timestamps
+</pre>
+</li><li><a href="/apply+limits+immediately">bash - apply /etc/security/limits.conf change immediately</a>: <pre>sudo -i -u &lt;user&gt;</pre></li><li><a rel="nofollow" href="http://www.panix.com/%7Ekylet/unix-att.html">Mail Attachments</a>: Dozens of variants to mail attachments using Unix tools.</li><li><a href="http://lzone.de/follow+file+with+tail+until+removed">tail -f until removed</a>: When you want to tail a file until it gets removed <pre>tail --follow=name myfile</pre></li><li><a href="/how+to+join+CSV+Files">join - DB-like joining of CSV files</a>: <pre>join -o1.2,2.3 -t ";" -1 1 -2 2 employee.csv tasks.csv</pre></li><li>shell - list all commands: <pre>compgen -c |sort -u</pre></li><li>shell - Check for interactive terminal: Run "tty" in silent mode and check the exit code <pre>tty -s</pre></li><li><a href="/node/23">shell - ANSI color matrix</a></li><li>Sorting column: Use the -k switch of "sort" to sort lines by a column. E.g. <pre>cat access.log | sort -k 1</pre></li><li><a rel="nofollow" href="http://www.commandlinefu.com/commands/tagged/583/watch">watch</a>: wait for file/directory changes and run a command <pre>watch -d ls -l</pre></li><li><a rel="nofollow" href="http://unix.stackexchange.com/questions/25372/turn-off-buffering-in-pipe">Shell - Unbuffer Output</a>: <pre>stdbuf -i0 -o0 -e0 &lt;some command&gt;  # Best solution
+
+unbuffer &lt;some command&gt;     # Wrapper script from expect
+</pre>
+</li><li>dos2unix with vi: <pre>:%s/^V^M//g</pre></li></ul><h3>SSH</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.eng.cam.ac.uk/help/jpmg/ssh/authorized_keys_howto.html">authorized_keys HowTo</a>: Syntax and options...</li><li>Easy Key Copying: Stop editing authorized_keys remote. Use the standard OpenSSH ssh-copy-id instead. <pre>ssh-copy-id [-i keyfile] user@maschine</pre></li><li><a rel="nofollow" href="http://www.statusq.org/archives/2008/07/03/1916/">ProxyCommand</a>: Run SSH over a gateway and forward to other hosts based and/or perform some type of authentication. In .ssh/config you can have: <pre>Host unreachable_host
+  ProxyCommand ssh gateway_host exec nc %h %p</pre></li><li><a rel="nofollow" href="http://sshmenu.sourceforge.net/articles/transparent-mulithop.html">Transparent Multi-Hop</a>: <pre>ssh host1 -A -t host2 -A -t host3 ...</pre></li><li><a rel="nofollow" href="/?q=node/6">100% non-interactive SSH</a>: What parameters to use to avoid any interaction. <pre>ssh -i my_priv_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey user@host -n "/bin/ls"</pre></li><li><a rel="nofollow" href="http://jeff.robbins.ws/articles/setting-the-umask-for-sftp-transactions">SFTP chroot with umask</a>: How to enforce a umask with SFTP <pre>Subsystem sftp /usr/libexec/openssh/sftp-server -u 0002</pre></li><li><a rel="nofollow" href="http://www.unixwiz.net/techtips/ssh-agent-forwarding.html">Agent Forwarding</a> explained with pictures! Configured in /etc/ssh_config with <pre>Host *
+ForwardAgent yes</pre></li><li><a rel="nofollow" href="http://magicmonster.com/kb/net/ssh/socks_proxy.html">How to use a SOCKS Proxy</a> On the client start proxy by <pre>ssh -D &lt;port&gt; &lt;remote host&gt;</pre></li></ul>
+
+<h3>Webserver Stack</h3>
+
+<ul>
+<li><a href="/articles/rewrite-migrate.htm">Apache vs. Lighttpd Rewrite Rules</a>: How to migrate.</li>
+<li>Apache - Rewrite on File Pattern <pre>RewriteCond %{REQUEST_FILENAME} (.*)\.(html|htm)$</pre></li>
+<li>Apache - Rewrite on User Agent <pre>RewriteCond %{HTTP_USER_AGENT} (iPhone|iPad)</pre></li>
+<li><a rel="nofollow" href="http://people.apache.org/~trawick/exception_hook.html">Apache - Exception Hook</a>: Since 2.0.49 Apache has an exception hook to handle crashes. <pre>EnableExceptionHook on</pre></li><li><a href="/memcache+monitoring+GUIs">memcached - List of Monitoring Solutions</a></li>
+<li><a href="/articles/memcached.htm">memcached - List of Telnet Commands</a></li>
+<li><a href="/dump+memcache+keys">memcached - How to Dump Keys</a><pre>stats cachedump &lt;slab class&gt; &lt;number of keys to dump&gt;</pre></li>
+<li><a rel="nofollow" href="http://search.cpan.org/~dmaki/Memcached-libmemcached-0.4202/src/libmemcached/docs/memdump.pod">memcached - Key Dump Tool "memdump"</a></li>
+<li><a rel="nofollow" href="http://www.mikeperham.com/2009/01/14/consistent-hashing-in-memcache-client/">memcached - Persistent Hashing</a>: How to survive server failures without the whole cluster degrading. Of course applies to any cache.</li>
+<li>memcachedb - Log Archiving: To clean unused memcachedb logs open a telnet session and run <pre>db_archive</pre>to clean unused log files</li>
+<li>nginx - Complex Conditions: As nginx does not support complex logic in if() conditions you need to set flags in a smart way to workaround it. <pre># Define a control flag
+set $extra_handling = 0;
+
+# Set the control flag when needed
+if ($variable1 ~* pattern) {
+    set $extra_handling = 1;
+}
+
+# Unset the flag if needed
+if ( $variable2 = 1 ) {
+    set $extra_handling = 0;
+}
+
+if ( $extra_handling = 1 ) {
+    # Trigger intended behaviour
+}</pre></li>
+<li><a href="/Most%20Important%20Redis%20Commands%20for%20Sysadmins">Redis - Most Important Commands for Sysadmins</a></li>
+</ul>
+This is a list of non-trivial Linux administration commands and can be used as a cheat sheet or link collection. If you find errors or want to add something please post a comment below!
+
+<h3>Automation Products</h3>
+
+Which automation tools are actually out there?
+
+<ul>
+<li><a rel="nofollow" href="http://trac.mcs.anl.gov/projects/bcfg2/">Bcfg2</a>: Alternative to puppet and cfengine by Argonne National Laboratory. (IMO out-dated)</li>
+<li><a rel="nofollow" href="http://www.nico.schottelius.org/software/cdist/">cdist</a>: configuration with shell scripting</li>
+<li><a rel="nofollow" href="http://cfengine.com/">cfengine</a> (active, commercially backed, large user base)</li>
+<li><a rel="nofollow" href="http://www.opscode.com/chef/">Chef</a>: Alternative to puppet (Ruby, active, commercially backed, large user base)</li>
+<li><a href="http://www.emc.com/data-center-management/unified-infrastructure-manager.htm">EMC UIM</a> - Unified Infrastructure Manager, VCE VBlock (enterprise, commercial)</li>
+<li><a rel="nofollow" href="http://puppetlabs.com/">Puppet</a> (Ruby-like + Ruby, active, commercially backed, large user base)</li><li><a rel="nofollow" href="http://www.steve.org.uk/Software/slaughter/">slaughter</a> (Perl, active, small user base)</li><li><a rel="nofollow" href="https://github.com/crafterm/sprinkle">Sprinkle</a> (Ruby, quite recent)</li>
+<li><a href="http://rundeck.org">Rundeck</a> - Workflow manager for node - role systems like EC2, chef, puppet ...</li>
+<li><a href="http://www.saltstack.com/community/">SaltStack</a> - (Python, semi-commercial, new, small user base)</li>
+</ul>
+
+<p>Finally it is worth to check the <a rel="nofollow" href="http://en.wikipedia.org/wiki/Comparison_of_open_source_configuration_management_software">Wikipedia Comparison Chart</a> for other less known and new tools!</p>
+
+<h3>Automation</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//packages.debian.org/wheezy/augeas-tools">Augeas</a>: Very flexible file editor to be used with Puppet or standalone. Could also work with cfengine. <pre>$ augtool
+augtool&gt; set /files/etc/ssh/sshd_config/PermitRootLogin no
+augtool&gt; save</pre></li><li><a rel="nofollow" href="http://projects.puppetlabs.com/projects/1/wiki/Puppet_Augeas">Augeas - in Puppet</a>: Using Puppet with Augeas <pre>augeas { "sshd_config":
+ changes =&gt; [
+ "set /files/etc/ssh/sshd_config/PermitRootLogin no",
+ ],
+}</pre></li><li>cfengine: Force running shortly after a recent execution <pre>cfagent -K</pre></li><li><a rel="nofollow" href="http://cfengine.com/cfengine-design-center">cfengine - Design Center</a>: Git repository with sketches and examples for cfengine.</li><li><a href="/recipes+for+cfengine">cfengine - cf-sketch</a>: Find and install sketches from the Design Center repository</li><li><a rel="nofollow" href="http://detox.sourceforge.net/">detox</a>: Tool for recursive cleanup of file names. <pre>detox -v -r &lt;directory&gt;</pre></li>
+<li>Chef - Dry Run: <pre>chef-client -Fmin --why-run</pre></li>
+<li>Chef - List System Info: <pre>ohai</pre></li>
+<li>Chef - List Node Info: <pre>knife node show &lt;node></pre></li>
+<li>Chef - List Nodes per Role: <pre>knife search node 'roles:&lt;role name&gt;'</pre></li>
+<li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">Chef - Fix RabbitMQ 100% CPU usage</a></li>
+<li>Chef - knife + SSH: <pre>knife ssh -a ipaddress name:server1 "chef-client"</pre> you can also use patterns: <pre>knife ssh -a ipaddress name:www* "uptime"</pre></li> 
+<li><a href="http://lzone.de/Chef+Recipe+for+Editing+Config+Files">Chef - Edit Files</a>: using a Script resource.</li>
+<li><a rel="nofollow" href="http://gerhardlazu.com/2010/08/using-chef-to-manage-amazon-ec2-instances-part1/">Chef - Manage Amazon EC2 instances</a></li>
+<li><a rel="nofollow" href="http://wiki.opscode.com/display/chef/Nagios+Quick+Start">Chef - Tutorial on how to Setup Nagios in EC2</a></li><li>puppet: Debugging deployment and rules on a local machine. This only makes sense in "one time" mode running in one of the following variants:
+<pre>puppetd --test # enable standard debugging options
+puppetd --debug # enable full debugging
+puppetd --one-time --detailed-exitcodes # Enable exit codes:
+           # 2=changes applied
+           # 4=failure
+</pre></li></ul>
+
+<h3>Software Firewalls, LBs</h3>
+
+<ul>
+<li><a href="http://pfsense.org/">pfsense</a> OpenBSD firewall</li>
+<li><a href="http://vyatta.org/">vyatta</a> Linux firewall</li>
+<li><a href="http://zenloadbalancer.com/">Zen Load Balancer</a> (virtual appliance)</li>
+<li><a href="http://haproxy.1wt.eu/">HAProxy</a> TCP LB</li>
+</ul>
+
+<h3>Install Servers</h3>
+
+<ul>
+<li><a href="http://www.cobblerd.org/">Cobbler</a></li>
+<li><a href="http://www.ubuntu.com/cloud/tools/maas">MAAS</a> - Ubuntu "Metal As A Service" install server</li>
+<li></li>
+</ul>
+
+<h3>Orchestration Tools</h3>
+
+<ul>
+<li><a rel="nofollow" href="https://launchpad.net/juju">JuJu</a>: mostly for Ubuntu, service orchestration tool (Python, commercially backed)</li>
+<li><a href="http://www.maestrodev.com/">Maestro</a> (enterprise, commercial)</li>
+<li><a href="http://puppetlabs.com/mcollective">mcollective</a> - Puppet parallelizing and orchestration framework</li>
+<li><a href="http://www.saltstack.com/community/">SaltStack</a></li>
+</ul>
+
+<h3>Database</h3>
+
+<ul>
+<li><a href="/mysql+administration+commands">MySQL - Administration Commands</a></li>
+<li><a href="/Postgres+Administration+Commands">Postgres - Administration Commands</a></li>
+<li><a rel="nofollow" href="http://www.lognormal.com/blog/2012/09/27/linux-tcpip-tuning/">TCP/IP tuning for scaling</a></li><li><a href="http://lzone.de/node/27">pgbouncer - Debug Pooler Error</a></li>
+<li><a href="http://lzone.de/How-To-Debug-PgBouncer">pgbouncer - Debugging HowTo</a></li>
+</ul>
+
+<h3>Debian</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//tldp.org/HOWTO/Wireless-Link-sys-WPC11/x295.html">Build Kernel Package</a>: How to build kernel packages with make-pkg <pre>cd /usr/src/linux &amp;&amp; make-kpkg clean &amp;&amp; make-kpkg --initrd --revision=myrev kernel_image</pre></li><li><a rel="nofollow" href="http://changelog.complete.org/archives/496-how-to-solve-the-following-packages-cannot-be-authenticated">Setup Keyring</a>: How to solve "The following packages cannot be authenticated" <pre>apt-get install debian-archive-keyring
+apt-get update</pre></li><li><a rel="nofollow" href="http://forums.debian.net/viewtopic.php?f=17&t=40109">Force remove broken "reportbug"</a>: This can happen during dist-upgrades from Etch/Sarge to Lenny.</li><li>Packages - Reconfigure after installation: <pre>dpkg-reconfigure -a</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php">dpkg Cheat-Sheet</a>: Query package infos <pre># Resolve file to package
+dpkg -S /etc/fstab
+
+# Print all files of a package
+dpkg -L passwd # provided files
+dpkg -c passwd # owned files
+
+# Find packages by name
+dpkg -l gnome*
+
+# Package details
+dpkg -p passwd
+</pre></li><li>Ubuntu - Access Repositories for older releases. Once a release is deprecated it is moved to old-releases.ubuntu.com. You need to adapt /etc/apt/sources.list to fetch packages from there <pre>sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/' /etc/apt/sources.list</pre></li></ul>
+
+<h3>Debugging / Performance Tools</h3>
+
+<ul>
+<li>Reboot when /sbin is unusable <pre>echo b >/proc/sysrq-trigger</pre></li>
+<li>List Context Switches per Process <pre>pidstat -w</pre></li>
+<li>Drop Filesystem Cache <pre>echo 1 &gt; /proc/sys/vm/drop_caches</pre></li>
+<li><a rel="nofollow" href="http://rajar.am/post/555326598/identifying-process-causing-lots-of-iowait">dmesg - block IO debugging</a>: <pre>echo 1 > /proc/sys/vm/block_dump
+
+# wait some time...
+echo 0 > /proc/sys/vm/block_dump
+
+# Now check syslog for block dump lines
+</pre></li>
+<li>Check for changed sysctl() settings: <pre>sysctl -p</pre></li>
+<li><a rel="nofollow" href="/Filtering+dmesg+Output">dmesg - Filtering Output</a>: <pre>dmesg -T      # Enable human readable timestamps
+dmesg -x      # Show facility and log level
+dmesg -f daemon     # Filter for facility daemon
+dmesg -l err,crit,alert,emerg # Filter for errors
+</pre></li><li><a rel="nofollow" href="http://prefetch.net/blog/index.php/2009/07/01/listing-file-system-lock-files-on-linux-hosts/">lslk - Find file locks</a>: Use lslk to find which PID is blocking an flock() to a file.</li><li><a rel="nofollow" href="http://danielmiessler.com/study/lsof/">lsof</a> - Find owners of open file handles: <pre>lsof      # Complete list
+lsof -i :22    # Filter single TCP port
+lsof -i@192.168.1.5:22 # Filter single connection endpoint
+lsof -u &lt;user&gt;   # Filter per user
+lsof -c &lt;name&gt;   # Filter per process name
+lsof -p 12345    # Filter by PID
+lsof /etc/hosts   # Filter single file
+</pre></li><li><a rel="nofollow" href="https://perf.wiki.kernel.org/articles/t/u/t/Tutorial.html">Perf Tutorial</a>: 2.6+ generic kernel performance statistics tool. <pre>perf stat -B some_command</pre></li><li><a rel="nofollow" href="http://dag.wieers.com/home-made/dstat/">dstat</a>: Replaces vmstat, iostat, netstat and ifstat and allows to determine PID that is most CPU and most I/O expensive <pre>dstat -a --top-bio --top-cpu</pre></li><li><a rel="nofollow" href="http://guichaz.free.fr/iotop/">iotop</a>: Python script to monitor I/O like top</li><li><a href="/articles/apd-setup.htm">PHP - How to setup the APD debugger</a></li></ul>
+
+<h3>Filesystem / Partitioning</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://unetbootin.sourceforge.net/">uNetBootin</a>: Create bootable media for any distribution. Most useful with USB sticks.</li><li><a rel="nofollow" href="http://www.troubleshooters.com/linux/ext2toext3.htm">Convert ext2 to ext3</a>: <pre>tune2fs -j /dev/hda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/tips/linux-convert-ext3-to-ext4-file-system.html">Convert ext3 to ext4</a>: <pre>tune2fs -O extents,uninit_bg,dir_index /dev/sda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/faq/linux-show-contents-of-filesystem-superblock-inode/">Determine Inode Count</a>: <pre>tune2fs -l /dev/sda1 | grep Inode</pre></li><li><a href="http://liferea.blogspot.de/2010/06/serious-performance-issues-with-ext4fs.html">Disable ext4 barriers</a>: Add "barrier=0" to the mount options.</li><li><a rel="nofollow" href="http://sujithemmanuel.blogspot.com/2007/04/how-to-add-disk-to-lvm.html">LVM - Add another disk</a>: How to add a disk to an existing volume
+<pre># Setup partition with (use parted for &gt;2TB)
+(parted) mklabel gpt       # only when &gt;2TB
+(parted) mkpart primary lvm 0 4T    # setup disk full size (e.g. 4TB)
+
+pvcreate /dev/sdb1       # Create physical LVM disk
+vgextend vg01 /dev/sdb1      # Add to volume group
+vgextend -L +4t /dev/mapper/vg01-lvdata  # Extend your volume 
+resize2fs /dev/mapper/vg01-lvdata   # Auto-resize file system</pre></li>
+<li>rsync - --delete doesn't work</a>:  It happens when you call rsync without a trailing slash in the source path like this:
+
+<pre>rsync -az -e ssh --delete /data server:/data</pre>
+
+It just won't delete anything. It will when running it like this:
+
+<pre>rsync -az -e ssh --delete /data/ server:/data</pre></li></ul>
+
+<h3>Hosting</h3>
+
+<ul>
+<li>Hoster Lookup: <a href="http://www.whoishostingthis.com/">whoishosthingthis.com</a>, <a href="http://who-hosts.com/">who-hosts.com</a></li>
+<li><a href="http://iplist.net">iplist.net</a>: Simple reverse lookup of neighbour IPs</li>
+<li>Hoster Status: Status Channels for different hosters:
+<ul>
+<!------------------------>  
+<li>Rackspace: <a href="https://twitter.com/RackStatus" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RackStatus</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+<!------------------------>  
+<li>CloudFlare: <a href="https://twitter.com/CloudFlareSys" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @CloudFlareSys</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+<!------------------------>  
+<li>Hetzner: <a href="https://twitter.com/hetznerstatus" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @hetznerstatus</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>Hardware Info</h3>
+
+<ul>
+<li>HP - Find Installed Memory: <pre>dmidecode 2>&1 |grep -A17 -i "Memory Device" |egrep "Memory Device|Locator: PROC|Size" |grep -v "No Module Installed" |grep -A1 -B1 "Size:"</pre></li>
+</ul>
+
+<h3>Mail</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.cyberciti.biz/tips/howto-postfix-flush-mail-queue.html">Postfix - Drop Mails</a> <pre>postsuper -d ALL
+postsuper -d ALL deferred</pre></li>
+<li><a href="http://www.microsoft.com/mscorp/safety/content/technologies/senderid/wizard/default.aspx" rel="nofollow">Microsoft SPF Record Tool</a>: SPF Record wizard</li>
+</ul>
+
+<h3>Middleware</h3>
+
+<ul>
+<li>Heartbeat - Manual IP Failover <pre># Either run on the node that should take over
+/usr/share/heartbeat/hb_failover
+
+# Or run on the node to should stop working
+/usr/share/heartbeat/hb_standby</pre>
+</li>
+<li><a rel="nofollow" href="http://www.keepalived.org/">keepalived</a>: Simple VRRP solution</li>
+<li>Pacemaker - Commands <pre>
+# Cluster Resource Status
+crm_mon
+crm_mon -1
+crm_mon -f   # failure count
+
+# Dump and Import Config
+cibadmin --query --obj_type resources >file.xml
+cibadmin --replace --obj_type resources --xml-file file.xml
+
+# Resource Handling
+crm resource stop &lt;name>
+crm resource start &lt;name>
+crm resource move &lt;name> &lt;node>
+
+# Put entire cluster in maintenance
+crm configure property maintenance-mode=true
+crm configure property maintenance-mode=false
+
+# Unmanaged Mode for single services
+crm resource unmanage &lt;name>
+crm resource manage &lt;name>
+</pre>
+</li>
+<li><a href="http://varwww.com/2013/06/18/simple-pacemaker-tutorial-for-ubuntu/">Pacemaker - Setup Steps</a></li>
+<li>RabbitMQ - Commands <pre>rabbitmqctl list_vhosts   # List all defined vhosts
+rabbitmqctl list_queues &lt;vhost&gt; # List all queues for the vhost
+
+rabbitmqctl report    # Dump detailed report on RabbitMQ instance  
+
+# Plugin management
+/usr/lib/rabbitmq/bin/rabbitmq-plugins enable &lt;name>
+/usr/lib/rabbitmq/bin/rabbitmq-plugins list   
+</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">RabbitMQ - Fix Chef 100% CPU usage</a></li>
+<li><a href="http://varwww.com/2013/06/17/clustering-and-queue-mirroring-in-rabbitmq-looks-easy/">RabbitMQ - Setup Clustering</a></li>
+<li>wackamole - Commands <pre>
+wackatrl -l     # List status
+wackatrl -f     # Remove node from cluster
+wackatrl -s     # Add node to cluster again
+</pre></li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+<li><a href="http://simple-evcorr.sourceforge.net">SEC - Simple Event Correlation</a></li>
+<li>Munin - Test Plugins: <pre>/usr/sbin/munin-run &lt;plugin name&gt; # for values
+/usr/sbin/munin-run &lt;plugin name&gt; config # for configuration</pre></li>
+<li><a rel="nofollow" href="http://articles.slicehost.com/2010/4/9/enabling-munin-node-plug-ins-on-centos">Munin - Test available plugins</a> <pre>/usr/sbin/munin-node-configure --suggest
+
+# and enable them using
+/usr/sbin/munin-node-configure --shell | sh</pre></li>
+<li>Munin Server - Manual Update Run: <pre>sudo -u munin /usr/bin/munin-cron</pre></li>
+<li><a href="http://oss.oetiker.ch/smokeping/">SmokePing - Monitoring network latency and loss</a></li>
+<li><a href="/Nagios-Plugin-for-dmesg-Monitoring">dmesg Nagios Plugin</a></li>
+</ul>
+
+<a href="/Linux Network Administration Commands"><h3>Network Administration Commands</h3></a>
+
+<h3>Package Management</h3>
+
+<ul>
+<li>Debian <pre>apt-get install &lt;package&gt; 
+apt-get remove &lt;package&gt; # Remove files installed by &lt;package&gt;
+apt-get purge &lt;package&gt;  # Remove &lt;package&gt; and all the files it did create
+
+apt-get upgrade    # Upgrade all packages
+apt-get install &lt;package&gt; # Upgrade an install package
+
+apt-get dist-upgrade  # Upgrade distribution
+
+apt-cache search &lt;package&gt; # Check if there is such a package name in the repos
+apt-cache clean    # Remove all downloaded .debs
+
+dpkg -l      # List all installed/known packages
+
+# More dpkg invocations above in the "Debian" section!
+</pre>
+</li><li>Ubuntu (like Debian) with the addition of <pre>
+# 1. Edit settings in  /etc/update-manager/release-upgrades
+# e.g. set "Prompt=lts"
+
+# 2. Run upgrade
+do-release-upgrade -d   # For Ubuntu release upgrades</pre></li><li>OpenSuSE <pre>zypper install &lt;package&gt; 
+
+zypper refresh    # Update repository infos
+
+zypper list-updates
+zypper repos    # List configured repositories
+
+zypper dist-upgrade   # Upgrade distribution
+zypper dup     # Upgrade distribution (alias)
+
+zypper search &lt;package&gt;  # Search for &lt;package&gt;
+zypper search --search-descriptions &lt;package&gt;
+
+zypper clean      # Clean package cache
+
+# For safe updates:
+zypper mr –keep-packages –remote # Enable caching of packages
+zypper dup -D      # Fetch packages using a dry run
+zypper mr –all –no-refresh  # Set cache usage for following dup
+zypper dup      # Upgrade!
+</pre>
+</li><li>Redhat: <pre>up2date</pre></li><li>Centos: 
+<pre>yum update     # Upgrade distro
+yum install &lt;package&gt;  # Install &lt;package&gt;</pre>
+</li></ul><h3>RAID</h3>
+
+<ul>
+<li>mdadm - Commands <pre>cat /proc/mdstat   # Print status
+
+mdadm --detail /dev/md0  # Print status per md
+
+mdadm --manage -r /dev/md0 /dev/sda1 # Remove a disk
+mdadm --zero-superblock /dev/sda1  # Initialize a disk
+mdadm --manage -a /dev/md0 /dev/sda1 # Add a disk
+
+mdadm --manage --set-faulty /dev/md0 /dev/sda1
+</pre></li><li>hpacucli - Commands <pre># Show status of all arrays on all controllers
+hpacucli all show config
+hpacucli all show config detail
+
+# Show status of specific controller
+hpacucli ctrl=0 pd all show
+
+# Show Smart Array status
+hpacucli all show status
+</pre></li><li>LSI MegaRAID - Commands <pre># Get number of controllers
+/opt/MegaRAID/MegaCli/MegaCli64 -adpCount -NoLog
+
+# Get number of logical drives on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdGetNum -a0 -NoLog
+
+# Get info on logical drive #0 on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdInfo -L0 -a0 -NoLog
+</pre></li></ul><h3>Security</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.unixwiz.net/techtips/chroot-practices.html">chroot Best Practices</a></li><li><a rel="nofollow" href="http://www.enyo.de/fw/software/debsecan/">Debian - Package Vulnerability Scanner</a>: <pre>debsecan --suite=sid</pre></li><li><a rel="nofollow" href="http://www.freebsd.org/doc/en/books/handbook/security-portaudit.html">FreeBSD - Package Vulnerability Scanner</a>: <pre>portaudit -Fda</pre></li> 
+<li><a href="/Automated+Linux+Package+Vulnerability+Scanning">Overview of Automated Linux Package Vulnerability Scanning</a></li><li><a rel="nofollow" href="http://aslakjohansen.wordpress.com/tag/aa-complain/">Debug Apparmor</a>: How to determine which permissions prevent some type of access.</li><li><a rel="nofollow" href="http://www.openvas.org/index.html">OpenVAS - Security Scanner</a> (commercial)</li><li><a rel="nofollow" href="http://cromwell-intl.com/security/security-stack-hardening.html">TCP/IP Stack Hardening</a>: Unix network hardening</li><li><a rel="nofollow" href="http://www.dfn-cert.de/informationen/themen/verschluesselung_und_pki/openssl-kurzreferenz.html">OpenSSL Kurzreferenz</a>: All commands to create keys, certificates and certificate requests.</li><li>Print x509 Certificate Infos: <pre>openssl x509 -text -in my.crt</pre> By replacing "x509" with "ca" or "crt" you can dump other file types too.</li><li><a href="http://lzone.de/node/20">mkpasswd - Create Passwords</a></li></ul>
+
+<h3><a href="/Shell-Scripting-Cheat-Sheet">Shell Scripting - Cheat Sheet</a></h3>
+
+<h3>SSH</h3>
+
+<ul>
+<li>SSH Escape Key: Pressing "~?" (directly following a newline) gives a menu for escape sequences: <pre>Supported escape sequences:
+  ~.  - terminate connection (and any multiplexed sessions)
+  ~B  - send a BREAK to the remote system
+  ~C  - open a command line
+  ~R  - Request rekey (SSH protocol 2 only)
+  ~^Z - suspend ssh
+  ~#  - list forwarded connections
+  ~&  - background ssh (when waiting for connections to terminate)
+  ~?  - this message
+  ~~  - send the escape character by typing it twice
+(Note that escapes are only recognized immediately after newline.)
+</pre></li>
+<li>SSH Mounting remote filesystem: <pre># To mount a remote home dir 
+sshfs user@server: /mnt/home/user/
+
+# Unmount again with
+fuserumount -u /mnt/home/user</pre></li>
+<li><a rel="nofollow" href="http://www.eng.cam.ac.uk/help/jpmg/ssh/authorized_keys_howto.html">authorized_keys HowTo</a>: Syntax and options...</li>
+<li>Automatic Jump Host Proxying: Use the following ~/.ssh/config snippet and create ~/.ssh/tmp before using it <pre>
+ControlMaster auto
+ControlPath /home/&lt;user name&gt;/.ssh/tmp/%h_%p_%r
+ 
+Host &lt;your jump host&gt;
+  ForwardAgent yes
+  Hostname &lt;your jump host&gt;
+  User &lt;your user name on jump host&gt;
+
+# Note the server list can have wild cards, e.g. "webserver-* database*"
+Host &lt;server list&gt;
+  ForwardAgent yes
+  User &lt;your user name on all these hosts&gt;
+  ProxyCommand ssh -q &lt;your jump host&gt; nc -q0 %h 22
+</pre></li>
+<li>Easy Key Copying: Stop editing authorized_keys remote. Use the standard OpenSSH ssh-copy-id instead. <pre>ssh-copy-id [-i keyfile] user@maschine</pre></li><li><a rel="nofollow" href="http://www.statusq.org/archives/2008/07/03/1916/">ProxyCommand</a>: Run SSH over a gateway and forward to other hosts based and/or perform some type of authentication. In .ssh/config you can have: <pre>Host unreachable_host
+  ProxyCommand ssh gateway_host exec nc %h %p</pre></li><li><a rel="nofollow" href="http://sshmenu.sourceforge.net/articles/transparent-mulithop.html">Transparent Multi-Hop</a>: <pre>ssh host1 -A -t host2 -A -t host3 ...</pre></li><li><a rel="nofollow" href="/?q=node/6">100% non-interactive SSH</a>: What parameters to use to avoid any interaction. <pre>ssh -i my_priv_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey user@host -n "/bin/ls"</pre></li><li><a rel="nofollow" href="http://jeff.robbins.ws/articles/setting-the-umask-for-sftp-transactions">SFTP chroot with umask</a>: How to enforce a umask with SFTP <pre>Subsystem sftp /usr/libexec/openssh/sftp-server -u 0002</pre></li><li><a rel="nofollow" href="http://www.unixwiz.net/techtips/ssh-agent-forwarding.html">Agent Forwarding</a> explained with pictures! Configured in /etc/ssh_config with <pre>Host *
+ForwardAgent yes</pre></li><li><a rel="nofollow" href="http://magicmonster.com/kb/net/ssh/socks_proxy.html">How to use a SOCKS Proxy</a> On the client start proxy by <pre>ssh -D &lt;port&gt; &lt;remote host&gt;</pre></li>
+<li>Parallel SSH on Debian <pre>apt-get install pssh</pre> and use it like this <pre>pssh -h host_list.txt &lt;args&gt;</pre></li>
+<li>Clustered SSH on Debian <pre>apt-get install clusterssh</pre> and use it like this <pre>cssh server1 server2</pre></li>
+</ul>
+
+<h3>Webserver Stack</h3>
+
+<ul>
+<li>Alexa Pagerank API <pre>http://data.alexa.com/data?cli=10&url=$DOMAIN</pre></li>
+<li><a href="/articles/rewrite-migrate.htm">Apache vs. Lighttpd Rewrite Rules</a>: How to migrate.</li>
+<li>Apache - Rewrite on File Pattern <pre>RewriteCond %{REQUEST_FILENAME} (.*)\.(html|htm)$</pre></li>
+<li>Apache - Rewrite on User Agent <pre>RewriteCond %{HTTP_USER_AGENT} (iPhone|iPad)</pre></li>
+<li><a rel="nofollow" href="http://people.apache.org/~trawick/exception_hook.html">Apache - Exception Hook</a>: Since 2.0.49 Apache has an exception hook to handle crashes. <pre>EnableExceptionHook on</pre></li>
+<li>Apache - Pipe CustomLog to a script: <pre> LoadModule logio_module modules/mod_logio.so
+
+&lt;IfModule mod_logio.c>
+        CustomLog "| some-script.sh"  "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
+&lt;/IfModule>
+</pre></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Controlling_DNS_prefetching">DNS Prefetching HTML</a>: <pre>
+# Turning it on/off globally
+&lt;meta http-equiv="x-dns-prefetch-control" content="off">
+
+# Turning it on per-domain
+&lt;link rel="dns-prefetch" href="http://www.spreadfirefox.com/">
+</pre></li>
+<li><a href="http://lincolnloop.com/django-best-practices/" rel="nofollow">Django Best Practices</a></li>
+<li><a href="/memcache+monitoring+GUIs">memcached - List of Monitoring Solutions</a></li>
+<li><a href="/articles/memcached.htm">memcached - List of Telnet Commands</a></li>
+<li><a href="/dump+memcache+keys">memcached - How to Dump Keys</a><pre>stats cachedump &lt;slab class&gt; &lt;number of keys to dump&gt;</pre></li>
+<li><a rel="nofollow" href="http://search.cpan.org/~dmaki/Memcached-libmemcached-0.4202/src/libmemcached/docs/memdump.pod">memcached - Key Dump Tool "memdump"</a></li>
+<li><a rel="nofollow" href="http://www.mikeperham.com/2009/01/14/consistent-hashing-in-memcache-client/">memcached - Persistent Hashing</a>: How to survive server failures without the whole cluster degrading. Of course applies to any cache.</li>
+<li>memcachedb - Log Archiving: To clean unused memcachedb logs open a telnet session and run <pre>db_archive</pre>to clean unused log files</li>
+<li>nginx - Complex Conditions: As nginx does not support complex logic in if() conditions you need to set flags in a smart way to workaround it. <pre># Define a control flag
+set $extra_handling = 0;
+
+# Set the control flag when needed
+if ($variable1 ~* pattern) {
+    set $extra_handling = 1;
+}
+
+# Unset the flag if needed
+if ( $variable2 = 1 ) {
+    set $extra_handling = 0;
+}
+
+if ( $extra_handling = 1 ) {
+    # Trigger intended behaviour
+}</pre></li>
+<li><a href="/Most%20Important%20Redis%20Commands%20for%20Sysadmins">Redis - Most Important Commands for Sysadmins</a></li>
+<li><a href="http://lzone.de/quick-test-proxy-setup">Squid - Quick Test Proxy Setup</a></li>
+<li>SSL - nginx BEAST mitigation: <pre>ssl_ciphers RC4:HIGH:!aNULL:!MD5;
+ssl_prefer_server_ciphers on;</pre></li>
+<li><a href="https://www.howsmyssl.com">HTTPS Client Test</a></li>
+<li><a href="https://www.ssllabs.com/ssltest">HTTPS Server Test</a></li>
+<li><a href="https://www.imperialviolet.org/2010/06/25/overclocking-ssl.html" rel="nofollow">SSL Overclocking</a></li>
+<li><a href="https://insouciant.org/tech/ssl-performance-case-study/" rel="nofollow">SSL Performance Case Study Cloudflare</a></li>
+<li><a href="https://community.qualys.com/blogs/securitylabs/2013/08/05/configuring-apache-nginx-and-openssl-for-forward-secrecy">Configure Forward Secrecy</a>: HowTo for Apache, nginx and OpenSSL</li>
+<li>Prevent out of ports on high traffic webserver due to FIN_WAIT and other issues:
+<pre># Ensure to maximize available ports
+cat /proc/sys/net/ipv4/ip_local_port_range
+echo 1024 65535 >/proc/sys/net/ipv4/ip_local_port_range
+</pre> and set sockets to reuse
+<pre># sysctl -p
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+</pre></li>
+<li><a rel="nofollow" href="http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/">Linux HTTP/TCP Tuning for initcwnd</a> <pre>ip route change default via &lt;gateway> dev eth0 initcwnd 10</pre> consider also to increase net.ipv4.tcp_wmem[1]</li>
+<li><a rel="nofollow" href="http://www.cdnplanet.com/blog/initcwnd-settings-major-cdn-providers/">initcwnd settings used by different CDNs</a></li>
+</ul>
+<h3>Automation - Products</h3>
+
+<table border='1' cellpadding='6px'>
+<tr>
+<th>Framework</th>
+<th>DSL</th>
+<th>CM</th>
+<th>CM Encryption</th>
+<th>Orchestration</th>
+</tr><tr>
+<td><a rel="nofollow" href="https://cfengine.com/">cfengine</a></td>
+<td>Propietary</td>
+<td>?</td>
+<td>?</td>
+<td>Enterprise Only</td>
+</tr><tr>
+<td><a rel="nofollow" href="http://puppetlabs.com/">Puppet</a></td>
+<td>Ruby</td>
+<td><a rel="nofollow" href="https://docs.puppetlabs.com/hiera/1/">Hiera</a></td>
+<td><a rel="nofollow" href="https://github.com/TomPoulton/hiera-eyaml">Hiera Eyaml</a></td>
+<td><a rel="nofollow" href="http://puppetlabs.com/mcollective">mcollective</a></td>
+</tr><tr>
+<td><a href="https://opscode.com">Chef</a></td>
+<td>Ruby</td>
+<td><a href="https://docs.getchef.com/essentials_data_bags.html">Builtin</a></td>
+<td><a href="https://docs.getchef.com/essentials_data_bags.html#encrypt-a-data-bag-item">Builtin</a></td>
+<td><a href="https://www.getchef.com/blog/2013/12/16/getting-pushy-with-chef/">Pushy</a> (knife plugin + ZeroMQ)</td>
+</tr><tr>
+<td><a href="http://www.saltstack.com/community/">Saltstack</a></td>
+<td>Python</td>
+<td>Builtin</td>
+<td>Builtin</td>
+<td><a href="http://docs.saltstack.com/en/latest/topics/tutorials/states_pt5.html#orchestrate-runner">Builtin</a></td>
+</tr>
+</table>
+
+Other tools
+
+<ul>
+<li><a rel="nofollow" href="http://trac.mcs.anl.gov/projects/bcfg2/">Bcfg2</a>: Alternative to puppet and cfengine by Argonne National Laboratory. (IMO out-dated)</li>
+<li><a rel="nofollow" href="http://www.nico.schottelius.org/software/cdist/">cdist</a>: configuration with shell scripting</li>
+<li><a href="http://www.emc.com/data-center-management/unified-infrastructure-manager.htm">EMC UIM</a> - Unified Infrastructure Manager, VCE VBlock (enterprise, commercial)</li>
+<li><a rel="nofollow" href="http://www.steve.org.uk/Software/slaughter/">slaughter</a> (Perl, active, small user base)</li><li><a rel="nofollow" href="https://github.com/crafterm/sprinkle">Sprinkle</a> (Ruby, quite recent)</li>
+<li><a rel="nofollow" href="http://rundeck.org">Rundeck</a> - Workflow manager for node - role systems like EC2, chef, puppet ...</li>
+<li><a rel="nofollow" href="http://www-03.ibm.com/software/products/en/serviceautomationmanager">IBM Tivoli</a></li>
+</ul>
+
+<p>Finally it is worth to check the <a rel="nofollow" href="http://en.wikipedia.org/wiki/Comparison_of_open_source_configuration_management_software">Wikipedia Comparison Chart</a> for other less known and new tools!</p>
+
+<h3>Automation</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//packages.debian.org/wheezy/augeas-tools">Augeas</a>: Very flexible file editor to be used with Puppet or standalone. Could also work with cfengine. <pre>$ augtool
+augtool&gt; set /files/etc/ssh/sshd_config/PermitRootLogin no
+augtool&gt; save</pre></li><li><a rel="nofollow" href="http://projects.puppetlabs.com/projects/1/wiki/Puppet_Augeas">Augeas - in Puppet</a>: Using Puppet with Augeas <pre>augeas { "sshd_config":
+ changes =&gt; [
+ "set /files/etc/ssh/sshd_config/PermitRootLogin no",
+ ],
+}</pre></li>
+<li>cfengine: Force running shortly after a recent execution <pre>cfagent -K</pre></li>
+<li><a rel="nofollow" href="http://cfengine.com/cfengine-design-center">cfengine - Design Center</a>: Git repository with sketches and examples for cfengine.</li>
+<li><a href="/recipes+for+cfengine">cfengine - cf-sketch</a>: Find and install sketches from the Design Center repository</li>
+</ul>
+
+<h3>Automation - Chef</h3>
+<ul>
+<li>Chef - Dry Run: <pre>chef-client -Fmin --why-run</pre></li>
+<li>Chef - List System Info: <pre>ohai</pre></li>
+<li>Chef - Bootstrap client: <pre>knife bootstrap &lt;FQDN/IP></pre></li>
+<li>Chef - Change Run List: <pre>knife node run_list &lt;add|remove> &lt;node> &lt;cookbook>::&lt;recipe></pre></li>
+<li>Chef - List Node Info: <pre>knife node show &lt;node></pre></li>
+<li>Chef - List Nodes per Role: <pre>knife search node 'roles:&lt;role name&gt;'</pre></li>
+<li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">Chef - Fix RabbitMQ 100% CPU usage</a></li>
+<li>Chef - knife + SSH: <pre>knife ssh -a ipaddress name:server1 "chef-client"</pre> you can also use patterns: <pre>knife ssh -a ipaddress name:www* "uptime"</pre></li> 
+<li><a href="http://lzone.de/Chef+Recipe+for+Editing+Config+Files">Chef - Edit Files</a>: using a Script resource.</li>
+<li><a rel="nofollow" href="http://gerhardlazu.com/2010/08/using-chef-to-manage-amazon-ec2-instances-part1/">Chef - Manage Amazon EC2 instances</a></li>
+<li><a rel="nofollow" href="http://wiki.opscode.com/display/chef/Nagios+Quick+Start">Chef - Tutorial on how to Setup Nagios in EC2</a></li>
+<li>puppet: Debugging deployment and rules on a local machine. This only makes sense in "one time" mode running in one of the following variants:
+<pre>puppetd --test # enable standard debugging options
+puppetd --debug # enable full debugging
+puppetd --one-time --detailed-exitcodes # Enable exit codes:
+           # 2=changes applied
+           # 4=failure
+</pre></li>
+</ul>
+
+<h3>Automation - Puppet</h3>
+<ul>
+<li>Bootstrap client <pre>puppet agent -t --server &lt;puppet master> [&lt;options>]
+</pre></li>
+<li>Managing Certificates (on master) <pre>
+puppet cert list
+puppet cert list --all
+puppet cert sign &lt;name>
+puppet cert clean &lt;name>   # removes cert
+</pre></li>
+<li>Managing Modules <pre>
+puppet module list
+puppet module install &lt;name>
+puppet module uninstall &lt;name>
+puppet module upgrade &lt;name>
+puppet module search &lt;name>
+</pre></li>
+<li>Inspecting Resources/Types <pre>
+puppet describe -l
+puppet resource &lt;type name>
+
+# Querying Examples
+puppet resource user john.smith
+puppet resource service apache
+puppet resource mount /data
+puppet resource file /etc/motd
+puppet resource package wget
+</pre></li>
+<li><a rel="nofollow" href="http://puppetlabs.com/blog/geppetto-a-puppet-ide">Gepetto: Puppet IDE</a></li>
+<li><a rel="nofollow" href="http://www.craigdunn.org/2012/05/239/">puppet - Correctly using Roles and Profiles</a></li>
+<li>eyaml usage <pre>
+eyaml encrypt -f &lt;filename>
+eyaml encrypt -s &lt;string>
+eyaml encrypt -p      # Encrypt password, will prompt for it
+
+eyaml decrypt -f &lt;filename>
+eyaml decrypt -s &lt;string>
+
+eyaml edit -f &lt;filename>    # Decrypts, launches in editor and reencrypts
+</pre></li>
+<li>mcollective commands <pre>
+mco ping
+mco ping -W "/some match pattern/"
+mco ping -S "&lt;some select query>"
+
+# List agents, queries, plugins...
+mco plugin doc
+mco plugin doc &lt;name>
+
+mco rpc service start service=httpd
+mco rpc service stop service=httpd
+
+mco facts &lt;keyword>
+
+mco inventory &lt;node name>
+
+# With shell plugin installed
+mco shell run &lt;command>
+mco shell run --tail &lt;command>
+
+mco shell start &lt;command>    # Returns an id
+mco shell watch &lt;id>
+mco shell kill &lt;id>
+mco shell list
+</pre></li>
+</ul>
+
+<h3>Software Firewalls, LBs</h3>
+
+<ul>
+<li><a href="http://pfsense.org/">pfsense</a> OpenBSD firewall</li>
+<li><a href="http://vyatta.org/">vyatta</a> Linux firewall</li>
+<li><a href="http://zenloadbalancer.com/">Zen Load Balancer</a> (virtual appliance)</li>
+<li><a href="http://haproxy.1wt.eu/">HAProxy</a> TCP LB</li>
+</ul>
+
+<h3>Install Servers</h3>
+
+<ul>
+<li><a href="http://www.cobblerd.org/">Cobbler</a></li>
+<li><a href="http://www.ubuntu.com/cloud/tools/maas">MAAS</a> - Ubuntu "Metal As A Service" install server</li>
+<li><a href="http://theforeman.org/">Foreman</a> (integrated with puppet)</li>
+</ul>
+
+<h3>Orchestration Tools</h3>
+
+<ul>
+<li><a rel="nofollow" href="https://launchpad.net/juju">JuJu</a>: mostly for Ubuntu, service orchestration tool (Python, commercially backed)</li>
+<li><a href="http://www.maestrodev.com/">Maestro</a> (enterprise, commercial)</li>
+<li><a href="http://puppetlabs.com/mcollective">mcollective</a> - Puppet parallelizing and orchestration framework</li>
+<li><a href="http://www.saltstack.com/community/">SaltStack</a></li>
+</ul>
+
+<h3>Database</h3>
+
+<ul>
+<li><a href="/mysql+administration+commands">MySQL - Administration Commands</a></li>
+<li><a href="/Postgres+Administration+Commands">Postgres - Administration Commands</a></li>
+<li><a rel="nofollow" href="http://www.lognormal.com/blog/2012/09/27/linux-tcpip-tuning/">TCP/IP tuning for scaling</a></li><li><a href="http://lzone.de/node/27">pgbouncer - Debug Pooler Error</a></li>
+<li><a href="http://lzone.de/How-To-Debug-PgBouncer">pgbouncer - Debugging HowTo</a></li>
+</ul>
+
+<h3>Debian</h3>
+
+<ul>
+<li>Check for security upgrades <pre>
+# With apt-show-versions
+apt-show-versions | grep "security upgradeable"
+
+# With aptitude
+aptitude search '?and(~U,~Asecurity)'
+</pre></li>
+<li><a rel="nofollow" href="http://delicious.com/redirect?url=http%3A//tldp.org/HOWTO/Wireless-Link-sys-WPC11/x295.html">Build Kernel Package</a>: How to build kernel packages with make-pkg <pre>cd /usr/src/linux &amp;&amp; make-kpkg clean &amp;&amp; make-kpkg --initrd --revision=myrev kernel_image</pre></li><li><a rel="nofollow" href="http://changelog.complete.org/archives/496-how-to-solve-the-following-packages-cannot-be-authenticated">Setup Keyring</a>: How to solve "The following packages cannot be authenticated" <pre>apt-get install debian-archive-keyring
+apt-get update</pre></li><li><a rel="nofollow" href="http://forums.debian.net/viewtopic.php?f=17&t=40109">Force remove broken "reportbug"</a>: This can happen during dist-upgrades from Etch/Sarge to Lenny.</li><li>Packages - Reconfigure after installation: <pre>dpkg-reconfigure -a</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php">dpkg Cheat-Sheet</a>: Query package infos <pre># Resolve file to package
+dpkg -S /etc/fstab
+
+# Print all files of a package
+dpkg -L passwd # provided files
+dpkg -c passwd # owned files
+
+# Find packages by name
+dpkg -l gnome*
+
+# Package details
+dpkg -p passwd
+</pre></li><li>Ubuntu - Access Repositories for older releases. Once a release is deprecated it is moved to old-releases.ubuntu.com. You need to adapt /etc/apt/sources.list to fetch packages from there <pre>sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/' /etc/apt/sources.list</pre></li>
+<li>Ubuntu - List Security Updates <pre># Print summary
+/usr/lib/update-notifier/apt-check --human-readable
+
+# Print package names
+/usr/lib/update-notifier/apt-check -p</pre></li>
+<li>Ubuntu - Upgrade Security Fixes Only <pre>apt-get dist-upgrade -o Dir::Etc::SourceList=/etc/apt/sources.security.repos.only.list</pre></li>
+</ul>
+
+<h3>Debugging / Performance Tools</h3>
+
+<ul>
+<li>Reboot when /sbin is unusable <pre>echo b >/proc/sysrq-trigger</pre></li>
+<li>List Context Switches per Process <pre>pidstat -w</pre></li>
+<li>Drop Filesystem Cache <pre>echo 1 &gt; /proc/sys/vm/drop_caches</pre></li>
+<li><a rel="nofollow" href="http://rajar.am/post/555326598/identifying-process-causing-lots-of-iowait">dmesg - block IO debugging</a>: <pre>echo 1 > /proc/sys/vm/block_dump
+
+# wait some time...
+echo 0 > /proc/sys/vm/block_dump
+
+# Now check syslog for block dump lines
+</pre></li>
+<li>Check for changed sysctl() settings: <pre>sysctl -p</pre></li>
+<li><a rel="nofollow" href="/Filtering+dmesg+Output">dmesg - Filtering Output</a>: <pre>dmesg -T      # Enable human readable timestamps
+dmesg -x      # Show facility and log level
+dmesg -f daemon     # Filter for facility daemon
+dmesg -l err,crit,alert,emerg # Filter for errors
+</pre></li><li><a rel="nofollow" href="http://prefetch.net/blog/index.php/2009/07/01/listing-file-system-lock-files-on-linux-hosts/">lslk - Find file locks</a>: Use lslk to find which PID is blocking an flock() to a file.</li><li><a rel="nofollow" href="http://danielmiessler.com/study/lsof/">lsof</a> - Find owners of open file handles: <pre>lsof      # Complete list
+lsof -i :22    # Filter single TCP port
+lsof -i@192.168.1.5:22 # Filter single connection endpoint
+lsof -u &lt;user&gt;   # Filter per user
+lsof -c &lt;name&gt;   # Filter per process name
+lsof -p 12345    # Filter by PID
+lsof /etc/hosts   # Filter single file
+</pre></li><li><a rel="nofollow" href="https://perf.wiki.kernel.org/articles/t/u/t/Tutorial.html">Perf Tutorial</a>: 2.6+ generic kernel performance statistics tool. <pre>perf stat -B some_command</pre></li><li><a rel="nofollow" href="http://dag.wieers.com/home-made/dstat/">dstat</a>: Replaces vmstat, iostat, netstat and ifstat and allows to determine PID that is most CPU and most I/O expensive <pre>dstat -a --top-bio --top-cpu</pre></li><li><a rel="nofollow" href="http://guichaz.free.fr/iotop/">iotop</a>: Python script to monitor I/O like top</li><li><a href="/articles/apd-setup.htm">PHP - How to setup the APD debugger</a></li>
+<li>PHP - How to build Debian package for modules from PECL <pre>apt-get install dh-make-php
+dh-make-pecl &lt;module name>
+cd &lt;source directory>
+debuild
+# .deb package will be in ...
+</pre></li>
+<li><a href="https://github.com/draios/sysdig/wiki/Sysdig%20Examples">Sysdig</a>: Some of the project examples <pre>sysdig fd.name contains /etc
+sysdig -c topscalls_time    # Top system calls
+sysdig -c topfiles_time proc.name=httpd    # Top files by process
+sysdig -c topfiles_bytes     # Top I/O per file
+sysdig -c fdcount_by fd.cip "evt.type=accept"   # Top connections by IP
+sysdig -c fdbytes_by fd.cip  # Top bytes per IP
+
+# Sick MySQL check via Apache
+sysdig -A -c echo_fds fd.sip=192.168.30.5 and proc.name=apache2 and evt.buffer contains SELECT
+
+sysdig -cl # List plugins
+sysdig -c bottlenecks  # Run bottlenecks plugin
+</pre></li>
+</ul>
+
+<h3>Filesystem / Partitioning</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://detox.sourceforge.net/">detox</a>: Tool for recursive cleanup of file names. <pre>detox -v -r &lt;directory&gt;</pre></li>
+<li><a href="http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux" rel="nofollow">Fast File Deletion</a>: <pre>perl -e 'for(&lt;*>){((stat)[9]<(unlink))}'</pre></li>
+<li>POSIX ACLs: 
+<pre>
+getfacl &lt;file>  # List ACLs for file 
+setfacl -m user:joe:rwx dir # Modify ACL
+ls -ld &lt;file>    # Check for active ACL (indicates a "+")</pre>
+</li>
+<li><a rel="nofollow" href="http://unetbootin.sourceforge.net/">uNetBootin</a>: Create bootable media for any distribution. Most useful with USB sticks.</li><li><a rel="nofollow" href="http://www.troubleshooters.com/linux/ext2toext3.htm">Convert ext2 to ext3</a>: <pre>tune2fs -j /dev/hda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/tips/linux-convert-ext3-to-ext4-file-system.html">Convert ext3 to ext4</a>: <pre>tune2fs -O extents,uninit_bg,dir_index /dev/sda1</pre></li><li><a rel="nofollow" href="http://www.cyberciti.biz/faq/linux-show-contents-of-filesystem-superblock-inode/">Determine Inode Count</a>: <pre>tune2fs -l /dev/sda1 | grep Inode</pre></li><li><a href="http://liferea.blogspot.de/2010/06/serious-performance-issues-with-ext4fs.html">Disable ext4 barriers</a>: Add "barrier=0" to the mount options.</li><li><a rel="nofollow" href="http://sujithemmanuel.blogspot.com/2007/04/how-to-add-disk-to-lvm.html">LVM - Add another disk</a>: How to add a disk to an existing volume
+<pre># Setup partition with (use parted for &gt;2TB)
+(parted) mklabel gpt       # only when &gt;2TB
+(parted) mkpart primary lvm 0 4T    # setup disk full size (e.g. 4TB)
+
+pvcreate /dev/sdb1       # Create physical LVM disk
+vgextend vg01 /dev/sdb1      # Add to volume group
+vgextend -L +4t /dev/mapper/vg01-lvdata  # Extend your volume 
+resize2fs /dev/mapper/vg01-lvdata   # Auto-resize file system</pre></li>
+<li>rsync - --delete doesn't work</a>:  It happens when you call rsync without a trailing slash in the source path like this:
+
+<pre>rsync -az -e ssh --delete /data server:/data</pre>
+
+It just won't delete anything. It will when running it like this:
+
+<pre>rsync -az -e ssh --delete /data/ server:/data</pre></li></ul>
+
+<h3>Hosting</h3>
+
+<ul>
+<li>Hoster Lookup: <a href="http://www.whoishostingthis.com/">whoishosthingthis.com</a>, <a href="http://who-hosts.com/">who-hosts.com</a></li>
+<li><a href="http://iplist.net">iplist.net</a>: Simple reverse lookup of neighbour IPs</li>
+<li>Hoster Status: Status Channels for different hosters:
+<ul>
+<!------------------------>  
+<li>Rackspace: <a href="https://twitter.com/RackStatus" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RackStatus</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+<!------------------------>  
+<li>CloudFlare: <a href="https://twitter.com/CloudFlareSys" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @CloudFlareSys</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+<!------------------------>  
+<li>Hetzner: <a href="https://twitter.com/hetznerstatus" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @hetznerstatus</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>Hardware Info</h3>
+
+<ul>
+<li>HP - Find Installed Memory: <pre>dmidecode 2>&1 |grep -A17 -i "Memory Device" |egrep "Memory Device|Locator: PROC|Size" |grep -v "No Module Installed" |grep -A1 -B1 "Size:"</pre></li>
+</ul>
+
+<h3>Mail</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.cyberciti.biz/tips/howto-postfix-flush-mail-queue.html">Postfix - Drop Mails</a> <pre>postsuper -d ALL
+postsuper -d ALL deferred</pre></li>
+<li><a href="https://help.ubuntu.com/community/Postfix/DKIM">Postfix - OpenDKIM Setup on Ubuntu</a></li>
+<li><a href="https://help.ubuntu.com/community/Postfix/SPF">Postfix - SPF Setup on Ubuntu</a></li>
+<li><a href="http://www.microsoft.com/mscorp/safety/content/technologies/senderid/wizard/default.aspx" rel="nofollow">Microsoft SPF Record Tool</a>: SPF Record wizard</li>
+<li><a href="http://mxtoolbox.com">mxtoolbox.com</a> - RBL test an IP</a></li>
+</ul>
+
+<h3>Middleware</h3>
+
+<ul>
+<li>Heartbeat - Manual IP Failover <pre># Either run on the node that should take over
+/usr/share/heartbeat/hb_failover
+
+# Or run on the node to should stop working
+/usr/share/heartbeat/hb_standby</pre>
+</li>
+<li><a rel="nofollow" href="http://www.keepalived.org/">keepalived</a>: Simple VRRP solution</li>
+<li>Pacemaker - Commands <pre>
+# Cluster Resource Status
+crm_mon
+crm_mon -1
+crm_mon -f   # failure count
+
+# Dump and Import Config
+cibadmin --query --obj_type resources >file.xml
+cibadmin --replace --obj_type resources --xml-file file.xml
+
+# Resource Handling
+crm resource stop &lt;name>
+crm resource start &lt;name>
+crm resource move &lt;name> &lt;node>
+
+# Put entire cluster in maintenance
+crm configure property maintenance-mode=true
+crm configure property maintenance-mode=false
+
+# Unmanaged Mode for single services
+crm resource unmanage &lt;name>
+crm resource manage &lt;name>
+</pre>
+</li>
+<li><a href="http://varwww.com/2013/06/18/simple-pacemaker-tutorial-for-ubuntu/">Pacemaker - Setup Steps</a></li>
+<li>RabbitMQ - Commands <pre>rabbitmqctl list_vhosts   # List all defined vhosts
+rabbitmqctl list_queues &lt;vhost&gt; # List all queues for the vhost
+
+rabbitmqctl report    # Dump detailed report on RabbitMQ instance  
+
+# Plugin management
+/usr/lib/rabbitmq/bin/rabbitmq-plugins enable &lt;name>
+/usr/lib/rabbitmq/bin/rabbitmq-plugins list   
+</pre></li><li><a href="http://lzone.de/Solving+100%25+CPU+usage+of+Chef">RabbitMQ - Fix Chef 100% CPU usage</a></li>
+<li><a href="http://varwww.com/2013/06/17/clustering-and-queue-mirroring-in-rabbitmq-looks-easy/">RabbitMQ - Setup Clustering</a></li>
+<li>wackamole - Commands <pre>
+wackatrl -l     # List status
+wackatrl -f     # Remove node from cluster
+wackatrl -s     # Add node to cluster again
+</pre></li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+<li><a href="http://simple-evcorr.sourceforge.net">SEC - Simple Event Correlation</a></li>
+<li>Munin - Test Plugins: <pre>/usr/sbin/munin-run &lt;plugin name&gt; # for values
+/usr/sbin/munin-run &lt;plugin name&gt; config # for configuration</pre></li>
+<li><a rel="nofollow" href="http://articles.slicehost.com/2010/4/9/enabling-munin-node-plug-ins-on-centos">Munin - Test available plugins</a> <pre>/usr/sbin/munin-node-configure --suggest
+
+# and enable them using
+/usr/sbin/munin-node-configure --shell | sh</pre></li>
+<li>Munin Server - Manual Update Run: <pre>sudo -u munin /usr/bin/munin-cron</pre></li>
+<li><a href="http://oss.oetiker.ch/smokeping/">SmokePing - Monitoring network latency and loss</a></li>
+<li><a href="/Nagios-Plugin-for-dmesg-Monitoring">dmesg Nagios Plugin</a></li>
+</ul>
+
+<a href="/Linux Network Administration Commands"><h3>Network Administration Commands</h3></a>
+
+<h3>Package Management</h3>
+
+<ul>
+<li>Debian File Diversion: <pre># Register diverted path and move away
+dpkg-divert --add --rename --divert &lt;renamed file path> &file path>
+
+# Remove a diversion again (remove file first!)
+dpkg-divert --rename --remove &lt;file path>
+</pre></li>
+<li>Debian <pre>apt-get install &lt;package&gt; 
+apt-get remove &lt;package&gt; # Remove files installed by &lt;package&gt;
+apt-get purge &lt;package&gt;  # Remove &lt;package&gt; and all the files it did create
+
+apt-get upgrade    # Upgrade all packages
+apt-get install &lt;package&gt; # Upgrade an install package
+
+apt-get dist-upgrade  # Upgrade distribution
+
+apt-cache search &lt;package&gt; # Check if there is such a package name in the repos
+apt-cache clean    # Remove all downloaded .debs
+
+dpkg -l      # List all installed/known packages
+
+# More dpkg invocations above in the "Debian" section!
+</pre>
+</li><li>Ubuntu (like Debian) with the addition of <pre>
+# 1. Edit settings in  /etc/update-manager/release-upgrades
+# e.g. set "Prompt=lts"
+
+# 2. Run upgrade
+do-release-upgrade -d   # For Ubuntu release upgrades</pre></li>
+<li>Ubuntu: Unattended Upgrades <pre>apt-get install unattended-upgrades
+dpkg-reconfigure -plow unattended-upgrades 
+# and maybe set notification mail address in /etc/apt/apt.conf.d/50unattended-upgrades</pre></li>
+<li>OpenSuSE <pre>zypper install &lt;package&gt; 
+
+zypper refresh    # Update repository infos
+
+zypper list-updates
+zypper repos    # List configured repositories
+
+zypper dist-upgrade   # Upgrade distribution
+zypper dup     # Upgrade distribution (alias)
+
+zypper search &lt;package&gt;  # Search for &lt;package&gt;
+zypper search --search-descriptions &lt;package&gt;
+
+zypper clean      # Clean package cache
+
+# For safe updates:
+zypper mr –keep-packages –remote # Enable caching of packages
+zypper dup -D      # Fetch packages using a dry run
+zypper mr –all –no-refresh  # Set cache usage for following dup
+zypper dup      # Upgrade!
+</pre>
+</li>
+<li>Redhat: <pre>up2date</pre></li><li>Centos: 
+<pre>yum update     # Upgrade distro
+yum install &lt;package&gt;  # Install &lt;package&gt;</pre>
+</li></ul><h3>RAID</h3>
+
+<ul>
+<li>mdadm - Commands <pre>cat /proc/mdstat   # Print status
+
+mdadm --detail /dev/md0  # Print status per md
+
+mdadm --manage -r /dev/md0 /dev/sda1 # Remove a disk
+mdadm --zero-superblock /dev/sda1  # Initialize a disk
+mdadm --manage -a /dev/md0 /dev/sda1 # Add a disk
+
+mdadm --manage --set-faulty /dev/md0 /dev/sda1
+</pre></li><li>hpacucli - Commands <pre># Show status of all arrays on all controllers
+hpacucli all show config
+hpacucli all show config detail
+
+# Show status of specific controller
+hpacucli ctrl=0 pd all show
+
+# Show Smart Array status
+hpacucli all show status
+
+# Create new Array
+hpacucli ctrl slot=0 create type=logicaldrive drives=1I:1:3,1I:1:4 raid=1
+</pre></li><li>LSI MegaRAID - Commands <pre># Get number of controllers
+/opt/MegaRAID/MegaCli/MegaCli64 -adpCount -NoLog
+
+# Get number of logical drives on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdGetNum -a0 -NoLog
+
+# Get info on logical drive #0 on controller #0
+/opt/MegaRAID/MegaCli/MegaCli64 -LdInfo -L0 -a0 -NoLog
+</pre></li></ul><h3>Security</h3>
+
+<ul>
+<li><a rel="nofollow" href="http://www.unixwiz.net/techtips/chroot-practices.html">chroot Best Practices</a></li>
+<li><a rel="nofollow" href="http://www.enyo.de/fw/software/debsecan/">Debian - Package Vulnerability Scanner</a>: <pre>debsecan --suite=sid</pre></li><li><a rel="nofollow" href="http://www.freebsd.org/doc/en/books/handbook/security-portaudit.html">FreeBSD - Package Vulnerability Scanner</a>: <pre>portaudit -Fda</pre></li> 
+<li><a href="/Automated+Linux+Package+Vulnerability+Scanning">Overview of Automated Linux Package Vulnerability Scanning</a></li>
+<li><a rel="nofollow" href="http://aslakjohansen.wordpress.com/tag/aa-complain/">Debug Apparmor</a>: How to determine which permissions prevent some type of access.</li>
+<li><a rel="nofollow" href="http://www.openvas.org/index.html">OpenVAS - Security Scanner</a> (commercial)</li>
+<li><a rel="nofollow" href="http://cromwell-intl.com/security/security-stack-hardening.html">TCP/IP Stack Hardening</a>: Unix network hardening</li>
+<li><a rel="nofollow" href="http://savannah.nongnu.org/projects/tiger/">Tiger</a> - Unix auditing tool</li>
+<li><a rel="nofollow" href="http://www.dfn-cert.de/informationen/themen/verschluesselung_und_pki/openssl-kurzreferenz.html">OpenSSL Kurzreferenz</a>: All commands to create keys, certificates and certificate requests.</li><li>Print x509 Certificate Infos: <pre>openssl x509 -text -in my.crt</pre> By replacing "x509" with "ca" or "crt" you can dump other file types too.</li><li><a href="http://lzone.de/node/20">mkpasswd - Create Passwords</a></li></ul>
+
+<h3><a href="/Shell-Scripting-Cheat-Sheet">Shell Scripting - Cheat Sheet</a></h3>
+
+<h3>SSH</h3>
+
+<ul>
+<li>SSH Escape Key: Pressing "~?" (directly following a newline) gives a menu for escape sequences: <pre>Supported escape sequences:
+  ~.  - terminate connection (and any multiplexed sessions)
+  ~B  - send a BREAK to the remote system
+  ~C  - open a command line
+  ~R  - Request rekey (SSH protocol 2 only)
+  ~^Z - suspend ssh
+  ~#  - list forwarded connections
+  ~&  - background ssh (when waiting for connections to terminate)
+  ~?  - this message
+  ~~  - send the escape character by typing it twice
+(Note that escapes are only recognized immediately after newline.)
+</pre></li>
+<li>SSH Mounting remote filesystem: <pre># To mount a remote home dir 
+sshfs user@server: /mnt/home/user/
+
+# Unmount again with
+fuserumount -u /mnt/home/user</pre></li>
+<li><a rel="nofollow" href="http://www.eng.cam.ac.uk/help/jpmg/ssh/authorized_keys_howto.html">authorized_keys HowTo</a>: Syntax and options...</li>
+<li>Automatic Jump Host Proxying: Use the following ~/.ssh/config snippet and create ~/.ssh/tmp before using it <pre>
+ControlMaster auto
+ControlPath /home/&lt;user name&gt;/.ssh/tmp/%h_%p_%r
+ 
+Host &lt;your jump host&gt;
+  ForwardAgent yes
+  Hostname &lt;your jump host&gt;
+  User &lt;your user name on jump host&gt;
+
+# Note the server list can have wild cards, e.g. "webserver-* database*"
+Host &lt;server list&gt;
+  ForwardAgent yes
+  User &lt;your user name on all these hosts&gt;
+  ProxyCommand ssh -q &lt;your jump host&gt; nc -q0 %h 22
+</pre></li>
+<li>Easy Key Copying: Stop editing authorized_keys remote. Use the standard OpenSSH ssh-copy-id instead. <pre>ssh-copy-id [-i keyfile] user@maschine</pre></li><li><a rel="nofollow" href="http://www.statusq.org/archives/2008/07/03/1916/">ProxyCommand</a>: Run SSH over a gateway and forward to other hosts based and/or perform some type of authentication. In .ssh/config you can have: <pre>Host unreachable_host
+  ProxyCommand ssh gateway_host exec nc %h %p</pre></li><li><a rel="nofollow" href="http://sshmenu.sourceforge.net/articles/transparent-mulithop.html">Transparent Multi-Hop</a>: <pre>ssh host1 -A -t host2 -A -t host3 ...</pre></li><li><a rel="nofollow" href="/?q=node/6">100% non-interactive SSH</a>: What parameters to use to avoid any interaction. <pre>ssh -i my_priv_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey user@host -n "/bin/ls"</pre></li><li><a rel="nofollow" href="http://jeff.robbins.ws/articles/setting-the-umask-for-sftp-transactions">SFTP chroot with umask</a>: How to enforce a umask with SFTP <pre>Subsystem sftp /usr/libexec/openssh/sftp-server -u 0002</pre></li><li><a rel="nofollow" href="http://www.unixwiz.net/techtips/ssh-agent-forwarding.html">Agent Forwarding</a> explained with pictures! Configured in /etc/ssh_config with <pre>Host *
+ForwardAgent yes</pre></li><li><a rel="nofollow" href="http://magicmonster.com/kb/net/ssh/socks_proxy.html">How to use a SOCKS Proxy</a> On the client start proxy by <pre>ssh -D &lt;port&gt; &lt;remote host&gt;</pre></li>
+<li>Parallel SSH on Debian <pre>apt-get install pssh</pre> and use it like this <pre>pssh -h host_list.txt &lt;args&gt;</pre></li>
+<li>Clustered SSH on Debian <pre>apt-get install clusterssh</pre> and use it like this <pre>cssh server1 server2</pre></li>
+<li>Vim Remote File Editing: <pre>vim scp://user@host//some/directory/file.txt</pre></li>
+</ul>
+
+<h3>Webserver Stack</h3>
+
+<ul>
+<li>Alexa Pagerank API <pre>http://data.alexa.com/data?cli=10&url=$DOMAIN</pre></li>
+<li><a href="/articles/rewrite-migrate.htm">Apache vs. Lighttpd Rewrite Rules</a>: How to migrate.</li>
+<li>Apache - Rewrite on File Pattern <pre>RewriteCond %{REQUEST_FILENAME} (.*)\.(html|htm)$</pre></li>
+<li>Apache - Rewrite on User Agent <pre>RewriteCond %{HTTP_USER_AGENT} (iPhone|iPad)</pre></li>
+<li><a rel="nofollow" href="http://people.apache.org/~trawick/exception_hook.html">Apache - Exception Hook</a>: Since 2.0.49 Apache has an exception hook to handle crashes. <pre>EnableExceptionHook on</pre></li>
+<li>Apache - Pipe CustomLog to a script: <pre> LoadModule logio_module modules/mod_logio.so
+
+&lt;IfModule mod_logio.c>
+        CustomLog "| some-script.sh"  "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
+&lt;/IfModule>
+</pre></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Controlling_DNS_prefetching">DNS Prefetching HTML</a>: <pre>
+# Turning it on/off globally
+&lt;meta http-equiv="x-dns-prefetch-control" content="off">
+
+# Turning it on per-domain
+&lt;link rel="dns-prefetch" href="http://www.spreadfirefox.com/">
+</pre></li>
+<li>Apache Zookeeper CLI <pre>
+# Connect with
+zkCli.sh -server 127.0.0.1:2181
+
+# Commands
+ls &lt;path>
+get &lt;path>
+set &lt;path> <value>
+delete &lt;path>
+</pre></li>
+<li><a href="http://lincolnloop.com/django-best-practices/" rel="nofollow">Django Best Practices</a></li>
+<li><a href="http://www.heise.de/security/artikel/Zukunftssicher-Verschluesseln-mit-Perfect-Forward-Secrecy-1923800.html" rel="nofollow">HTTPS - Perfect Forward Secrecy (PFS)</a>: Use <pre>    TLS_ECDHE_RSA_WITH_RC4_128_SHA
+    TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+    TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+    TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA 
+</pre></li>
+<li><a href="/memcache+monitoring+GUIs">memcached - List of Monitoring Solutions</a></li>
+<li><a href="/articles/memcached.htm">memcached - List of Telnet Commands</a></li>
+<li><a href="/dump+memcache+keys">memcached - How to Dump Keys</a><pre>stats cachedump &lt;slab class&gt; &lt;number of keys to dump&gt;</pre></li>
+<li><a rel="nofollow" href="http://search.cpan.org/~dmaki/Memcached-libmemcached-0.4202/src/libmemcached/docs/memdump.pod">memcached - Key Dump Tool "memdump"</a></li>
+<li><a rel="nofollow" href="http://www.mikeperham.com/2009/01/14/consistent-hashing-in-memcache-client/">memcached - Persistent Hashing</a>: How to survive server failures without the whole cluster degrading. Of course applies to any cache.</li>
+<li>memcachedb - Log Archiving: To clean unused memcachedb logs open a telnet session and run <pre>db_archive</pre>to clean unused log files</li>
+<li>nginx - Complex Conditions: As nginx does not support complex logic in if() conditions you need to set flags in a smart way to workaround it. <pre># Define a control flag
+set $extra_handling = 0;
+
+# Set the control flag when needed
+if ($variable1 ~* pattern) {
+    set $extra_handling = 1;
+}
+
+# Unset the flag if needed
+if ( $variable2 = 1 ) {
+    set $extra_handling = 0;
+}
+
+if ( $extra_handling = 1 ) {
+    # Trigger intended behaviour
+}</pre></li>
+<li><a href="/Most%20Important%20Redis%20Commands%20for%20Sysadmins">Redis - Most Important Commands for Sysadmins</a></li>
+<li><a href="http://lzone.de/quick-test-proxy-setup">Squid - Quick Test Proxy Setup</a></li>
+<li>SSL - nginx BEAST mitigation: <pre>ssl_ciphers RC4:HIGH:!aNULL:!MD5;
+ssl_prefer_server_ciphers on;</pre></li>
+<li><a href="https://www.howsmyssl.com">HTTPS Client Test</a></li>
+<li><a href="https://www.ssllabs.com/ssltest">HTTPS Server Test</a></li>
+<li><a href="https://www.imperialviolet.org/2010/06/25/overclocking-ssl.html" rel="nofollow">SSL Overclocking</a></li>
+<li><a href="https://insouciant.org/tech/ssl-performance-case-study/" rel="nofollow">SSL Performance Case Study Cloudflare</a></li>
+<li><a href="https://community.qualys.com/blogs/securitylabs/2013/08/05/configuring-apache-nginx-and-openssl-for-forward-secrecy">Configure Forward Secrecy</a>: HowTo for Apache, nginx and OpenSSL</li>
+<li>Prevent out of ports on high traffic webserver due to FIN_WAIT and other issues:
+<pre># Ensure to maximize available ports
+cat /proc/sys/net/ipv4/ip_local_port_range
+echo 1024 65535 >/proc/sys/net/ipv4/ip_local_port_range
+</pre> and set sockets to reuse
+<pre># sysctl -p
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+</pre></li>
+<li><a rel="nofollow" href="http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/">Linux HTTP/TCP Tuning for initcwnd</a> <pre>ip route change default via &lt;gateway> dev eth0 initcwnd 10</pre> consider also to increase net.ipv4.tcp_wmem[1]</li>
+<li><a rel="nofollow" href="http://www.cdnplanet.com/blog/initcwnd-settings-major-cdn-providers/">initcwnd settings used by different CDNs</a></li>
+</ul>

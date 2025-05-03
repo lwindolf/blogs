@@ -1,0 +1,108 @@
+Following the recent post on <a href="http://lzone.de/Debian+Ubuntu+ulimit+Check+List">how to investigate limit related issues</a> which gave instructions what to check if you suspect a system limit to be hit I want to share this Nagios check to cover the open file descriptor limit. Note that existing Nagios plugins like <a href="http://exchange.nagios.org/directory/Plugins/Operating-Systems/Linux/Check-Open-FDs-%28File-Descriptors%29/details">this</a> only check the global limit, only check <a href="http://exchange.nagios.org/directory/Plugins/Operating-Systems/Linux/Check-Open-FDs-%28File-Descriptors%29/details">one application</a> or do not output <a href="https://github.com/TAwarehouse/nagios-plugins/blob/master/check_proc_filehandles">all problems</a>. So here is my solution which does:
+
+<ol>
+<li>Check the global file descriptor limit</li>
+<li>Uses lsof to check all processes "nofile" hard limit</li>
+</ol>
+
+It has two simple parameters -w and -c to specify a percentage threshold. An example call:
+
+<pre>./check_nofile_limit.sh -w 70 -c 85</pre>
+
+could result in the following output indicating two problematic processes:
+
+<pre>WARNING memcached (PID 2398) 75% of 1024 used CRITICAL apache (PID 2392) 94% of 4096 used</pre>
+
+Here is the check script doing this:
+
+<pre class="brush: bash">#!/bin/bash
+
+
+# MIT License
+#
+# Copyright (c) 2017  Lars Windolf <lars.windolf@gmx.de>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# Check "nofile" limit for all running processes using lsof
+
+MIN_COUNT=0	# default "nofile" limit is usually 1024, so no checking for 
+		# processes with much less open fds needed
+
+WARN_THRESHOLD=80	# default warning:  80% of file limit used
+CRITICAL_THRESHOLD=90	# default critical: 90% of file limit used
+
+while getopts "hw:c:" option; do
+	case $option in
+		w) WARN_THRESHOLD=$OPTARG;;
+		c) CRITICAL_THRESHOLD=$OPTARG;;	
+		h) echo "Syntax: $0 [-w &lt;warning percentage>] [-c &lt;critical percentage>]"; exit 1;;
+	esac
+done
+
+results=$(
+# Check global limit
+global_max=$(cat /proc/sys/fs/file-nr 2>&1 |cut -f 3)
+global_cur=$(cat /proc/sys/fs/file-nr 2>&1 |cut -f 1)
+ratio=$(( $global_cur * 100 / $global_max))
+
+if [ $ratio -ge $CRITICAL_THRESHOLD ]; then
+	echo "CRITICAL global file usage $ratio% of $global_max used"
+elif [ $ratio -ge $WARN_THRESHOLD ]; then
+	echo "WARNING global file usage $ratio% of $global_max used"
+fi
+
+# We use the following lsof options:
+#
+# -n 	to avoid resolving network names
+# -b	to avoid kernel locks
+# -w	to avoid warnings caused by -b
+# +c15	to get somewhat longer process names
+#
+lsof -wbn +c15 2>/dev/null | awk '{print $1,$2}' | sort | uniq -c |\
+while read count name pid remainder; do
+	# Never check anything above a sane minimum
+	if [ $count -gt $MIN_COUNT ]; then
+		# Extract the hard limit from /proc
+		limit=$(cat /proc/$pid/limits 2>/dev/null| grep 'open files' | awk '{print $5}')
+
+		# Check if we got something, if not the process must have terminated
+		if [ "$limit" != "" ]; then
+			ratio=$(( $count * 100 / $limit ))
+			if [ $ratio -ge $CRITICAL_THRESHOLD ]; then
+				echo "CRITICAL $name (PID $pid) $ratio% of $limit used"
+			elif [ $ratio -ge $WARN_THRESHOLD ]; then
+				echo "WARNING $name (PID $pid) $ratio% of $limit used"
+			fi
+		fi
+	fi
+done
+)
+
+if echo $results | grep CRITICAL; then
+	exit 2
+fi
+if echo $results | grep WARNING; then
+	exit 1
+fi
+
+echo "All processes are fine."
+</pre>
+
+Use the script with caution! At the moment it has no protection against a hanging lsof. So the script might mess up your system if it hangs for some reason. If you have ideas how to improve it please share them in the comments!

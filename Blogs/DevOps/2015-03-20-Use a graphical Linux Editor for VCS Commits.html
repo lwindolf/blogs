@@ -1,0 +1,42 @@
+<h2>1. Using gedit</h2>
+
+If your main editor is the graphical GNOME editor <a href="http://projects.gnome.org/gedit/">gedit</a> you can also use it when doing version control system commits, crontab edits, visudo and others things on the command line. All you need is to set it to the $EDITOR environment variable.
+
+The only thing you need to be careful about is wether the editor detaches from the terminal right after starting. This must not happen as the calling command (e.g. "git commit -a") would never know when the editing is finished. So for gedit you have to add the "-w" switch to keep it waiting.
+
+<pre>export EDITOR="gedit -w"</pre>
+
+<h2>2. Using Emacs</h2>
+
+For XEmacs simply set
+
+<pre>export EDITOR=xemacs</pre>
+
+With Emacs itself you also have the possibility to use server mode by running emacs-client (see <a href="http://www.emacswiki.org/emacs/EmacsClient">"Starting emacs automatically"</a> in the EmacsWiki). To do so set
+
+<pre>export ALTERNATE_EDITOR=emacs EDITOR=emacsclient</pre>
+
+<h2>3. Using Other Editors</h2>
+
+If you use the goold old <a href="http://www.nedit.org/">Nirvana Editor nedit</a> you can simply
+
+<pre>export EDITOR=nedit</pre>
+
+the same goes for the KDE editor <a href="http://kate-editor.org/">kate</a>:
+
+<pre>export EDITOR=kate</pre>
+
+and if you want it really hurting try something <a href="http://www.abclinuxu.cz/EditRequest/91381;jsessionid=khl0fvjc0x451u4rzg4en619u?action=comment&threadId=1">like this</a>:
+
+<pre>export EDITOR=eclipse
+export VISUAL=oowriter</pre>
+
+<h2>4. $EDITOR and sudo</h2>
+
+When using sudo you need to pass $EDITOR along to the root environment. This can be done by using "sudo -e" e.g.
+
+<pre>sudo -e visudo</pre>
+
+Wether passing the enviroment to root is a good idea might be a good question though...
+
+Have fun!

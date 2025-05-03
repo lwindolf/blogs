@@ -1,0 +1,95 @@
+When Hiera works without any problems everything is fine. But when not
+it is quite hard to debug why it is not working. Here is a troubleshooting
+list for Hiera when used with hiera-eyaml-gpg.
+
+<h3>hiera-eyaml-gpg Decryption failed</h3>
+
+First check your GPG key list
+
+<pre>gpg --list-keys --homedir=&lt;.gnupg dir></pre>
+
+Check that at least one of the keys listed is in the recipients you
+use for decrypting. The recipients you used are either listed in your
+Hiera/Eyaml config file or in a file referenced from there.
+
+To verify what you active config is run eyaml in tracing mode. Note
+that the "-t" option is only available in newer Eyaml versions 
+(e.g. 2.0.5):
+
+<pre>eyaml decrypt -v -t -f somefile.yaml</pre>
+
+Trace output
+
+<pre>[hiera-eyaml-core]           (Symbol) trace_given        =        (TrueClass) true              
+[hiera-eyaml-core]           (Symbol) gpg_always_trust   =       (FalseClass) false             
+[hiera-eyaml-core]           (Symbol) trace              =        (TrueClass) true              
+[hiera-eyaml-core]           (Symbol) encrypt_method     =           (String) pkcs7             
+[hiera-eyaml-core]           (Symbol) gpg_gnupghome      =           (String) /etc/hiera/.gnupg      
+[hiera-eyaml-core]           (Symbol) pkcs7_private_key  =           (String) ./keys/private_key.pkcs7.pem
+[hiera-eyaml-core]           (Symbol) version            =       (FalseClass) false             
+[hiera-eyaml-core]           (Symbol) gpg_gnupghome_given =        (TrueClass) true              
+[hiera-eyaml-core]           (Symbol) help               =       (FalseClass) false             
+[hiera-eyaml-core]           (Symbol) quiet              =       (FalseClass) false             
+[hiera-eyaml-core]           (Symbol) gpg_recipients_file =           (String) ./gpg_recipients  
+[hiera-eyaml-core]           (Symbol) string             =         (NilClass)                   
+[hiera-eyaml-core]           (Symbol) file_given         =        (TrueClass) true   
+</pre>
+
+Alternatively try manually enforcing recipients and .gnupg location to make it work.
+
+<pre>eyaml decrypt -v -t -f somefile.yaml --gpg-recipients-file=&lt;recipients> --gpg-gnupghome=&lt;.gnupg dir></pre>
+
+If it works manually you might want to add the keys ":gpg-recipients-file:" 
+to hiera.yaml and ensure that the mandatory key ":gpg-gnupghome:" is correct.
+
+<h3>Checking Necessary Gems</h3>
+
+hiera-eyaml-gpg can be run with different GPG-libraries depending on the
+version you run. Check dependencies on Github.
+
+A possible stack is the following
+<pre>gem list
+[...]
+gpgme (2.0.5)
+hiera (1.3.2)
+hiera-eyaml (2.0.1)
+hiera-eyaml-gpg (0.4)
+[...]
+</pre>
+
+The GEM gpgme additionally needs the C library
+
+<pre>dpkg -l "*gpg*"
+||/ Name                Version             Beschreibung
++++-===================-===================-======================================================
+ii  libgpgme11          1.2.0-1.2+deb6u1    GPGME - GnuPG Made Easy
+</pre>
+
+<h3>Using Correct Ruby Version</h3>
+
+Another pitfall is running multiple Ruby versions. Ensure to install the
+GEMs into the correct one. One Debian consider using "ruby-switch" or
+manually running "update-alternatives" for "gem" and "ruby".
+
+<h4>Ruby Switch</h4>
+<pre>
+apt-get install ruby-switch
+ruby-switch --set ruby1.9.1
+</pre>
+
+<h4>update-alternatives</h4>
+<pre>
+# Print available versions
+update-alternatives --list ruby
+update-alternatives --list gem
+
+# Show current config
+update-alternatives --display ruby
+update-alternatives --display gem
+
+# If necessary change it
+update-alternatives --set ruby /usr/bin/ruby1.9.1
+update-alternatives --set gem /usr/bin/gem1.9.1
+</pre>
+
+See also <?add topic='Puppet'?>

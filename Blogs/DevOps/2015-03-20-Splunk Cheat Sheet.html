@@ -1,0 +1,102 @@
+<h3>Basic Searching Concepts</h3>
+
+Simple searches look like the following examples. Note that there are literals with and without quoting and that there are field selections with an "=":
+
+<pre>
+Exception                # just the word
+One Two Three            # those three words in any order
+"One Two Three"          # the exact phrase
+
+# Filter all lines where field "status" has value 500 from access.log
+source="/var/log/apache/access.log" status=500
+
+# Give me all fatal errors from syslog of the blog host
+host="myblog" source="/var/log/syslog" Fatal
+</pre>
+
+<h3>Basic Filtering</h3>
+
+Two important filters are "rex" and "regex".
+
+"rex" is for extraction a pattern and storing it as a new field. This is why you need to specifiy a named extraction group in Perl like manner "(?<group name>...)" for example
+
+<pre>
+source="some.log" Fatal | rex "(?i) msg=(?P<FIELDNAME>[^,]+)"
+</pre>
+
+When running above query check the list of "interesting fields" it now should have an entry "FIELDNAME" listing you the top 10 fatal messages from "some.log"
+
+What is the difference to "regex" now? Well "regex" is like grep. Actually you can rephrase
+
+<pre>source="some.log" Fatal</pre>
+
+to
+
+<pre>source="some.log" | regex _raw=".*Fatal.*"</pre>
+
+and get the same result. The syntax of "regex" is simply "<field name>=<regex>". Using it makes sense once you want to filter for a specific field.
+
+<h3>Calculations</h3>
+
+Sum up a field and do some arithmetics:
+
+<pre>... | stats sum(&lt;field>) as result | eval result=(result/1000)</pre>
+
+Determine the size of log events by checking len() of _raw. The p10() and p90() functions are returning the 10 and 90 percentiles:
+
+<pre>| eval raw_len=len(_raw) | stats avg(raw_len), p10(raw_len), p90(raw_len) by sourcetype</pre>
+
+<h3>Simple Useful Examples</h3>
+
+Splunk usually auto-detects access.log fields so you can do queries like:
+
+<pre>
+source="/var/log/nginx/access.log" HTTP 500
+source="/var/log/nginx/access.log" HTTP (200 or 30*)
+source="/var/log/nginx/access.log" status=404 | sort - uri 
+source="/var/log/nginx/access.log" | head 1000 | top 50 clientip
+source="/var/log/nginx/access.log" | head 1000 | top 50 referer
+source="/var/log/nginx/access.log" | head 1000 | top 50 uri
+source="/var/log/nginx/access.log" | head 1000 | top 50 method
+...
+</pre>
+
+<h3>Emailing Results</h3>
+
+By appending "sendemail" to any query you get the result by mail!
+
+<pre>... | sendemail to="john@example.com"</pre>
+
+<h3>Timecharts</h3>
+
+Create a timechart from a single field that should be summed up
+
+<pre>... | table _time, &lt;field> | timechart span=1d sum(&lt;field>)
+... | table _time, &lt;field>, name | timechart span=1d sum(&lt;field>) by name</pre>
+
+<h3>Index Statistics</h3>
+
+List All Indices 
+
+<pre>
+ | eventcount summarize=false index=* | dedup index | fields index
+ | eventcount summarize=false report_size=true index=* | eval size_MB = round(size_bytes/1024/1024,2)
+ | REST /services/data/indexes | table title
+ | REST /services/data/indexes | table title splunk_server currentDBSizeMB frozenTimePeriodInSecs maxTime minTime totalEventCount
+</pre>
+
+on the command line you can call
+
+<pre>
+$SPLUNK_HOME/bin/splunk list index
+</pre>
+
+To query write amount of per index the metrics.log can be used:
+
+<pre>index=_internal source=*metrics.log group=per_index_thruput series=* | eval MB = round(kb/1024,2) | timechart sum(MB) as MB by series</pre>
+
+MB per day per indexer / index
+
+<pre>index=_internal metrics kb series!=_* "group=per_host_thruput" monthsago=1 | eval indexed_mb = kb / 1024 | timechart fixedrange=t span=1d sum(indexed_mb) by series | rename sum(indexed_mb) as totalmb
+
+index=_internal metrics kb series!=_* "group=per_index_thruput" monthsago=1 | eval indexed_mb = kb / 1024 | timechart fixedrange=t span=1d sum(indexed_mb) by series | rename sum(indexed_mb) as totalmb</pre>

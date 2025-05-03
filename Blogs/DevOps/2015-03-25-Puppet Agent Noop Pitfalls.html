@@ -1,0 +1,30 @@
+---
+categories: Puppet
+---
+The puppet agent command has a --noop switch that allows you to perform a dry-run of your Puppet code. 
+
+<pre>puppet agent -t --noop</pre>
+
+It doesn't change anything, it just tells you what it would change. More or less exact due to the nature of dependencies that might come into existance by runtime changes. But it is pretty helpful and all Puppet users I know use it from time to time.
+
+<h3>Unexpected Things</h3>
+
+But there are some unexpected things about the noop mode:
+
+<ol>
+<li>A --noop run does trigger the report server.</li>
+<li>The --noop run rewrites the YAML state files in /var/lib/puppet</li>
+<li>And there is no state on the local machine that gives you the last "real" run result after you overwrite the state files with the --noop run.
+</ol>
+
+<h3>Why might this be a problem?</h3>
+
+Or the other way around: why Puppet think this is not a problem? Probably because Puppet as an automation tool should overwrite and the past state doesn't really matter. If you use PE or Puppet with PuppetDB or Foreman you have an reporting for past runs anyway, so no need to have a history on the Puppet client.
+
+Why I still do not like it: it avoids having safe and simple local Nagios checks. Using the state YAML you might want to build a simple script checking for run errors. Because you might want a Nagios alert about all errors that appear. Or about hosts that did not run Puppet for quite some time (for example I wanted to disable Puppet on a server for some action and forgot to reenable). <b>Such a check reports false positives each time someone does a --noop run until the next normal run. This hides errors.</b>
+
+Of course you can build all this with cool Devops style SQL/REST/... queries to PuppetDB/Foreman, but checking state locally seems a bit more the old-style robust and simpler sysadmin way. Actively asking the Puppet master or report server for the client state seems wrong. The client should know too.
+
+From a software usability perspective I do not expect a tool do change it's state when I pass --noop. It's unexpected. Of course the documentation is carefull phrased:
+
+<blockquote>Use 'noop' mode where the daemon runs in a no-op or dry-run mode. This is useful for seeing what changes Puppet will make without actually executing the changes. </blockquote>

@@ -1,0 +1,164 @@
+After a friend of mine suggested reading 
+<a href="http://typicalprogrammer.com/the-things-you-need-to-know-to-do-web-development/">
+"The things you need to know to do web development
+</a>
+I felt the need to compile a solution index for the experiences described. 
+In this interesting blog post describes his view of the typical learning 
+curve of a web developer and the tools, solutions and concepts he discovers
+when he becomes a successful developer.
+
+I do not want to summarize the post but I wanted to compile a list of those
+solutions and concepts affecting the life of a web developer.
+
+<table border='1'>
+<tr>
+<td>Markup Standards Knowledge</td>
+<td>HTML, CSS, JSON, YAML</td>
+</tr>
+
+<tr>
+<td>Web Stack Layering</td>
+<td>Basic knowledge about
+<ul>
+<li>Using TCP as transport protocol</li>
+<li>Using HTTP as application protocol</li>
+<li>Using SSL to encrypt the application layer with HTTPS</li>
+<li>Using SSL certificates to proof identity for websites</li>
+<li>Using (X)HTML for the application layer</li>
+<li>Using DOM to access/manipulate application objects</li>
+</ul>
+
+<tr>
+<td>Web Development Concepts</td>
+<td>
+<ul>
+<li>3 tier server architecture</li>
+<li>Distinction of static/dynamic content</li>
+<li>Asynchronous CSS, JS loading</li>
+<li>Asynchronous networking with Ajax</li>
+<li>CSS box models</li>
+<li>CSS Media Queries</li>
+<li>Content Delivery Networks</li>
+<li>UX, Usability...</li>
+<li>Responsive Design</li>
+<li>Page Speed Optimization</li>
+<li>HTTP/HTTPS content mixing</li>
+<li>Cross domain content mixing</li>
+<li>MIME types</li>
+<li>API-Pattern: RPC, SOAP, REST</li>
+<li>Localization and Internationalization</li>
+</td>
+</tr>
+
+<tr>
+<td>Developer Infrastructure</td>
+<td>
+<ul>
+<li>Code Version Repo: usually Git. Hosted github.com or self-hosted e.g. gitlab</li>
+<li>Continuous Integration: Jenkins, Travis</li>
+<li>Deployment: Jenkins, Travis, fabric, Bamboo, CruiseControl</li>
+</ul>
+</td>
+</tr> 
+
+<tr>
+<td>Frontend JS Frameworks</td>
+<td>Mandatory knowledge in <a href="http://jquery.com/">jQuery</a> as well as knowing one or more JS frameworks as
+
+<a href="http://getbootstrap.com/">Bootstrap</a>,
+<a href="http://foundation.zurb.com/">Foundation</a>,
+React,
+Angular, 
+Ember,
+Backbone,
+Prototype, GWT, YUI
+</ul>
+</td>
+</tr>
+
+<tr>
+<td>Localization and Internationalization</td>
+<td>Frontend: usually in JS lib e.g. <a href="http://www.localeplanet.com">LocalePlanet</a> or <a href="https://github.com/jquery/globalize">Globalize</a>
+
+Backend: often in gettext or a similar mechanism</td>
+</tr>
+
+<tr>
+<td>Precompiling Resources</td>
+<td>For Javascript: <a href="https://code.google.com/p/minify/">Minify</a>
+
+For CSS: 
+<ul>
+<li><a href="http://lesscss.org/">Less</a></li>
+<li><a href="http://sass-lang.com/">Sass</a></li>
+<li><a href="https://learnboost.github.io/stylus/">Stylus</a></li>
+</ul>
+
+For Images: ImageMagick
+
+Test everything with <a href="https://developers.google.com/speed/pagespeed/insights/">Google PageSpeed Insights</a>
+</td>
+</tr>
+
+<tr>
+<td>Backend Frameworks</td>
+<td>
+By language
+<ul>
+<li>PHP: CakePHP, CodeIgniter, Symfony, Seagull, Zend, Yii (<a href="http://phpframeworks.com/">choose one</a>)</li>
+<li>Python: Django, Tornado, Pylons, Zope, Bottle (<a href="https://wiki.python.org/moin/WebFrameworks/">choose one</a>)</li>
+<li>Ruby: Rails, Merb, Camping, Ramaze (<a href="http://accidentaltechnologist.com/ruby/10-alternative-ruby-web-frameworks/">choose one</a>)</li>
+<ul>
+</td>
+</tr>
+
+<tr>
+<td>Web Server Solutions</td>
+<td>nginx, Apache
+
+For loadbalancing: nginx, haproxy
+
+As PHP webserver: nginx+PHPFPM</td>
+</tr>
+
+<tr>
+<td>RDBMS</td>
+<td>MySQL (maybe Percona, MariaDB), Postgres</td>
+</tr>
+
+<tr>
+<td>Caching/NoSQL</td>
+<td>Without replication: memcached, memcachedb, Redis
+
+With replication: Redis, Couchbase, MongoDB, Cassandra
+
+Good comparisons: 
+<a href="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis">#1</a>
+<a href="http://db-engines.com/de/system/Cassandra%3BCouchbase%3BElasticsearch%3BMongoDB%3BRedis">#2</a>
+</td>
+</tr>
+
+<tr>
+<td>Hosting</td>
+<td><ul>
+<li>Self-hosted (inhouse, own datacenter)</li>
+<li>Web-hosting: <a href="http://whdb.com/providers">Choose provider</a></li>
+<li>Physical hosting with your favourite ISP</li>
+<li>Cloud-hosting: <a href="https://cloudharmony.com/cloudsquare">Choose provider</a></li>
+</ul>
+
+If you are unsure about self-hosting vs. cloud hosting have a look at the
+<a href="http://www.thecloudcalculator.com/">Cloud Calculator</a>.
+</td>
+</tr>
+
+<tr>
+<td>Blogs</td>
+<td>Do not try to self-host blogs. You will fail on keeping them secure and
+up-to-date and sooner or later they are hacked. Start with a blog hoster
+right from the start. You might want to use a free one like <a href="https://pages.github.com/">GitHub Pages</a>
+or pay for a hosting solution and get proper support.
+  </td>
+  </tr>
+
+</table>

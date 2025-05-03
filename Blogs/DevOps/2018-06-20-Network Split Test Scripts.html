@@ -1,0 +1,77 @@
+Today I want to share two simple scripts for simulating a network split and rejoin 
+between two groups of hosts. The split is done by adding per-host network blackhole
+routes on each host for all hosts of the other group.
+
+Please be careful with using this. Forgetting a blackhole route can result in long
+hours of debugging as this is something you probably rarely use nowadays.
+
+<h3>Script Usage</h3>
+
+<pre>
+./network_split.sh &lt;filter1> &lt;filter2> &lt;hosts>
+./network_join.sh &lt;filter1> &lt;filter2> &lt;hosts>
+</pre>
+
+The script expects SSH equivalency and sudo on the target hosts. The filters are grep patterns.
+
+<h3>network_split.sh</h3>
+
+<pre>
+#!/bin/bash
+
+group1_filter=$1; shift
+group2_filter=$1; shift
+hosts=$*
+
+hosts1=$(echo $hosts | xargs -n1 | grep "$group1_filter")
+hosts2=$(echo $hosts | xargs -n1 | grep "$group2_filter")
+
+if [ "$hosts1" == "" -o "$hosts2" == "" ]; then
+	echo "ERROR: Syntax: $0 <filter 1> <filter 2> <hosts>"
+	exit 1
+fi
+
+for h in $hosts1; do
+	echo "backlisting other zone on $h"
+	for i in $hosts2; do
+		ssh $h sudo route add $i gw 127.0.0.1 lo
+	done
+done
+for h in $hosts2; do
+	echo "Backlisting other zone on $h"
+	for i in $hosts1; do
+		ssh $h sudo route add $i gw 127.0.0.1 lo
+	done
+done
+</pre>
+
+<h3>network_join.sh</h3>
+
+<pre>
+#!/bin/bash
+
+group1_filter=$1; shift
+group2_filter=$1; shift
+hosts=$*
+
+hosts1=$(echo $hosts | xargs -n1 | grep "$group1_filter")
+hosts2=$(echo $hosts | xargs -n1 | grep "$group2_filter")
+
+if [ "$hosts1" == "" -o "$hosts2" == "" ]; then
+	echo "ERROR: Syntax: $0 <filter 1> <filter 2> <hosts>"
+	exit 1
+fi
+
+for h in $hosts1; do
+	echo "De-blacklisting other zone on $h"
+	for i in $hosts2; do
+		ssh $h sudo route del $i gw 127.0.0.1 lo
+	done
+done
+for h in $hosts2; do
+	echo "De-blacklisting other zone on $h"
+	for i in $hosts1; do
+		ssh $h sudo route del $i gw 127.0.0.1 lo
+	done
+done
+</pre>

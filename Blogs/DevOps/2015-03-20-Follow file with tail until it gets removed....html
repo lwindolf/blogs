@@ -1,0 +1,9 @@
+Instead of 
+
+<code>tail -f /var/log/myserver.log</code>
+
+use
+
+<code>tail --follow=name /var/log/myserver.log</code>
+
+Using the long form --follow instead of -f you can tell tail to watch the file name and not the file descriptor. So shortly after the file name was removed tail will notice it and terminate itself.

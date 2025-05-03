@@ -1,0 +1,42 @@
+---
+categories: [Redis, memcached]
+---
+
+<img src="/images/redis-memcached-benchmark.png"/>
+
+If you ever need to get some meaningful facts in a possible
+Redis vs memcached discussion you might want to 
+benchmark both on your target system.
+
+While Redis brings a tool <a href="http://redis.io/topics/benchmarks">redis-benchmark</a>, memcached doesn't. But Redis author Salvatore Sanfilippo 
+<a href="https://github.com/antirez/mc-benchmark">ported</a> the Redis benchmark to memcached! So it is possible to measure quite similar metrics
+using the same math and result summaries for both key value stores.
+
+<h3>Benchmarking Redis</h3>
+
+So setup Redis in cluster mode, master/slave, whatever you like
+and run the Redis benchmark
+
+<pre>apt-get install redis-tools	# available starting with Wheezy backports
+redis-benchmark -h &lt;host></pre>
+
+<h3>Benchmarking Memcached</h3>
+
+And do the same for memcache by compiling the memcached port of the
+benchmark
+
+<pre>apt-get install build-essentials libevent-dev
+git clone https://github.com/antirez/mc-benchmark.git
+cd mc-benchmark.git
+make
+</pre>
+
+and running it with
+
+<pre>./mc-benchmark -h &lt;host></pre>
+
+The benchmark output has the same structure, with more output in the
+Redis version compared to the memcached variant as each command type is
+tested and the Redis protocol knows many more commands.
+
+See also <?add topic='Redis'?> <?add topic='memcached'>

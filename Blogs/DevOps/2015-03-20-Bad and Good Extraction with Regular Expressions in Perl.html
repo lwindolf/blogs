@@ -1,0 +1,22 @@
+Again and again I find myself writing stuff like this:
+
+<pre>
+if($str =~ /(\w+)\s+(\w+)(\s+(\w+))?/) {
+      $result{id} = $1;
+      $result{status} = $2;
+      $result{details} = $4 if(defined($4));
+}
+</pre>
+
+when I should write:
+
+
+<pre>
+if($str =~ /(?&lt;id>\w+)\s+(?&lt;status>\w+)(\s+(?&lt;details>\w+))?/) {
+      %result = %+;
+}
+</pre>
+
+as described in the <a href="http://perldoc.perl.org/perlre.html">perlre</a> manual:
+
+<cite>Capture group contents are dynamically scoped and available to you outside the pattern until the end of the enclosing block or until the next successful match, whichever comes first. (See Compound Statements in perlsyn.) You can refer to them by absolute number (using "$1" instead of "\g1" , etc); or by name via the %+ hash, using "$+{name}".</cite>

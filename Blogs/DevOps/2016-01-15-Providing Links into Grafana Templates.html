@@ -1,0 +1,14 @@
+As a Grafana user it is not obvious how to share links of template based dashboards.
+
+Grafana does not change the request URI to reflect template variables you might enter
+(e.g. the server name). 
+
+<h3>Solution</h3>
+
+There is a hidden feature: you can pass all template values via URL parameters in the following syntax
+
+<pre>var-&lt;parameter name>=&lt;value></pre>
+
+Example link:
+
+<pre>http://mygrafana.local/#/dashboard/db/mydashboard?var-server=web01</pre>

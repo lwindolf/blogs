@@ -1,0 +1,64 @@
+<p>
+The following is a short summary of things to configure to get OpenEMM bounce handling to work. The problem is mostly setting up the connection from your sendmail setup, through the milter plugin provided by OpenEMM which then communicates with another daemon "bavd" which as I understand it keeps per mail address statistics and writes the bounce results into the DB.
+</p>
+<p>
+The things that can be the cause for problems are these:
+<ol>
+<li>Your sendmail setup.</li>
+<li>The bav* python scripts not working.</li>
+<li>The bavd daemon not running/working.</li>
+<li>DB access not working</li>
+<li>Missing bounce filter in OpenEMM.</li>
+<li>Missing bounce alias in bav config.</li>
+</ol>
+</p>
+<p>
+The real good thing is that OpenEMM is so <a href="http://www.openemm.org/forums/ftopic23.html">very well documented</a> that you just need to lookup the simple how to documentation and everything will work within 5min... Sorry just kidding! They seem to want to make money on books and support and somehow don't write documentation and rely on endless forum posts of clueless users.
+</p>
+<p>
+Enough of a rant below you find some hints how to workaround the problem causes I mentioned above:
+</p>
+
+<p><b>Setup Preconditions:</b></p>
+<ol>
+  <li>Within OpenEMM a bounce filter has to be configured. Name and description do not matter, it just needs to exist.</li>
+  <li>The sendmail setup must have milter running the OpenEMM "bav" filter. So /etc/mail/<a href="http://sendmail.mc" target="_blank">sendmail.mc</a> should have a line like
+    <pre>INPUT_MAIL_FILTER(`bav', `S=unix:/var/run/<wbr>bav.sock, F=T')dnl</pre>
+  </li>
+  <li>The sendmail log (e.g. /var/log/mail.log) must be readable by your OpenEMM user</li>
+</ol>
+
+<p><b>Setup:</b></p>
+
+<ol>
+  <li>Define mail alias matching the bounce filter: Edit your bav.conf-local (e.g.
+/etc/openemm/conf/bav/bav.conf-local) and add something like
+    <pre>ext_6@mydomain.net alias:ext_12@mydomain.net</pre>
+with "ext_6" being the sender address and ext_12 the bounce filter address.</li>
+</ol>
+
+<p><b>Check List:</b></p>
+<ol>
+  <li>Ensure the "bavd" daemon is running (its log file can be found in /var/log/*-&lt;host&gt;-bavd.log)
+    <ul>
+      <li>Ensure bavd server port 5166 is open</li>
+      <li>Ensure mails are passed to bavd (look for "scanMessage" lines in log file)</li>
+
+      <li>Ensure both soft and hard bounces are found (DSN 4.x.x and DSN 5.x.x)</li>
+    </ul>
+  </li>
+  <li>Ensure the bav filter is running. Check "ps -ef" output for "bav -L INFO"</li>
+  <li>Ensure bounces are set your OpenEMM DB instance:
+    <pre>select count(*) from customer_1_binding_tbl where user_status=2;</pre>
+  The meaning of the user_status value is as following: 
+  <table>
+   <tr><th>Value</th><th>Meaning</th></tr>
+   <tr><td>1</td><td>active</td></tr>
+   <tr><td>2</td><td>hard bounce</td></tr>
+   <tr><td>3</td><td>opt out by admin</td></tr>
+   <tr><td>4</td><td>opt out by user</td></tr>
+  </table>
+(see <a hrev="http://books.google.com/books?id=4nAFboWmLecC&pg=PA340&lpg=PA340&dq=openemm+customer_1_binding_tbl+user+status&source=bl&ots=KPW6EeBFkt&sig=jEwcnCq21AosicbJq2x25lsJGjw&hl=en&ei=8L_pSsLVIceK-Qb4hcXtCw&sa=X&oi=book_result&ct=result&resnum=2&ved=0CA8Q6AEwAQ#v=onepage&q=&f=false">OpenEMM Handbuch</a>)
+   <p>Also remember that hard bounces might not be generated immediately. In case of soft bounces OpenEMM waits for up to 7 bounces to consider the mail address as bounced.</p>
+</li>
+</ol>

@@ -1,0 +1,21 @@
+---
+categories: MySQL
+---
+If your MySQL backup tool or self-written script complains about an event table than you have run into an issue caused by newer MySQL versions (>5.5.30) that introduced a new table "events" in the internal schema.
+
+<b>If you run into this you need to decide wether you want to include or exclude the new events table when dumping your database.</b>
+
+To skip: Due to a MySQL bug <a href="http://bugs.mysql.com/bug.php?id=68376">#68376</a> you have two choices. You can check documentation and add the logical option
+
+<pre>--skip-events</pre>
+
+which will cause the event table not to be exported. But the warning won't go away. To also get rid of the warning you need to use this instead:
+
+<pre>--events --ignore-table=mysql.events</pre>
+
+And of course you can also choose just to dump the events table: Add the option
+
+<pre>--events</pre>
+
+to your "mysqldump" invocation. If you use a tool that invokes "mysqldump" indirectly check if the tool allows to inject additional parameters.
+

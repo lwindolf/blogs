@@ -1,0 +1,61 @@
+---
+categories: ulimit
+---
+See also [ulimit cheat sheet](/cheat-sheet/ulimit)
+
+Sometimes you need to increase the open file limit for an application server or the maximum shared memory for your ever-growing master database. In such a case you edit your <tt>/etc/security/limits.conf</tt> and then wonder how to get the changed limits to be visible to check wether you have set them correctly. You do not want to find out that they were wrong after your master DB doesn't come up after some incident in the middle of the night...
+
+<h3>Instant Applying Limits to Running Processes</h3>
+
+<p>
+Actually you might want to apply the changes directly to a running process additionally to changing <tt>/etc/security/limits.conf</tt>. In recent edge Linux distributions (e.g. Debian Jessie) there is a tool <b>"prlimit"</b> to get/set limits.
+
+Usage for changing limits for a PID is
+
+<pre>prlimit --pid &lt;pid> --&lt;limit>=&lt;soft>:&lt;hard></pre>
+
+for example
+
+<pre>prlimit --pid 12345 --nofile=1024:2048</pre>
+
+If you are unlucky and do not have prlimit yet check out "man 2 prlimit" for instructions on how to compile your own version because despite missing user tool the prlimit() system call is in the kernel for quite a while (since 2.6.36).
+</p>
+
+<h3>Alternative #1: Re-Login with "sudo -i"</h3>
+
+If you do not have prlimit yet and want a changed limit configuration to become visible you might want to try "sudo -i". The reason: you need to re-login as limits from /etc/security/* are only applied on login!
+
+But wait: what about users without login? In such a case you login as root (which might not share their limits) and sudo into the user: so no real login as the user. In this case you must ensure to use the "-i" option of sudo: 
+
+<pre>sudo -i -u &lt;user&gt;</pre>
+
+to simulate an initial login with sudo</b>. This will apply the new limits.
+
+<h3>Alternative #2: Make it work for sudo without "-i"</h3>
+
+<p>
+Wether you need "-i" depends on the PAM configuration of your Linux distribution. If you need it then PAM probably loads "pam_limit.so" only in <tt>/etc/pam.d/login</tt> which means at login time but no on sudo. This was introduced in <a href="https://answers.launchpad.net/ubuntu/+source/sudo/+question/241943">Ubuntu Precise</a> for example. By adding this line
+
+<pre>session    required   pam_limits.so</pre>
+
+in <tt>/etc/pam.d/sudo</tt> limits will also be applied when running sudo without "-i". Still using "-i" might be easier.
+</p>
+
+<h3>Finally: Always Check Effective Limits</h3>
+The best way is to change the limits and check them by running 
+
+<pre>prlimit               # for current shell
+prlimit --pid &lt;pid>   # for a running process
+</pre>
+
+because it shows both soft and hard limits together. Alternatively call
+
+<pre>ulimit -a                # for current shell
+cat /proc/&lt;pid>/limits   # for a running process
+</pre>
+
+with the affected user. 
+
+<h3>Nagios Check</h3>
+
+You might also want to have a look at the <a href="/blog/Nagios Check Plugin for nofile Limit">nofile limit Nagios check</a>.

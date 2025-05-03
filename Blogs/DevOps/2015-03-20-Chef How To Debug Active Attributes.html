@@ -1,0 +1,23 @@
+If you experience problems with attribute inheritance on a chef client and watch the chef-client output without knowing what attributes are effective you can either look at the chef GUI or do the same on console using "shef" or in "chef-shell" in newer chef releases.
+
+So run
+
+<pre>chef-shell -z</pre>
+
+The "-z" is important to get chef-shell to load the currently active run list for the node that a "chef-client" run would use.
+
+Then enter "attributes" to switch to attribute mode 
+
+<pre>chef > attributes
+chef:attributes >
+</pre>
+
+and query anything you like by specifying the attribute path as you do in recipes:
+
+<pre>chef:attributes > default["authorized_keys"]
+[...]
+chef:attributes > node["packages"]
+[...]
+</pre>
+
+By just querying for "node" you get a full dump of all attributes.

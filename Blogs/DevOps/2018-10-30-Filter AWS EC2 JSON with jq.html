@@ -1,0 +1,39 @@
+The AWS CLI is fine, but dumping stuff becomes a pain the more stuff
+is in your account and when you want to extract multiple things depending
+on each other.
+
+While you can run <a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">filter queries</a> like
+
+    <pre>aws ec2 describe-instances --filters "Name=instance-type,Values=m1.small,m1.medium" "Name=availability-zone,Values=us-west-2c"</pre>
+
+you might need to do dozens of queries to find different infos. And in the end
+you still have to do the JSON parsing on all of the results, despite just wanting
+results like some IP or some tags or instance states...
+
+So why not issue 
+
+    <pre>aws ec2 describe-instances >output.json</pre>
+
+and use the mad <a href="https://stedolan.github.io/jq/">jq</a> syntax. Remember jq? The awesome command line tool that forgot
+all about XPath or jquery like DOM lookup syntax, that at least some people find intuitive
+and can use, and invented an even more sick
+filter language and has a manpage from which simply no one can extract any results from? Well
+it is still a useful CLI tool available in most Linux distros. So why not use it?
+
+For example: extract all external EC2 names for a given tag $mytag from our cached JSON:
+
+    <pre>cat output.json | jq -r ".Reservations[].Instances[] | select(.Tags | length > 0) | select( .Tags[].Value == \""$mytag"\") | {PublicDnsName} | flatten | .[0]"</pre>
+
+If you analyze the query you might notice
+
+<ul>
+<li>location steps ".Reservations[].Instances[]"</li>
+<li>tag selection "select(.Tags | length > 0)"</li>
+<li>tag filtering 'select( .Tags[].Value == \""$mytag"\")' with $mytag being your intended tag</li>
+<li>and the ouput filter '{PublicDnsName}'</li>
+<li>finally flatten and the -r switch to get a plain list</li>
+</ul>
+
+Easy right? No JSON parsing at all!
+
+If you dare to script using AWS CLI and jq check out the <?add topic='jq'?> and the online test tool <a href="https://jqplay.org/">jqplay</a>.

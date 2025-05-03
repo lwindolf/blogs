@@ -1,0 +1,158 @@
+<h3>Basics</h3>
+
+<ul>
+<li>Resolve a name via nsswitch <pre>getent hosts &lt;host name&gt;</pre></li>
+<li><a href="http://www.cloudshark.org">CloudShark</a>: Sharing network traces</li>
+</ul>
+
+<h3>Configuration</h3>
+
+<ul>
+<li>ethtool - Usage <pre>
+ethtool eth0                       # Print general info on eth0
+ethtool -i eth0                    # Print kernel module info
+ethtool -S eth0                    # Print eth0 traffic statistics
+ethtool -a eth0                    # Print RX, TX and auto-negotiation settings
+
+# Changing NIC settings...
+ethtool -s eth0 speed 100
+ethtool -s eth0 autoneg off
+ethtool -s eth0 duplex full
+ethtool -s eth0 wol g               # Turn on wake-on-LAN
+</pre> Do not forget to make changes permanent in e.g. /etc/network/interfaces.</li>
+<li>miitool - Show Link Infos <pre># mii-tool -v
+eth0: negotiated 100baseTx-FD flow-control, link ok
+  product info: vendor 00:07:32, model 17 rev 4
+  basic mode:   autonegotiation enabled
+  basic status: autonegotiation complete, link ok
+  capabilities: 1000baseT-HD 1000baseT-FD 100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD
+  advertising:  100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD flow-control
+  link partner: 1000baseT-HD 1000baseT-FD 100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD flow-control
+</pre></li>
+<li>Enable Jumbo Frames <pre>ifconfig eth1 mtu 9000</pre></li>
+<li><a ref="nofollow" href="http://utcc.utoronto.ca/~cks/space/blog/linux/IptablesIpsetNotes">ipsets - Using IP sets for simpler iptables rules</a><pre>
+ipset create smtpblocks hash:net counters
+ipset add smtpblocks 27.112.32.0/19
+ipset add smtpblocks 204.8.87.0/24
+iptables -A INPUT -p tcp --dport 25 -m set --match-set smtpblocks src -j DROP
+</pre></li>
+<li>iptables - Loopback Routing: <pre>iptables -t nat -A POSTROUTING -d &lt;internal web server IP&gt; -s &lt;internal network address&gt; -p tcp --dport 80 -j SNAT --to-source &lt;external web server IP&gt;</pre></li>
+<li><a href="https://speakerdeck.com/gnb/130-lca2008-nfs-tuning-secrets-d7">NFS - Tuning Secrets</a>: SGI Slides on NFS Performance</li>
+</ul>
+
+<h3>Troubleshooting</h3>
+
+<ul>
+<li>Black Hole Route: To block IPs create route on loopback <pre>route add -net 91.65.16.0/24 gw 127.0.0.1 lo   # for a subnet
+route add  91.65.16.4 gw 127.0.0.1 lo   # for a single IP</pre>
+</li>
+<li>Quick Access Log IP Top List <pre>tail -100000 access.log | awk '{print $1}' | sort | uniq -c |sort -nr|head -25</pre></li>
+<li>Find out if IP is used before configuring it <pre>arping &lt;IP&gt;</pre></li>
+<li>Traceroute with AS and network name lookup <pre>lft -AN www.google.de</pre></li>
+<li>Manually lookup AS <form method="GET" action="http://www.peeringdb.com/view.php"> <input name="asn" type="text" value="3220"/> <input type="submit" value="Lookup"/></form></li>
+<li><a href="http://www.dailychanges.com/">dailychanges.com</a>: Tracks DNS changes</li>
+</ul>
+
+<h3>Measuring</h3>
+
+<ul>
+<li>vnstat - Short term measurement bytes/packets min/avg/max: <pre>
+vnstat -l      # Live listing until Ctrl-C and summary
+vnstat -tr     # 5s automatic traffic sample</pre></li>
+<li>vnstat - Long term statistics: <pre>
+vnstat -h      # last hours (including ASCII graph)
+vnstat -d      # last days
+vnstat -w      # last weeks
+vnstat -m     # last months
+
+vnstat -t       # top 10 days</pre></li>
+</ul>
+
+<h3>Discovery</h3>
+
+<ul>
+<li>nmap commands <pre>
+# Network scan
+nmap -sP 192.168.0.0/24
+
+# Host scan
+nmap &lt;ip>
+nmap -F &lt;ip>      # fast
+nmap -O &lt;ip>     # detect OS
+nmap -sV &lt;ip>     # detect services and versions
+nmap -sU &lt;ip>     # detect UDP services
+
+# Alternative host discovery
+nmap -PS &lt;ip>     # TCP SYN scan
+nmap -PA &lt;ip>     # TCP ACK scan
+nmap -PO &lt;ip>     # IP ping
+nmap -PU &lt;ip>     # UDP ping
+
+# Alternative service discovery
+nmap -sS &lt;ip>      
+nmap -sT &lt;ip>
+nmap -sA &lt;ip>
+nmap -sW &lt;ip>
+
+# Checking firewalls
+nmap -sN &lt;ip>
+nmap -sF &lt;ip>
+nmap -sX &lt;ip>
+</pre></li>
+</ul>
+
+<h3>Debugging</h3>
+<ul>
+<li><a href="http://x-trace.net/pubs/nsdi-html/xtrace.html" rel="nofollow">X-Trace - Multi-protocol tracing framework</a></li>
+<li>iptraf - Real-time statistics in ncurses interfaces</li>
+<li>mtr - Debug routing/package loss issues</li>
+<li>netstat - The different modes <pre>
+# Typically used modes
+netstat -rn          # List routes
+netstat -tlnp       # List all open TCP connections
+netstat -tlnpc      # Continuously do the above
+netstat -tulpen    # Extended connection view
+netstat -a           # List all sockets
+
+# And more rarely used
+netstat -s            # List per protocol statistics
+netstat -su          # List UDP statistics
+netstat -M           # List masqueraded connections
+netstat -i            # List interfaces and counters
+netstat -o           # Watch time/wait handling
+</pre></li>
+<li>nttcp - TCP performance testing <pre># On sending host
+nttcp -t -s
+
+# On receiving host
+nttcp -r -s
+</pre></li>
+<li>List Kernel Settings <pre>sysctl net</pre></li>
+<li>tcpdump - Be verbose and print full package hex dumps: <pre> tcpdump -i eth0 -nN -vvv -xX -s 1500 port &lt;some port&gt;</pre></li>
+<li><a rel="nofollow" href="http://net-snmp.sourceforge.net/wiki/index.php/TUT:snmpwalk">SNMP - Dump all MIBs</a>: When you need to find the MIB for an object known only by name try <pre>snmpwalk -c public -v 1 -O s &lt;myhost&gt; .iso | grep &lt;search string&gt;</pre></li>
+<li><a rel="nofollow" href="http://bgp.he.net/">Hurricane Electric - BGP Tools</a>: Statistics on all AS as well as links to their looking glasses.</li>
+<li><a href="http://delicious.com/redirect?url=http%3A//dmiessler.com/study/tcpdump/">tcpdump - Tutorial</a>: Many usage examples. <pre># Filter port
+tcpdump port 80
+tcpdump src port 1025 
+tcpdump dst port 389
+tcpdump portrange 21-23
+
+# Filter source or destination IP
+tcpdump src 10.0.0.1
+tcpdump dest 10.0.0.2
+
+# Filter  everything on network 
+tcpdump net 1.2.3.0/24
+
+# Logically operators
+tcpdump src port 1025 and tcp 
+
+# Provide full hex dump of captured HTTP packages
+tcpdump -s0 -x port 80
+
+# Filter TCP flags (e.g. RST)
+tcpdump 'tcp[13] & 4!=0'
+</pre></li>
+</ul>
+
+<a href="/NFS%20Administration%20Commands"><h3>NFS Administration Commands</h3></a>

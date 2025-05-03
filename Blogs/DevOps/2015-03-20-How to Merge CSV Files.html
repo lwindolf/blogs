@@ -1,0 +1,60 @@
+When reading the meager <a href="http://linux.die.net/man/1/join">manpage</a> of the "join" command many Unix users propably give up immediately. Still it can be worth using it instead of scripting the same task in your favourite scripting language.
+
+Here is an example on how to merge 2 CSV files:
+
+<h4>CSV File 1 "employees.csv"</h4>
+
+<pre>
+# &lt;employee id>;&lt;name>;&lt;location>
+1;Anton;37;Geneva
+2;Marie;28;Paris
+3;Tom;25;London
+</pre>
+
+<h4>CSV File 2 "task.csv"</h4>
+
+<pre>
+# &lt;task id>;&lt;employee id>;&lt;task description>
+1000;2;Setup new Project
+1001;3;Call customer X
+1002;3;Get package from post office
+</pre>
+
+And now some action:
+
+<h4>A naive try...</h4>
+
+<p>The following command</p>
+
+<pre>join employee.csv tasks.csv</pre>
+
+<p>... doesn't produce any output. This is because it expects the shared key to reside at the first column in both file, which is not the case. Also the default separator for 'join' is a whitespace.</p>
+
+<h4>Full Join</h4>
+
+<pre>join -t ";" -1 1 -2 2 employee.csv tasks.csv</pre>
+
+<p>We need to run join with '-t ";"' to get tell it that we have CSV format. Then to avoid the pitfall of not having the common key in the first column we need to tell join where the join key is in each file. The switch "-1" gets the key index for the first file and "-2" for the second file.</p>
+
+<pre>2;Marie;28;Paris;1000;Setup new Project
+3;Tom;25;London;1001;Call customer X
+3;Tom;25;London;1002;Get package from post office</pre>
+
+<h4>Print only name and task</h4>
+
+<pre>join -o1.2,2.3 -t ";" -1 1 -2 2 employee.csv tasks.csv</pre>
+
+<p>We use "-o" to limit the fields to be printed. "-o" takes a comma separated list of "&lt;file nr>.&lt;field nr>" definitions. So we only want the second file of the first file (1.2) and the third field of the second file (2.3)...</p>
+
+<pre>Marie;Setup new Project
+Tom;Call customer X
+Tom;Get package from post office
+</pre>
+
+</pre>
+
+<h4>Summary</h4>
+
+<p>While the syntax of join is not that straight forward, it still allows doing things quite quickly that one is often tempted to implement in a script. It is quite easy to convert batch input data to CSV format. Using join it can be easily grouped and reduced according to the your task.</p>
+
+<p>If this got you interested you can find more and non-CSV examples <a href="http://www.albany.edu/~ig4895/join.htm">on this site</a>.

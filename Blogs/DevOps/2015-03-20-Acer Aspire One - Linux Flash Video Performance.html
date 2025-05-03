@@ -1,0 +1,17 @@
+<a href="http://askubuntu.com/questions/5651/how-to-improve-unity-performance">There</a> <a href="https://help.ubuntu.com/community/AA1/Using">are</a> <a href="http://askubuntu.com/questions/97171/cant-install-fglrx-or-boot-computer">dozens</a> of guides on how to run the Acer Aspire One netbook with Ubuntu 12.04 (and derivates Lubuntu, Xubuntu & Co) which provides reasonably good hardware support. For performance reasons most of them suggest to install the AMD Catalyst driver. And this is good because it allows playing HD videos without problems on this otherwise small netbook.
+
+<b>Still Flash video doesn't work!</b>
+
+Most guides do not have this hint, but the solution is quite simple: One also needs to install the <a href="http://en.wikipedia.org/wiki/X-Video_Bitstream_Acceleration">XvBA</a> Linux support. In Debian and Ubuntu this means
+
+<pre>sudo apt-get install xvba-va-driver libva-glx1 libva-egl1 vainfo</pre>
+
+This is also described on the <a href="https://help.ubuntu.com/community/BinaryDriverHowto/ATI">Ubuntu BinaryDriverHowto page</a> but missing in almost all other tutorials on how to get Radeon chips working on Linux.
+
+<b>So again: Install XvBA!!!</b>
+
+If you are unsure wether it is working on your system just run
+
+<pre>vainfo</pre>
+
+and check if it lists "Supported profile and entrypoints". If it does not or the tool doesn't exist you probably run without hardware accelaration for Flash.

@@ -1,0 +1,75 @@
+This is the first release of the new unstable release line. This release line focusses on code maintainability and this sometimes means removing features (like the very desktop environment dependant tray icon and popup notification features). On the other hand it extends support for online accounts with support for InoReader and Reedah. It also introduces label (folder) support for TinyTinyRSS subscriptions.
+
+<h2>Change Details</h2>
+
+<pre>
+    * Added experimental InoReader support
+    * Added experimental Reedah support
+
+    * Fixes SF #1123: Mistakenly claims "TinyTinyRSS source is not self-updating"
+      (reported by Dominik Grafenhoher)
+    * Fixes SF #1119: Crash on font resize at startup.
+      (reported by David Smith)
+    * Fixes #1056, #1089, #1098: Honor preferences when opening links
+      (patch by Daniel Seither)
+    * Fixes #1117: Selecting last unread item in reduced feed list jumps to next feed
+      (reported by Bruce Guenter)
+    * Fixes missing "Via" metadata type
+      (patch by Rich Coe)
+    * Fixes incorrect new count reset handling in item_state.c and 
+      some of the node source implementations.
+    * Fixes SF #1096: missing installation of liferea.convert file
+      (reported by stqn) 
+    * Fixes SF #1135: liferea-add-feed doesn't process feed:https//
+      (patch by Kevin Walke)
+    * Fixes SF #1137, #1142: startup race with LifereaHtmlView
+      (reported by Yanko Kaneti)
+    * Fixes Github #13: Parsing errors not visible with dark themes
+      (reported by Steve Kelly)
+    * Fixes Github #29: Do not use bold text for feeds/folders with unread items
+      in the leftmost treeview (repored by Jeff Fortin)
+    * Fixes SF #1141: Liferea does not update feeds with TinyTinyRSS
+      (reported by Dominik Grafenhofer, denk_mal, Fabian Henze)
+    * Fixes SF #1150: subscription prop/source: not all fields and
+      buttons visible (reported by David Smith)
+    * Fixes Github #26: RTL comments appear incorrectly
+      (reported by yaconf)
+    * Fixes Github #27: Images do not autosize to fit the available space
+      (reported by Jeff Fortin)
+    * Fixes Github #34: Add TinyTinyRSS Enclosure Support
+      (reported by Adrixan)
+    * Fixes Github #43: "Any of the following" search condition doesn't work
+      (reported by Jeff Fortin)
+    * Fixes Github #49: Some dialogs scrolling areas do not request enough height
+      (reported by Jeff Fortin)
+    * Fixes Github #53: Doesn't automatically update feed name and favicon
+      for new feed (reported by asl97)
+    * Patch SF #224: Update to new libxml2 buffer API
+      (Simon Kagedal Reimer)
+    * Patch SF #209: Avoid copying list in itemset_merge_items
+      (kaloyan)
+    * Make Liferea use ETags and send If-None-Match
+      (patch by Chris Siebenmann)
+    * Support NOCONFIGURE for RPM builds
+      (Charles A Edwards)
+
+    * Rename README to README.md
+    * Removing libindicate support (to be added as plugin maybe)
+    * Removing libnotify support (to be added as plugin maybe)
+    * Removing build in tray icon support
+    * Added tray icon plugin
+    * Added category/folder support for TheOldReader
+    * Added folder auto-removal for TinyTinyRSS & TheOldReader
+
+    * Updated README on plugin contribution
+    * Updated Arabic translation (Khaled Hosny)
+</pre>
+
+Finally please note that this is an unstable release and might have quite some bugs.
+
+So please help testing!
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+https://github.com/lwindolf/liferea/releases/tag/v1.11.0

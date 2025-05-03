@@ -1,0 +1,30 @@
+Search for <a href="https://www.google.de/search?client=ubuntu&channel=fs&q=chef+100%25+cpu+issue&ie=utf-8&oe=utf-8&redir_esc=&ei=TlOiUI3LIaWM4gSCoYGoAQ">chef 100% cpu issue</a> and you will find a lot of sugestions ranging from reboot the server, to restart RabbitMQ and often to check the kernel max file limit.
+
+All of those do not help! What does help is checking RabbitMQ with
+
+<pre>rabbitmqctl report | grep -A3 file_descriptors</pre>
+
+and have a look at the printed limits and usage. Here is an example:
+
+<pre>
+ {file_descriptors,[{total_limit,8900},
+                    {total_used,1028},
+                    {sockets_limit,8008},
+                    {sockets_used,2}]},
+</pre>
+
+In my case the 100% CPU usage was caused by all of the file handles being used up which for some reason causes RabbitMQ 2.8.4 to go into a crazy endless loop rarely responding at all.
+
+The "total_limit" value is the "nofile" limit for the maximum number of open files you can check using "ulimit -n" as RabbitMQ user. Increase it permanently by defining a RabbitMQ specific limit for example in /etc/security/limits.d/rabbitmq.conf:
+
+<pre>rabbitmq    soft   nofile   10000</pre>
+
+or using for example
+
+<pre>ulimit -n 10000</pre>
+
+from the start script or login scripts. Then restart RabbitMQ. The CPU usage should be gone.
+
+<b>Update: This problem only affects RabbitMQ releases up to 1.8.4 and should be fixed starting with 1.8.5.</b>
+
+

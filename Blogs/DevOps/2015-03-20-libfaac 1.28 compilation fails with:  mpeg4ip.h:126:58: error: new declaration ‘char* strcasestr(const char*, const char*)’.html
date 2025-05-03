@@ -1,0 +1,11 @@
+When compiling libfaac with GCC you get:
+
+<code>g++ -DHAVE_CONFIG_H -I. -I../.. -I../../include   -Wall -g -O2 -MT 3gp.o -MD -MP -MF .deps/3gp.Tpo -c -o 3gp.o 3gp.cpp
+In file included from mp4common.h:29:0,
+                 from 3gp.cpp:28:
+mpeg4ip.h:126:58: error: new declaration ‘char* strcasestr(const char*, const char*)’
+/usr/include/string.h:369:28: error: ambiguates old declaration ‘const char* strcasestr(const char*, const char*)’
+make[3]: *** [3gp.o] Error 1
+</code>
+
+Solution is to remove the declaration of strcasestr() in commom/mp4v2/mpeg4ip.h (suggested <a href="http://stackoverflow.com/questions/4320226/installing-faac-on-linux-getting-errors">here</a>).

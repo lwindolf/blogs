@@ -1,0 +1,45 @@
+Did you upgrade to Wayland already? Noticed breaking stuff everywhere?
+
+One of the silent breaks is .xprofile, Wayland by design doesn't load
+the X legacy initialisation scripts ~/.xprofile ~/.xsession ~/.xinitrc
+as well as their siblings below /etc/X11.
+
+While I understand <a href="https://specifications.freedesktop.org/autostart-spec/0.5/ar01s02.html">the reason</a> to cut away legacy to forward a modern
+desktop environment, I'd still like GNOME to care more about helping
+end-users to migrate.
+
+<h3>How to Migrate Environment Settings</h3>
+
+If you want to set desktop global environment variables you need to task
+your display manager which those as Wayland explicitely refuses to provide
+a hook. When you use GDM a possible hook is in /usr/share/gdm/env.d/startup_${USER}.sh
+
+<h3>How to Migrate Application Startup</h3>
+
+The only sane way is to migrate to the autostart as defined by the <a href="https://specifications.freedesktop.org/autostart-spec/0.5/ar01s02.html">XDG spec</a>
+which means placing .desktop files in (usually) ~/.config/autostart.
+
+To run an arbitrary command use a shell invocation like this
+
+<pre>
+[Desktop Entry]
+Name=My favourite command
+GenericName=My favourite command
+Comment=We all like GNOME making life harder
+Exec=/bin/bash -c "ENVVAR=value my_application -o --param=value something"
+Terminal=false
+StartupNotify=true
+Type=Application
+Categories=X11;Legacy;Startup
+</pre>
+
+The only relevant line being the 'Exec' entry. Use a shell with -c to pass environment variables or more complex commands.
+
+<h3>Finally...</h3>
+
+Maybe it is a good moment to look back at the long cross-platform compatibility ending
+with X11 being replaced. It was great the apply old Unix knowledge on every Linux
+desktop so far. Now simply stuff like xkill and xprops just won't work anymore.
+Don't even think about positioning windows at certain coordinates.
+
+Time to learn new Wayland-only commands.

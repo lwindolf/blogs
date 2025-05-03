@@ -1,0 +1,7 @@
+When adding GlusterFS share to /etc/fstab do not forget to add "_netdev" to the mount options. Otherwise on next boot your system will just hang!
+
+Actually there doesn't seem to be a timeout. That would be nice too.
+
+As a side-note: do not forget that Ubuntu 12.04 doesn't care about the "_netdev" even. So network is not guaranteed to be up when mounting. So an additional upstart task or init script is needed anyway. But you need "_netdev" to prevent hanging on boot.
+
+I also have the impression that this only happens with stock kernel 3.8.x and not with 3.4.x!

@@ -1,0 +1,10 @@
+---
+categories: Puppet
+---
+If you want to apply Puppet changes in an selective manner you can run 
+
+<pre>puppet apply -t --tags Some::Class</pre>
+
+on the client node to only run the single class named "Some::Class". 
+
+Why does this work? Because Puppet automatically creates tags for all classes you have. Ensure to upper-case all parts of the class name, because even if you actual Ruby class is "some::class" the Puppet tag will be "Some::Class".

@@ -1,0 +1,33 @@
+With the switch to GTK3 all Webkit using applications like Epiphany, Liferea, devhelp, yelp and others lost Flash support. <b>The reason is that Linux-Flash is GTK2 only!</b> And of course there won't be new releases from Adobe ever. So we have the following compatibility situation for Liferea
+
+<table border="1" cellpadding="6">
+<tr><th>Release
+Line</th><th>Uses</th><th>Flash</th><th>Status</th></tr>
+<tr><td>1.6
+1.8</td><td>GTK2 + WebkitGTK2</td><td>any native Flash</td><td style="background:#afa">Works</td></tr>
+<tr><td>1.10</td><td>GTK3 + WebkitGTK3 v1.8</td><td>32bit native Flash</td><td style="background:#faa">Broken</td></tr>
+<tr><td>1.10</td><td>GTK3 + WebkitGTK3 v1.8</td><td>64bit native Flash</td><td style="background:#faa">Broken</td></tr>
+<tr><td>1.10</td><td>GTK3 + WebkitGTK3 v1.8</td><td>32bit Flash + nspluginwrapper</td><td style="background:#afa">Works</td></tr>
+<tr><td>1.10</td><td>GTK3 + WebkitGTK3 v2.0</td><td>any native Flash</td><td style="background:#afa">Works</td></tr>
+</table>
+
+The WebkitGTK+ solution for the Flash problem was implemented in version 2.0 by having a second process linked against GTK2 to run browser plugins while Webkit itself is linked to GTK3. This makes Flash work again. 
+
+But the currently widely distributed WebkitGTK3 v1.8 does not have this feature yet and fails to use the native flash.
+
+<h3>nspluginwrapper Workaround</h3>
+
+The only workaround is to use <a href="https://en.wikipedia.org/wiki/Nspluginwrapper">nspluginwrapper</a> to run the 32bit version of Flash. This is guaranteed to work on 64bit platforms. It might not work on 32bit hardware, sometimes also because nspluginwrapper is not available there. The steps to install it are:
+
+<ol>
+<li>Install nspluginwrapper. On Debian <pre>apt-get install nspluginwrapper</pre></li>
+<li>Download 32bit Flash .tar.gz from <a href="https://en.wikipedia.org/wiki/Nspluginwrapper">Adobe</a></li>
+<li>Extract /usr files according to the Adobe instructions</li>
+<li>In the tarball directory run <pre>nspluginwrapper -i -a -v -n libflashplayer.so</pre> to install the plugin</li>
+</ol>
+
+Now all WebkitGTK3 using applications should be able to run Flash. Ensure to restart them and check command line output for any plugin errors.
+
+<h3>Upgrading to WebkitGTK3 2.0</h3>
+
+If you can try upgrading to WebkitGTK3 2.0 (e.g. Debian Experimental).

@@ -1,0 +1,71 @@
+After guess-trying a lot on how to define a simple sequence in <a href="http://www.kuwata-lab.com/kwalify/">kwalify</a> (which I do use as a JSON/YAML schema validator) I want to share this solution for a YAML schema.
+
+So my use case is whitelisting certain keys and somehow ensuring their types. Using this I want to use kwalify to validate YAML files. Doing this for scalars are simple, but hashes and lists of scalar elements are not. Most problematic was the lists...
+
+<h3>Defining Arbitrary Scalar Sequences</h3>
+
+So how to define a list in kwalify? The user guide gives this example:
+
+<pre>
+---
+list:
+  type: seq
+  sequence:
+     - type: str
+</pre>
+
+This gives us a list of strings. But many lists also contain numbers and some contain structured data. For my use case I want to exclude structured date AND allow numbers. So "type: any" cannot be used. Also "type: any" would'nt work because it would require defining the mapping for any, which in a validation use case where we just want to ensure the list as a type, we cannot know. The great thing is there is a type "text" which you can use to allow a list of strings or number or both like this:
+
+<pre>
+---
+list:
+  type: seq
+  sequence:
+     - type: text
+</pre>
+
+<h3>Building a key name + type validation schema</h3>
+
+As already mentioned the need for this is to have a whitelisting schema with simple type validation. Below you see an example for such a schema:
+
+<pre>
+---
+type: map
+mapping:
+  "default_definition": &allow_hash
+     type: map
+     mapping:
+       =:
+         type: any
+
+  "default_list_definition": &allow_list
+     type: seq
+     sequence:
+       # Type text means string or number
+       - type: text
+
+  "key1": *allow_hash
+  "key2": *allow_list
+  "key3":
+     type: str
+
+  =:
+    type: number
+    range: { max: 29384855, min: 29384855 }
+</pre>
+
+At the top there are two dummy keys "default_definition" and "default_list_definition" which we use to define two YAML references "allow_hash" and "allow_list" for generic hashes and scalar only lists.
+
+In the middle of the schema you see three keys which are whitelisted and using the references are typed as hash/list and also as a string.
+
+Finally for this to be a whitelist we need to refuse all other keys. Note that '=' as a key name stands for a default definition. Now we want to say: default is "not allowed". Sadly kwalify has no mechanism for this that allows expressing something like
+
+<pre>
+---
+  =:
+    type: invalid
+</pre>
+
+Therefore we resort to an absurd type definition (that we hopefully never use) for example a number that has to be exactly 29384855. All other keys not listed in the whitelist above, hopefully will fail to be this number an cause kwalify to throw an error.
+
+This is how the kwalify YAML whitelist works.

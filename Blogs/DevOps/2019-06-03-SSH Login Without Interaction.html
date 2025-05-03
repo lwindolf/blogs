@@ -1,0 +1,32 @@
+---
+categories: SSH
+---
+<p>
+This is a short summary what you need to avoid any type of interaction when accessing a machine by SSH.
+</p>
+<p>
+Interaction Pitfalls:
+</p>
+<ul>
+<li>Known hosts entry is missing.</li>
+<li>Known hosts entry is incorrect.</li>
+<li>Public key is incorrect or missing.</li>
+<li>Keyboard Authentication is enabled when public key failed.</li>
+<li>stdin is connected and the remote command waits for input.</li>
+</ul>
+<p>
+Here is what you need to do to circumvent everything:
+</p>
+<ul>
+<li>Ensure to use the correct public key (if necessary pass it using -i)</li>
+<li>Ensure to pass "-o UserKnownHostsFile=/dev/null" to avoid termination when the known hosts key has changed (Note: this is highly insecure when used for untrusted machines! But it might make sense in setups without correctly maintained known_hosts)</li>
+<li>Ensure to pass "-o StrictHostKeyChecking=no" to avoid SSH complaining about missing known host keys (caused by using /dev/null as input).</li>
+<li>Pass "-o PreferredAuthentications=publickey" to avoid password querying when the public key doesn't work</li>
+<li>Pass "-n" to avoid remote interaction</li>
+
+<p>
+Example command line:
+</p>
+<pre>
+ssh -i my_priv_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey user@host -n "/bin/ls"
+</pre>

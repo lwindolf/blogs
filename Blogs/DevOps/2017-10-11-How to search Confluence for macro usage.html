@@ -1,0 +1,11 @@
+When you want to find all pages in Confluence that embed a certain macro you cannot simply use the search field as it seamily only searches the resulting content. A normal search query does not check the markup for the macro code.
+
+To search for a certain macro do a request like this
+
+<pre>
+https://&lt;base url>/dosearchsite.action?cql=macro+%3D+"&lt;macro name>"
+</pre>
+
+So to search for the "sql-query" macro for example do 
+
+<pre>https://&lt;base url>/dosearchsite.action?cql=macro+%3D+"sql-query"</pre>

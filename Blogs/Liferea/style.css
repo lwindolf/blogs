@@ -1,0 +1,229 @@
+
+body {
+	background: #bdbdad;
+	font-family: "URW Gothic", Helvetica, Arial;
+	color:#5e565d;
+}
+
+a {
+	color:#4183c4;
+}
+
+div#border {
+	width: 800px;
+	border: 10px solid black;
+	border-radius : 16px;
+	background:white;
+	align:middle;
+
+}
+
+div#overlay1 {
+	background-color:#000;
+	color:white;
+	font-family: "URW Gothic", Helvetica, Arial;
+	-ms-filter: "Alpha(Opacity=60)"; /* IE 8 */
+	filter:alpha(opacity=60); /* IE5-7 */
+	-moz-opacity: 0.60; /* Mozilla */
+	opacity: 0.60;
+	position:absolute;
+	width: 99%;
+	top: 0;
+	left: 0;
+	padding:6px;
+}
+
+div#overlay1 img {
+}
+
+div#overlay1 span {
+	margin-bottom:4px;
+}
+
+div#menu {
+	font-family: URW Gothic, Helvetica, Arial;
+	-ms-filter: "Alpha(Opacity=60)"; /* IE 8 */
+	filter:alpha(opacity=60); /* IE5-7 */
+	-moz-opacity: 0.6; /* Mozilla */
+	opacity: 0.6;
+	background:black;
+	padding: 6px;
+	position:absolute;
+	width: 99%;
+	bottom: 0;
+	left: 0;
+}
+
+div#menu a {
+	text-decoration:none;
+	color:white;
+	margin:0 6px;
+}
+
+div#content {
+	padding:12px;
+}
+
+#sidebar {
+	float:right;
+	margin-left:24px;
+}
+
+#sidebar * h3 {
+	margin:3px 0;
+}
+
+#sidebar * ul {
+	margin:6px 0;
+	padding-left:24px;
+}
+
+#sidebar * li {
+	font-size:90%;
+}
+
+#sidebar * a {
+	text-decoration: none;
+}
+
+#downloadBox, #contributeBox, #supportBox {
+	width:274px;
+	margin:12px 0;
+	//border-radius: 6px;
+	padding:0 12px;
+}
+
+#downloadBox {
+	border:3px solid black;
+	background:#ffb;
+}
+
+#contributeBox {
+	border:1px solid black;
+	background:#f7f7f7;
+}
+
+#supportBox {
+	border:1px solid black;
+	background:#f7f7f7;
+}
+
+/******************************************************************************/
+
+/* FAQ styles (c) Martin Lettner */
+
+
+#content dl {
+
+}
+#content dl dt {
+	position : relative;
+	margin-top : 1.5em;
+	font-size : 110%;
+	font-weight : bold;
+	border-bottom : 1px solid #eeeeec;
+}
+#content dl dd {
+}
+#content dl a.faq-q {
+	padding-right : .1em;
+	font-size : 140%;
+	font-weight : bold;
+	color : #888a85;
+}
+#content dl a.faq-a {
+	padding-right : .25em;
+	font-size : 150%;
+	font-weight : bold;
+	color : #729fcf;
+}
+#dcontent dl dd ul {
+	padding-left : 2em;
+}
+#content dl dd ul li {
+	padding-bottom : .5em;
+}
+
+#content pre, code, tt {
+	cursor : text;
+}
+#content pre.code {
+	margin : 1em 0 2em;
+	padding : 1em;
+	background : #eeeeec;
+}
+#content pre.command {
+	color : #4e9a06;
+}
+#content tt {
+	color : #4e9a06;
+	font-weight : bold;
+}
+
+#content table {
+	margin-top : 1em;
+}
+#content table tr th, #content table tr td {
+	padding : .5em;
+	background : #fff url(images/head-bg.png) left -20px repeat-x;
+}
+#content table tr.head th {
+	background : black;
+	color: white;
+}
+#content table th {
+	text-align : left;
+	vertical-align : top;
+}
+
+
+/******************************************************************************/
+
+/* Feedburner Feed Styles */
+
+.feedburnerFeedBlock div {
+	padding-top: 12px;
+	padding-left: 24px;
+	padding-bottom: 12px;
+}
+
+.feedburnerFeedBlock .headline {
+	font-weight: bold;
+}
+
+.feedburnerFeedBlock .date:before {
+	content: " (";
+}
+
+.feedburnerFeedBlock .date {
+	display:inline;
+}
+
+.feedburnerFeedBlock .date:after {
+	content: ") : ";
+}
+
+
+/******************************************************************************/
+
+/* Google+ */
+
+span.gplus {
+	float:right;
+	margin-top:6px;
+	margin-right:0;
+}
+
+div.feedburnerFeedBlock {
+	background:#f7f7f7;
+	border:1px solid black;
+}
+
+.feedburnerFeedBlock ul {
+	list-style-type:none;
+	padding:0 24px;
+}
+
+.feedburnerFeedBlock li {
+	margin-top:12px;
+}

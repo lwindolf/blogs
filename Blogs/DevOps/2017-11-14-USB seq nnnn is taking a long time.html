@@ -1,0 +1,10 @@
+When your dmesg/journalctl/syslog says something like
+
+<pre>Nov 14 21:43:12 Wolf systemd-udevd[274]: seq 3634 '/devices/pci0000:00/0000:00:14.0/usb2/2-1' is taking a long time
+</pre>
+
+then know that the only proper manly response can be
+
+<pre>systemctl restart udev</pre>
+
+Don't allow for disrespectful USB messages!!!

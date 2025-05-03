@@ -1,0 +1,32 @@
+<b>Update:</b> The workaround for the problem doesn't work for ffmpeg versions more recent than 20.06.2011 as libfaad support was dropped in favour of the now stable native ffmpeg AAC encoder! If you still have a separate compilation of libfaad you can workaround using the "faad" encoder tool as described in <a href="http://lzone.de/node/25">this post</a>.
+
+If you are using recent ffmpeg versions to decode a .MOV file you might get the <a href="http://n4.nabble.com/error-when-downscaling-mp4-td940675.html">following error</a>:
+
+<pre>Stream #0.0(eng): Audio: aac, 48000 Hz, 2 channels, s16
+Stream #0.1(eng): Video: h264, yuv420p, 1280x530, PAR 1:1 DAR 128:53, 25 tbr, 25 tbn, 50 tbc
+Output #0, flv, to 'test.flv':
+Stream #0.0(eng): Video: flv (hq), yuv420p, 400x164 [PAR 101:102 DAR 050:2091], 
+q=2-31, 300 kb/s, 1k tbn, 25 tbc
+Stream #0.1(eng): Audio: libmp3lame, 22050 Hz, 2 channels, s16, 64 kb/s
+Stream mapping:
+Stream #0.1 -> #0.0
+Stream #0.0 -> #0.1
+Press [q] to stop encoding
+[aac @ 0x80727a0]channel element 1.0 is not allocated
+Error while decoding stream #0.0
+Error while decoding stream #0.0
+Error while decoding stream #0.0
+Error while decoding stream #0.0
+Error while decoding stream #0.0
+Error while decoding stream #0.0
+[...]
+</pre>
+
+The message "Error while decoding stream #0.0" is repeated continuously. The resulting video is either unplayable or has no sound. Still the input video is playable in all standard players (VLC, in Windows...). The reason for the problem as I understood it is that the ffmpeg-builtin AAC codec cannot handle an audio stream stream with index "1.0". This is documented in various bugs (see ffmpeg issues <a href="https://roundup.ffmpeg.org/roundup/ffmpeg/issue800">#800</a>, <a href="https://roundup.ffmpeg.org/roundup/ffmpeg/issue871">#871</a>, <a href="https://roundup.ffmpeg.org/roundup/ffmpeg/issue999">#999</a>, <a href="https://roundup.ffmpeg.org/roundup/ffmpeg/issue1733">#1733</a>...). It doesn't look like this will be handled by ffmpeg very soon. In fact it could well be that they'll handle it as an invalid input file.
+
+<b>Solution:</b> Upgrade to latest ffmpeg and faad library version and add " -acodec libfaad " in front of the "-i" switch. This uses the libfaad AAC decoder, which is said to be a bit slower than the ffmpeg-builtin, but which decodes the AAC without complaining. For example:
+
+<pre>ffmpeg -acodec libfaad -i input.mov -b 300kbit/s -ar 22050 -o test.flv
+</pre>
+
+The "-acodec" preceding the "-i" option only influences the input audio decoding, not the audio encoding.

@@ -1,0 +1,18 @@
+You can use the {content-reporter} macro (provided by the commercial <a href="http://wiki.customware.net/repository/display/AtlassianPlugins/content-reporter">Customware Confluence plugin</a>) to access pages in different spaces, but you need to
+
+<b><ol>
+<li>Add "space=&lt;space name>" to the {content-reporter} parameters</li>
+<li>Add "&lt;space name>:" in front of the page path in the scope parameter</li>
+</ol></b>
+
+to make it work. 
+
+Example to query "somefield" from all child pages of "ParentPage" in "THESPACE":
+
+<code>{report-table}
+{content-reporter:space=THESPACE|scope="THESPACE:ParentPage" > descendents}
+{text-filter:data:somefield|required=true}
+{content-reporter}
+{report-column:title=somefield}{report-info:data:somefield}{report-column}
+{report-table}
+</code>

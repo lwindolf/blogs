@@ -1,0 +1,6 @@
+---
+categories: Docker
+---
+Noteworthy point from the <a href="https://medium.com/@RemindEng/operations-infrastructure-month-in-oreview-4-530d1b1d83ea">Remind Ops</a>: when running docker containers on ext4 consider disabling journaling. Why, because a throw-away almost read-only filesystem doesn't need recovery on crash. 
+
+See also <?add topic='Docker'?>

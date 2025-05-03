@@ -1,0 +1,129 @@
+After writing the same scripts several times I decided it is time for a generic
+solution to check Debian servers for configuration consistency. As incidents
+and mistakes happen each organization collects a set of learnings (let's call
+it policies) that should be followed in the future. And one important truth
+is that the free automation and CM tools we use (Chef, Puppet, Ansible, cfengine,
+Saltstack...) allow to implement policies, but do not seem to care much about 
+proofing correct automation.
+
+<h3>How to ensure following policies?</h3>
+
+But how to really ensure following these policies? The only way is by <b>checking
+them and revisiting the check results frequently</b>. One could build a script and
+send a daily/weekly mail report. This is always a custom solution and that's
+what I did several times already. So I do it one final time, but this times
+in a generic way.
+
+<h3>Generic Policy Scanning</h3>
+
+For me a generic configuration consistency / policy scanner has at least the
+following requirements:
+
+<ol>
+<li>Optional generic pre-defined policies</li>
+<li>Optional custom user-defined policies</li>
+<li>Policies checked locally on the host</li>
+<li>Policies checked from CM systems</li>
+<li>Per host/hostgroup policy enabling</li>
+<li>Generic discovery of your hosts</li>
+<li>Dynamic per policy/group/host result filtering</li>
+<li>Customizable mail reports</li>
+<li>Result archival for audits</li>
+<li>Some simple trending</li>
+<li>Daily diffs, New findings, Resolved Isses</li>
+<li>Acknowledging Findings</li>
+</ol>
+
+I started implementing a simple solution (entirely bash and SSH based, realizing
+requirements 1,2,3,4,6,7,9,10)
+with <a href="https://github.com/lwindolf/polscan">https://github.com/lwindolf/polscan</a>.
+It is quite easy to setup by configuring the type of 
+
+<ul>
+<li>Host list provider (e.g. Chef, Puppet, mcollective)</li>
+<li>SSH access available</li>
+<li>Sudo yes/no</li>
+</ul>
+
+and you can run it instantly with the default set of policy scanners (which
+of course not necessarily all make sense for all type of systems). 
+
+<h3>Implemented Scanners</h3>
+
+<ul>
+		
+<li><a href='/polscan/network-empty-hosts'>Network - empty-hosts</a></li>
+<li><a href='/polscan/network-hostname-resolve'>Network - hostname-resolve</a></li>
+<li><a href='/polscan/network-ignore-broadcast-requests'>Network - ignore-broadcast-requests</a></li>
+<li><a href='/polscan/network-ignore-icmp-requests'>Network - ignore-icmp-requests</a></li>
+<li><a href='/polscan/network-no-ip-src-routing'>Network - no-ip-src-routing</a></li>
+<li><a href='/polscan/network-rp-filter'>Network - rp-filter</a></li>
+<li><a href='/polscan/network-syn-cookies-on'>Network - syn-cookies-on</a></li>
+<li><a href='/polscan/network-tcp-wrapper'>Network - tcp-wrapper</a></li>
+<li><a href='/polscan/performance-swappiness'>Performance - swappiness</a></li>
+<li><a href='/polscan/puppet-apt-repos-managed'>Puppet - apt-repos-managed</a></li>
+<li><a href='/polscan/puppet-not-disabled'>Puppet - not-disabled</a></li>
+<li><a href='/polscan/puppet-ssh-keys-managed'>Puppet - ssh-keys-managed</a></li>
+<li><a href='/polscan/puppet-sudoers-managed'>Puppet - sudoers-managed</a></li>
+<li><a href='/polscan/puppet-users-managed'>Puppet - users-managed</a></li>
+<li><a href='/polscan/security-apache-server-tokens'>Security - apache-server-tokens</a></li>
+<li><a href='/polscan/security-apparmor-no-complain'>Security - apparmor-no-complain</a></li>
+<li><a href='/polscan/security-aslr-enabled'>Security - aslr-enabled</a></li>
+<li><a href='/polscan/security-dmesg-restrict'>Security - dmesg-restrict</a></li>
+<li><a href='/polscan/security-enforce-history'>Security - enforce-history</a></li>
+<li><a href='/polscan/security-ipv4-forwarding'>Security - ipv4-forwarding</a></li>
+<li><a href='/polscan/security-ipv6-forwarding'>Security - ipv6-forwarding</a></li>
+<li><a href='/polscan/security-kptr_restrict'>Security - kptr_restrict</a></li>
+<li><a href='/polscan/security-nginx-server-tokens'>Security - nginx-server-tokens</a></li>
+<li><a href='/polscan/security-nginx-size-limits'>Security - nginx-size-limits</a></li>
+<li><a href='/polscan/security-no-at'>Security - no-at</a></li>
+<li><a href='/polscan/security-no-autofs'>Security - no-autofs</a></li>
+<li><a href='/polscan/security-no-avahi'>Security - no-avahi</a></li>
+<li><a href='/polscan/security-no-compiler'>Security - no-compiler</a></li>
+<li><a href='/polscan/security-no-core-dumps'>Security - no-core-dumps</a></li>
+<li><a href='/polscan/security-no-ctrlaltdel'>Security - no-ctrlaltdel</a></li>
+<li><a href='/polscan/security-no-portmap'>Security - no-portmap</a></li>
+<li><a href='/polscan/security-no-root-aliases'>Security - no-root-aliases</a></li>
+<li><a href='/polscan/security-no-telnetd'>Security - no-telnetd</a></li>
+<li><a href='/polscan/security-ntpd-active'>Security - ntpd-active</a></li>
+<li><a href='/polscan/security-nx-enabled'>Security - nx-enabled</a></li>
+<li><a href='/polscan/security-pam-cracklib'>Security - pam-cracklib</a></li>
+<li><a href='/polscan/security-pam-no-nullok'>Security - pam-no-nullok</a></li>
+<li><a href='/polscan/security-pending-restarts'>Security - pending-restarts</a></li>
+<li><a href='/polscan/security-pending-updates'>Security - pending-updates</a></li>
+<li><a href='/polscan/security-pending-updates2'>Security - pending-updates2</a></li>
+<li><a href='/polscan/security-pending-updates3'>Security - pending-updates3</a></li>
+<li><a href='/polscan/security-remote-fs-mounts'>Security - remote-fs-mounts</a></li>
+<li><a href='/polscan/security-repo-enabled'>Security - repo-enabled</a></li>
+<li><a href='/polscan/security-securetty'>Security - securetty</a></li>
+<li><a href='/polscan/security-selinux-enabled'>Security - selinux-enabled</a></li>
+<li><a href='/polscan/security-sysrq-disabled'>Security - sysrq-disabled</a></li>
+<li><a href='/polscan/ssh-hashknownhosts'>Ssh - hashknownhosts</a></li>
+<li><a href='/polscan/ssh-legacy-disabled'>Ssh - legacy-disabled</a></li>
+<li><a href='/polscan/ssh-no-keyboard'>Ssh - no-keyboard</a></li>
+<li><a href='/polscan/ssh-no-root'>Ssh - no-root</a></li>
+<li><a href='/polscan/ssh-no-tcp-forward'>Ssh - no-tcp-forward</a></li>
+<li><a href='/polscan/ssh-no-x11-forward'>Ssh - no-x11-forward</a></li>
+<li><a href='/polscan/ssh-privilege-separation'>Ssh - privilege-separation</a></li>
+<li><a href='/polscan/ssh-sftp-disabled'>Ssh - sftp-disabled</a></li>
+<li><a href='/polscan/ssh-strict-mode'>Ssh - strict-mode</a></li>
+<li><a href='/polscan/system-apt'>System - apt</a></li>
+<li><a href='/polscan/system-home-partition'>System - home-partition</a></li>
+<li><a href='/polscan/system-mounts'>System - mounts</a></li>
+<li><a href='/polscan/system-ntpd-slew'>System - ntpd-slew</a></li>
+<li><a href='/polscan/system-tmp-partition'>System - tmp-partition</a></li>
+<li><a href='/polscan/system-unattended-upgrades'>System - unattended-upgrades</a></li>
+<li><a href='/polscan/system-var-partition'>System - var-partition</a></li>
+<li><a href='/polscan/updates-release'>Updates - release</a></li>
+</ul>
+
+By setting up the results and the static HTML (instructions in README.md)
+in some webserver document root you can browse through the results. 
+
+<h3>Screenshots</h3>
+
+Result overview:
+<p><img src="http://lzone.de/images/polscan-screenshot1.png" width='400px'/></p>
+
+Filter details:
+<p><img src="http://lzone.de/images/polscan-screenshot2.png" width='400px'/></p>

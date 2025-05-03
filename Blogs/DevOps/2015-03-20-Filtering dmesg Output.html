@@ -1,0 +1,45 @@
+Many administrators just run "dmesg" to check a system for problems and do not bother with its options. But actually it is worth to know about the filtering and output options of the most recent versions (Note: older distros e.g. CentOS5 might not yet ship these options!).
+
+You always might want to use "-T" to show human readable timestamps:
+
+<pre>$ dmesg -T
+[...]
+[Wed Oct 10 20:31:22 2012] Buffer I/O error on device sr0, logical block 0
+[Wed Oct 10 20:31:22 2012] sr 1:0:0:0: [sr0]  Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
+[...]
+</pre>
+
+Additionally the severity and source of the messages is interesting (option -x):
+
+<pre>$ dmesg -xT
+[...]
+kern  :err   : [Wed Oct 10 20:31:21 2012] Buffer I/O error on device sr0, logical block 0
+kern  :info  : [Wed Oct 10 20:31:21 2012] sr 1:0:0:0: [sr0]  Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
+[...]
+</pre>
+
+Now we see that only one of those example message lines was an actual error. But we can even filter for errors  or worse ignoring all the boot messages (option -l):
+
+<pre>$ dmesg -T -l err,crit,alert,emerg
+[...]
+[Wed Oct 10 20:31:21 2012] Buffer I/O error on device sr0, logical block 0
+[...]
+</pre>
+
+In the same way it is possible to filter the facility (the first column in the -x output). For example this could return:
+
+<pre>$ dmesg -T -f daemon
+[...]
+[Wed Oct 10 19:57:50 2012] udevd[106]: starting version 175
+[Wed Oct 10 19:58:08 2012] udevd[383]: starting version 175
+[...]
+</pre>
+
+In any case it might be worth remembering:
+
+<ul>
+<li><b>-xT</b> for a quick overview with readable timestamps</li>
+<li><b>-T -l err,crit,alert,emerg</b> to just check for errors</li>
+</ul>
+
+I recently created a simple dmesg Nagios plugin to monitor for important messages with Nagios. You can find it <a href="/Nagios-Plugin-for-dmesg-Monitoring">here</a>.

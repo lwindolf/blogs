@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:content="http://purl.org/rss/1.0/modules/content/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+>
+<channel rdf:about="http://liferea.sf.net">
+	<title>Liferea - Documentación en línea</title>
+	<link>http://liferea.sf.net</link>
+	<content:encoded><![CDATA[
+	<h1>Ayuda de liferea</h1>
+	<p>
+		Esta fuente contiene documentación breve para Liferea, el lector RDF/RSS para GNU/Linux
+	</p>
+	]]></content:encoded>
+	<description>Ayuda de Liferea</description>
+	<dc:language>es</dc:language>
+	<dc:creator>topopardo_AT_humorfreak_DOT_com</dc:creator>
+	<syn:updatePeriod>daily</syn:updatePeriod>
+	<syn:updateFrequency>1</syn:updateFrequency>
+	
+	<items>
+	<rdf:Seq>
+	<rdf:li rdf:resource="http://liferea.sf.net/#about"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#quickstart"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#addrss"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#feedprop"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#feeds"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#item"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#folder"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#update"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#preferences"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#search"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#bugs"/>
+	<rdf:li rdf:resource="http://liferea.sf.net/#glossar"/>
+
+	</rdf:Seq>
+	</items>
+	
+</channel>
+
+<item rdf:about="http://liferea.sf.net/#about">
+	<title>Acerca de Liferea</title>
+	<content:encoded><![CDATA[
+	<h1>Acerca de Liferea</h1>
+	<p>
+	Este documento se adjunta con la versión 0.5.3 de Liferea
+	</p>
+	
+	<p>
+		Liferea es un lector de fuentes de noticias. Soporta una gran variedad de formatos, incluyendo RSS/RDF, CDF y Atom. Existen muchos otros lectores, como por ejemplo <a href="http://www.feedreader.com">FeedReader</a>, del cual se inspiró la interfaz de Liferea. El problena con algunos de esos programas es que no existen para linux, o dependen de muchas librerías. Liferea llena este vacío.
+	</p>
+
+
+<p>
+	Si estás interesado en los estándares de sindicación, visita la <a href="http://liferea.sourceforge.net"> página de Liferea</a>
+	</p>
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black">
+	Para comprobar que tengas la última versión de Liferea, o si quieres avisar de fallos del programa o pedir nuevas funciones, visita <a href="http://sourceforge.net/projects/liferea"> la página del proyecto en SourceForge</a>. También estás invitado a unirte a la lista de correo <i>liferea-devel</i>.Para más detalles, visita <a href="http://sourceforge.net/mail/?group_id=87005">la página con información sobre la lista, en Sourceforge</a>.
+	</div>
+	]]></content:encoded>
+	<dc:date>2004-7-22</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#quickstart">
+	<title>Tutorial</title>
+	<content:encoded><![CDATA[
+	<h1>Tutorial</h1>
+	<p>
+	Esta sección va dirigida a aquellos que quieren conocer todas las funciones de Liferea. Aquí se explican las más básicas, y es una buena guía para aprender a trabajar con subscripciones y fuentes.
+	</p>
+
+	<h2>¡Subscríbete!</h2>
+	<p>
+	Aquí tienes una lista de fuentes para subscribirte. Haz clic con el botón derecho en cualquiera de ellas y elige "Subscribirse" en el menú. Aparecerá la ventana de propiedades para la nueva fuente. Si no sabes lo que significan los parámetros, tan sólo haz click en "Aceptar"
+	</p>
+
+	<div style="background-color:#F0F0F0;padding:5px;border:dashed 1px black">
+	<table cellspacing="15">
+	<tr>
+
+	<td valign=top>
+	<b>Software libre (inglés)</b><br>
+	<a href="http://slashdot.org/slashdot.rss">Slashdot</a><br>
+	<a href="http://www.newsforge.com/newsforge.rss">NewsForge</a><br>
+	<a href="http://www.groklaw.net/backend/GrokLaw.rdf">GrokLaw</a><br>
+	<a href="http://www.debianplanet.net/module.php?mod=node&op=feed">Debian Planet</a><br>
+	<a href="http://www.mozillazine.org/contents.rdf">mozillaZine</a><br>
+	</td>
+
+	<td valign=top>
+	<b>Software libre (castellano)</b><br>
+	<a href="http://barrapunto.com/barrapunto.rdf">Barrapunto</a><br>
+	<a href="http://bulma.net/xml.php">Bulma</a><br>
+	<a href="http://libertonia.escomposlinux.org/backend.rdf">Libertonia</a><br>
+	<a href="http://www.jabberes.org/node/feed">Jabberes</a><br>
+	</td>
+
+	<td valign=top>
+	<b>Varios (inglés)</b><br>
+	<a href="http://www.oreillynet.com/meerkat/?_fl=rss10&t=ALL&c=47">Meerkat</a><br>
+	<a href="http://servlet.java.sun.com/syndication/rss_java_highlights-PARTNER-20.xml">java.sun.com</a><br>
+	<a href="http://www.artima.com/weblogs/viewpost.jsp?thread=24087">Artima</a><br>
+	<a href="http://x42.com/rss/rfc.rss">Últimos RFCs</a><br>
+	<a href="http://www.cert.org/channels/certcc.rdf">CERT/CC</a><br>
+	</td>
+	</tr>
+
+	<tr>
+	<td valign=top>
+	<b>Directorios (inglés)</b><br>
+	<a href="http://w.moreover.com/categories/ocs/ocsdirectory_0_1.rdf">Lista de Moreover</a> (4MB aprox.)<br>
+	<a href="http://xml.newsisfree.com/fullservicelist.ocs">Lista de NewsIsFree</a> (1MB aprox.)<br>
+	<a href="http://www.syndic8.com/xml.php">Syndicate</a> (directorio entero)<br>
+	<a href="http://blogs.law.harvard.edu/tech/discuss/reader$5.opml">RSS 2.0 en Harvard</a><br>
+	<a href="http://radio.weblogs.com/0001161/gems/rsssearchengines.opml">Directorio de búsquedas</a><br>
+	</td>
+
+	<td valign=top>
+	<b>Noticias tecnológicas (inglés)</b><br>
+	<a href="http://theregister.co.uk/feeds/latest.rdf">The Register</a><br>
+	<a href="http://www.computerworld.com/news/xml/10/0,5009,,00.xml">Computerworld</a><br>
+	<a href="http://www.codingtheweb.com/projects/newslog/portal/5_3.xml">Google News</a><br>
+	<a href="http://myrss.com/f/t/o/tomshardware9xxprn1.rss">Toms hardware</a><br>
+	</td>
+
+	</tr>
+	</table>
+	</div>
+	
+	<p>Todas las subscripciones hechas sin haber seleccionado ninguna carpeta se colocan en la carpeta activa (en este caso, la de ayuda. Si no encuentras la fuente recién creada, mira en la carpeta de ayuda, quizá se haya creado allí). Puedes crear carpetas nuevas haciendo clic con el botón derecho en la lista de fuentes y eligiendo "Nuevo -> Nueva carpeta" en el menú. Para ordenar las fuentes, arrástralas a su destino.
+	</p>
+	
+	<h2>¿Qué te ha parecido?</h2>
+	
+	<p> ¿Funciona todo correctamente? Si encuentras algún problema, <a href="mailto:lars.lindner@gmx.net"envíame un correo</a>. Liferea es un programa libre y se encuentra aún en una primera fase de desarrollo muy activa. Puedes ayudar a su desarrollo avisando de fallos en el programa y recomendando nuevas características en la <a href="http://sourceforge.net/projects/liferea/">página del proyecto en SourceForge.net</a>.
+	</p>
+	
+	<div style="background-color:#F0F0F0;padding:5px;border:dashed 1px black">
+	<a href="http://freshmeat.net/redir/snownews/41187/url_homepage/snownews">SnowNews</a> (Consola, ncurses),<br>
+	<a href="http://freshmeat.net/projects/straw/?topic_id=90">Straw</a> (Phyton/GNOME),<br>
+	<a href="http://freshmeat.net/projects/syndigator/">Syndigator</a> (Perl/GTK) o<br>
+	<a href="http://sourceforge.net/projects/rssowl/">RSSOwl</a> (Java).
+	</div>
+	<p>
+	Straw es muy parecido a Liferea, y está programado en Python.
+	</p>
+	<p>
+	Para cualquier problema con las fuentes de ayuda, escribe un correo a <a href="mailto:topopardo_AT_humorfreak_DOT_com">topopardo_AT_humorfreak_DOT_com.
+
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#addrss">
+	<title>Subscribiéndose</title>
+	<content:encoded><![CDATA[
+	<h1>Subscribiéndose</h1>
+	<p>
+	Para crear una nueva subscripción, sea del tipo que sea (RDF/RSS, CDF, Atom/Echo/PIE, directorios OCS/OPML, archivo local), haz clic con el botón derecho en las fuentes y elige "Nuevo -> Nueva fuente". Te aparecerá la ventana de subscripción
+	</p>	
+	<img src="http://liferea.sourceforge.net/help/help_subscribe_0.4.9_es.png">
+
+<!-- lot -->
+	<p>
+	Los datos que se muestran de las fuentes se pueden obtener de diversos métodos. Uno de ellos es Internet, por medio de una URL. Además, se pueden leer de un archivo local o mediante un comando. El tipo de fuente se elige con estos botones de opción. En la mayoría de los casos, las fuentes se obtienen escribiendo una URL, como "http://slashdot.org/index.rss".
+	</p>
+
+	<p>
+	Al seleccionar un comando o fuente local, se puede obtener navegando por el disco, mediante el botón "Examinar...". Al descargarlas desde una URL, se puede especificar una contraseña marcando "Usar autentificación HTTP" y escribiendo debajo el nombre de usuario y contraseña en sus respectivos cuadros de texto
+	</p>
+	
+	<p>A veces, la fuente contiene datos en un formato desconocido para Liferea. En ese caso, se pueden usar filtros externos para convertirla en un formato usable. Algunos filtros se pueden descargar del <a href="http://home.kcore.de/~kiza/software/snownews/snowscripts/">repositorio de scripts de snownews y liferea</a>.</p>
+
+	<p>
+	Para usar los filtros hay que activar la opción "Usar filtro de conversión" y especificar -en la parte de arriba- qué fuente quiere leerse. En la parte de abajo se selecciona el filtro, en la caja "Convertir con...". Los filtros son programas que leen un texto y lo convierten en otro formato. Muchos de ellos están escritos en perl</p>
+
+	<p>
+	Si la URL es válida y la fuente se pudo cargar satisfactoriamente, el cuadro de propiedades aparecerá, permitiendo cambiar opciones avanzadas. Esto está explicado en la siguiente sección, <i>Propiedades de fuentes</p>
+	
+	<p>
+	Pulsa en "Aceptar" para guardar las nuevas opciones y cerrar el cuadro de propiedades. La nueva fuente aparecerá al final en la carpeta seleccionada, o después de la última fuente seleccionada
+	</p>
+
+	]]></content:encoded>
+	<dc:date>2004-05-17</dc:date>	
+</item>
+
+<item rdf:about="http://liferea.sf.net/#feedprop">
+	<title>Propiedades de fuentes</title>
+	<content:encoded><![CDATA[
+	<h1>Propiedades de las fuentes</h1>
+	<p>
+	La ventana de propiedades de las fuentes se muestra tras crear una nueva y al seleccionar "Propiedades" sobre una fuente. Hay tres grupos de opciones: "General", "Fuente" y "Caché"
+	</p>
+	
+	<img src="http://liferea.sf.net/help/feed_prop_general_es.png"/>
+
+	<p>El panel "General" contiene el título para la fuente. Este título es el nombre con que se mostrará en la lista de fuentes. Varias fuentes pueden tener el mismo título.</p>
+
+<!-- lot end -->
+
+
+	<p>
+	Al cambiar el intervalo de actualización, debe elegirse un tiempo razonable. Incluso en sitios con mucho tráfico de noticias las fuentes no suelen actualizarse más de una o dos veces cada hora, y no es necesario generar tráfico de red consultándolas cada 5 minutos. Nota: Si estableces un intervalo de 0 minutos, la actualización automática se desactivará. Podrás recargar la fuente manualmente, seleccionándola, y haciendo clic en "Actualizar" del menú contextual.
+	</p>	
+	<!-- -->
+	<p>El panel "Fuente" contiene las mismas opciones que en la ventana "Nueva fuente", explicado en la sección "Subscribiéndose"</p>
+	
+	<img src="http://liferea.sf.net/help/feed_prop_general_es.png"/>
+
+	<p>El tercer panel, "Caché", controla cuántos elementos de cada fuente se guardan al salir de Liferea. Se puede seleccionar el comportamiento de la caché con los botones de selección:</p>
+	<ul>
+	<li><b>Configuración de caché por defecto</b> - Usa las opciones marcadas en las preferencias generales de Liferea</li>
+	<li><b>Desactivar caché</b> - No se guardará ningún elemento al salir</li>
+	<li><b>Caché ilimitada</b> - Siempre se guardarán todos los elementos</li>
+	<li><b>Limitar caché a X elementos</b> - Sólo se guardarán X elementos</li>
+	</ul>
+	
+        <div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">
+        Nota: Los elementos marcados (con el <i>flag</i>) siempre se guardarán, independientemente de la configuración de la caché
+        </div>
+	
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+
+
+<item rdf:about="http://liferea.sf.net/#feeds">
+	<title>Manejando subscripciones</title>
+	<content:encoded><![CDATA[
+	<h1>Manejando subscripciones</h1>
+	<p>
+	En esta sección se explica cómo subscribirse a fuentes y/o directorios, y cómo trabajar con ellos una vez creados.
+	</p>
+
+	<h2>Iconos en las fuentes</h2>
+	<table cellspacing="10">
+	<tr><td><img src="http://liferea.sourceforge.net/available.png"></td><td>
+	Este es el icono por defecto para las subscripciones nuevas. Liferea soporta iconos personalizados mediante el archivo "favicon.ico" en el servidor. Siempre se intentará bajar este archivo, y si no existiera, se usaría el icono por defecto.
+	</td></tr>
+	<tr><td><img src="http://liferea.sourceforge.net/ocs.png"></td><td>
+	Este es el icono para las subscripciones a directorios OCS y OPML
+	</td></tr>
+	<tr><td><img src="http://liferea.sourceforge.net/unavailable.png"></td><td>
+	Este icono aparece cuando el último intento de actualizar la fuente falló o encontró errores en la fuente. Esto puede ser debido a fallos temporales del servidor, timeouts u otros problemas leves; aunque también podría ser que la fuente fuera eliminada totalmente. En cualquier caso, si este icono aparece al añadir una fuente nueva, suele ser síntoma de que la URL no es correcta.
+	</td></tr>
+	</table>
+	
+	<h2>Cómo subscribirse</h2>
+	<p>
+	Los pasos a seguir para subscribirse están explicados en el elemento "Subscribiéndose" que aparece junto a éste.
+	</p>
+
+	<h2>Cómo actualizar una fuente</h2>
+	<p>
+	Las fuentes se actualizan de tres maneras; dos manuales y una automática. La automática viene dada por el tiempo establecido en las propiedades de la fuente. Además, para actualizar todas las fuentes, haz clic en el botón de la barra de iconos. Si tan sólo quieres actualizar una fuente determinada, elige la opción de su menú contextual.<br>
+Para más información sobre actualizaciones, consulta el elemento "Actualizando subscripciones" que aparece junto a éste.
+	</p>
+
+	<h2>Cómo cambiar las propiedades de una fuente</h2>
+	<p>
+	Para cambiar las propiedades de una fuente (título, URL, intervalo de actualización y opciones de caché), elige "Propiedades" del menú contextual. Para más información sobre la ventana de propiedades, consulta el elemento de ayuda "Propiedades de las fuentes".
+	</p>
+	
+	<h2>Cómo eliminar una subscripción</h2>
+	<p>
+	Para eliminar una subscripción, elige la opción "Eliminar fuente" del menú contextual. Esto eliminará tanto el elemento en pantalla como todos sus contenidos en caché.
+	</p>
+
+	<h2>Cómo reorganizar los contenidos de las carpetas</h2>
+	<p>
+	Para mover las fuentes entre carpetas, selecciónalas y arrástralas hasta la carpeta de destino. Una pequeña línea horizontal marcará el lugar de destino de la fuente.
+	</p>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#item">
+	<!-- Fix me change item to headline -->
+	<title>Manejando elementos</title>
+	<content:encoded><![CDATA[
+	<h1>Manejando elementos</h1>
+	<p>
+	Al elegir una fuente, sus titulares aparecerán en forma de lista en el panel superior. Al hacer clic en alguno de ellos, se mostrará su contenido en el panel inferior. El modo de vista condensada muestra todos los contenidos en una sola página, sin los titulares. Para entrar en este modo, elige la opción "Vista condensada" del menú contextual de la pantalla de titulares (también disponible en el menú contextual del panel de contenidos).
+	</p>
+	
+	<p>
+	El texto siguiente explica todas las opciones disponibles para los elementos en pantalla. <b>Cuidado: ¡muchas de éstas no están disponibles en el modo de vista condensada!</b>
+	</p>
+	
+	<h2>Ejecutando los enlaces de los elementos</h2>
+	<p>
+	Para abrir el enlace al que apunta un elemento, haz doble clic en él, o presiona la tecla "Enter". Nota: no todos los elementos contienen enlaces. Para saber si existe, mira en la caja gris que está encima del contenido, ahí debería aparecer la dirección.
+	</p>
+	<p>
+	Para cambiar el navegador por defecto, mira en el apartado "Preferencias generales" de la ayuda
+	</p>
+
+	<h2>Marcar como leído/nuevo</h2>
+	<p>
+	Cada cabecera puede ser nueva, o estar marcada como leída. Las nuevas aparecen en negrita, y al hacer clic en ellas, pasan a texto normal.
+	</p>
+	<p>
+	Para marcar como leídas todas las cabeceras de una fuente sin necesidad de seleccionarlas todas, se puede usar la opción "Marcar todos como leídos" del menú contextual o del menú "Elementos".
+	</p>
+	<p>
+	Para marcar un elemento ya leído como si fuera nuevo, elige la opción "Marcar/Desmarcar leído" del menú "Elementos".
+	</p>
+
+	<h2>Poniendo banderitas</h2>
+	<p>
+	Liferea permite marcar elementos con una bandera (en inglés, <i>to flag</i>). Esto no tiene ninguna función real para el programa, sólo para el lector (por ejemplo, para marcar elementos importantes). Se puede elegir esta acción desde el menú "Elementos -> Establecer flag". Cuando se implementan las Carpetas Virtuales, también se creará una función especial de búsqueda para elementos marcados.
+	</p>
+	<table cellspacing="10">
+	<tr><td>
+	<img src="http://liferea.sourceforge.net/flag.png">
+	</td><td>
+	El icono usado para marcar elementos.
+	</td></tr>
+	</table>
+
+	<h2>Buscando entre los elementos</h2>
+	<p>
+	Se puede buscar una palabra o frase para ver si existe en alguno de los elementos. Para más información, consulta el apartado "Búsquedas".
+	</p>
+
+	<h2>Borrando elementos</h2>
+	<p>
+	Con la opción "Eliminar elementos" del menú "Elementos" se borra la caché de la fuente seleccionada.
+	</p>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+	
+<item rdf:about="http://liferea.sf.net/#folder">
+	<title>Manejando carpetas</title>
+	<content:encoded><![CDATA[
+	<h1>Manejando carpetas</h1>
+	<p>
+	Liferea soporta una jerarquía de carpetas para organizar las subscripciones. Las carpetas pueden moverse y renombrarse, y además las fuentes que contienen pueden reordenarse.
+	</p>
+	
+	<h2>Iconos de las carpetas</h2>
+	<table cellspacing="10">
+	<tr><td><img src="http://liferea.sourceforge.net/directory.png"></td><td>
+	El icono de las carpetas
+	</td></tr>
+	<tr><td><img src="http://liferea.sourceforge.net/help.png"></td><td>
+	Este icono sólo se usa para las carpetas de ayuda
+	</td></tr>
+	</table>
+
+	<h2>Creando carpetas</h2>
+	<img src="http://liferea.sourceforge.net/help_new_folder_es.png">
+	<p>
+	Las carpetas son útiles para agrupar las fuentes y los directorios. Para crear una carpeta nueva, selecciona "Nuevo -> Nueva carpeta" del menú contextual en el panel de la izquierda, y escribe un nombre, que no tiene por qué ser único.
+	</p>
+
+	<h2>Renombrando carpetas</h2>
+	<p>
+	Para cambiar el nombre de una carpeta, selecciona "Renombrar carpeta" del menú contextual de alguna de ellas, o bien "Fuentes de noticias -> Carpeta -> Cambiar nombre" del menú principal.
+	</p>
+	
+	<h2>Borrando carpetas</h2>
+	<p>
+	Para borrar una carpeta, ésta tiene que estar vacía y no contener fuentes. Para eliminarla, elige "Eliminar carpeta" del menú contextual o bien "Fuentes de noticias -> Carpeta -> Eliminar carpeta" del menú principal.
+	</p>
+	
+	<h2>Moviendo carpetas</h2>
+
+	<p>Las carpetas pueden moverse del mismo modo que las subscripciones. Arrastra cualquier carpeta a otra posición de la lista de fuentes.
+	</p>	
+	
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#update">
+	<title>Actualizando subscripciones</title>
+	<content:encoded><![CDATA[
+	<h1>Actualizando subscripciones</h1>
+	
+	<h2>Cómo actualizar una sola fuente o directorio:</h2>
+	<p>
+	Para actualizar únicamente una fuente, selecciónala en el panel de la izquierda y elige "Actualizar fuente" del menú contextual, o del menú principal "Fuentes de noticias -> Fuentes de noticias -> Actualizar fuente".
+	</p>
+	
+	<h2>Cómo actualizar todas las fuentes de golpe</h2>
+	<p>
+	Para actualizar todas las fuentes, haz clic en el botón "Actualizar" de la barra de iconos, o en el menú principal: "Fuentes de noticias -> Actualizar todas". <b>Recuerda que, aun así, los directorios OCS y OPML no se actualizan.</b>
+	</p>
+	
+	<h2>Usando la actualización automática:</h2>
+	<p>
+	Puedes establecer un intervalo de actualización automática para cada fuente, desde su menú de propiedades. Por favor, recuerda que no es necesario comprobarlas cada minuto, un intervalo razonable suele ser de 30 a 60 minutos.
+	</p>
+	<p>
+	Algunas fuentes sugieren un intervalo propio, en función de sus creadores. En caso contrario, en el cuadro de tiempo siempre aparece un cero, lo que significa que la fuente no se actualizará de forma automática.
+	</p>
+	<p>
+	Para conocer el valor original de actualización después de haberlo cambiado, abre la ventana de propiedades, y éste valor se mostrará en la parte inferior, debajo del tiempo establecido por el usuario.
+	</p>
+		
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">
+	Nota: Los directorios OCS y OPML nunca se actualizarán automáticamente ni por la función de "Actualizar todos". Siempre hay que seleccionar "actualizar fuente" de su menú contextual.
+	</div>
+	
+	<h2>Cómo actualizar todas las fuentes al iniciar el programa</h2>
+	<p>
+	Para que Liferea actualice todas las fuentes (excepto directorios OCS y OPML) al iniciarse, marca la casilla correspondiente en la ventana de preferencias del programa. Para más información sobre este cuadro, dirígete a la sección "Preferencias generales".
+	</p>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#preferences">
+	<title>Preferencias generales</title>
+	<content:encoded><![CDATA[
+	<h1>Preferencias generales</h1>
+	<p>
+	La ventana de preferencias del programa puede abrirse desde el botón "Preferencias" de la barra de iconos, o desde el menú principal: "Programa -> Preferencias". La ventana tiene dos pestañas, cada una de ellas explicada más abajo.
+	</p>
+
+	<h1>Opciones de fuentes</h1>
+	<img src="http://liferea.sourceforge.net/help_prefs_es.png">
+	<p>
+	Esta pestaña está dividida en tres grupos. El primero permite establecer el navegador con el que se abrirán los enlaces, el segundo permite configurar cómo se mostrará la columna de "Fecha" de los titulares, y el tercero contiene opciones relacionadas con las fuentes.
+	</p>
+	
+	<h2>Propiedades del navegador</h2>
+	<p>
+	Al hacer clic en un link HTML, Liferea lanzará el navegador seleccionado aquí. En caso de seleccionar uno personalizado, recuerda escribir <i>"%s"</i> (con las comillas) después del nombre; éste parámetro se substituirá por la URL elegida. De no ponerlas, es posible que el navegador encuentre fallos si en la URL aparece un símbolo <b>#</b>
+	</p>
+	<p>
+	Si usas Mozilla, una opción sería definirlo como <i>mozilla "%s"</i>, pero debido al gestor de perfiles, sólo permitiría hacer clic en uno de los enlaces.<br>
+Jim Philips escribió el siguiente script para abrir las URLs en pestañas de Mozilla. Puedes guardar este programa con el nombre que desees, y configura a Liferea para que lo use como navegador. Por ejemplo, copia y pega este texto en el archivo "/usr/local/bin/navegador-liferea" y dale permisos de ejecución. Entonces escribe en el cuadro "Otro navegador" la cadena "/usr/local/bin/navegador-liferea %s"
+	<br>
+	<div style="background-color:#F0F0F0;padding:5px;border:dashed 1px black">
+	<pre>#!/bin/bash
+MOZILLA=/usr/local/bin/mozilla
+if ($MOZILLA -remote "ping()"); then
+	$MOZILLA -remote "openurl($1, new-tab)"
+else
+	$MOZILLA $1
+fi
+</pre>
+	</div>
+	</p>
+
+	<h2>Opciones de fecha y hora</h2>
+	<p>
+	Aquí se puede cambiar la forma en que se muestra la fecha en la lista de titulares. Mientras que las dos primeras opciones son sencillas, en el cuadro "Otro formato" se puede establecer una cadena personalizada, siguiendo las reglas de la página de manual de <i>strftime()</i>.
+	</p>
+
+	<h2>Opciones de fuentes</h2>
+	<p>
+	La primera opción determina cuántos elementos por fuente se guardan en la caché del programa. No limita el número de ellos que se pueden mostrar. Esto significa que, cuando se llegue a este límite, las fuentes más antiguas se eliminarán para dar paso a las nuevas.
+	</p>
+
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">
+	Este límite no afecta a la caché de los directorios. Esto es a causa del gran número de elementos que acostubran a contener los directorios.
+	</div>
+
+	<p>
+	Activa la opción "Actualizar todas las fuentes al inicio del programa" para que Liferea busque nuevos elementos en las subscripciones cada vez que se inicia. En próximas versiones se podrá establecer un límite específico de elementos.
+	</p>
+	
+	<h1>Opciones de interfaz</h1>
+	<img src="http://liferea.sourceforge.net/help_prefs2_es.png">
+	<p>
+	Esta pestaña muestra diversas opciones que afectan a la presentación en pantalla de Liferea.
+	</p>
+
+	<h2>Área de notificación</h2>
+	<p>
+	Activa esta opción para que aparezca un icono en la bandeja del sistema, (en inglés, <i>system tray</i>), tanto para KDE como para GNOME. Este icono se encenderá cuando haya nuevas fuentes, y se difuminará cuando no haya elementos nuevos. Al hacer clic en el icono, se mostrará u ocultará la ventana principal de Liferea. <b>Recuerda que es necesario reiniciar el programa si has cambiado esta opción</b>.
+	</p>
+
+	<h2>Opciones de menú</h2>
+
+	<p>
+	Aquí se pueden mostrar u ocultar la barra de menús y la de iconos. En caso de que accidentalmente se desactiven las dos, Liferea automáticamente mostrará la barra de iconos.
+	</p>	
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#search">
+	<title>Búsquedas</title>
+	<content:encoded><![CDATA[
+	<h1>Búsquedas</h1>
+
+	<p>
+	Liferea soporta una búsqueda simple de cadenas de texto para títulos y contenidos de fuentes y directorios</p>
+
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">Nota: De momento, la búsqueda distingue mayúsculas de minúsculas. Así pues, buscar "Linux" no es lo mismo que buscar "linux"</div>
+
+	<p>Para mostrar el cuadro de búsqueda, haz clic en el botón "Buscar" de la barra de iconos. Escribe cualquier cadena y haz clic en el botón que contiene la lupa. Cualquier elemento, sea título o contenido, que incluya esa cadena, se mostrará en el panel inferior.
+	</p>
+	
+	<img src="http://liferea.sourceforge.net/help_vfolder_es.png">
+	
+	<p>
+	Además, puedes usar la función de búsqueda de GTK en los paneles de títulos o texto. Pulsa Control-F para activar el cuadro de búsqueda.
+	</p>
+	
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">
+	Lo sentimos, las Carpetas Virtuales (en inglés, <i>VFolders</i>) aún no son muy estables, y se han desactivado.
+	</div>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#bugs">
+	<title>Fallos conocidos</title>
+	<content:encoded><![CDATA[
+	<h1>Fallos conocidos</h1>
+	<ul>
+		<li>Si usas cualquier otra versión de liferea (anterior a éstas), por favor, actualízate, hay muchos fallos corregidos</li>		
+
+		<li>Si usas RedHat y te aparece el siguiente error: <b>"Error interno: El documento XML es un puntero nulo. ¡Esto no debería de estar pasando!"</b>, por favor, actualiza el paquete <i>libxml2</i> a la versión 2.5.10 como mínimo. Parece que este problema no aparece en versiones anteriores de libxml con Debian, SuSE o *BSD.</li>
+
+		<li>Los títulos de elemento/canal con etiquetas HTML no se procesan correctamente. Todo el texto entre etiquetas se pierde.</li>
+	</ul>
+
+	<div style="background-color:#f7f0a3;padding:5px;border:solid 1px black;">
+	Nota: Si encuentras un fallo que no está listado aquí, por favor, avísalo en <a href="http://sourceforge.net/projects/liferea/">SourceForge</a> or envíame un <a href="mailto:lars.lindner@gmx.net">
+	correo</a>. <i>(Nota del T: ¡en inglés, por favor!)</i>. Por favor, incluye la salida de texto por la consola, y si estás familiarizado con gdb, incluye también un <i>backtrace</i>
+	</div>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+
+<item rdf:about="http://liferea.sf.net/#glossar">
+	<title>Glosario</title>
+	<content:encoded><![CDATA[
+	<h1>Glosario</h1>
+	<div style="background-color:#F0F0F0;padding:5px;border:dashed 1px black">
+	<table cellpadding="5">
+		<tr><td valign=top>
+		<b>Atom</b>
+		</td><td>
+		Un estándar en alza con un nombre aún no definido: Liferea le llama Atom/Echo/PIE. Liferea soporta la versión 0.2 de este estándar (actualmente se ha liberado la 0.3). Es muy posible que experimentes problemas si te subscribes a fuentes Atom/Echo/Pie.
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>Carpeta</b>
+		</td><td>
+		Las carpetas de Liferea son elementos usados para organizar las subscripciones en el panel de fuentes. No hay que confundirlas con los directorios de Liferea, que son un tipo especial de subscripciones.
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>CDF</b>
+		</td><td>
+		Un estándar del W3C y apoyado por Microsoft. Tiene varias utilidades (sindicación de contenidos, distribución de actualizaciones de software, utilidades de Active Desktop...). Liferea puede leer fuentes simples CDF.
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>Directorio</b>
+		</td><td>
+		Un directorio es un tipo de fuente OCS u OPML. No hay que confundirlos con las carpetas de fuentes (que se usan para organizar las fuentes) ni los directorios de Liferea (que son un tipo especial de subscripciones).
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>Elemento</b>
+		</td><td>
+		Cada fuente contiene varias noticias, o piezas de información. Cada una de ellas se llama "elemento". La lista de elementos de cada fuente se muestra en el panel superior derecho de Liferea. Dependiendo de la fuente, cada elemento puede ser un titular, un artículo, o incluso el capítulo de un libro.
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>Fuente</b>
+		</td><td>
+		Básicamente, es un documento XML al que se puede acceder de forma local o por una URL HTTP. También se les llama canales. Actualmente hay diferentes estándares para las fuentes, y la mayoría están soportados por Liferea: RSS, CDF, Atom/Echo/PIE.
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>OCS</b>
+		</td><td>
+		<p>
+		OCS significa Open Content Syndication (<i>sindicación de contenido abierto</i>) y fue iniciado por el grupo Internet Alchemy. Es un estándar RDF, como XML, que contiene un directorio de fuentes. Los proveedores de estos directorios son, mayormente, <i>Moreover</i> y <i>Syndicate</i>.
+		</p>
+		</td></tr>
+
+		<tr><td valign=top>
+		<b>OPML</b>
+		</td><td>
+		<p>
+		OPML significa Outline Processor Markup Language (<i>Estructura de procesador para lenguaje de marcas</i>). Es un formato basado en XML que permite el intercambio de estructuras de información entre aplicaciones que funcionan en diferentes sistemas operativos y/o entornos.<br>
+Este lenguaje se usa principalmente para enviar fuentes y/o directorios de noticias, enlazar colecciones, listas <i>To Do</i> o listas de reproducción.
+		</p>
+		</td></tr>
+
+						
+		<tr><td valign=top>
+		<b>RDF</b>
+		</td><td>
+		<p>
+		Cita de <a href="http://www.ilrt.bristol.ac.uk/discovery/rdf/resources/#sec-docs">
+		Guía de recursos RDF de Dave Becketts</a>:
+		"Resource Description Framework (<i>Armazón de descripción de recursos</i>) es un estándar para describir recursos en la web. Esta guía contiene enlaces a muchos recursos RDF, incluyendo ejemplos, documentos, software, utilidades y proyectos que usan RDF".
+		</p>
+		</td></tr>
+		
+		<tr><td valign=top>
+		<b>RSS</b>
+		</td><td>
+		Abreviatura de RDF Site Summary o Really Simple Syndication (<i>Índice RDF de un sitio</i> o <i>Sindicación realmente simple</i>). Es un formato muy sencillo basado en RDF. Hay muchísimas versiones de RSS disponibles. Originalmente, fue un invento de Netscape, pero actualmente hay un buen caos entre las versiones de Netscape y las especificaciones de Userland.
+		</td></tr>
+	</table>
+	</div>
+	]]></content:encoded>
+	<dc:date>2004-5-5</dc:date>
+</item>
+</rdf:RDF>

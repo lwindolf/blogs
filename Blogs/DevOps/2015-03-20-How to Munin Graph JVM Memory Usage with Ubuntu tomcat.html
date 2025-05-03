@@ -1,0 +1,14 @@
+The following description works when using the Ubuntu "tomcat7" package:
+
+Grab the "java/jstat__heap" plugin from <a href="https://github.com/munin-monitoring/contrib/blob/master/plugins/java/jstat__heap">munin-contrib @ github</a> and place it into "/usr/share/munin/plugins/jstat__heap".
+
+Link the plugin into /etc/munin/plugins <pre>ln -s /usr/share/munin/plugins/jstat__heap /etc/munin/plugins/jstat_myname_heap</pre> Choose some useful name instead of "myname". This allows to monitor multiple JVM setups.
+
+Configure each link you created in for example a new plugin config file named "/etc/munin/plugin-conf.d/jstat" which should contain one section per JVM looking like this
+<pre>
+[jstat_myname_heap]
+user tomcat7
+env.pidfilepath /var/run/tomcat7.pid
+env.javahome /usr/
+</pre>
+

@@ -1,0 +1,58 @@
+<h3>Sqlite Command Line Client</h3>
+
+You can access any sqlite database file, as long there is no other client locking it, using the command line client to perform SQL commands:
+
+<pre>sqlite3 &lt;database file></pre>
+
+<h3>Sqlite List Schema</h3>
+
+To list the schema of a sqlite database run
+
+<pre>SELECT name FROM sqlite_master;</pre>
+
+It will dump all schema elements. One field of the result table contains the SQL used to create each schema element.
+
+If you only want a list of tables use the client command ".tables"
+
+<pre>.tables</pre>
+
+<h3>Sqlite Export/Dump Database as SQL</h3>
+
+To dump the entire database content in SQL for example for a backup run:
+
+<pre>sqlite3 &lt;database file> .dump &gt;output.sql</pre>
+
+See the next sections how to dump a single table or in SQL.
+
+<h3>Sqlite Dump Table as SQL</h3>
+
+To dump the SQL to create a table and its values run the command line client using the ".dump" command an redirect the output:
+
+<pre>sqlite3 &lt;database file> ".dump &lt;table name>" &gt;output.sql</pre>
+
+<h3>Sqlite Dump Table as CSV</h3>
+
+To dump the SQL to create a table and its values run the command line client using the ".mode" command to enable CSV output and then to perform a "SELECT" on the table you want to dump. By echoing this to the CLI you can easily redirect the output:
+
+<pre>echo ".mode csv
+select * from &lt;table name>;" | sqlite3 &gt;output.sql</pre>
+
+<h3>Sqlite Cleanup with Vacuum</h3>
+
+<p>To run a one time cleanup just run the following command on an sqlite database file. Ensure there is no program accessing the database file. If there is it will fail and do nothing:</p>
+
+<pre>sqlite3 my.db "VACUUM;"</pre>
+
+<h3>Sqlite Configure Auto-Vacuum</h3>
+
+If you want sqlite to perform vacuum on-demand you can set the "auto_vacuum" pragma to either "INCREMENTAL" or "FULL":
+
+<pre>PRAGMA auto_vacuum = INCREMENTAL;
+PRAGMA auto_vacuum = FULL;</pre>
+
+To quere the current "auto_vacuum setting run
+
+<pre>PRAGMA auto_vacuum</pre>
+
+Read more in this <a href="/How%20to%20Vacuum%20SQLite">detailed post</a> about sqlite vacuuming!
+

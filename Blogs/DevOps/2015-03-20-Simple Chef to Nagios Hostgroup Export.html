@@ -1,0 +1,37 @@
+When you are automatizing with chef and use plain Nagios for monitoring you will find duplication quite some configuration. One large part is the hostgroup definitions which usually map many of the chef roles. So if the roles are defined in chef anyway they should be sync'ed to Nagios.
+
+Using "knife" one can extract the roles of a node like this
+
+<pre>knife node show -a roles $node | grep -v "^roles:"</pre>
+
+<h3>Scripting The Role Dumping</h3>
+
+Note though that knife only shows roles that were applied on the server already. But this shouldn't be a big problem for a synchronization solution. Next step is to create a usable hostgroup definition in Nagios. To avoid colliding with existing hostgroups let's prefix the generated hostgroup names with "chef-". The only challenge is the regrouping of the role lists given per node by chef into host name lists per role. In Bash 4 using an fancy hash this could be done like this:
+
+<pre class="brush:bash">
+declare -A roles
+
+for node in $(knife node list); do
+   for role in $(knife node show -a roles $i |grep -v "roles" ); do
+      roles["$role"]=${roles["$role"]}"$i "
+   done
+done
+</pre>
+
+Given this it is easy to dump Icinga hostgroup definitions. For example
+
+<pre class="brush:bash">
+for role in ${!roles[*]}; do
+   echo "define hostgroup {
+   hostgroup_name chef-$role
+   members ${roles[$role]}
+}
+"
+done
+</pre>
+
+That makes ~15 lines of shell script and a cronjob entry to integrate Chef with Nagios. Of course you also need to ensure that each host name provided by chef has a Nagios host definition. If you know how it resolves you could just dump a host definition while looping over the host list. In any case there is no excuse not to export the chef config :-)
+
+<h3>Easy Migrating</h3>
+
+Migrating to such an export is easy by using the "chef-" namespace prefix for generated hostgroups. This allows you to smoothly migrate existing Nagions definitions at your own pace. Be sure to only reload Nagios and not restart via cron and to do it at reasonable time to avoid breaking things.

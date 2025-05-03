@@ -1,0 +1,23 @@
+Sometimes the knife output can be really confusing:
+
+<pre>
+$ knife node show myserver
+Node Name:   myserver1
+Environment: _default
+FQDN:        myserver1
+IP:          
+Run List:    role[base], role[mysql], role[apache]
+Roles:       base, nrpe, mysql
+Recipes:     [...]
+Platform:    ubuntu 12.04
+Tags:        
+</pre>
+
+Noticed the difference in "Run List" and "Roles"? The run list says "role[apache]", but the list of "Roles" has no Apache. This is because of the role not yet being run on the server. So a 
+
+<pre>ssh root@myserver chef-client</pre>
+
+Solves the issue and Apache appears in the roles list.
+
+The learning: do not use "knife node show" to get the list of configured roles!
+

@@ -1,0 +1,10 @@
+Nice! Reading through the maintenance notices on my <a href='/'>status page aggregator</a> I learned that PyPI started intentionally blocking legacy TLS clients as a way of getting people to switch before TLS 1.0/1.1 support is gone for real.
+
+Here is a quote from their <a href="https://status.python.org/">status page</a>:
+
+<i>In preparation for our CDN provider deprecating TLSv1.0 and TLSv1.1 protocols, we have begun rolling brownouts for these protocols for the first ten (10) minutes of each hour.
+
+During that window, clients accessing pypi.python.org with clients that do not support TLSv1.2 will receive an HTTP 403 with the error message "This is a brown out of TLSv1 support. TLSv1 support is going away soon, upgrade to a TLSv1.2+ capable client.".
+</i>
+
+I like this action as a good balance of hurting as much as needed to help end users to stop putting of updates.

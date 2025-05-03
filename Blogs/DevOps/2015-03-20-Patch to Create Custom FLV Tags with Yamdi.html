@@ -1,0 +1,76 @@
+<p>As described in the <a href="/Comparison+of+FLV+and+MP4+metadata+tagging+tools+%28injectors%29">Comparison of FLV and MP4 metadata tagging tools (injectors)</a> post <a href="http://sourceforge.net/projects/yamdi/">yamdi</a> is propably the best and fastest Open Source FLV metadata injector.</p>
+
+<p>Still yamdi is missing the possibility to add custom FLV tags. I posted a <a href="http://sourceforge.net/tracker/?func=detail&aid=3110023&group_id=187695&atid=922333">patch</a> upstream some months ago with no feedback so far. So if you need custom tags as provided by flvtool2 you might want to merge this patch against the yamdi sources (tested with 1.8.0.</p>
+
+<pre>
+--- ../yamdi.c	2010-10-17 20:46:40.000000000 +0200
++++ yamdi.c	2010-10-19 11:32:34.000000000 +0200
+@@ -105,6 +105,9 @@
+ 	FLVTag_t *flvtag;
+ } FLVIndex_t;
+ 
++// max number of user defined tags
++#define MAX_USER_DEFINED	10
++
+ typedef struct {
+ 	FLVIndex_t index;
+ 
+@@ -168,6 +171,8 @@
+ 
+ 	struct {
+ 		char creator[256];		// -c
++		char *user_defined[MAX_USER_DEFINED];	// -a
++		int user_defined_count;		// number of user defined parameters
+ 
+ 		short addonlastkeyframe;	// -k
+ 		short addonlastsecond;		// -s, -l (deprecated)
+@@ -288,8 +293,15 @@
+ 
+ 	initFLV(&flv);
+ 
+-	while((c = getopt(argc, argv, "i:o:x:t:c:lskMXh")) != -1) {
++	while((c = getopt(argc, argv, "a:i:o:x:t:c:lskMXh")) != -1) {
+ 		switch(c) {
++			case 'a':
++				if(flv.options.user_defined_count + 1 == MAX_USER_DEFINED) {
++					fprintf(stderr, "ERROR: to many -a options\n");
++					exit(1);
++				}
++				printf("Adding tag >>>%s<<<\n", optarg);
++				flv.options.user_defined[flv.options.user_defined_count++] = strdup (optarg);
+ 			case 'i':
+ 				infile = optarg;
+ 				break;
+@@ -1055,6 +1067,7 @@
+ 
+ int createFLVEventOnMetaData(FLV_t *flv) {
+ 	int pass = 0;
++	int j;
+ 	size_t i, length = 0;
+ 	buffer_t b;
+ 
+@@ -1073,6 +1086,21 @@
+ 	if(strlen(flv->options.creator) != 0) {
+ 		writeBufferFLVScriptDataValueString(&b, "creator", flv->options.creator); length++;
+ 	}
++	
++	printf("Adding %d user defined tags\n", flv->options.user_defined_count);
++	for(j = 0; j < flv->options.user_defined_count; j++) {
++		char *key = strdup (flv->options.user_defined[j]);
++		char *value = strchr(key, '=');
++		if(value != NULL) {
++			*value++ = 0;
++			printf("Adding tag #%d %s=%s\n", j, key, value);
++			writeBufferFLVScriptDataValueString(&b, key, value);
++			length++;
++		} else {
++			fprintf(stderr, "ERROR: Invalid key value pair: >>>%s<<<\n", key);
++		}
++		free(key);
++	} 
+ 
+ 	writeBufferFLVScriptDataValueString(&b, "metadatacreator", "Yet Another Metadata Injector for FLV - Version " YAMDI_VERSION "\0"); length++;
+ 	writeBufferFLVScriptDataValueBool(&b, "hasKeyframes", flv->video.nkeyframes != 0 ? 1 : 0); length++;
+</pre>
+
+<p>Using the patch you then can add up to 10 custom tags using the new "-a" switch. The syntax is <pre>-a &lt;key>=&lt;value></pre></p>

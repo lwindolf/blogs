@@ -1,0 +1,10 @@
+If an rsync call gives you the following:
+
+<code>buffer_append_space: alloc 10512504 not supported
+rsync: writefd_unbuffered failed to write 4092 bytes [sender]: Broken pipe (32)
+rsync: connection unexpectedly closed (36 bytes received so far) [sender]
+rsync error: unexplained error (code 255) at io.c(635) [sender=3.0.3]
+</code>
+
+Don't bother to debug rsync! This is an SSH problem. You need to upgrade your SSH version (which is propably some 4.3 or older).
+

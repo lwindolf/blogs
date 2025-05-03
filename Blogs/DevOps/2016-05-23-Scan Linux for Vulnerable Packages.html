@@ -1,0 +1,34 @@
+How do you know wether your Linux server (which has no desktop update notifier or unattended security updates running) does need to be updated? Of course an
+
+<pre>apt-get update && apt-get --dry-run upgrade</pre>
+
+might give an indication. But what of the package upgrades do stand for security risks and whose are only simple bugfixes you do not care about?
+
+<h3>Check using APT</h3>
+
+One useful possibility is <a href="http://www.debian-administration.org/articles/491">apticron</a> which will tell you which packages should be upgraded and why. It presents you the package ChangeLog to decided wether you want to upgrade a package or not. Similar but less details is <a href="http://www.debian-administration.org/articles/162">cron-apt</a> which also informs you of new package updates.
+
+<h3>Analyze Security Advisories</h3>
+
+Now with all those CERT newsletters, security mailing lists and even <a href="http://lzone.de/security+advisory+feeds">security news feeds</a> out there: why can't we check the other way around? Why not find out:
+
+<ol>
+<li>Which security advisories do affect my system?</li>
+<li>Which ones I have already complied with?</li>
+<li>And which vulnerabilities are still there?</li>
+</ol>
+
+My mad idea was to take those security news feeds (as a start I tried with the ones from Ubuntu and CentOS) and parse out the package versions and compare them to the installed packages. The result was a script producing the following output:
+
+<img src="/images/lvps-scan-centos.png" alt="screenshot of lpvs-scan.pl"/>
+
+In the output you see lines starting with "CEBA-2012-xxxx" which is CentOS security advisory naming schema (while Ubuntu has USN-xxxx-x). Yellow color means the security advisory doesn't apply because the relevant packages are not installed. Green means the most recent package version is installed and the advisory shouldn't affect the system anymore. Finally red, of course meaning that the machine is vulnerable.
+
+<h3>Does it Work Reliably?</h3>
+
+The script producing this output can be found <a href="https://github.com/lwindolf/lpvs">here</a>. I'm not yet satisfied with how it works and I'm not sure if it can be maintained at all given the brittle nature of the arbitrarily formatted/rich news feeds provided by the distros. But I like how it gives a clear indication of current advisories and their effect on the system.
+
+Maybe persuading the Linux distributions into using a common feed format with easy to parse metadata might be a good idea... 
+
+How do you check your systems? What do you think of a package scanner using XML security advisory feeds?
+

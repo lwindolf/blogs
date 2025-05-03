@@ -1,0 +1,41 @@
+---
+categories: Puppet
+---
+To do a "dry run" in Puppet you need to invoke the agent in noop mode:
+
+<pre>puppet agent -t --noop</pre>
+
+
+<h3>Limited Dry Run</h3>
+
+If you don't want a full run, but check specific ressources/classes/...
+you can also invoke a dry-run for a tag like this:
+
+<pre>puppet agent -t --noop --tags Cron</pre>
+
+Which would show all potential changes for all Cron ressources.
+
+<h3>Drift Logging using Noop Runs</h3>
+
+When you do not do periodic runs pulling all new configuration to all your servers. You might want to do period noop runs instead. This is because like normal runs, noop runs also generated reports against the reporting server (e.g. Foreman or PuppetDB). This allows you to view statistics on noop ressources in your reporting server. The Foreman dashboard for example has a good pie chart for visualizing configuration drift on your servers.
+
+<h3>Noop from the code</h3>
+
+You can utilize the noop mode even in the code: noop is a <a href="https://puppet.com/docs/puppet/5.3/metaparameter.html">meta parameter</a> that can be applied to resources and types to avoid them to actually do something. So declaring
+
+<pre>
+file { '/data/my_favourite_file.txt':
+   ensure => absent,
+   noop   => true
+}
+</pre>
+
+will raise a noop event on all affected systems, that Puppet wants to remove the file, but didn't because of the noop flag.
+
+So imagine a critical change you want to put live. Yes, of course you have tested it, but you can make extra sure by
+
+<ul>
+<li>first rolling it out with noop flag</li>
+<li>watching for noop events in the reporting server</li>
+<li>and finally remove the noop flag, being sure no unintented changes will happen.</li>
+</ul>

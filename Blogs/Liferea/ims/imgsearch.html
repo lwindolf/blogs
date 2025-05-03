@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JSON/Atom Custom Search API Example</title>
+
+    <script type="text/javascript" src="Vibrant.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <input type="text" default="t shirt" id="search"/>
+    <input type="button" value="Search" onclick="zalando_search()"/>
+    <div id="content" class="row examples"></div>
+    <script>
+
+  function DOMContentLoaded() {
+    var example, examples, i, img, len, results;
+    examples = document.querySelectorAll('.examples > div');
+    results = [];
+    for (i = 0, len = examples.length; i < len; i++) {
+      example = examples[i];
+      img = example.querySelector('img');
+      img.setAttribute('src', img.getAttribute('data-src'));
+      results.push(img.addEventListener('load', function(e) {
+        var color, colorHolder, colorName, colors, j, len1, panel, profile, profileName, profiles, results1, vibrant;
+        vibrant = new Vibrant(this);
+        panel = e.target.parentElement;
+        while (!panel.classList.contains('panel')) {
+          panel = panel.parentElement;
+        }
+        panel.style.backgroundColor = vibrant.VibrantSwatch.getHex();
+        panel.style.color = vibrant.VibrantSwatch.getTitleTextColor();
+        colors = document.createElement('div');
+        colors.classList.add('colors');
+        panel.querySelector('.panel-body').appendChild(colors);
+
+	var d = checkDistance(vibrant.VibrantSwatch.getRgb());
+	if(d.distance > 80) {
+		distance = document.createElement('div');
+		distance.innerHTML = " <div style='color:white;background:rgb("+d.color.rgb[0]+","+d.color.rgb[1]+","+d.color.rgb[2]+")'>Distance: "+d.distance+" Type "+d.color.type+"</div>";
+       		panel.querySelector('.panel-body').appendChild(distance);
+	}
+        profiles = ['VibrantSwatch', 'MutedSwatch', 'DarkVibrantSwatch', 'DarkMutedSwatch', 'LightVibrantSwatch', 'LightMutedSwatch'];
+        results1 = [];
+        for (j = 0, len1 = profiles.length; j < len1; j++) {
+          profileName = profiles[j];
+          profile = vibrant[profileName];
+          if (!profile) {
+            continue;
+          }
+          colorHolder = document.createElement('div');
+          color = document.createElement('div');
+          color.classList.add('color');
+          color.classList.add('shadow-z-1');
+          color.style.backgroundColor = profile.getHex();
+          colorName = document.createElement('span');
+          colorName.innerHTML = profileName.substring(0, profileName.length - 6);
+          colorHolder.appendChild(color);
+          colorHolder.appendChild(colorName);
+          results1.push(colors.appendChild(colorHolder));
+        }
+        return results1;
+      }));
+    }
+  }
+
+// Convert RGB to XYZ
+function rgbToXyz(r, g, b) {
+    var _r = (r / 255);
+    var _g = (g / 255);
+    var _b = (b / 255);
+  
+    if (_r > 0.04045) {
+        _r = Math.pow(((_r + 0.055) / 1.055), 2.4);
+    }
+    else {
+        _r = _r / 12.92;
+    }
+  
+    if (_g > 0.04045) {
+        _g = Math.pow(((_g + 0.055) / 1.055), 2.4);
+    }
+    else {                 
+        _g = _g / 12.92;
+    }
+  
+    if (_b > 0.04045) {
+        _b = Math.pow(((_b + 0.055) / 1.055), 2.4);
+    }
+    else {                  
+        _b = _b / 12.92;
+    }
+  
+    _r = _r * 100;
+    _g = _g * 100;
+    _b = _b * 100;
+  
+    X = _r * 0.4124 + _g * 0.3576 + _b * 0.1805;
+    Y = _r * 0.2126 + _g * 0.7152 + _b * 0.0722;
+    Z = _r * 0.0193 + _g * 0.1192 + _b * 0.9505;
+  
+    return [X, Y, Z];
+};
+
+
+// Convert XYZ to LAB
+function xyzToLab(x, y, z) {
+    var ref_X =  95.047;
+    var ref_Y = 100.000;
+    var ref_Z = 108.883;
+  
+    var _X = x / ref_X;
+    var _Y = y / ref_Y;
+    var _Z = z / ref_Z;
+  
+    if (_X > 0.008856) {
+         _X = Math.pow(_X, (1/3));
+    }
+    else {                 
+        _X = (7.787 * _X) + (16 / 116);
+    }
+  
+    if (_Y > 0.008856) {
+        _Y = Math.pow(_Y, (1/3));
+    }
+    else {
+      _Y = (7.787 * _Y) + (16 / 116);
+    }
+  
+    if (_Z > 0.008856) {
+        _Z = Math.pow(_Z, (1/3));
+    }
+    else { 
+        _Z = (7.787 * _Z) + (16 / 116);
+    }
+  
+    var CIE_L = (116 * _Y) - 16;
+    var CIE_a = 500 * (_X - _Y);
+    var CIE_b = 200 * (_Y - _Z);
+  
+    return [CIE_L, CIE_a, CIE_b];
+};
+
+// Finally, use cie1994 to get delta-e using LAB
+function cie1994(x, y, isTextiles) {
+    var x = {l: x[0], a: x[1], b: x[2]};
+    var y = {l: y[0], a: y[1], b: y[2]};
+    labx = x;
+    laby = y;
+    var k2;
+    var k1;
+    var kl;
+    var kh = 1;
+    var kc = 1;
+    if (isTextiles) {
+        k2 = 0.014;
+        k1 = 0.048;
+        kl = 2;
+    }
+    else {
+        k2 = 0.015;
+        k1 = 0.045;
+        kl = 1;
+    }
+  
+    var c1 = Math.sqrt(x.a * x.a + x.b * x.b);
+    var c2 = Math.sqrt(y.a * y.a + y.b * y.b);
+  
+    var sh = 1 + k2 * c1;
+    var sc = 1 + k1 * c1;
+    var sl = 1;
+  
+    var da = x.a - y.a;
+    var db = x.b - y.b;
+    var dc = c1 - c2;
+  
+    var dl = x.l - y.l;
+    var dh = Math.sqrt(da * da + db * db - dc * dc);
+  
+    return Math.sqrt(Math.pow((dl/(kl * sl)),2) + Math.pow((dc/(kc * sc)),2) + Math.pow((dh/(kh * sh)),2));
+};
+
+var season_colors = [
+	{ type: 'light spring', rgb: [ 0xa9, 0x81, 0x5d ] },
+	{ type: 'light spring', rgb: [ 0xe8, 0xe0, 0xd3 ] },
+	{ type: 'light spring', rgb: [ 0x9f, 0xb4, 0x89 ] },
+	{ type: 'light spring', rgb: [ 0xd2, 0x08, 0x89 ] },
+	{ type: 'light spring', rgb: [ 0xcc, 0x5c, 0x5a ] },
+	{ type: 'light spring', rgb: [ 0xcb, 0x6c, 0x3c ] },
+	{ type: 'light spring', rgb: [ 0xad, 0x1d, 0x14 ] },
+
+	{ type: 'deep autumn', rgb: [ 0x40, 0x4c, 0x76 ] },
+	{ type: 'deep autumn', rgb: [ 0x0e, 0x1f, 0x15 ] },
+	{ type: 'deep autumn', rgb: [ 0x3e, 0x24, 0x52 ] },
+	{ type: 'deep autumn', rgb: [ 0x57, 0x54, 0x33 ] },
+	{ type: 'deep autumn', rgb: [ 0x8b, 0x0e, 0x0c ] },
+	{ type: 'deep autumn', rgb: [ 0x30, 0x21, 0x1c ] },
+	{ type: 'deep autumn', rgb: [ 0x5a, 0x13, 0x0f ] },
+	{ type: 'deep autumn', rgb: [ 0x23, 0x6a, 0x2e ] },
+
+	{ type: 'muted summer', rgb: [ 0x23, 0x48, 0x74 ] },
+	{ type: 'muted summer', rgb: [ 0x12, 0x7b, 0x7f ] },
+	{ type: 'muted summer', rgb: [ 0x07, 0x50, 0x3f ] },
+	{ type: 'muted summer', rgb: [ 0x40, 0x14, 0x15 ] },
+	{ type: 'muted summer', rgb: [ 0x49, 0x32, 0x2a ] },
+	{ type: 'muted summer', rgb: [ 0x27, 0x3e, 0x50 ] },
+	{ type: 'muted summer', rgb: [ 0x7f, 0x82, 0x89 ] },
+	{ type: 'muted summer', rgb: [ 0x25, 0x2c, 0x36 ] },
+
+	{ type: 'light summer', rgb: [ 0x5c, 0x8b, 0x9b ] },
+	{ type: 'light summer', rgb: [ 0x9b, 0x92, 0xb1 ] },
+	{ type: 'light summer', rgb: [ 0xc7, 0x9e, 0x9c ] },
+	{ type: 'light summer', rgb: [ 0x5d, 0x8c, 0x9c ] },
+	{ type: 'light summer', rgb: [ 0xd3, 0xb0, 0x92 ] },
+	{ type: 'light summer', rgb: [ 0xdb, 0xd4, 0x86 ] },
+	{ type: 'light summer', rgb: [ 0x9d, 0xd0, 0xbd ] },
+	{ type: 'light summer', rgb: [ 0xb9, 0x5c, 0x6f ] },
+	
+	{ type: 'cool summer', rgb: [ 0x44, 0x47, 0x70 ] },
+	{ type: 'cool summer', rgb: [ 0x42, 0x6a, 0x9b ] },
+	{ type: 'cool summer', rgb: [ 0x7e, 0x05, 0x06 ] },
+	{ type: 'cool summer', rgb: [ 0x9b, 0x4e, 0x56 ] },
+	{ type: 'cool summer', rgb: [ 0xab, 0x4a, 0x51 ] },
+	{ type: 'cool summer', rgb: [ 0x24, 0x17, 0x1e ] },
+	{ type: 'cool summer', rgb: [ 0x7f, 0x1e, 0x3f ] },
+	{ type: 'cool summer', rgb: [ 0x99, 0x11, 0x15 ] }
+];
+
+// Convert season colors to lab model initially
+for(s in season_colors) {
+    var rgb = season_colors[s].rgb;
+    var xyz = rgbToXyz(rgb[0], rgb[1], rgb[2]);
+    season_colors[s].lab = xyzToLab(xyz[0], xyz[1], xyz[2]);
+}
+
+function checkDistance(rgb) {
+    var xyz = rgbToXyz(rgb[0], rgb[1], rgb[2]);
+    var lab = xyzToLab(xyz[0], xyz[1], xyz[2]);
+    var result = 0;
+    var match = undefined;
+
+    for(s in season_colors) {
+        diff = cie1994(lab, season_colors[s].lab, false);
+        tmp = parseFloat((100 - diff).toFixed(2));
+        if(result < tmp) {
+            result = tmp;
+            match = s;
+        }
+    }
+
+    console.log(result);
+    return { distance: result, color: season_colors[match] };
+};
+
+
+      // Google Custom Search callback
+      function hndlr(response) {
+      for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        // in production code, item.htmlTitle should have the HTML entities escaped.
+        document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="panel panel-default"><div class="panel-body">'+item.htmlTitle+"<br/><img data-src='/" + item.pagemap.cse_thumbnail[0].src.replace(/^.*:\/\//, "") + "'/></div></div></div>";
+      }
+    }
+
+    // Zalando search
+    function zalando_search() {
+        var query = $("#search").val();
+	$(".examples").html("");
+	$.getJSON("https://api.zalando.com/articles/?fullText="+query, function(data) {
+            $.each(data.content, function(i, item) {
+                document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="panel panel-default"><div class="panel-body"><a href="'+item.shopUrl+'">'+item.name+"</a><br/><img data-src='/" + item.media.images[0].smallHdUrl.replace(/^.*:\/\//, "") + "'/></div></div></div>";
+            });
+	    DOMContentLoaded();
+	});
+    }
+    </script>
+
+<!--    <script src="https://www.googleapis.com/customsearch/v1?key=AIzaSyDXrCM0sar71tWtSQ6JrsUCKhWoikwnX30&cx=015909616427745022905%3Afau3s63uuao&q=evening+gown&imgDominantColor=blue&imgColorType=color&callback=hndlr&imgType=photo">
+    </script>-->
+  </body>
+</html>
+

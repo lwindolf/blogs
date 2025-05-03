@@ -1,0 +1,29 @@
+If your chef GUI suddenly stops working and you see something like the following exception in both server.log and server-webui.log:
+
+<pre>
+merb : chef-server (api) : worker (port 4000) ~ Failed to authenticate. Ensure that your client key is valid. - (Merb::ControllerExceptions::Unauthorized)
+/usr/share/chef-server-api/app/controllers/application.rb:56:in `authenticate_every'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:352:in `send'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:352:in `_call_filters'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:344:in `each'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:344:in `_call_filters'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:286:in `_dispatch'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:284:in `catch'
+/usr/lib/ruby/vendor_ruby/merb-core/controller/abstract_controller.rb:284:in `_dispatch'
+[...]
+</pre>
+
+Then try stopping all chef processes, remove
+
+<pre>
+/etc/chef/webui.pem
+/etc/chef/validation.pem
+</pre>
+
+and start everything again. It will regenerate the keys.
+
+The downside is that you have to 
+
+<pre>knife configure -i</pre>
+
+all you knife setup locations again.

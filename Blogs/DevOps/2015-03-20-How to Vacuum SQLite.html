@@ -1,0 +1,46 @@
+This post is a summary on how to effectively <a href="http://sqlite.org/lang_vacuum.html">VACUUM</a> SQLite databases. Actually open source project like Firefox and Liferea were significantly hurt by not efficiently VACUUMing their SQLite databases. For Firefox this was caused by the <a href="http://mozillalinks.org/2009/07/vacuum-your-firefox-databases-for-better-performance/">Places database</a> containing bookmarks and the history. In case of Liferea it was the feed cache database. Both projects suffered from fragmentation caused by frequent insertion and deletion while not vacuuming the database. This of course caused much frustration with end users and workarounds to vacuum manually.
+
+In the end both projects started to automatically vacuum their sqlite databases on demand based on free list threshold thereby solving the performance issues. Read on to learn how to perform vacuum and why not to use auto-vacuum in those cases!
+
+<h3>1. Manual VACUUM</h3>
+
+First for the basics: with SQLite 3 you simply vacuum by running:
+
+<pre>sqlite3 my.db "VACUUM;"</pre>
+
+Depending on the database size and the last vacuum run it might take a while for sqlite3 to finish with it. Using this you can perform manual VACUUM runs (e.g. nightly) or on demand runs (for example on application startup).
+
+<h3>2. Using Auto-VACCUM</h3>
+
+<b>Note: SQLite Auto-VACUUM does not do the same as VACUUM!</b> It only moves free pages to the end of the database thereby reducing the database size. By doing so it can significantly fragment the database while VACUUM ensures defragmentation. So Auto-VACUUM just keeps the database small!
+
+You can enable/disable SQLite auto-vacuuming by the following pragmas:
+
+<pre>PRAGMA auto_vacuum = NONE;
+PRAGMA auto_vacuum = INCREMENTAL;
+PRAGMA auto_vacuum = FULL;
+</pre>
+
+So effectively you have two modes: full and incremental. In full mode free pages are removed from the database upon each transaction. When in incremental mode no pages are free'd automatically, but only metadata is kept to help freeing them. At any time you can call
+
+<pre>PRAGMA incremental_vacuum(n);</pre>
+
+to free up to n pages and resize the database by this amount of pages.
+
+To check the auto-vacuum setting in a sqlite database run
+
+<pre>sqlite3 my.db "PRAGMA auto_vacuum;"</pre>
+
+which should return a number from 0 to 2 meaning: 0=None, 1=Incremental, 2=Full.
+
+<h3>3. On Demand VACUUM</h3>
+
+Another possibility is to VACUUM on demand based on the fragmentation level of your sqlite database. Compared to peridioc or auto-vaccum this is propably the best solution as (depending on your application) it might only rarely be necessary. You could for example decide to perform on demand VACUUM upon startup when the empty page ratio reaches a certain threshold which you can determine by running
+
+<pre>PRAGMA page_count;
+PRAGMA freelist_count;
+</pre>
+
+Both PRAGMA statements return a number of pages which together give you a rough guess at the fragmentation ratio. As far as I know there is currently no real measurement for the exact table fragmentation so we have to go with the free list ratio.
+
+

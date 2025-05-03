@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head>
+    <title>TV Mediathek</title>
+  </head>
+  <body>
+        <outline title="ARD" text="ARD" description="ARD" type="rss" id="lvgggtu" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!ard" htmlUrl="https://mediathekviewweb.de/#query=!ard" updateInterval="-1" collapsed="true"/>
+        <outline title="ZDF" text="ZDF" description="ZDF" type="rss" id="hddwexq" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!zdf" htmlUrl="https://mediathekviewweb.de/#query=!zdf" updateInterval="-1" collapsed="true"/>
+        <outline title="rbb" text="rbb" description="rbb" type="rss" id="hmmpppw" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!rbb" htmlUrl="https://mediathekviewweb.de/#query=!rbb" updateInterval="-1" collapsed="true"/>
+        <outline title="Arte" text="Arte" description="Arte" type="rss" id="timlhyj" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!arte" htmlUrl="https://mediathekviewweb.de/#query=!arte" updateInterval="-1" collapsed="true"/>
+        <outline title="BR" text="BR" description="BR" type="rss" id="hciirlf" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!br" htmlUrl="https://mediathekviewweb.de/#query=!br" updateInterval="-1" collapsed="true"/>
+        <outline title="SRF" text="SRF" description="SRF" type="rss" id="ksayecr" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!srf" htmlUrl="https://mediathekviewweb.de/#query=!srf" updateInterval="-1" collapsed="true"/>
+        <outline title="MDR" text="MDR" description="MDR" type="rss" id="aupekkv" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!mdr" htmlUrl="https://mediathekviewweb.de/#query=!mdr" updateInterval="-1" collapsed="true"/>
+        <outline title="3sat" text="3sat" description="3sat" type="rss" id="mnhbknr" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!3sat" htmlUrl="https://mediathekviewweb.de/#query=!3sat" updateInterval="-1" collapsed="true"/>
+        <outline title="WDR" text="WDR" description="WDR" type="rss" id="byocwyd" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!wdr" htmlUrl="https://mediathekviewweb.de/#query=!wdr" updateInterval="-1" collapsed="true"/>
+        <outline title="NDR" text="NDR" description="NDR" type="rss" id="cuhjikx" sortColumn="time" xmlUrl="https://mediathekviewweb.de/feed?query=!ndr" htmlUrl="https://mediathekviewweb.de/#query=!ndr" updateInterval="-1" collapsed="true"/>
+  </body>
+</opml>

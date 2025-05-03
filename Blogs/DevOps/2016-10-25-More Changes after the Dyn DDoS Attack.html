@@ -1,0 +1,72 @@
+Looking at NS records again of all scanned top 500 Alexa domains after the recent Dyn DDoS attack
+now 13 of the previously 14 Dyn customers which previously relied solely on Dyn now switched away 
+entirely or added additional non-Dyn DNS servers.
+
+<h3>Who Switched Entirely</h3>
+
+about.com, addthis.com, exoclick.com, github.com/.io, quora.com, speedtest.net, zendesk.com
+
+<h3>Who Switched to "Multi"-DNS</h3>
+
+etsy.com, paypal.com, shutterstock.com, therverge.com, weebly.com
+
+<h3>Details</h3>
+
+Here is a summary of the NS record changes. To automatically compare the server names all numbers in the DNS server names having been stripped in the following table:
+
+<table border='1' style='font-family:monospace'>
+<tr><th>Site</th><th>Before (15.10.)</th><th>After (24.10.)</th></tr>
+<tr><td><a href='/websites/history/about.com'>about.com</a></td><td>ns.p.dynect.net.</td><td>dns.p.nsone.net.<br/></td></tr>
+<tr><td><a href='/websites/history/addthis.com'>addthis.com</a></td><td>ns.p.dynect.net.</td><td>matt.ns.cloudflare.com.<br/>
+wanda.ns.cloudflare.com.<br/></td></tr>
+<tr><td><a href='/websites/history/etsy.com'>etsy.com</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/>
+ns.p.dynect.net.<br/></td></tr>
+<tr><td><a href='/websites/history/exoclick.com'>exoclick.com</a></td><td>ns.p.dynect.net.</td><td>dns.p.nsone.net.<br/>
+ns.p.dynect.net.<br/></td></tr>
+<tr><td><a href='/websites/history/github.com'>github.com</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/></td></tr>
+<tr><td><a href='/websites/history/github.io'>github.io</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/></td></tr>
+<tr><td><a href='/websites/history/paypal.com'>paypal.com</a></td><td>ns.p.dynect.net.</td><td>ns.p.dynect.net.<br/>
+pdns.ultradns.com.<br/>
+pdns.ultradns.net.<br/></td></tr>
+<tr><td><a href='/websites/history/quora.com'>quora.com</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/></td></tr>
+<tr><td><a href='/websites/history/shutterstock.com'>shutterstock.com</a></td><td>ns.p.dynect.net.</td><td>a.verisigndns.com.<br/>
+ns.p.dynect.net.<br/></td></tr>
+<tr><td><a href='/websites/history/speedtest.net'>speedtest.net</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/></td></tr>
+<tr><td><a href='/websites/history/theverge.com'>theverge.com</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/>
+ns.p.dynect.net.<br/></td></tr>
+<tr><td><a href='/websites/history/weebly.com'>weebly.com</a></td><td>ns.p.dynect.net.</td><td>ns-.awsdns-.co.uk.<br/>
+ns-.awsdns-.com.<br/>
+ns-.awsdns-.net.<br/>
+ns-.awsdns-.org.<br/>
+ns.p.dynect.net.<br/></td></tr>
+<tr><td><a href='/websites/history/zendesk.com'>zendesk.com</a></td><td>ns.p.dynect.net.</td><td>pdns.ultradns.biz.<br/>
+pdns.ultradns.co.uk.<br/>
+pdns.ultradns.com.<br/>
+pdns.ultradns.info.<br/>
+pdns.ultradns.net.<br/>
+pdns.ultradns.org.<br/></td></tr>
+
+
+</table>
+
+The note-worthy non-changer is Twitter which is still exclusively at Dyn, eryone
+else seems to have mitigated. Some to using two providers, most of them switching to
+AWS DNS some to UltraDNS exclusively.

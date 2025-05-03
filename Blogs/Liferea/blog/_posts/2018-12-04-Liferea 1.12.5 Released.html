@@ -1,0 +1,29 @@
+1.12.5 is a bugfix release. It includes an important bug fix that solves a possible endless loop on using "Next Unread" which several users experienced as endless high CPU usage. If you are affected by this: please upgrade!
+
+This release also switches the keyring integration from GnomeKeyring to libsecret and introduces a flatpak JSON.
+
+<h2>Changes</h2>
+
+<pre>
+    * #665: Webkit browser now supplies 'Liferea' component in user agent
+    * #664: Added "Mark All As Read" button to headerbar plugin
+    * #620: Added flatpak JSON
+      (glitsj16)
+    * #579: Added item list column drag and drop reordering
+      (Yanko Kaneti)
+    * #436, #662: Move from GnomeKeyring to libsecret
+      (bgermann)
+
+    * Fixes #663: Correct instapaper sharing link
+      (Daniel Alexandersen)
+    * Fixes #661: Update sharing links
+      (Daniel Alexandersen)
+    * Fixes #271: Consistent over usage of CPU (trigger by "Next Unread" loop)
+      (reported by GreenLunar)
+
+    * #472, #632: Dropping Inoreader support (API broke)
+</pre>
+
+<h2>Download</h2>
+
+You can download the release tarball at <a rel="nofollow" href="https://github.com/lwindolf/liferea/releases/tag/v1.12.5">github</a>.
