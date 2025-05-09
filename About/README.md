@@ -1,7 +1,7 @@
 <h1>Lars Windolf</h1>
 
  <p>
-     Hi! I'm a <a href="/consulting/en">freelancer</a> working as a tech lead supporting
+     Hi! I'm a <a href="http://lzone.de/consulting/en">freelancer</a> working as a tech lead supporting
      DevOps teams in system architecture, agile methods and IT operations. I do strongly care about collecting and sharing 
      knowledge and I use this web app as a customizable content portal swiss army knife for the knowledge
      needed in my daily work.
