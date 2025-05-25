@@ -5,7 +5,7 @@ working in tech lead/PO/system architect roles supporting DevOps and IT operatio
 strongly care about collecting and sharing knowledge and I use this web app as a customizable 
 content portal swiss army knife for the knowledge needed in my daily work.
 
- ## Projects
+## Projects
 
  <ul>
      <li><a href="/liferea">Liferea</a> (<a href="https://github.com/lwindolf/liferea">Github</a>) - 20+ years old RSS feed reader for Linux</li>
@@ -15,7 +15,7 @@ content portal swiss army knife for the knowledge needed in my daily work.
      <li>Cloud Outage Index (<a href="https://github.com/lwindolf/cloud-outages">Github</a>)</li>
  </ul>
 
- ## Profiles
+## Profiles
 
  <ul>
      <li><a href="https://github.com/lwindolf">Github</a></li>
