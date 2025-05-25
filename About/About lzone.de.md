@@ -8,8 +8,8 @@ the focus of the cheat sheets on DevOps instead of developers.
 ## Avoiding duplication
 
 While writing cheat sheets and collecting importing pieces of knowledge it bugged me
-to start writing cheat sheets for topics were good ones already did exist. Still I did want
-to use those in the same way like my self-written ones. What do to?
+to start writing cheat sheets for topics where I knew good content already did exist.
+Still I did want to use this content in the same way like my self-written ones. What do to?
 
 ## Generic installation of 3rd party cheat sheets
 
