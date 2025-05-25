@@ -1,9 +1,9 @@
 ## History
 
 lzone.de originally was a simple blog to collect and share occasional knowledge for
-system administration and DevOps. Starting around 2020 on it changed into a somewhat
-systematic cheat sheet collection. It is similar to https://devhints.io with
-the focus of the cheat sheets on DevOps instead of Devs.
+system administration and DevOps. Starting around 2020 it changed into a somewhat
+systematic DevOps cheat sheet collection. It is similar to https://devhints.io with
+the focus of the cheat sheets on DevOps instead of developers.
 
 ## Avoiding duplication
 
