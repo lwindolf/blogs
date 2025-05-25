@@ -1,7 +1,7 @@
 # About me
 
 Hi! My name is Lars Windolf and I'm a <a href="http://lzone.de/consulting/en">freelancer</a> 
-working as a tech lead/PO/system architect supporting DevOps and IT operations teams. I do 
+working in tech lead/PO/system architect roles supporting DevOps and IT operations teams. I do 
 strongly care about collecting and sharing knowledge and I use this web app as a customizable 
 content portal swiss army knife for the knowledge needed in my daily work.
 
