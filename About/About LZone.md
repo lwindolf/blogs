@@ -56,3 +56,14 @@ Deciding against CORS enables
 - do all of this without a server
 
 This of course means less security. It is a decision to be careful about.
+
+## Longlivety - built for 20 years usage
+
+lzone.de is built with selected 2024 technology to last 20 years. I'm betting on Vanilla JS and
+a few base JS libraries to survive this timespan. Those are: handlebars, split.js, showdown, 
+mermaid, lunr, dompurify.
+
+## UX / Design / Quality
+
+Finally a word on UX, design, quality: I'm not a huge fan on spending a lot of time on it. So you
+probably find lzone.de lacking compared to polished commercial and mainstream open source offerings.
