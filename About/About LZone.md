@@ -57,13 +57,20 @@ Deciding against CORS enables
 
 This of course means less security. It is a decision to be careful about.
 
-## Longlivety - built for 20 years usage
+## Longevity - built for 20 years usage
 
 lzone.de is built with selected 2024 technology to last 20 years. I'm betting on Vanilla JS and
 a few base JS libraries to survive this timespan. Those are: handlebars, split.js, showdown, 
 mermaid, lunr, dompurify.
 
+I do plan to maintain this project for my work life time.
+
 ## UX / Design / Quality
 
 Finally a word on UX, design, quality: I'm not a huge fan on spending a lot of time on it. So you
 probably find lzone.de lacking compared to polished commercial and mainstream open source offerings.
+
+The longevity goal also mean not following framework version upgrades, design paradigm changes
+and this years take on buttons with or without edges.
+
+Simply put: the goal is to be ugly but useful.
