@@ -1,0 +1,17 @@
+{
+  "name": "blog-feed-generator",
+  "version": "1.0.0",
+  "description": "A script to generate RSS feed for blog posts.",
+  "main": "build.js",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "feed": "^4.2.2",
+    "showdown": "2.1.0"
+  },
+  "devDependencies": {},
+  "author": "Lars",
+  "license": "MIT"
+}
