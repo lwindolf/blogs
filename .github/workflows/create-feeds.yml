@@ -3,7 +3,10 @@ name: create-feeds
 on:
   push:
     branches: [ main ]
-    
+
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
         
       - name: update
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
                 sudo apt install nodejs npm
                 npm i
