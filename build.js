@@ -51,7 +51,8 @@ if (!fs.existsSync(outputDir)) {
                         id      : f.link + '/' + encodeURIComponent(extractedTitle)
                 };
         })
-        .sort((a, b) => b.date - a.date); // Sort by date descending
+        .sort((a, b) => b.date - a.date) // Sort by date descending
+        .slice(0, 25); // Limit to the 25 most recent items
 
         // Create a new feed
         const feed = new Feed({

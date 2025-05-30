@@ -4,7 +4,7 @@
         <title>DevOps Blog Feed</title>
         <link>https://lzone.de/blog</link>
         <description>Latest posts from the DevOps blog</description>
-        <lastBuildDate>Fri, 30 May 2025 11:44:12 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 30 May 2025 15:46:21 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
@@ -1056,44 +1056,6 @@ spec:
     {{ "{{" }}- end }}
 </code></pre>
 <p>The thing to know is that "." accesses the current element in the list and the <code>print "- "</code> in front makes it a list item.</p>]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Log detailed output in bats]]></title>
-            <link>https://lzone.de/blog/2019-05-29-Log detailed output in bats</link>
-            <guid>https://lzone.de/blog/Log%20detailed%20output%20in%20bats</guid>
-            <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[<p>When you unit test your bash scripts with bats and have tests like</p>
-<pre><code> @test "my test" {
-     result=$(
-          analyze some stuff |\
-          sed 's/stuff/otherstuff/' |\
-          sort |\
-          lot of pipe magic...
-     )
-     [[ $result =~ pattern ]]
- }
-</code></pre>
-<p>you will get no info if the test fails besides "[[ $result =~ pattern ]]" failed.</p>
-<p>Here is a way to still produce some helpful output:</p>
-<pre><code> @test "my test" {
-     result=$(
-          echo "Here is the output."
-     )
-     output=$result
-     [[ $result =~ pattern ]]
- }
-
- teardown {
-     printf "%s\n" "$output"
- }
-</code></pre>
-<p>Now for the failed test you see all the content from $result below the test failed message</p>
-<pre><code>✗ my test
-(in test file mytest.bats, line 8)
-  `[[ $result =~ pattern ]]' failed
-
-Here is the output.
-</code></pre>]]></description>
         </item>
     </channel>
 </rss>
