@@ -14,6 +14,7 @@ if (!fs.existsSync(outputDir)) {
         {
                 title       : "DevOps Blog Feed",
                 description : "Latest posts from the DevOps blog",
+                favicon     : "https://lzone.de/favicon.ico",
                 link        : "https://lzone.de/blog",
                 input       : path.join(import.meta.dirname, 'Blogs', 'DevOps'),
                 output      : path.join(outputDir, 'devops.xml')
@@ -21,6 +22,7 @@ if (!fs.existsSync(outputDir)) {
         {
                 title       : "Liferea Development Blog",
                 description : "Latest posts from the Liferea blog",
+                favicon     : "https://lzone.de/liferera/favicon.ico",
                 link        : "https://lzone.de/liferea/blog",
                 input       : path.join(import.meta.dirname, 'Blogs', 'Liferea'),
                 output      : path.join(outputDir, 'liferea.xml')
@@ -58,6 +60,7 @@ if (!fs.existsSync(outputDir)) {
         const feed = new Feed({
                 title       : f.title,
                 description : f.description,
+                favicon     : f.favicon,
                 id          : f.link,
                 link        : f.link
         });
@@ -72,6 +75,6 @@ if (!fs.existsSync(outputDir)) {
         });
         });
         // Write the feed to a file
-        fs.writeFileSync(f.output, feed.rss2(), 'utf-8');
+        fs.writeFileSync(f.output, feed.atom1(), 'utf-8');
         console.log(`Feed generated at ${f.output}`);
 });
