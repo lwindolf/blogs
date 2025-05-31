@@ -22,7 +22,7 @@ if (!fs.existsSync(outputDir)) {
         {
                 title       : "Liferea Development Blog",
                 description : "Latest posts from the Liferea blog",
-                favicon     : "https://lzone.de/liferea/favicon.ico",
+                favicon     : "https://lzone.de/liferea/favicon.svg",
                 link        : "https://lzone.de/liferea/blog",
                 input       : path.join(import.meta.dirname, 'Blogs', 'Liferea'),
                 output      : path.join(outputDir, 'liferea.xml')
