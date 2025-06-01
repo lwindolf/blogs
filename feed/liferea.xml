@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-05-31T21:45:43.197Z</updated>
+    <updated>2025-06-01T11:18:23.640Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
@@ -14,7 +14,7 @@
         <updated>2025-04-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is another release candidate for 1.16 which brings an unexpected emergency upgrade
 to libpeas2 and some smaller fixes.</p>
-<h2 id="emergencyupgradetolibpeas2">Emergency upgrade to libpeas2</h2>
+<h2 id="emergency-upgrade-to-libpeas2">Emergency upgrade to libpeas2</h2>
 <p>Due to an unfortunate <a href="https://gitlab.archlinux.org/archlinux/packaging/packages/pygobject/-/issues/3">change in pygobject</a> libpeas1 will probably be and stay broken 
 for all Python use cases including Liferea. To avoid this 1.16-RC3 switches to libpeas2.</p>
 <p>Sadly libpeas2 is not compatible to libpeas1 and causes the following breaking:</p>
@@ -45,9 +45,8 @@ for all Python use cases including Liferea. To avoid this 1.16-RC3 switches to l
   (Lars Windolf)
 
 * Fixes Youtube video embedding regression
-  (Lars Windolf)
-</code></pre>
-<h2 id="noteformaintainers">Note for maintainers</h2>
+  (Lars Windolf)</code></pre>
+<h2 id="note-for-maintainers">Note for maintainers</h2>
 <p>There is some uncertainty about the girepository version to use. It depends on which pygobject
 you package for. You might need to change the version in configure.ac.</p>
 <p>See also <a href="https://gitlab.gnome.org/GNOME/libpeas/-/issues/60">https://gitlab.gnome.org/GNOME/libpeas/-/issues/60</a></p>
@@ -64,7 +63,7 @@ and it affects all GTK/GNOME apps using the libpeas 1.0 library together with py
 <p>Other affected applications are: Rhythmbox, gedit, eog, xed, totem (<a href="https://gitlab.archlinux.org/archlinux/packaging/packages/pygobject/-/issues/3">details</a>).</p>
 <h2 id="workaround">Workaround</h2>
 <p>You have to downgrade pygobject to 3.50 using you distro mechanisms.</p>
-<h2 id="howwillthisbefixed">How will this be fixed?</h2>
+<h2 id="how-will-this-be-fixed">How will this be fixed?</h2>
 <p>It seems unclear how this will play out</p>
 <ol>
 <li>pygobject reverting the change</li>
@@ -80,7 +79,7 @@ but will take a while.</p>]]></summary>
         <updated>2025-02-09T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is the first release candidate for the new stable release line 1.16.x. Once 1.16.0 is ready 
 all focus will go to a GTK4 based 1.17.x version.</p>
-<h2 id="callfortranslations">Call for translations</h2>
+<h2 id="call-for-translations">Call for translations</h2>
 <p>As we are getting ready for a new stable release I want to ask all translators to check and
 update the translations! Your work is always welcome.</p>
 <h2 id="changes">Changes</h2>
@@ -107,8 +106,7 @@ update the translations! Your work is always welcome.</p>
   (Lars Windolf)
 
 * Fixes node source creation regression
-  (Lars Windolf)
-</code></pre>
+  (Lars Windolf)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get the latest source at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16-RC1">https://github.com/lwindolf/liferea/releases/tag/v1.16-RC1</a></p>]]></summary>
     </entry>
@@ -118,7 +116,7 @@ update the translations! Your work is always welcome.</p>
         <link href="https://lzone.de/liferea/blog/2025-01-21-Liferea 1.15.9 Released"/>
         <updated>2025-01-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Today sees a new release of Liferea with fixes, translation updates and some major changes.</p>
-<h2 id="integrateddownloadmanager">Integrated Download Manager</h2>
+<h2 id="integrated-download-manager">Integrated Download Manager</h2>
 <p>Starting with Liferea 1.15.9 there is a simple integrated download manager. The idea is to 
 be roughly on-par with the features modern browsers support. While the download manager
 is basic it should improve user experience a lot.</p>
@@ -133,7 +131,7 @@ other toolkits or a very complex GUI</li>
 </ul>
 <p>Now Liferea has a very simple download manager implemented using simple single thread
 Python network fetching. Hopefully this will increase usability and download workflows.</p>
-<h2 id="renderingchanges">Rendering Changes</h2>
+<h2 id="rendering-changes">Rendering Changes</h2>
 <p>This release fixes the dark theme switching regression in the item view. The dark mode item view
 feature was lost some releases ago because of GTK4 deprecations. Since GTK4 there is no more
 GTK supported way to determine theme colors. </p>
@@ -143,11 +141,11 @@ switch light/dark mode purely with CSS and static theme-independant colors.</p>
 dark mode. Also the link color is set to blueish and can't follow the GTK theme color for links anymore.</p>
 <p>Many other applications are also suffering from this. Sorry there is just no way to do it anymore.
 If you really hate the default CSS style please consider <a href="https://lzone.de/liferea/blog/Liferea-Trick-10-Custom-CSS-for-Article-Rendering">changing them using custom CSS</a>.</p>
-<h2 id="itemviewlayoutredesign">Item View Layout Redesign</h2>
+<h2 id="item-view-layout-redesign">Item View Layout Redesign</h2>
 <p>Along with the theme adaptions come a redesign of the item view. To be honest the look &amp; feel
 is heavily inspired by Jan Lukas Gernert's <a href="https://gitlab.com/news-flash/news_flash_gtk">NewsFlashGTK</a> which I consider very well done. It is a very
 calm theme reducing distraction and a good balance for reading longer and shorter texts.</p>
-<h2 id="readermoderemoved">Reader Mode Removed</h2>
+<h2 id="reader-mode-removed">Reader Mode Removed</h2>
 <p>The user facing options to enable/disable "Reader Mode" in the preferences and the item view pane
 content menu are now gone. The code paths were too complicated and the results and fallback in case
 of errors was very unsatisfactory.</p>
@@ -199,10 +197,9 @@ applied when the HTML scraping is used. No user interaction needed.</p>
   (Lars Windolf)
 
 * Updated Czech translation (Amereyeu)
-* Updated Albanian translation (Besnik Bleta)
-</code></pre>
+* Updated Albanian translation (Besnik Bleta)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get the release at https://github.com/lwindolf/liferea/releases/tag/v1.15.9</p>]]></summary>
+<p>Get the release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.9">https://github.com/lwindolf/liferea/releases/tag/v1.15.9</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.15.8 Released]]></title>
@@ -212,8 +209,8 @@ applied when the HTML scraping is used. No user interaction needed.</p>
         <summary type="html"><![CDATA[<p>A new bugfix release is here.</p>
 <h2 id="changes">Changes</h2>
 <ul>
-<li><h1 id="1289solvesomewebkitdeprecations">1289 Solve some Webkit deprecations</h1>
-<p>(Lars Windolf)</p></li>
+<li><p>#1289 Solve some Webkit deprecations
+(Lars Windolf)</p></li>
 <li><p>Fixes #1359: Prevent passing "" as CLI argument causing a useless subscription.
 Also checks for duplicates when subscribing from CLI/DBUS.
 (Lars Windolf)</p></li>
@@ -224,7 +221,7 @@ Also checks for duplicates when subscribing from CLI/DBUS.
 <li><p>Update of Turkish translation (emintufan)</p></li>
 </ul>
 <h2 id="download">Download</h2>
-<p>Get the release at https://github.com/lwindolf/liferea/releases/tag/v1.15.8</p>]]></summary>
+<p>Get the release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.8">https://github.com/lwindolf/liferea/releases/tag/v1.15.8</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Website Scraping Tutorial 1   Feed of Manga Chapters]]></title>
@@ -234,7 +231,7 @@ Also checks for duplicates when subscribing from CLI/DBUS.
         <summary type="html"><![CDATA[<p>Are you by any chance a manga fan? Does your favourite manga website not 
 publish RSS feeds? Then you might be interested in this scraping example
 for mangas hosted at <code>mangakatana.com</code>.</p>
-<h2 id="howitworks">How it works</h2>
+<h2 id="how-it-works">How it works</h2>
 <p><code>mangakatana.com</code> has manga overview pages like this one for 
 <a href="https://mangakatana.com/manga/the-eminence-in-shadow.22020">Eminence in Shadow</a>.
 If you inspect the chapter list on this page (right click on it 
@@ -249,8 +246,7 @@ and choose "Inspect") you see a HTML structure like this:</p>
         &lt;a href="https://mangakatana.com/manga/the-eminence-in-shadow.22020/c58"&gt;Chapter 58&lt;/a&gt;
      &lt;/div&gt;
      ...
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 <p>One way to extract this structure is using XSLT. An example stylesheet
 can be found in the RSS scraping example repo: <a href="https://github.com/lwindolf/rss-scraping/blob/main/examples/mangakatana-chapters.xsl">mangakatana-chapters.xsl</a>.</p>
 <p>Using this stylesheet we can create a feed like this:</p>
@@ -260,14 +256,14 @@ can be found in the RSS scraping example repo: <a href="https://github.com/lwind
 <li><p>Click "Advanced"</p></li>
 <li><p>Select "Command" as feed source</p></li>
 <li><p>Set the following command</p>
-<p>curl -L https://mangakatana.com/manga/the-eminence-in-shadow.22020 | xsltproc --html --novalid ~/.config/liferea/mangakatana-chapters.xsl -</p></li>
+<p>curl -L <a href="https://mangakatana.com/manga/the-eminence-in-shadow.22020">https://mangakatana.com/manga/the-eminence-in-shadow.22020</a> | xsltproc --html --novalid ~/.config/liferea/mangakatana-chapters.xsl -</p></li>
 <li><p>Click "OK" to subscribe</p></li>
 <li><p>Finally open the feed properties</p></li>
 <li><p>In tab "Cache" set cache to "Unlimited"</p></li>
 <li><p>In tab "Advanced" you can optionally enable "Auto-load item link…"</p></li>
 </ol>
 <p>If it does not work check wether you have <code>curl</code> and <code>xsltproc</code> installed!</p>
-<h2 id="contributeexamples">Contribute Examples!</h2>
+<h2 id="contribute-examples">Contribute Examples!</h2>
 <p>Did you adapt the XLST to other websites? If yes consider making a pull request with
 your new stylesheet to the <a href="https://github.com/lwindolf/rss-scraping">RSS scraping repo</a>!</p>]]></summary>
     </entry>
@@ -291,8 +287,7 @@ your new stylesheet to the <a href="https://github.com/lwindolf/rss-scraping">RS
   (Lars Windolf)
 
 * Added DOMPurify.js for content filtering
-  (Lars Windolf)
-</code></pre>
+  (Lars Windolf)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can download the new release from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.5">https://github.com/lwindolf/liferea/releases/tag/v1.15.5</a></p>]]></summary>
     </entry>
@@ -302,7 +297,7 @@ your new stylesheet to the <a href="https://github.com/lwindolf/rss-scraping">RS
         <link href="https://lzone.de/liferea/blog/2023-10-22-Liferea 1.15.4 Released"/>
         <updated>2023-10-22T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This release brings small fixes and a rework of the trayicon plugin.</p>
-<h2 id="improvedtrayicon">Improved trayicon</h2>
+<h2 id="improved-trayicon">Improved trayicon</h2>
 <p>Thanks to the work of Yuri Konotopov the trayicon plugin now supports AppIndicator
 and libayatana. The important difference here is that the new item counter can be shown
 as a text label next to the icon which makes for much improved rendering.</p>
@@ -316,8 +311,7 @@ as a text label next to the icon which makes for much improved rendering.</p>
       (Lars Windolf)
 
     * #1305 Refactoring of the trayicon plugin to support  AppIndicator and libayatana
-      (Yuri Konotopov)
-</code></pre>
+      (Yuri Konotopov)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can download the new release from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.4">https://github.com/lwindolf/liferea/releases/tag/v1.15.4</a></p>]]></summary>
     </entry>
@@ -380,8 +374,7 @@ as many people say the Liferea GUI is, but the functionality will be great :-)</
   (reported by Rich Coe)
 
 * Fixes #1276: Old WebKitCache cache not cleaned
-  (reported by hasezoey)
-</code></pre>
+  (reported by hasezoey)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can get the release from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.3">https://github.com/lwindolf/liferea/releases/tag/v1.15.3</a></p>]]></summary>
     </entry>
@@ -394,8 +387,7 @@ as many people say the Liferea GUI is, but the functionality will be great :-)</
 Kudos to Rich Coe for debugging and fixing the issue!</p>
 <h2 id="changes">Changes</h2>
 <pre><code>    * Fixes #1291: Feed parsing is broken
-      (Rich Coe)
-</code></pre>
+      (Rich Coe)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can get the latest tarball from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.2">https://github.com/lwindolf/liferea/releases/tag/v1.15.2</a></p>]]></summary>
     </entry>
@@ -451,8 +443,7 @@ Still there is an issue remaining where feed updates are getting stuck when upda
 
     * Add Russian user documentation (slichtzzz)
     * Updated Czech translation (Amerey)
-    * Updated Brazilian Portugese translation (Fúlvio Alves)
-</code></pre>
+    * Updated Brazilian Portugese translation (Fúlvio Alves)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can fetch the latest tarball from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.1">https://github.com/lwindolf/liferea/releases/tag/v1.15.1</a></p>]]></summary>
     </entry>
@@ -481,10 +472,9 @@ that you can download and import in Liferea using <code>Subscriptions</code> -&g
   (reported by Roger Gonzalez)
 
 * Fixes #1248 Can’t maximize for reading feeds
-  (reported by ksso83)
-</code></pre>
+  (reported by ksso83)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.6</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.6">https://github.com/lwindolf/liferea/releases/tag/v1.14.6</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.15.0 Released]]></title>
@@ -528,8 +518,7 @@ faster than every two years. So not so much features will be introduced before 1
     * Drops a debug output in the plugin installer
     * Drop webkit inspector from installable plugins in favour of --debug-html
     * Drop pane plugin from default plugins
-    * Drop pane plugin (old workaround for pane issues)
-</code></pre>
+    * Drop pane plugin (old workaround for pane issues)</code></pre>
 <h2 id="download">Download</h2>
 <p>As always you can get the release tarball from Github: <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.0">https://github.com/lwindolf/liferea/releases/tag/v1.15.0</a></p>]]></summary>
     </entry>
@@ -549,10 +538,9 @@ faster than every two years. So not so much features will be introduced before 1
   (reported by Tasos Sahanidis)
 
 * Fixing format and cast errors (#1223)
-  (reported by Paul Gevers)
-</code></pre>
+  (reported by Paul Gevers)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.5</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.5">https://github.com/lwindolf/liferea/releases/tag/v1.14.5</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14.4 Released]]></title>
@@ -568,10 +556,9 @@ faster than every two years. So not so much features will be introduced before 1
   (reported by Mikel Olasagasti)
 
 * Fixes a g_object_unref warning on shutdown
-* Drops a debug output in the plugin installer
-</code></pre>
+* Drops a debug output in the plugin installer</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.4</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.4">https://github.com/lwindolf/liferea/releases/tag/v1.14.4</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14.3 Released]]></title>
@@ -584,10 +571,9 @@ faster than every two years. So not so much features will be introduced before 1
       (mozbugbox, reported by Mikel Olasagasti)
 
     * Fixes #1215: failed to build in launchpad PPA due to
-      auto_test permission issue (reported by PandaJim)
-</code></pre>
+      auto_test permission issue (reported by PandaJim)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.3</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.3">https://github.com/lwindolf/liferea/releases/tag/v1.14.3</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14.2 Released]]></title>
@@ -602,10 +588,9 @@ problem!</p>
   (mozbugbox, reported by Froggy232)
 
 * Fixes a memory leak when reloading CSS
-  (Lars Windolf)
-</code></pre>
+  (Lars Windolf)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.2</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.2">https://github.com/lwindolf/liferea/releases/tag/v1.14.2</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.12.10 Released]]></title>
@@ -613,7 +598,7 @@ problem!</p>
         <link href="https://lzone.de/liferea/blog/2023-03-12-Liferea 1.12.10 Released"/>
         <updated>2023-03-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is an important security fix for 1.12. Please upgrade!</p>
-<h2 id="cve20231350remotecodeexecutiononfeedenrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
+<h2 id="cve-2023-1350-remote-code-execution-on-feed-enrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
 <p>If you have enabled "Extract full content from HTML5 and Google AMP" for one or 
 more of your feed subscriptions it is possible for a an attacker to inject a script command
 that would run any command on your system.</p>
@@ -628,10 +613,9 @@ of you feeds. This can be done in the feed properties dialog,</p>
 </ol>
 <h2 id="changes">Changes</h2>
 <pre><code>    * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
-      (patch by Alexander Erwin Ittner)
-</code></pre>
+      (patch by Alexander Erwin Ittner)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.12.10</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.12.10">https://github.com/lwindolf/liferea/releases/tag/v1.12.10</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14.1 Released]]></title>
@@ -639,7 +623,7 @@ of you feeds. This can be done in the feed properties dialog,</p>
         <link href="https://lzone.de/liferea/blog/2023-03-12-Liferea 1.14.1 Released"/>
         <updated>2023-03-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is an important security fix for 1.14. Please upgrade!</p>
-<h2 id="cve20231350remotecodeexecutiononfeedenrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
+<h2 id="cve-2023-1350-remote-code-execution-on-feed-enrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
 <p>If you have enabled "Extract full content from HTML5 and Google AMP" for one or 
 more of your feed subscriptions it is possible for a an attacker to inject a script command
 that would run any command on your system.</p>
@@ -660,10 +644,9 @@ of you feeds. This can be done in the feed properties dialog,</p>
       (mozbugbox)
 
     * Improve #1192 be reordering widget creation order
-      (Lars Windolf)
-</code></pre>
+      (Lars Windolf)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.1</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.1">https://github.com/lwindolf/liferea/releases/tag/v1.14.1</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14.0 Released]]></title>
@@ -671,9 +654,9 @@ of you feeds. This can be done in the feed properties dialog,</p>
         <link href="https://lzone.de/liferea/blog/2023-01-10-Liferea 1.14.0 Released"/>
         <updated>2023-01-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Here comes the newest stable release line of Liferea 1.14!</p>
-<h2 id="featuresintroducedwith114">Features introduced with 1.14</h2>
+<h2 id="features-introduced-with-114">Features introduced with 1.14</h2>
 <p>First: Many thanks to all the contributors and package maintainers that made this possible!</p>
-<h3 id="internalbrowser">Internal Browser</h3>
+<h3 id="internal-browser">Internal Browser</h3>
 <ul>
               <li>New 'Reader mode' preference that allows stripping all web content</li>
               <li>Implement support for Webkits Intelligent Tracking Protection</li>
@@ -703,7 +686,7 @@ of you feeds. This can be done in the feed properties dialog,</p>
               <li>Added an option to show news bins in reduced feed list</li>
               <li>Added menu option to send item per mail</li>
 </ul>
-<h3 id="feedparsing">Feed parsing</h3>
+<h3 id="feed-parsing">Feed parsing</h3>
 <ul>
               <li>Default to https:// instead of http:// when user doesn't
               provide protocol on subscribing feed</li>
@@ -715,12 +698,12 @@ of you feeds. This can be done in the feed properties dialog,</p>
               <li>Execute feed pipe/filter commands asynchronously</li>
               <li>Better explanation of feed update errors.</li>
 </ul>
-<h3 id="onlineservices">Online services</h3>
+<h3 id="online-services">Online services</h3>
 <ul>
               <li>Added generic Google Reader API support (allows using FeedHQ, FreshRSS, Miniflux...)</li>
               <li>Now allow converting TinyTinyRSS subscriptions to local subscriptions</li>
 </ul>
-<h3 id="searchfolders">Search folders</h3>
+<h3 id="search-folders">Search folders</h3>
 <ul>
               <li>New search folder rule to match podcasts</li>
               <li>New search folder rule to match headline authors</li>
@@ -743,7 +726,7 @@ of you feeds. This can be done in the feed properties dialog,</p>
               <li>New hot key Ctrl-0 to reset zoom</li>
               <li>New hot key Ctrl-O to open enclosures</li>
 </ul>
-<h2 id="importantbugfixes">Important bugfixes</h2>
+<h2 id="important-bugfixes">Important bugfixes</h2>
 <ul>
 <li><p>Fixing hidden panes:
 Many Liferea users did suffer from invisible pane (e.g. a minimized feed list
@@ -766,7 +749,7 @@ early resulting in errors. Now Liferea waits for full internet connection.</p></
   <li>Dropped photo namespace support</li>
 </ul>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.0</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.0">https://github.com/lwindolf/liferea/releases/tag/v1.14.0</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14 RC3 released]]></title>
@@ -806,10 +789,9 @@ updates. This will be the last release candidate. Next release will be 1.14.0.</
 * Update of German translation (Lars Windolf)
 * Update of Polish translation (Paweł Marciniak)
 * Update of Russian trasnlation (mbrav)
-* Update of Spanish translation (Christian Martinez)
-</code></pre>
+* Update of Spanish translation (Christian Martinez)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14-RC3</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC3">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC3</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14 RC2 released]]></title>
@@ -820,7 +802,7 @@ updates. This will be the last release candidate. Next release will be 1.14.0.</
 will be probably one more release candidates until 1.14.0.</p>
 <p>Focus on this release was closing some long standing bugs. There is also a new
 plugin <code>add-bookmark-site</code> to allow providing a user define bookmarking site.</p>
-<h2 id="callfortranslations">Call for translations!</h2>
+<h2 id="call-for-translations">Call for translations!</h2>
 <p>If you are a translator please consider updating your Liferea translation. Here is a list
 of the current translation status by language. Note the respective amount of fuzzy and
 untranslated messages.</p>
@@ -861,8 +843,7 @@ tr.po 410 translated messages, 56 fuzzy translations, 72 untranslated messages.
 uk.po 403 translated messages, 56 fuzzy translations, 79 untranslated messages.
 vi.po 403 translated messages, 56 fuzzy translations, 79 untranslated messages.
 zh_CN.po 342 translated messages, 86 fuzzy translations, 110 untranslated messages.
-zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messages.
-</code></pre>
+zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messages.</code></pre>
 <p>Please help updating translations for Liferea!</p>
 <h2 id="changes">Changes</h2>
 <pre><code>    * #1152: Reduces height of the status bar to save vertical space.
@@ -898,10 +879,9 @@ zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messa
     * Fixes #501: Fixes segfault when deleting a search folder that is rebuilding
       (Lars Windolf)
 
-    * Updated pr-BR translation (Alexandre Erwin Ittner)
-</code></pre>
+    * Updated pr-BR translation (Alexandre Erwin Ittner)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2</a></p>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.14 RC1 Released]]></title>
@@ -910,7 +890,7 @@ zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messa
         <updated>2022-10-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is the first release candidate for the next stable release line 1.14. There
 will be probably 2 more release candidates until 1.14.0.</p>
-<h2 id="fixinghiddenpanes">Fixing hidden panes</h2>
+<h2 id="fixing-hidden-panes">Fixing hidden panes</h2>
 <p>Many Liferea users did suffer from invisible pane (e.g. a minimized feed list
 or HTML view) upon startup. With certain desktop environments / themes making
 the pane grips invisible it is hard to grip the correct pixel to restore a pane.</p>
@@ -918,7 +898,7 @@ the pane grips invisible it is hard to grip the correct pixel to restore a pane.
 regarding to there orientation. If a pane is smaller than 5% height/width it will be 
 set to 30% width or 50% height on startup.</p>
 <p>The intention here is that panes are <strong>never</strong> invisible after startup. </p>
-<h2 id="lastminutefeatures">Last minute features</h2>
+<h2 id="last-minute-features">Last minute features</h2>
 <p>This release brings some small last minutes features</p>
 <ul>
 <li><p>Liferea now supports the new GTK dark theme logic, where in the preferences
@@ -972,9 +952,8 @@ you define wether you "prefer" dark mode or light mode.</p></li>
 
     * #1137: Updated French translation (Guillaume Bernard)
 
-    * #1134, #1135: Updated Spanish example feeds (Joel Barrios)
-</code></pre>
+    * #1134, #1135: Updated Spanish example feeds (Joel Barrios)</code></pre>
 <h2 id="download">Download</h2>
-<p>Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1</p>]]></summary>
+<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1</a></p>]]></summary>
     </entry>
 </feed>

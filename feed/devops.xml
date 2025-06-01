@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/blog</id>
     <title>DevOps Blog Feed</title>
-    <updated>2025-05-31T21:45:43.145Z</updated>
+    <updated>2025-06-01T11:18:23.587Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/blog"/>
     <subtitle>Latest posts from the DevOps blog</subtitle>
@@ -18,8 +18,7 @@ applications one wants to delete. The only indication in the GUI is the
 resource spinner icon running forever.</p>
 <p>The only thing that helps:</p>
 <pre><code> kubectl patch Application/&lt;name&gt; -p '{"metadata":{"finalizers":[]}}' --type=merge
- kubectl delete Application/&lt;name&gt;
-</code></pre>
+ kubectl delete Application/&lt;name&gt;</code></pre>
 <p>And the Application is immediately gone. Of course propability is high that
 some type of cleanup did not happen…</p>]]></summary>
     </entry>
@@ -29,7 +28,7 @@ some type of cleanup did not happen…</p>]]></summary>
         <link href="https://lzone.de/blog/2024-02-28-ArgoCD Debugging Reconciliation Loops"/>
         <updated>2024-02-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is post to document a somewhat troublesome ArgoCD performance optimization result I experienced.</p>
-<h2 id="howtoanalyzehighcpuusage">How to analyze high CPU usage</h2>
+<h2 id="how-to-analyze-high-cpu-usage">How to analyze high CPU usage</h2>
 <p>Suddenly (maybe after installing a shiny new operator) ArgoCD gets very slow. You notice
 the GUI taking forever when hitting refresh and syncs you start are timing out. Once you look at the 
 ArgoCD pods there are three possible candidates for performance bottlenecks</p>
@@ -39,7 +38,7 @@ ArgoCD pods there are three possible candidates for performance bottlenecks</p>
 <li>repo server</li>
 </ul>
 <p>So the first issue is: are you spending enough on resources / concurrency?</p>
-<h2 id="determinescalingissues">Determine scaling issues</h2>
+<h2 id="determine-scaling-issues">Determine scaling issues</h2>
 <p>Things are differently for the ArgoCD application controller compared to server and repo server. The latter
 two can be scaled by having more of them. So spend some CPUs and scale out and they should be fine.</p>
 <p>The controller is different and can only be scaled vertically. Don't be confused by the "sharding" feature
@@ -48,44 +47,41 @@ you cannot shard.</p>
 <p>So if your application controller is CPU bound try throwing CPUs at it. Next watch the reconciliation 
 activity graph in your monitoring dashboard. If it keeps growing the more CPUs you are providing you have found 
 a reconciliation loop. Quite a lot of users seem to suffering from it…</p>
-<h2 id="debuggingreconciliationloops">Debugging reconciliation loops</h2>
+<h2 id="debugging-reconciliation-loops">Debugging reconciliation loops</h2>
 <p>Maybe "loop" is the wrong word. If you are suffering from this then when you check your application
 controller you will find an endless stream of</p>
-<pre><code> level=info msg="Reconcilation completed" application=&lt;some application&gt;
-</code></pre>
+<pre><code> level=info msg="Reconcilation completed" application=&lt;some application&gt;</code></pre>
 <p>messages. Probably multiple times per minute. If you see this then one or more of the k8s resources
 in the applications namespace trigger ArgoCD to start checking stuff continuously. All CPUs you throw
 at it will get eaten up. Instead of wasting CPUs you want ArgoCD to not react to those "hidden" updates.
 And this is actually possible…</p>
 <p>To analyze the root cause follow the instructions in <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/reconcile/">Reconcile Optimization</a>.
 Basically set the application controller log level to <code>debug</code> and watch out for line like those</p>
-<pre><code>level=debug msg="Requesting app refresh caused by object update" ... api-version=autoscaling/v2 ... kind=HorizontalPodAutoscaler
-</code></pre>
+<pre><code>level=debug msg="Requesting app refresh caused by object update" ... api-version=autoscaling/v2 ... kind=HorizontalPodAutoscaler</code></pre>
 <p>The <code>api-version</code> and <code>kind</code> fields will give you the causing resource types. Next you can perform the
 resource update ignore configuration as documented in the above link. If you are lucky your CPU usage
 will significantly drop to a reasonable amount as stuff gets only updated on real changes in Git or
 by real modifications in k8s.</p>
-<h2 id="theproblemwithorphanedresources">The problem with orphaned resources</h2>
+<h2 id="the-problem-with-orphaned-resources">The problem with orphaned resources</h2>
 <p>If you are unlucky you might notice that <strong>your ignore definitions are ignored</strong>! The cause for this seems
 to be a <a href="https://github.com/argoproj/argo-cd/issues/15594">problematic behaviour</a> of ArgoCD which does treat 
 managed resources differently from so called "orphaned" (means unmanaged) resources. Ignore rules simply do 
 not work for "orphaned" resources.</p>
 <p>You can check for this effect indirectly using the ArgoCD application controller at log level <code>debug</code>.
 Verify for each of your resource update ignore rules if you find a log line like</p>
-<pre><code>level=debug msg="Ignoring change of object because none of the watched resource fields have changed" ... api-version=&lt;group&gt; ... kind=&lt;resource&gt;
-</code></pre>
+<pre><code>level=debug msg="Ignoring change of object because none of the watched resource fields have changed" ... api-version=&lt;group&gt; ... kind=&lt;resource&gt;</code></pre>
 <p>If you do not find it you know the ignore rule is being ignored because the resource in question is an orphaned 
 resource which you can verify by checking the resource for missing ArgoCD instance metadata labels.</p>
 <p>To sum it up: with the current ArgoCD releases if you have a reconciliation loop on "orphaned" resources 
 <strong>you are stuck with wasting CPU cycles</strong>!</p>
-<h2 id="whatcausesorphanedresources">What causes orphaned resources?</h2>
+<h2 id="what-causes-orphaned-resources">What causes orphaned resources?</h2>
 <p>Those are usually causes by operators. You usually rollout the operator CRD using ArgoCD, so the namespace
 is ArgoCD managed and watched for changes. But then the operator independantly creates resources and if those 
 happen to update some annotations or metadata (in my case a Postgres cluster operator every 10s adding a connection status in <code>.metadata.annotations.status</code>)
 you get an unfixable reconciliation loop. </p>
 <p>The only way is to get the software/operator to stop updating the status fields or at least to do it much
 much more rarely because it will always trigger an ArgoCD reconciliation.</p>
-<h2 id="possibleworkaround">Possible Workaround</h2>
+<h2 id="possible-workaround">Possible Workaround</h2>
 <p>If your operator (or any other mechanism creating those "orphaned" resources) allows some templating where
 you can specify the metadata of the resources that are created then you are in luck. In this case extend
 the metadata spec by the typical ArgoCD labels and ArgoCD despite not having created those resources will
@@ -101,18 +97,16 @@ As Helm charts are usually targeting kubernetes they do not force you to set the
 security context.</p>
 <p>Once you apply the Helm chart you immediately get an error from the admission controller about invalid
 UIDs in the pods you deploy. For example</p>
-<pre><code>unable to validate against any security context constraint: [provider restricted: .spec.securityContext.fsGroup: Invalid value: []int64{999}: 999 is not an allowed group spec.containers[0].securityContext.runAsUser: Invalid value: 999: must be in the ranges: [1000640000, 1000649999]]",
-</code></pre>
+<pre><code>unable to validate against any security context constraint: [provider restricted: .spec.securityContext.fsGroup: Invalid value: []int64{999}: 999 is not an allowed group spec.containers[0].securityContext.runAsUser: Invalid value: 999: must be in the ranges: [1000640000, 1000649999]]",</code></pre>
 <p>Now if you have a Helm chart that allows to specify the security context constraint you can take
 the UID range reported from the error message and pass it in the values file. But how about
 programmatically doing this?</p>
-<h2 id="queryopenshiftnamespaceuidranges">Query Openshift namespace UID ranges</h2>
+<h2 id="query-openshift-namespace-uid-ranges">Query Openshift namespace UID ranges</h2>
 <p>UID ranges are defined per namespace in the namespace annotation. You can query it like this</p>
-<pre><code>oc get project -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"
-</code></pre>
+<pre><code>oc get project -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"</code></pre>
 <p>which for above error example would return <code>1000640000/10000</code> which gives you the minimum 
 id of <code>1000640000</code> and the info that <code>10000</code> more ids can be allocated.</p>
-<h2 id="helmmagictotranslateids">Helm Magic to translate ids</h2>
+<h2 id="helm-magic-to-translate-ids">Helm Magic to translate ids</h2>
 <p>Usually default ids provided by Helm charts lie in the range around <code>1000</code> which would make it
 easy to just add those to the base id (like <code>1000640000</code>). As of now I do not know whether Helm
 has a mechanism to apply the translation. It would be great to have such a business logic
@@ -127,8 +121,7 @@ for example using a user id template helper which detects Openshift and performs
 At the right upper corner of the keyboard? Right where accidentily hit in the midst of a meeting
 when reaching over for something?</p>
 <p>I don't know how often I suspended my laptop with this "feature", before I added</p>
-<pre><code> xmodmap -e 'keycode 150='
-</code></pre>
+<pre><code> xmodmap -e 'keycode 150='</code></pre>
 <p>to my <code>.bashrc</code> which disables the key forever. May it rest in pieces :-)</p>]]></summary>
     </entry>
     <entry>
@@ -145,11 +138,9 @@ when reaching over for something?</p>
 </ul>
 <p>but what about all PRs in all the repos of your user account / organisation?</p>
 <p>To achieve this filter you can click "Created" which will set the filter to this</p>
-<pre><code>is:open is:pr author:lwindolf archived:false 
-</code></pre>
+<pre><code>is:open is:pr author:lwindolf archived:false </code></pre>
 <p>and change <code>author:</code> to <code>user:</code> like this</p>
-<pre><code>is:open is:pr user:lwindolf archived:false 
-</code></pre>
+<pre><code>is:open is:pr user:lwindolf archived:false </code></pre>
 <p>This helps me to get an overview on all PRs in all my repos without being review assigned to those.</p>]]></summary>
     </entry>
     <entry>
@@ -162,11 +153,10 @@ when reaching over for something?</p>
 those do not work out-of-the-box with for example Swagger 2.4. The Grafeas server is being 
 implemented in Golang using Protobuf for API bindings, so the offered Swagger bindings are 
 not really used and are thus untested.</p>
-<h2 id="step1fetchgrafeasswaggerdefinitions">Step 1. Fetch Grafeas swagger definitions</h2>
+<h2 id="step-1-fetch-grafeas-swagger-definitions">Step 1. Fetch Grafeas swagger definitions</h2>
 <pre><code>wget https://github.com/grafeas/grafeas/raw/master/proto/v1beta1/swagger/grafeas.swagger.json -O grafeas.swagger.json
-wget https://raw.githubusercontent.com/grafeas/grafeas/master/proto/v1beta1/swagger/project.swagger.json   
-</code></pre>
-<h2 id="step2prepareswaggerconfigs">Step 2. Prepare swagger configs</h2>
+wget https://raw.githubusercontent.com/grafeas/grafeas/master/proto/v1beta1/swagger/project.swagger.json   </code></pre>
+<h2 id="step-2-prepare-swagger-configs">Step 2. Prepare swagger configs</h2>
 <pre><code>echo '{
     "projectName": "Grafeas",
     "packageVersion": "v1beta1",
@@ -179,20 +169,17 @@ echo '{
     "packageVersion": "v1beta1",
     "packageName": "grafeasProjects",
     "licenseName": "Apache 2.0"
-}' &gt;config2.json
-</code></pre>
-<h2 id="step3patchswaggerdefinitions">Step 3. Patch swagger definitions</h2>
+}' &gt;config2.json</code></pre>
+<h2 id="step-3-patch-swagger-definitions">Step 3. Patch swagger definitions</h2>
 <p>Here is a sed command to perform fixes. Note how the non-working Swagger definition parts can be identified
 by looking for curly braces with an <code>=</code> sign inside. This syntax is from OpenAPI v3 which is (not yet) 
 supported by swagger. As the definition as just further limiting input it is safe to simplify it.</p>
 <pre><code>sed -i \
 -e 's/{parent=projects.*}/{parent}/g' \
--e 's/{name=projects.*}/{name}/g' *.swagger.json
-</code></pre>
-<h2 id="step4produceworkingbindings">Step 4. Produce working bindings</h2>
+-e 's/{name=projects.*}/{name}/g' *.swagger.json</code></pre>
+<h2 id="step-4-produce-working-bindings">Step 4. Produce working bindings</h2>
 <pre><code>java -jar ./swagger-codegen-cli.jar generate -i ./grafeas.swagger.json -l python -o ./ -c ./config.json
-java -jar ./swagger-codegen-cli.jar generate -i ./project.swagger.json -l python -o ./ -c ./config2.json
-</code></pre>
+java -jar ./swagger-codegen-cli.jar generate -i ./project.swagger.json -l python -o ./ -c ./config2.json</code></pre>
 <p>Here is a simple test client to test both bindings. It expects a running Grafeas server on http://localhost:8000 and</p>
 <ul>
 <li>creates a new project</li>
@@ -278,8 +265,7 @@ try:
 
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling API: %s\n" % e)
-</code></pre>]]></summary>
+    print("Exception when calling API: %s\n" % e)</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Store multi line secrets in Azure DevOps pipelines]]></title>
@@ -290,7 +276,7 @@ except ApiException as e:
 <code>pipeline library</code>. You can store single line strings as <code>secrets</code> in the
 pipeline library. You cannot though store multi-line strings as <code>secrets</code>
 without messing up the line-breaks.</p>
-<h2 id="storingmultilinesecretsassecretfiles">Storing multi-line secrets as "Secret Files"</h2>
+<h2 id="storing-multi-line-secrets-as-secret-files">Storing multi-line secrets as "Secret Files"</h2>
 <p>If you need a multi-line secret (e.g. an SSH private key or a kubectl
 context) you need to provide this secret as a <code>secret file</code>. When you
 open the library click the 2nd tab 'Secret Files' and upload your secret.</p>
@@ -302,24 +288,20 @@ there is no difference in using the secret variable!</p>]]></summary>
         <id>https://lzone.de/blog/Convert%20JSON%20to%20YAML%20in%20Linux%20bash</id>
         <link href="https://lzone.de/blog/2021-03-01-Convert JSON to YAML in Linux bash"/>
         <updated>2021-03-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="isitpossiblewithbash">Is it possible with bash?</h2>
+        <summary type="html"><![CDATA[<h2 id="is-it-possible-with-bash">Is it possible with bash?</h2>
 <p>The short and reasonable answer is: <b>no</b>! Bash won't do it in a reliable way for you.</p>
-<h2 id="basiclinuxtoolsthatconvertjsontoyaml">Basic Linux Tools that convert JSON to YAML</h2>
+<h2 id="basic-linux-tools-that-convert-json-to-yaml">Basic Linux Tools that convert JSON to YAML</h2>
 <p>The goal here should be to use standard tools that in the best case you do not need to install.
 The basic scripting languages and their standard modules are good candidates. Also <code>yq</code> (the YAML
 pendant to <a href="/cheat-sheet/jq">jq</a>) becoming more popular might be soon available in Linux distros.</p>
 <h3 id="ruby">Ruby</h3>
-<pre><code>ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' &lt;input.json
-</code></pre>
+<pre><code>ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' &lt;input.json</code></pre>
 <h3 id="python">Python</h3>
-<pre><code>python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))' &lt;input.json
-</code></pre>
+<pre><code>python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))' &lt;input.json</code></pre>
 <h3 id="perl">Perl</h3>
-<pre><code>perl -MYAML -MJSON -0777 -wnl -e 'print YAML::Dump(decode_json($_))' input.json
-</code></pre>
+<pre><code>perl -MYAML -MJSON -0777 -wnl -e 'print YAML::Dump(decode_json($_))' input.json</code></pre>
 <h3 id="yq">yq</h3>
-<pre><code>yq -oy input.json
-</code></pre>
+<pre><code>yq -oy input.json</code></pre>
 <h2 id="jq">jq</h2>
 <p>A nice jq based solution working for a JSON subset (non-multiline strings) has been posted by Jeff Mercado <a href="https://stackoverflow.com/a/53330236">here</a>:</p>
 <p>Place the following into <code>~/.jq</code></p>
@@ -338,49 +320,42 @@ pendant to <a href="/cheat-sheet/jq">jq</a>) becoming more popular might be soon
         "  - \(.[0])", "    \(.[1:][])"
     )
     // .
-    ;
-</code></pre>
+    ;</code></pre>
 <p>And convert using </p>
-<pre><code>jq -r yamlify2 input.json
-</code></pre>]]></summary>
+<pre><code>jq -r yamlify2 input.json</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Easily fix async video with ffmpeg]]></title>
         <id>https://lzone.de/blog/Easily%20fix%20async%20video%20with%20ffmpeg</id>
         <link href="https://lzone.de/blog/2021-02-17-Easily fix async video with ffmpeg"/>
         <updated>2021-02-17T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="1correctingaudiothatistooslowfast">1. Correcting Audio that is too slow/fast</h2>
+        <summary type="html"><![CDATA[<h2 id="1-correcting-audio-that-is-too-slowfast">1. Correcting Audio that is too slow/fast</h2>
 <p>This can be done using the <code>-async</code> parameter of ffmpeg which according to the documentation <em>"Stretches/squeezes" the audio stream to match the timestamps</em>. The parameter takes a numeric value for the samples per seconds to enforce.</p>
-<pre><code>ffmpeg -async 25 -i input.mpg &lt;encoding options&gt; -r 25
-</code></pre>
+<pre><code>ffmpeg -async 25 -i input.mpg &lt;encoding options&gt; -r 25</code></pre>
 <p>Try slowly increasing the -async value until audio and video matches.</p>
-<h2 id="2autocorrectingtimeshift">2. Auto-Correcting Time-Shift</h2>
-<h3 id="21audioisahead">2.1 Audio is ahead</h3>
+<h2 id="2-auto-correcting-time-shift">2. Auto-Correcting Time-Shift</h2>
+<h3 id="21-audio-is-ahead">2.1 Audio is ahead</h3>
 <p>When audio is ahead of video: As a special case the <code>-async</code> switch auto-corrects the start of the audio stream when passed as <code>-async 1</code>. So try running</p>
-<pre><code>ffmpeg -async 1 -i input.mpg &lt;encoding options&gt;
-</code></pre>
-<h3 id="22audiolagsbehind">2.2 Audio lags behind</h3>
+<pre><code>ffmpeg -async 1 -i input.mpg &lt;encoding options&gt;</code></pre>
+<h3 id="22-audio-lags-behind">2.2 Audio lags behind</h3>
 <p>Instead of using <code>-async</code> you need to use <code>-vsync</code> to drop/duplicate frames in the video stream. There are two methods in the manual page "-vsync 1" and "-vsync 2" and an method auto-detection with "-vsync -1". But using "-map" it is possible to specify the stream to sync against.</p>
 <pre><code>ffmpeg -vsync 1 -i input.mpg &lt;encoding options&gt;
-ffmpeg -vsync 2 -i input.mpg &lt;encoding options&gt;
-</code></pre>
+ffmpeg -vsync 2 -i input.mpg &lt;encoding options&gt;</code></pre>
 <p>Interestingly Google shows people using <code>-async</code> and <code>-vsync</code> together. So it might be worth experimenting a bit to achieve the intended result :-)</p>
-<h2 id="3manuallycorrectingtimeshift">3. Manually Correcting Time-Shift</h2>
+<h2 id="3-manually-correcting-time-shift">3. Manually Correcting Time-Shift</h2>
 <p>If you have a constantly shifted sound/video track that the previous fix doesn't work with, but you know the 
 time shift that needs to be corrected, then you can easily fix it with one of the following two commands:</p>
-<h3 id="31audioisahead">3.1 Audio is ahead</h3>
+<h3 id="31-audio-is-ahead">3.1 Audio is ahead</h3>
 <p>Example to shift by 3 seconds:</p>
-<pre><code>ffmpeg -i input.mp4 -itsoffset 00:00:03.0 -i input.mp4 -vcodec copy -acodec copy -map 0:1 -map 1:0 output_shift3s.mp4
-</code></pre>
+<pre><code>ffmpeg -i input.mp4 -itsoffset 00:00:03.0 -i input.mp4 -vcodec copy -acodec copy -map 0:1 -map 1:0 output_shift3s.mp4</code></pre>
 <p>Note how you specify your input file 2 times with the first one followed by a time offset. Later in the command there are
 two <code>-map</code> parameters which tell ffmpeg to use the time-shifted video stream from the first <code>-i input.mp4</code> and the audio 
 stream from the second one.</p>
 <p>I also added <code>-vcodec copy -acodec copy</code> to avoid reencoding the video and loose quality. These parameters have to be 
 added after the second input file and before the mapping options. Otherwise one runs into mapping errors.</p>
-<h3 id="32audiolagsbehind">3.2 Audio lags behind</h3>
+<h3 id="32-audio-lags-behind">3.2 Audio lags behind</h3>
 <p>Again an example to shift by 3 seconds:</p>
-<pre><code>ffmpeg -i input.mp4 -itsoffset 00:00:03.0 -i input.mp4 -vcodec copy -acodec copy -map 1:0 -map 0:1 output_shift3s.mp4
-</code></pre>
+<pre><code>ffmpeg -i input.mp4 -itsoffset 00:00:03.0 -i input.mp4 -vcodec copy -acodec copy -map 1:0 -map 0:1 output_shift3s.mp4</code></pre>
 <p>Note how the command is nearly identical to the previous command with the exception of the <code>-map</code> parameters being switched.
 So from the time-shifted first <code>-i input.mp4</code> we now take the audio instead of the video and combine it with the normal video.</p>]]></summary>
     </entry>
@@ -391,16 +366,15 @@ So from the time-shifted first <code>-i input.mp4</code> we now take the audio i
         <updated>2021-02-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This post documents quite some research through the honestly quite sad Openshift documentation.
 The content below roughly corresponds to Openshift releases 4.4 to 4.7</p>
-<h2 id="howtoaddcustomcas">How to add custom CAs?</h2>
+<h2 id="how-to-add-custom-cas">How to add custom CAs?</h2>
 <p>When you Openshift cluster does access external services that use CAs not contained in
 CA bundle of the underlying Redhat OS you will see errors like this</p>
-<pre><code>x509: certificate signed by unknown authority
-</code></pre>
+<pre><code>x509: certificate signed by unknown authority</code></pre>
 <p>This error will appear when you access the external service using Openshift routes (e.g.
 when doing an OAuth flow for login). The error message is from haproxy which serves the
 routes and blocks the unknown CA.</p>
 <p>The solution is to add your custom CAs. But where?</p>
-<h2 id="solution1addittotheredhatoscabundle">Solution 1: Add it to the Redhat OS CA bundle</h2>
+<h2 id="solution-1-add-it-to-the-redhat-os-ca-bundle">Solution 1: Add it to the Redhat OS CA bundle</h2>
 <p>This is done by providing a <code>MachineConfig</code> resource. Here is the <a href="https://access.redhat.com/documentation/en-us/openshift_container_platform/4.3/html-single/authentication/index">example</a>
 from the Redhat documentation:</p>
 <pre><code>apiVersion: machineconfiguration.openshift.io/v1
@@ -419,11 +393,10 @@ spec:
           source: data:text/plain;charset=utf-8;base64,LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVORENDQXh5Z0F3SUJBZ0lKQU51bkkwRDY2MmNuTUEwR0NTcUdTSWIzRFFFQkN3VUFNSUdsTVFzd0NRWUQKV1FRR0V3SlZVekVYTUJVR0ExVUVDQXdPVG05eWRHZ2dRMkZ5YjJ4cGJtRXhFREFPQmdOVkJBY01CMUpoYkdWcApBMmd4RmpBVUJnTlZCQW9NRFZKbFpDQklZWFFzSUVsdVl5NHhFekFSQmdOVkJBc01DbEpsWkNCSVlYUWdTVlF4Ckh6QVpCZ05WQkFNTUVsSmxaQ0JJWVhRZ1NWUWdVbTl2ZENCRFFURWhNQjhHQ1NxR1NJYjNEUUVKQVJZU2FXNW0KWGpDQnBURUxNQWtHQTFVRUJoTUNWVk14RnpBVkJnTlZCQWdNRGs1dmNuUm9JRU5oY205c2FXNWhNUkF3RGdZRApXUVFIREFkU1lXeGxhV2RvTVJZd0ZBWURWUVFLREExU1pXUWdTR0YwTENCSmJtTXVNUk13RVFZRFZRUUxEQXBTCkFXUWdTR0YwSUVsVU1Sc3dHUVlEVlFRRERCSlNaV1FnU0dGMElFbFVJRkp2YjNRZ1EwRXhJVEFmQmdrcWhraUcKMHcwQkNRRVdFbWx1Wm05elpXTkFjbVZrYUdGMExtTnZiVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUApCRENDQVFvQ2dnRUJBTFF0OU9KUWg2R0M1TFQxZzgwcU5oMHU1MEJRNHNaL3laOGFFVHh0KzVsblBWWDZNSEt6CmQvaTdsRHFUZlRjZkxMMm55VUJkMmZRRGsxQjBmeHJza2hHSUlaM2lmUDFQczRsdFRrdjhoUlNvYjNWdE5xU28KSHhrS2Z2RDJQS2pUUHhEUFdZeXJ1eTlpckxaaW9NZmZpM2kvZ0N1dDBaV3RBeU8zTVZINXFXRi9lbkt3Z1BFUwpZOXBvK1RkQ3ZSQi9SVU9iQmFNNzYxRWNyTFNNMUdxSE51ZVNmcW5obzNBakxRNmRCblBXbG82MzhabTFWZWJLCkNFTHloa0xXTVNGa0t3RG1uZTBqUTAyWTRnMDc1dkNLdkNzQ0F3RUFBYU5qTUdFd0hRWURWUjBPQkJZRUZIN1IKNXlDK1VlaElJUGV1TDhacXczUHpiZ2NaTUI4R0ExVWRJd1FZTUJhQUZIN1I0eUMrVWVoSUlQZXVMOFpxdzNQegpjZ2NaTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3RGdZRFZSMFBBUUgvQkFRREFnR0dNQTBHQ1NxR1NJYjNEUUVCCkR3VUFBNElCQVFCRE52RDJWbTlzQTVBOUFsT0pSOCtlbjVYejloWGN4SkI1cGh4Y1pROGpGb0cwNFZzaHZkMGUKTUVuVXJNY2ZGZ0laNG5qTUtUUUNNNFpGVVBBaWV5THg0ZjUySHVEb3BwM2U1SnlJTWZXK0tGY05JcEt3Q3NhawpwU29LdElVT3NVSks3cUJWWnhjckl5ZVFWMnFjWU9lWmh0UzV3QnFJd09BaEZ3bENFVDdaZTU4UUhtUzQ4c2xqCjVlVGtSaml2QWxFeHJGektjbGpDNGF4S1Fsbk92VkF6eitHbTMyVTB4UEJGNEJ5ZVBWeENKVUh3MVRzeVRtZWwKU3hORXA3eUhvWGN3bitmWG5hK3Q1SldoMWd4VVp0eTMKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
         filesystem: root
         mode: 0644
-        path: /etc/pki/ca-trust/source/anchors/examplecorp-ca.crt
-</code></pre>
+        path: /etc/pki/ca-trust/source/anchors/examplecorp-ca.crt</code></pre>
 <p>Using this you can place multiple files at the OS level.</p>
 <p>The serious drawback: you have to <strong>reboot all nodes!!!</strong> to make it active (as the CA bundle is compiled on bootup).</p>
-<h2 id="solution2usingtheglobalproxyconfigurationatruntime">Solution 2: Using the global proxy configuration at runtime</h2>
+<h2 id="solution-2-using-the-global-proxy-configuration-at-runtime">Solution 2: Using the global proxy configuration at runtime</h2>
 <p>This works well, if you have the global proxy enabled anyway.</p>
 <pre><code>apiVersion: config.openshift.io/v1
 kind: Proxy
@@ -437,8 +410,7 @@ spec:
   - http://www.google.com 
   - https://www.google.com
   trustedCA:
-    name: user-ca-bundle          &lt;---------------
-</code></pre>
+    name: user-ca-bundle          &lt;---------------</code></pre>
 <p>The proxy object has a key to reference a user provided CA bundle config map.
 Although this only helps you with the proxy CA certificate, I guess…</p>
 <p>The <a href="https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/html/networking/configuring-a-custom-pki#installation-configure-proxy_configuring-a-custom-pki">documentation page</a>
@@ -446,7 +418,7 @@ for this is actually really bad, giving no indication wether the 3 sections are 
 to be done together or are configuration alternatives. Given the name of this
 page "CONFIGURING A CUSTOM PKI" one would expect an actual useful overview, but
 hey…</p>
-<h2 id="solution3usingtheglobalproxyconfigurationatinstalltime">Solution 3: Using the global proxy configuration at install time</h2>
+<h2 id="solution-3-using-the-global-proxy-configuration-at-install-time">Solution 3: Using the global proxy configuration at install time</h2>
 <p>This is different than above as you can use the "additionalTrustBundle" field
 in your <code>install-config.yaml</code> to pass extra CA certificates:</p>
 <pre><code>apiVersion: v1
@@ -458,14 +430,13 @@ proxy:
 additionalTrustBundle: | 
     -----BEGIN CERTIFICATE-----
     &lt;MY_TRUSTED_CA_CERT&gt;
-    -----END CERTIFICATE-----
-</code></pre>
+    -----END CERTIFICATE-----</code></pre>
 <p><strong>Note</strong>: that this does not work without the proxy enabled! Just configuring
 additionalTrustBundle creates a config map <code>user-ca-bundle</code> which will not be 
 used without the proxy.</p>
 <p>Why the "additionalTrustBundle" is just a trust bundle for the proxy and not a
 global one is (at least for me) not logical, but hey…</p>
-<h2 id="solution4oauthspecifictrustbundle">Solution 4: OAuth specific trust bundle</h2>
+<h2 id="solution-4-oauth-specific-trust-bundle">Solution 4: OAuth specific trust bundle</h2>
 <p>If you use case is a custom CA used by your identity provider you are in luck
 and can provide an extra config map in <code>openshift-config</code> that provides your
 certificates. Please note that this config map uses a different key <code>ca.crt</code>
@@ -487,8 +458,7 @@ spec:
         name: idp-secret
       ca: 
         name: ca-config-map          &lt;----------------
-      [...]
-</code></pre>
+      [...]</code></pre>
 <h2 id="conclusion">Conclusion</h2>
 <p>To be honest there is no concept, just patch work. Different places with
 similar solutions and no comprehensive documentation. You might want to book
@@ -526,8 +496,7 @@ will uncover all unmasked passwords in any pipeline job build:</p>
     } catch (Exception e) {
         println "[ ERROR ] Skipping due to ${e}. Current job: ${job.fullName}"
     }
-}
-</code></pre>
+}</code></pre>
 <p>Note that the script can only identify unmasked passwords in pipeline jobs that have
 at least one run.</p>]]></summary>
     </entry>
@@ -539,14 +508,14 @@ at least one run.</p>]]></summary>
         <summary type="html"><![CDATA[<p>I want to share this little video conversion script for the GNOME file manager Nautilus.
 As Nautilus supports custom scripts being executed for selected files I wrote a script
 to do allow video transcoding from Nautilus.</p>
-<h2 id="howitlookslike">How it looks like</h2>
+<h2 id="how-it-looks-like">How it looks like</h2>
 <p>Once installed you get a new menu item like this</p>
 <p><img src="/blog/assets/ffmpeg-convert-screenshot1.png" alt="Nautilus context menu" /></p>
 <p>when you start the script (and have zenity installed) it will prompt you for a 
 transcoding profile:</p>
 <p><img src="/blog/assets/ffmpeg-convert-screenshot2.png" alt="Nautilus transcoding profile" /></p>
 <p>The list of profiles is hard-coded in the script, but should be easy to extend.</p>
-<h2 id="howtoinstallit">How to install it</h2>
+<h2 id="how-to-install-it">How to install it</h2>
 <p>Place the following script in <code>~/.local/share/nautilus/scripts/ffmpeg-convert.sh</code>
 and run <code>chmod a+x</code> on it.</p>
 <pre><code>#!/bin/bash
@@ -597,8 +566,7 @@ while read file; do
     else
         notify-send "Converting '$file' failed!"
     fi
-done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")
-</code></pre>]]></summary>
+done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Find broken Helm 3 releases]]></title>
@@ -606,8 +574,7 @@ done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")
         <link href="https://lzone.de/blog/2020-11-17-Find broken Helm 3 releases"/>
         <updated>2020-11-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>With Helm3 find releases in unexpected state:</p>
-<pre><code> helm ls -A -o json | jq  -r '.[] | select(.status != "deployed") | .name'
-</code></pre>]]></summary>
+<pre><code> helm ls -A -o json | jq  -r '.[] | select(.status != "deployed") | .name'</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[HTTP requests from jenkins pipeline]]></title>
@@ -628,18 +595,43 @@ done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")
 <li>inline (with code inside the pipeline)</li>
 <li>in a global shared libary</li>
 </ul>
-<h2 id="sandboxingandscriptapproval">Sandboxing and Script Approval</h2>
+<h2 id="sandboxing-and-script-approval">Sandboxing and Script Approval</h2>
 <p>In a properly configured Jenkins setup you usually have explicit script approval active and to use
 non-default libraries you need to extend the signature whitelist. Alternatively you can provide
 the required HTTP request functionality via a plugin or a global shared library, both of which are
 not subject to the script approval/signature whitelisting.</p>
 <p>Mapping the security configuration impact gives us this matrix:</p>
-<p>| Variant | Impact when used inline | Impact when used in plugin/global shared library |
-| ------- | ------------- | ----------------------------------- |
-| curl    | none | none |
-| Groovy <code>URL</code> | signature approval needed | none |
-| Java networking | signature approval needed | none |
-| Plugin  | none | n.a. | </p>
+<table>
+<thead>
+<tr>
+<th id="variant">Variant</th>
+<th id="impact_when_used_inline">Impact when used inline</th>
+<th id="impact_when_used_in_plugin/global_shared_library">Impact when used in plugin/global shared library</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>curl</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Groovy <code>URL</code></td>
+<td>signature approval needed</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Java networking</td>
+<td>signature approval needed</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Plugin</td>
+<td>none</td>
+<td>n.a.</td>
+</tr>
+</tbody>
+</table>
 <p>While using curl or a plugin have no security impact on pipeline development, they both have to be 
 provided in terms of setup: curl needs to be installed on Jenkins agents and the plugin has
 to be installed and maintained in Jenkins setup, both of which is usually a ITOps/DevOps task
@@ -648,21 +640,19 @@ and if you are a pipeline developer might not be an option.</p>
 shared library is the way to go no matter your role (Dev, DevOps, Build Engineer, IT Ops). 
 This is both because it can be easily configured and development can happen by testing 
 pipelines against new feature branches of the library.</p>
-<h2 id="examplessnippets">Examples Snippets</h2>
+<h2 id="examples-snippets">Examples Snippets</h2>
 <p>Below you find example snippets for the HTTP request mechanism mentioned above.</p>
 <h3 id="curl">curl</h3>
-<pre><code> sh 'curl https://google.com'
-</code></pre>
+<pre><code> sh 'curl https://google.com'</code></pre>
 <h3 id="groovy">Groovy</h3>
-<p>From https://stackoverflow.com/questions/34682099/how-to-call-rest-from-jenkins-workflow</p>
+<p>From <a href="https://stackoverflow.com/questions/34682099/how-to-call-rest-from-jenkins-workflow">https://stackoverflow.com/questions/34682099/how-to-call-rest-from-jenkins-workflow</a></p>
 <pre><code> def get = new URL("https://httpbin.org/get").openConnection();
  def getRC = get.getResponseCode();
  println(getRC);
  if(getRC.equals(200)) {
     println(get.getInputStream().getText()); 
- }
-</code></pre>
-<h3 id="usingjavabaselibraries">Using Java base libraries</h3>
+ }</code></pre>
+<h3 id="using-java-base-libraries">Using Java base libraries</h3>
 <p>Copied from  </p>
 <pre><code>import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -687,13 +677,11 @@ def sendPostRequest(urlString, paramString) {
     reader.close()
 }
 
-sendPostRequest("https://google.com", "")
-</code></pre>
-<h3 id="usingthehttp_requestplugin">Using the http_request plugin</h3>
+sendPostRequest("https://google.com", "")</code></pre>
+<h3 id="using-the-http_request-plugin">Using the http_request plugin</h3>
 <pre><code> def response = httpRequest 'http://localhost:8080/jenkins/api/json?pretty=true'
  println("Status: "+response.status)
- println("Content: "+response.content)
-</code></pre>]]></summary>
+ println("Content: "+response.content)</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Jekyll collections without frontmatter]]></title>
@@ -701,7 +689,7 @@ sendPostRequest("https://google.com", "")
         <link href="https://lzone.de/blog/2020-03-30-Jekyll collections without frontmatter"/>
         <updated>2020-03-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Researching this for some hours I want to document it:</p>
-<h2 id="collectionswithoutfrontmatterarenotpossible">Collections without frontmatter are not possible</h2>
+<h2 id="collections-without-frontmatter-are-not-possible">Collections without frontmatter are not possible</h2>
 <p>More exactly: adding Markdown files without frontmatter in a collection 
 will not work as expected. The Markdown file will simply be published
 as is (no HTML) to your site.</p>
@@ -716,7 +704,7 @@ and wasn't fixed, but instead documented.</li>
 <p>So if you have to work with input files without front matter
 you have to treat them as posts or pages to avoid Jekyll just
 copying the Markdown to the target directory.</p>
-<h2 id="workaroundusingsubdircategory">Workaround using subdir+category</h2>
+<h2 id="workaround-using-subdircategory">Workaround using subdir+category</h2>
 <p>If you have a use case where you did rely on the collection
 list being available under <code>site.&lt;collection&gt;</code> you could 
 iterate over all posts/pages of a common category instead.</p>
@@ -726,8 +714,7 @@ category by default from matter can help:</p>
    - scope:
        path: subdir
      values:
-       category: name-of-collection
-</code></pre>]]></summary>
+       category: name-of-collection</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[How to get docker BuildKit to show RUN command output]]></title>
@@ -735,16 +722,13 @@ category by default from matter can help:</p>
         <link href="https://lzone.de/blog/2020-03-12-How to get docker BuildKit to show RUN command output"/>
         <updated>2020-03-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When you use Docker's new BuildKit build engine either by</p>
-<pre><code>DOCKER_BUILDKIT=1 docker build ...
-</code></pre>
+<pre><code>DOCKER_BUILDKIT=1 docker build ...</code></pre>
 <p>or in most recent Docker v19 using the new <code>buildx</code> command</p>
-<pre><code>docker buildx build ...
-</code></pre>
+<pre><code>docker buildx build ...</code></pre>
 <p>then you won't see any output from your <code>RUN</code> steps. For example the following Dockerfile</p>
 <pre><code>FROM alpine
 
-RUN echo Hello
-</code></pre>
+RUN echo Hello</code></pre>
 <p>then you won't see a 'Hello' in the output (produced with docker version 18.09.7):</p>
 <pre><code>$ 
 $ DOCKER_BUILDKIT=1 docker build . --no-cache
@@ -759,8 +743,7 @@ $ DOCKER_BUILDKIT=1 docker build . --no-cache
  =&gt; exporting to image                                                     0.0s
  =&gt; =&gt; exporting layers                                                    0.0s
  =&gt; =&gt; writing image sha256:ee9833c6e7bfa7e64fa74b1aa5da5a1818dc881929651  0.0s
-$
-</code></pre>
+$</code></pre>
 <p>So while it tells about the <code>RUN</code> step, it doesn't give you the output.</p>
 <p>Now with BuildKit comes a new option for <code>docker build</code> named <code>--progress</code> that let's you switch 
 between three output modes:</p>
@@ -786,8 +769,7 @@ lists the <code>RUN</code> command result:</p>
 #5    completed: 2020-03-13 18:52:22.750641665 +0000 UTC
 #5     duration: 545.209195ms
 
-[...]
-</code></pre>
+[...]</code></pre>
 <p>One can argue about usability of this, still this is the way to go to get 
 command output when using BuildKit.</p>]]></summary>
     </entry>
@@ -799,7 +781,7 @@ command output when using BuildKit.</p>]]></summary>
         <summary type="html"><![CDATA[<p>When providing this blog with some custom CSS to better format
 code examples I had troubles applying several of the online suggestions
 on how to add custom CSS in a Jekyll setup with Minima theme active.</p>
-<h2 id="problemfindingtherightthemefiletooverrule">Problem: Finding the right theme file to overrule</h2>
+<h2 id="problem-finding-the-right-theme-file-to-overrule">Problem: Finding the right theme file to overrule</h2>
 <p>So the issue was the for the popular Jekyll theme "Minima" there were
 different solutions telling to modify files like</p>
 <ul>
@@ -810,17 +792,15 @@ different solutions telling to modify files like</p>
 <p>and so on. The problem is that different Minima versions did use 
 different paths internally and when overriding the rules you need
 to choose the right path.</p>
-<h2 id="solutionfindtherightfilepathtooverrule">Solution: Find the right file path to overrule</h2>
+<h2 id="solution-find-the-right-file-path-to-overrule">Solution: Find the right file path to overrule</h2>
 <p>The way to go is to check your generated HTML for the asset name.
 For example run</p>
-<pre><code>grep "stylesheet.*css" _site/index.html
-</code></pre>
+<pre><code>grep "stylesheet.*css" _site/index.html</code></pre>
 <p>In my case I got</p>
-<pre><code>&lt;link rel="stylesheet" href="/blog/assets/main.css"&gt;
-</code></pre>
+<pre><code>&lt;link rel="stylesheet" href="/blog/assets/main.css"&gt;</code></pre>
 <p>and with "/blog" being my base URL I knew I needed to supply
 the file <code>assets/main.scss</code>.</p>
-<h2 id="doproperstyleinheritance">Do proper style inheritance</h2>
+<h2 id="do-proper-style-inheritance">Do proper style inheritance</h2>
 <p>Now when writing <code>assets/main.scss</code> it is necessary to source the
 active theme. The best way is to do it by using templating for the
 theme name and not hard-coding it as in <code>@import "minima"</code>. This
@@ -828,8 +808,7 @@ way it might magically work once you decide to switch your theme:</p>
 <pre><code>---
 ---
 
-@import "{{ "{{" }} site.theme }}";
-</code></pre>
+@import "{{ "{{" }} site.theme }}";</code></pre>
 <p>Below this header you can add additional CSS rules as you like!</p>]]></summary>
     </entry>
     <entry>
@@ -846,8 +825,7 @@ if (Jenkins.instance.clouds) {
    cloud.templates.each { t -&gt;
       println t.getName()
    }
-}
-</code></pre>]]></summary>
+}</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Helm Best Practices]]></title>
@@ -886,7 +864,7 @@ role whitelisting pattern/definition. Use the namespace config
 chart mentioned above to do so. This prevents erroneous or evil
 pod IAM annotations to become effective.</li>
 </ul>
-<h2 id="monitoringtesting">Monitoring / Testing</h2>
+<h2 id="monitoring--testing">Monitoring / Testing</h2>
 <ul>
 <li>Check for releases in FAILED state</li>
 <li>Always use periodic <code>helm diff</code> or <code>helmfile diff</code> to monitor your cluster for unapplied changes</li>
@@ -920,7 +898,7 @@ and reinstall it. Without <code>--purge</code> a new installation might fail</li
 <li>For reproducibility: Host your own repository with an archive of all
 chart versions you ever used (chartmuseum, Nexus, jFrog artifactory will do)</li>
 </ul>
-<h2 id="whenwritingcharts">When writing charts</h2>
+<h2 id="when-writing-charts">When writing charts</h2>
 <ul>
 <li>Never hardcode the namespace</li>
 <li>Write a good output template</li>
@@ -944,15 +922,15 @@ is going to be deprecated soon and charts might be vanishing depending how this 
 <li>May 13, 2020 At 6 months – when helm v2 goes security fix only – the stable and incubator repos will be de-listed from the Helm Hub. Chart OWNERS are encouraged to accept security fixes only</li>
 <li>Nov 13, 2020 At 1 year, support for this project will formally end, and this repo will be marked obsolete</li>
 </ul>
-<h2 id="theproblem">The Problem</h2>
+<h2 id="the-problem">The Problem</h2>
 <p>Like with using dockerhub images, using Helm charts either from
-hub.helm.sh or from https://github.com/helm/charts is not safe in
+hub.helm.sh or from <a href="https://github.com/helm/charts">https://github.com/helm/charts</a> is not safe in
 terms of reproducibility. Both the docker images the charts rely
 on as well as the chart definitions themselves might be unavailable
 at any time.</p>
 <p>As with a vanishing docker image, your running deployments/pods
 won't be affected at all once a chart is not available anymore.</p>
-<h2 id="thesolution">The Solution</h2>
+<h2 id="the-solution">The Solution</h2>
 <p>Same solution as with using external docker images that you have
 to archive and only use via your own docker registry. Each chart
 you use you have to keep in a chart repository of your own.</p>
@@ -972,19 +950,16 @@ you use you have to keep in a chart repository of your own.</p>
         <link href="https://lzone.de/blog/2020-02-05-Redis list all keys"/>
         <updated>2020-02-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>If checking a Redis database you can list all entries using</p>
-<pre><code>KEYS &lt;pattern&gt;
-</code></pre>
+<pre><code>KEYS &lt;pattern&gt;</code></pre>
 <p>where pattern is a Unix glob expression. Here are some examples</p>
 <pre><code>KEYS myprefix*      # All keys starting with 'myprefix'
 KEYS *mysuffix      # All keys ending with 'mysuffix'
-KEYS [a-c]*         # Everything starting with a,b or c
-</code></pre>
+KEYS [a-c]*         # Everything starting with a,b or c</code></pre>
 <p>Note: that using "KEYS" is not good when matching a large set of
 keys as listing might take a lot of time.</p>
-<h3 id="listingallhashkeys">Listing all hash keys</h3>
+<h3 id="listing-all-hash-keys">Listing all hash keys</h3>
 <p>For hashes you can list there keys using</p>
-<pre><code>HKEYS myhash
-</code></pre>]]></summary>
+<pre><code>HKEYS myhash</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Helm causes Could not get apiVersions from Kubernetes]]></title>
@@ -992,8 +967,7 @@ keys as listing might take a lot of time.</p>
         <link href="https://lzone.de/blog/2019-11-13-Helm causes Could not get apiVersions from Kubernetes"/>
         <updated>2019-11-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When using Helm &gt; 2.14.3 you can suddenly end up with</p>
-<pre><code>Could not get apiVersions from Kubernetes: unable to retrieve the complete list of server APIs
-</code></pre>
+<pre><code>Could not get apiVersions from Kubernetes: unable to retrieve the complete list of server APIs</code></pre>
 <p>errors when handling (installing, upgrading, removing) helm charts that use CRDs.</p>
 <p>The (working) solution according to <a href="https://github.com/jetstack/cert-manager/issues/2273">https://github.com/jetstack/cert-manager/issues/2273</a>
 is to downgrade Helm to version 2.14.3.</p>
@@ -1014,8 +988,7 @@ do some simple if conditions in your Helm charts or other kubernetes templates. 
 Helm uses the Sprig template library which has support for <a href="https://github.com/Masterminds/sprig/blob/master/dict.go">dict</a> types. And the <code>dict</code> type provides a <code>hasKey</code> method:</p>
 <pre><code>{{ "{{" }}- if hasKey .Values.mymap "mykey" }}
     # do something conditional here...
-{{ "{{" }}- end }}
-</code></pre>
+{{ "{{" }}- end }}</code></pre>
 <p>You might also want to check the <a href="/cheat-sheet/Helm+Templates">Helm Templates Cheat Sheet</a></p>]]></summary>
     </entry>
     <entry>
@@ -1024,7 +997,7 @@ Helm uses the Sprig template library which has support for <a href="https://gith
         <link href="https://lzone.de/blog/2019-05-29-ANSI color in Jenkins pipelines"/>
         <updated>2019-05-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>In all cases ensure you have the ansi-color plugin installed</p>
-<h2 id="indeclarativepipelines">In Declarative Pipelines</h2>
+<h2 id="in-declarative-pipelines">In Declarative Pipelines</h2>
 <p>You need to add an option for ansiColor()</p>
 <pre><code>pipeline {
   options {
@@ -1032,14 +1005,12 @@ Helm uses the Sprig template library which has support for <a href="https://gith
   }
 
   // pipeline goes here
-}
-</code></pre>
-<h2 id="inscriptedpipelines">In Scripted Pipelines</h2>
+}</code></pre>
+<h2 id="in-scripted-pipelines">In Scripted Pipelines</h2>
 <p>Simply put ansiColor() {} around everything</p>
 <pre><code> ansiColor('xterm') {
     // pipeline goes here
- }
-</code></pre>]]></summary>
+ }</code></pre>]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Helm templates lists using range]]></title>
@@ -1053,8 +1024,7 @@ spec:
     myList:
     {{ "{{" }}- range .Values.myList }}
     {{ "{{" }} print "- " (. | quote) }}
-    {{ "{{" }}- end }}
-</code></pre>
+    {{ "{{" }}- end }}</code></pre>
 <p>The thing to know is that "." accesses the current element in the list and the <code>print "- "</code> in front makes it a list item.</p>]]></summary>
     </entry>
 </feed>
