@@ -4,6 +4,12 @@ import path from 'path';
 import { Feed } from 'feed';
 import showdown from 'showdown';
 
+const converter = new showdown.Converter({
+    tables: true,
+    metadata: true,
+    ghCodeBlocks: true
+});
+
 // Ensure output directory exists
 const outputDir = path.join(import.meta.dirname, 'feed');
 if (!fs.existsSync(outputDir)) {
@@ -35,8 +41,6 @@ if (!fs.existsSync(outputDir)) {
         .map(file => {
                 const content = fs.readFileSync(path.join(f.input, file), 'utf-8');
                 const [title, date] = content.split('\n').slice(0, 2);
-                const converter = new showdown.Converter();
-
                 const frontMatterRegex = /^---[\s\S]*?---(?:\r?\n|\r)/m;
                 const cleanedContent = content.replace(frontMatterRegex, '').trim();
                 const hasTitle = /^# .+/m.test(content);
