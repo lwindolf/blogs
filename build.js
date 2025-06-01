@@ -9,6 +9,8 @@ const converter = new showdown.Converter({
     metadata: true,
     ghCodeBlocks: true
 });
+converter.setFlavor('github');
+converter.setOption('simpleLineBreaks', false);
 
 // Ensure output directory exists
 const outputDir = path.join(import.meta.dirname, 'feed');
