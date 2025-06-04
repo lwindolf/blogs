@@ -2,11 +2,57 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-06-01T11:18:23.640Z</updated>
+    <updated>2025-06-04T22:40:36.608Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16 RC4 Released]]></title>
+        <id>https://lzone.de/liferea/blog/Liferea%201.16%20RC4%20Released</id>
+        <link href="https://lzone.de/liferea/blog/2025-06-05-Liferea 1.16-RC4 Released"/>
+        <updated>2025-06-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is a bugfix release adressing some distribution and functional issues.</p>
+<h2 id="allow-compiling-against-girepository-20">Allow compiling against girepository-2.0</h2>
+<p>The previous release did already switch to libpeas 2.0, but this is not enough to solve
+all distro problems. Depending on the actual packages of the distro the migration to
+girepository 2.0 might also be needed.</p>
+<p>This release allows switching to the proper girepository version at build time</p>
+<h2 id="schema-migration">Schema migration</h2>
+<p><strong>Note:</strong> When first starting 1.16-RC4 a schema migration will run. Depending on the
+number of headlines you have in your database this might take a while. Please be patient
+this is a one time effect only!</p>
+<h2 id="notable-git-changes">Notable Git Changes</h2>
+<ul>
+<li>With this release the git head name changed from "master" to "main".</li>
+<li>Additionally the "gtk4" branch became the new "main"</li>
+<li>The 1.16 code lives now in branch "liferea-1_16"</li>
+</ul>
+<h2 id="changes">Changes</h2>
+<pre><code>* Migrates the DB schema to use autoincrement for item id to solve
+  race conditions were item metadata got mixed up. Note that this
+      has a performance impact and table migration on startup might
+  take some seconds.
+      (Lars Windolf)
+
+* Make JS vendor libs more reproducible by
+  - providing a package-lock.json
+  - providing a 'npm run installDeps' command
+  - always keeping non-minified versions in the repo
+  (Lars Windolf)
+
+* Update JS library DOMPurify to 3.2.5 and Readability to 0.6.0
+  (Lars Windolf)
+
+* Added CSP to item view that limits external resources that can load
+  (Lars Windolf)
+
+* #1429 Allow compiling against libgirepository 2.0, configure.ac still defaults
+  to 1.0 but you can change to 2.0 if you need to depending on you pygobject version
+  (Lars Windolf)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the new release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16-RC4">https://github.com/lwindolf/liferea/releases/tag/v1.16-RC4</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16 RC3 released]]></title>
         <id>https://lzone.de/liferea/blog/Liferea%201.16%20RC3%20released</id>
@@ -882,78 +928,5 @@ zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messa
     * Updated pr-BR translation (Alexandre Erwin Ittner)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14 RC1 Released]]></title>
-        <id>https://lzone.de/liferea/blog/Liferea%201.14%20RC1%20Released</id>
-        <link href="https://lzone.de/liferea/blog/2022-10-10-Liferea 1.14-RC1 Released"/>
-        <updated>2022-10-10T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is the first release candidate for the next stable release line 1.14. There
-will be probably 2 more release candidates until 1.14.0.</p>
-<h2 id="fixing-hidden-panes">Fixing hidden panes</h2>
-<p>Many Liferea users did suffer from invisible pane (e.g. a minimized feed list
-or HTML view) upon startup. With certain desktop environments / themes making
-the pane grips invisible it is hard to grip the correct pixel to restore a pane.</p>
-<p>Now Liferea will never allow the panes to be smaller than 5% in height or width
-regarding to there orientation. If a pane is smaller than 5% height/width it will be 
-set to 30% width or 50% height on startup.</p>
-<p>The intention here is that panes are <strong>never</strong> invisible after startup. </p>
-<h2 id="last-minute-features">Last minute features</h2>
-<p>This release brings some small last minutes features</p>
-<ul>
-<li><p>Liferea now supports the new GTK dark theme logic, where in the preferences
-you define wether you "prefer" dark mode or light mode.</p></li>
-<li><p>New search folder rule to match podcasts</p></li>
-<li><p>New search folder rule to match headline authors</p></li>
-<li><p>Support for <media:description> field of Youtube feeds</p></li>
-</ul>
-<h2 id="changes">Changes</h2>
-<pre><code>    * Liferea now supports gtk-application-prefer-dark-theme based
-      dark mode switching.
-      (Lars Windolf, Alexander Erwin Ittner)
-
-    * #1148: Add search rule to find items from a given author.
-      (Alexander Erwin Ittner)
-
-    * #1147: Exported OPML feed lists are now UTF-8 encoded for better readability.
-      (Alexander Erwin Ittner)
-
-    * #1145: Render &lt;media:description&gt; field for Youtube feeds
-      (Lars Windolf)
-
-    * #1143: Updated default feed sources (HTTP-&gt;HTTPS)
-      (Alexander Erwin Ittner)
-
-    * #1133: Added new "podcast" search folder rule.
-      (Alexander Erwin Ittner)
-
-    * #1139: Also add enclosures when saving items to file.
-      (Alexander Erwin Ittner)
-
-    * Fixes #1132: Improved timeout error handling in feed commands
-      (Alexander Erwin Ittner)
-
-    * Fixes #1129: Accessibility errors in .ui files
-      (reported by Paul Gevers)
-
-    * Fixes #1126: Some images broken in reader mode
-      (reported by Saijin-Naib)
-
-    * Fixes #901, #1123: resize view panes to sensible positions
-      when they were at min or max position on last shutdown. Makes
-      left pane 30% window width and item list pane 50% height/width
-      when pane position is 0 or 95% of height/width. (Lars Windolf)
-
-    * Fixes #992: HTML with self-closing tags not rendering properly.
-      (Rich Coe)
-
-    * Fixes #644, #901, #909: restoring window size/position with header
-      bar plugin active. (Lars Windolf)
-
-    * #1137: Updated French translation (Guillaume Bernard)
-
-    * #1134, #1135: Updated Spanish example feeds (Joel Barrios)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1</a></p>]]></summary>
     </entry>
 </feed>
