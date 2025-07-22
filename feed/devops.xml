@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/blog</id>
     <title>DevOps Blog Feed</title>
-    <updated>2025-06-04T22:40:36.563Z</updated>
+    <updated>2025-07-22T13:58:58.106Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/blog"/>
     <subtitle>Latest posts from the DevOps blog</subtitle>
@@ -10,7 +10,7 @@
     <entry>
         <title type="html"><![CDATA[ArgoCD delete hanging Application]]></title>
         <id>https://lzone.de/blog/ArgoCD%20delete%20hanging%20Application</id>
-        <link href="https://lzone.de/blog/2024-05-27-ArgoCD delete hanging Application"/>
+        <link href="https://lzone.de/blog#2024-05-27-ArgoCD delete hanging Application"/>
         <updated>2024-05-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Had this multiple times in a larger ArgoCD setup: Applications got in a bad
 state and became impossible to delete. Also happens sometimes with healthy 
@@ -25,7 +25,7 @@ some type of cleanup did not happen…</p>]]></summary>
     <entry>
         <title type="html"><![CDATA[ArgoCD Debugging Reconciliation Loops]]></title>
         <id>https://lzone.de/blog/ArgoCD%20Debugging%20Reconciliation%20Loops</id>
-        <link href="https://lzone.de/blog/2024-02-28-ArgoCD Debugging Reconciliation Loops"/>
+        <link href="https://lzone.de/blog#2024-02-28-ArgoCD Debugging Reconciliation Loops"/>
         <updated>2024-02-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is post to document a somewhat troublesome ArgoCD performance optimization result I experienced.</p>
 <h2 id="how-to-analyze-high-cpu-usage">How to analyze high CPU usage</h2>
@@ -90,7 +90,7 @@ apply the ignore rules, because it now deems those resources as "managed".</p>]]
     <entry>
         <title type="html"><![CDATA[How to get Openshift SCC UID ranges]]></title>
         <id>https://lzone.de/blog/How%20to%20get%20Openshift%20SCC%20UID%20ranges</id>
-        <link href="https://lzone.de/blog/2024-01-18-How to get Openshift SCC UID ranges"/>
+        <link href="https://lzone.de/blog#2024-01-18-How to get Openshift SCC UID ranges"/>
         <updated>2024-01-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>A typical problem when using Helm charts in Openshift is handling security context UID ranges.
 As Helm charts are usually targeting kubernetes they do not force you to set the proper 
@@ -115,7 +115,7 @@ for example using a user id template helper which detects Openshift and performs
     <entry>
         <title type="html"><![CDATA[Disable sleep key on keyboard]]></title>
         <id>https://lzone.de/blog/Disable%20sleep%20key%20on%20keyboard</id>
-        <link href="https://lzone.de/blog/2023-05-02-Disable sleep key on keyboard"/>
+        <link href="https://lzone.de/blog#2023-05-02-Disable sleep key on keyboard"/>
         <updated>2023-05-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Do you also have this utterly useless "sleep" key on your keyboard right above the keypad? 
 At the right upper corner of the keyboard? Right where accidentily hit in the midst of a meeting
@@ -127,7 +127,7 @@ when reaching over for something?</p>
     <entry>
         <title type="html"><![CDATA[Useful Github search to find all PRs in all your repos]]></title>
         <id>https://lzone.de/blog/Useful%20Github%20search%20to%20find%20all%20PRs%20in%20all%20your%20repos</id>
-        <link href="https://lzone.de/blog/2022-03-25-Useful Github search to find all PRs in all your repos"/>
+        <link href="https://lzone.de/blog#2022-03-25-Useful Github search to find all PRs in all your repos"/>
         <updated>2022-03-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>The Github "Pull requests" link that you can find on top menu bar leads you to four useful pull request queries:</p>
 <ul>
@@ -146,7 +146,7 @@ when reaching over for something?</p>
     <entry>
         <title type="html"><![CDATA[Accessing Grafeas with a swagger client]]></title>
         <id>https://lzone.de/blog/Accessing%20Grafeas%20with%20a%20swagger%20client</id>
-        <link href="https://lzone.de/blog/2021-04-06-Accessing Grafeas with a swagger client"/>
+        <link href="https://lzone.de/blog#2021-04-06-Accessing Grafeas with a swagger client"/>
         <updated>2021-04-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This is a short howto on workarounds needed to use the artifact metadata DB Grafeas
 (developed by Google and JFrog). While the upstream project does provide Swagger definitions
@@ -270,7 +270,7 @@ except ApiException as e:
     <entry>
         <title type="html"><![CDATA[Store multi line secrets in Azure DevOps pipelines]]></title>
         <id>https://lzone.de/blog/Store%20multi%20line%20secrets%20in%20Azure%20DevOps%20pipelines</id>
-        <link href="https://lzone.de/blog/2021-03-03-Store multi-line secrets in Azure DevOps pipelines"/>
+        <link href="https://lzone.de/blog#2021-03-03-Store multi-line secrets in Azure DevOps pipelines"/>
         <updated>2021-03-03T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Azure DevOps wants you to provide secrets to pipelines using a so called
 <code>pipeline library</code>. You can store single line strings as <code>secrets</code> in the
@@ -286,7 +286,7 @@ there is no difference in using the secret variable!</p>]]></summary>
     <entry>
         <title type="html"><![CDATA[Convert JSON to YAML in Linux bash]]></title>
         <id>https://lzone.de/blog/Convert%20JSON%20to%20YAML%20in%20Linux%20bash</id>
-        <link href="https://lzone.de/blog/2021-03-01-Convert JSON to YAML in Linux bash"/>
+        <link href="https://lzone.de/blog#2021-03-01-Convert JSON to YAML in Linux bash"/>
         <updated>2021-03-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="is-it-possible-with-bash">Is it possible with bash?</h2>
 <p>The short and reasonable answer is: <b>no</b>! Bash won't do it in a reliable way for you.</p>
@@ -327,7 +327,7 @@ pendant to <a href="/cheat-sheet/jq">jq</a>) becoming more popular might be soon
     <entry>
         <title type="html"><![CDATA[Easily fix async video with ffmpeg]]></title>
         <id>https://lzone.de/blog/Easily%20fix%20async%20video%20with%20ffmpeg</id>
-        <link href="https://lzone.de/blog/2021-02-17-Easily fix async video with ffmpeg"/>
+        <link href="https://lzone.de/blog#2021-02-17-Easily fix async video with ffmpeg"/>
         <updated>2021-02-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="1-correcting-audio-that-is-too-slowfast">1. Correcting Audio that is too slow/fast</h2>
 <p>This can be done using the <code>-async</code> parameter of ffmpeg which according to the documentation <em>"Stretches/squeezes" the audio stream to match the timestamps</em>. The parameter takes a numeric value for the samples per seconds to enforce.</p>
@@ -362,7 +362,7 @@ So from the time-shifted first <code>-i input.mp4</code> we now take the audio i
     <entry>
         <title type="html"><![CDATA[Adding custom CA certificates in Openshift]]></title>
         <id>https://lzone.de/blog/Adding%20custom%20CA%20certificates%20in%20Openshift</id>
-        <link href="https://lzone.de/blog/2021-02-15-Adding custom CA certificates in Openshift"/>
+        <link href="https://lzone.de/blog#2021-02-15-Adding custom CA certificates in Openshift"/>
         <updated>2021-02-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This post documents quite some research through the honestly quite sad Openshift documentation.
 The content below roughly corresponds to Openshift releases 4.4 to 4.7</p>
@@ -469,7 +469,7 @@ some enterprise consultants from IBM here.</p>
     <entry>
         <title type="html"><![CDATA[Jenkins search for unmasked passwords]]></title>
         <id>https://lzone.de/blog/Jenkins%20search%20for%20unmasked%20passwords</id>
-        <link href="https://lzone.de/blog/2020-12-01-Jenkins search for unmasked passwords"/>
+        <link href="https://lzone.de/blog#2020-12-01-Jenkins search for unmasked passwords"/>
         <updated>2020-12-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When you run a larger multi-tenant Jenkins instance you might wonder if everyone
 properly hides secrets from logs. The script below needs to be run as admin and
@@ -503,7 +503,7 @@ at least one run.</p>]]></summary>
     <entry>
         <title type="html"><![CDATA[ffmpeg video transcoding from nautilus]]></title>
         <id>https://lzone.de/blog/ffmpeg%20video%20transcoding%20from%20nautilus</id>
-        <link href="https://lzone.de/blog/2020-11-19-ffmpeg video transcoding from nautilus"/>
+        <link href="https://lzone.de/blog#2020-11-19-ffmpeg video transcoding from nautilus"/>
         <updated>2020-11-19T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>I want to share this little video conversion script for the GNOME file manager Nautilus.
 As Nautilus supports custom scripts being executed for selected files I wrote a script
@@ -571,7 +571,7 @@ done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")</code></pre>]]></sum
     <entry>
         <title type="html"><![CDATA[Find broken Helm 3 releases]]></title>
         <id>https://lzone.de/blog/Find%20broken%20Helm%203%20releases</id>
-        <link href="https://lzone.de/blog/2020-11-17-Find broken Helm 3 releases"/>
+        <link href="https://lzone.de/blog#2020-11-17-Find broken Helm 3 releases"/>
         <updated>2020-11-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>With Helm3 find releases in unexpected state:</p>
 <pre><code> helm ls -A -o json | jq  -r '.[] | select(.status != "deployed") | .name'</code></pre>]]></summary>
@@ -579,7 +579,7 @@ done &lt; &lt;(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")</code></pre>]]></sum
     <entry>
         <title type="html"><![CDATA[HTTP requests from jenkins pipeline]]></title>
         <id>https://lzone.de/blog/HTTP%20requests%20from%20jenkins%20pipeline</id>
-        <link href="https://lzone.de/blog/2020-05-12-HTTP requests from jenkins pipeline"/>
+        <link href="https://lzone.de/blog#2020-05-12-HTTP requests from jenkins pipeline"/>
         <updated>2020-05-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>This post provides a summary of the possibilities to perform HTTP requests from a Jenkins pipeline.</p>
 <h2 id="overview">Overview</h2>
@@ -686,7 +686,7 @@ sendPostRequest("https://google.com", "")</code></pre>
     <entry>
         <title type="html"><![CDATA[Jekyll collections without frontmatter]]></title>
         <id>https://lzone.de/blog/Jekyll%20collections%20without%20frontmatter</id>
-        <link href="https://lzone.de/blog/2020-03-30-Jekyll collections without frontmatter"/>
+        <link href="https://lzone.de/blog#2020-03-30-Jekyll collections without frontmatter"/>
         <updated>2020-03-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Researching this for some hours I want to document it:</p>
 <h2 id="collections-without-frontmatter-are-not-possible">Collections without frontmatter are not possible</h2>
@@ -719,7 +719,7 @@ category by default from matter can help:</p>
     <entry>
         <title type="html"><![CDATA[How to get docker BuildKit to show RUN command output]]></title>
         <id>https://lzone.de/blog/How%20to%20get%20docker%20BuildKit%20to%20show%20RUN%20command%20output</id>
-        <link href="https://lzone.de/blog/2020-03-12-How to get docker BuildKit to show RUN command output"/>
+        <link href="https://lzone.de/blog#2020-03-12-How to get docker BuildKit to show RUN command output"/>
         <updated>2020-03-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When you use Docker's new BuildKit build engine either by</p>
 <pre><code>DOCKER_BUILDKIT=1 docker build ...</code></pre>
@@ -776,7 +776,7 @@ command output when using BuildKit.</p>]]></summary>
     <entry>
         <title type="html"><![CDATA[How to use custom CSS with Jekyll Minima theme]]></title>
         <id>https://lzone.de/blog/How%20to%20use%20custom%20CSS%20with%20Jekyll%20Minima%20theme</id>
-        <link href="https://lzone.de/blog/2020-03-10-How to use custom CSS with Jekyll Minima theme"/>
+        <link href="https://lzone.de/blog#2020-03-10-How to use custom CSS with Jekyll Minima theme"/>
         <updated>2020-03-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When providing this blog with some custom CSS to better format
 code examples I had troubles applying several of the online suggestions
@@ -814,7 +814,7 @@ way it might magically work once you decide to switch your theme:</p>
     <entry>
         <title type="html"><![CDATA[Jenkins list all pod templates]]></title>
         <id>https://lzone.de/blog/Jenkins%20list%20all%20pod%20templates</id>
-        <link href="https://lzone.de/blog/2020-03-10-Jenkins list all pod templates"/>
+        <link href="https://lzone.de/blog#2020-03-10-Jenkins list all pod templates"/>
         <updated>2020-03-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When using the Jenkins kubernetes plugin you can list all active pod templates like this</p>
 <pre><code>import jenkins.model.*
@@ -830,7 +830,7 @@ if (Jenkins.instance.clouds) {
     <entry>
         <title type="html"><![CDATA[Helm Best Practices]]></title>
         <id>https://lzone.de/blog/Helm%20Best%20Practices</id>
-        <link href="https://lzone.de/blog/2020-02-11-Helm Best Practices"/>
+        <link href="https://lzone.de/blog#2020-02-11-Helm Best Practices"/>
         <updated>2020-02-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>As a reminder to myself I have compiled this list of opinionated
 best practices (in no particalur order) to follow when using Helm
@@ -913,7 +913,7 @@ to add points consider writing a comment!</p>
     <entry>
         <title type="html"><![CDATA[Old helm chart repos will disappear]]></title>
         <id>https://lzone.de/blog/Old%20helm%20chart%20repos%20will%20disappear</id>
-        <link href="https://lzone.de/blog/2020-02-11-Old helm chart repos will disappear"/>
+        <link href="https://lzone.de/blog#2020-02-11-Old helm chart repos will disappear"/>
         <updated>2020-02-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>The old github based <a href="https://github.com/helm/charts">Helm chart repository</a>
 is going to be deprecated soon and charts might be vanishing depending how this goes.</p>
@@ -947,7 +947,7 @@ you use you have to keep in a chart repository of your own.</p>
     <entry>
         <title type="html"><![CDATA[Redis list all keys]]></title>
         <id>https://lzone.de/blog/Redis%20list%20all%20keys</id>
-        <link href="https://lzone.de/blog/2020-02-05-Redis list all keys"/>
+        <link href="https://lzone.de/blog#2020-02-05-Redis list all keys"/>
         <updated>2020-02-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>If checking a Redis database you can list all entries using</p>
 <pre><code>KEYS &lt;pattern&gt;</code></pre>
@@ -964,7 +964,7 @@ keys as listing might take a lot of time.</p>
     <entry>
         <title type="html"><![CDATA[Helm causes Could not get apiVersions from Kubernetes]]></title>
         <id>https://lzone.de/blog/Helm%20causes%20Could%20not%20get%20apiVersions%20from%20Kubernetes</id>
-        <link href="https://lzone.de/blog/2019-11-13-Helm causes Could not get apiVersions from Kubernetes"/>
+        <link href="https://lzone.de/blog#2019-11-13-Helm causes Could not get apiVersions from Kubernetes"/>
         <updated>2019-11-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When using Helm &gt; 2.14.3 you can suddenly end up with</p>
 <pre><code>Could not get apiVersions from Kubernetes: unable to retrieve the complete list of server APIs</code></pre>
@@ -980,7 +980,7 @@ unusable due to an <a href="https://github.com/istio/istio/issues/18172">integer
     <entry>
         <title type="html"><![CDATA[Helm template check if key exists]]></title>
         <id>https://lzone.de/blog/Helm%20template%20check%20if%20key%20exists</id>
-        <link href="https://lzone.de/blog/2019-06-07-Helm template check if key exists"/>
+        <link href="https://lzone.de/blog#2019-06-07-Helm template check if key exists"/>
         <updated>2019-06-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>It is quite impressive how hard it is to check a map key in Go templates to
 do some simple if conditions in your Helm charts or other kubernetes templates. </p>
@@ -994,7 +994,7 @@ Helm uses the Sprig template library which has support for <a href="https://gith
     <entry>
         <title type="html"><![CDATA[ANSI color in Jenkins pipelines]]></title>
         <id>https://lzone.de/blog/ANSI%20color%20in%20Jenkins%20pipelines</id>
-        <link href="https://lzone.de/blog/2019-05-29-ANSI color in Jenkins pipelines"/>
+        <link href="https://lzone.de/blog#2019-05-29-ANSI color in Jenkins pipelines"/>
         <updated>2019-05-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>In all cases ensure you have the ansi-color plugin installed</p>
 <h2 id="in-declarative-pipelines">In Declarative Pipelines</h2>
@@ -1015,7 +1015,7 @@ Helm uses the Sprig template library which has support for <a href="https://gith
     <entry>
         <title type="html"><![CDATA[Helm templates lists using range]]></title>
         <id>https://lzone.de/blog/Helm%20templates%20lists%20using%20range</id>
-        <link href="https://lzone.de/blog/2019-05-29-Helm templates lists using range"/>
+        <link href="https://lzone.de/blog#2019-05-29-Helm templates lists using range"/>
         <updated>2019-05-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>When you write a Helm template and want to create a list using range use the following syntax</p>
 <pre><code>---
