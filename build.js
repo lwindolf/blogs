@@ -55,7 +55,7 @@ if (!fs.existsSync(outputDir)) {
                                   :extractedTitle,
                         date    : extractedDate,
                         content : converter.makeHtml(cleanedContent),
-                        link    : f.link + '/' + file.replace('.md', ''),
+                        link    : f.link + '#' + file.replace('.md', ''),
                         id      : f.link + '/' + encodeURIComponent(extractedTitle)
                 };
         })
