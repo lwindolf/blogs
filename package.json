@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node build.js",
     "start": "cd www && npx serve",
-    "installDeps": "npm install && cp node_modules/showdown/dist/showdown.min.js www/js/vendor"
+    "installDeps": "npm install && cp node_modules/showdown/dist/showdown.min.js www/blog/js/vendor"
   },
   "dependencies": {
     "feed": "^5.1.0",

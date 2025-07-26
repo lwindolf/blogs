@@ -23,7 +23,7 @@ if (!fs.existsSync(outputDir)) {
                 title       : "DevOps Blog Feed",
                 description : "Latest posts from the DevOps blog",
                 favicon     : "https://lzone.de/favicon.ico",
-                link        : "https://lzone.de/blog",
+                link        : "https://lzone.de/blog/",
                 input       : path.join(import.meta.dirname, 'Blogs', 'DevOps'),
                 output      : path.join(outputDir, 'devops.xml')
         },
@@ -31,7 +31,7 @@ if (!fs.existsSync(outputDir)) {
                 title       : "Liferea Development Blog",
                 description : "Latest posts from the Liferea blog",
                 favicon     : "https://lzone.de/liferea/favicon.svg",
-                link        : "https://lzone.de/liferea/blog",
+                link        : "https://lzone.de/liferea/blog/",
                 input       : path.join(import.meta.dirname, 'Blogs', 'Liferea'),
                 output      : path.join(outputDir, 'liferea.xml')
         }
