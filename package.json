@@ -1,17 +1,19 @@
 {
-  "name": "blog-feed-generator",
+  "name": "static-markdown-blog",
   "version": "1.0.0",
-  "description": "A script to generate RSS feed for blog posts.",
+  "description": "Generate RSS feed, static HTML to display markdown pulled from source",
   "main": "build.js",
   "type": "module",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "start": "cd www && npx serve",
+    "installDeps": "npm install && cp node_modules/showdown/dist/showdown.min.js www/js/vendor"
   },
   "dependencies": {
     "feed": "^5.1.0",
     "showdown": "2.1.0"
   },
   "devDependencies": {},
-  "author": "Lars",
-  "license": "MIT"
+  "author": "Lars Windolf",
+  "license": "Unlicense"
 }
