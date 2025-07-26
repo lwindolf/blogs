@@ -15,13 +15,11 @@
     <script type="module">
         import { BlogView } from '../../blog/js/Blog.js';
 
-        BlogView.render(
+        new BlogView(
                 document.getElementById('blogContent'),
+                document.getElementById('recent'),
                 // markdown blog source
                 'https://raw.githubusercontent.com/lwindolf/blogs/refs/heads/main/Blogs/Liferea/',               
-        );
-        BlogView.renderRecent(
-                document.getElementById('recent'),
                 // feed
                 'https://lzone.de/feed/liferea.xml'
         );

@@ -15,12 +15,11 @@
     <script type="module">
         import { BlogView } from './js/Blog.js';
 
-        BlogView.render(
+        new BlogView(
                 document.getElementById('blogContent'),
-                // markdown blog source
-                'https://raw.githubusercontent.com/lwindolf/blogs/refs/heads/main/Blogs/DevOps/');
-        BlogView.renderRecent(
                 document.getElementById('recent'),
+                // markdown blog source
+                'https://raw.githubusercontent.com/lwindolf/blogs/refs/heads/main/Blogs/DevOps/',
                 // feed
                 'https://lzone.de/feed/devops.xml'
         );

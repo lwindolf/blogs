@@ -3,7 +3,21 @@
 // Simple markdown based blog landing page
 
 export class BlogView {
-    static async render(el, blogSource) {
+    constructor(contentEl, recentEl, blogSource, feed) {
+        this.contentEl = contentEl;
+        this.recentEl = recentEl;
+        this.blogSource = blogSource;
+        this.feed = feed;
+
+        this.#renderSource(this.contentEl, this.blogSource);
+        this.#renderRecent(this.recentEl, this.feed);
+
+        window.addEventListener('hashchange', () => {
+            this.#renderSource(this.contentEl, this.blogSource);
+        });
+    }
+
+    async #renderSource(el, blogSource) {
         const showdown = new window.showdown.Converter({
             tables: true,
             metadata: true,
@@ -46,6 +60,9 @@ export class BlogView {
                     //if (frontmatter && frontmatter.categories)
                       //  result += `<br/><small>Categories: ${JSON.parse(frontmatter.categories).join(', ')}</small>`;
                     el.innerHTML = result + html;
+
+                    // Scroll to the top of the content element
+                    el.scrollTo({ top: 0, behavior: 'smooth' });
                 })
                 .catch(error => {
                     el.innerHTML = 'Error loading blog post!';
@@ -55,7 +72,7 @@ export class BlogView {
         }
     }
 
-    static async renderRecent(el, feed) {
+    async #renderRecent(el, feed) {
         fetch(feed)
             .then(response => response.text())
             .then(xmlText => {
