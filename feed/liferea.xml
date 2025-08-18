@@ -2,11 +2,62 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-07-26T10:36:02.532Z</updated>
+    <updated>2025-08-18T13:36:12.411Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16.0 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%201.16.0%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2025-08-18-Liferea 1.16.0 Released"/>
+        <updated>2025-08-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is the first stable 1.16 release</p>
+<h2 id="what-is-new-in-116x-compared-to-114x">What is new in 1.16.x compared to 1.14.x?</h2>
+<p>Networking </p>
+<ul>
+<li>Update to libsoup3</li>
+<li>New HTTP 429 handling to avoid overloading webservers</li>
+<li>Sending Accept-Language HTTP Header</li>
+<li>Support for sending Sec-GPC HTTP header</li>
+</ul>
+<p>Rendering: </p>
+<ul>
+<li>Redesign of the content view</li>
+<li>Audio and video enclosures are now embedded as HTML elements</li>
+<li>Now DOMPurify.js is used to filter displayed content</li>
+<li>Update to libwebkit2gtk-4.1</li>
+<li>Automatic removing of empty content elements (images/iframes/ads placeholders)</li>
+<li>Properly sizing SVGs to avoid forcing the to max-width</li>
+<li>Content view now uses a CSP to limit external ressources that are allowed for loading</li>
+</ul>
+<p>Plugins</p>
+<ul>
+<li>Migration from libpeas1 to libpeas2</li>
+<li>Simplified plugin manager plugin</li>
+</ul>
+<p>Database</p>
+<ul>
+<li>When upgrading to 1.16.0 a DB schema migration is performed which depending on
+the number of your feeds and the item cache setting might take a while.</li>
+</ul>
+<p>Deprecations</p>
+<ul>
+<li>Manual proxy setting was removed</li>
+<li>Theme color support had to be dropped (no support in GTK4 anymore)</li>
+<li>"pane" plugin was removed</li>
+<li>"webkit inspector" plugin was removed (functionality is now builtin using --debug-html flag)</li>
+<li>Installing additional plugins from Github was removed</li>
+</ul>
+<h2 id="changes-since-116-rc4">Changes since 1.16-RC4</h2>
+<pre><code>    * Fixes memory leak in search dialog
+      (Lars Windolf)
+
+    * Updated German translation
+      (Lars Windolf)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the new release at <a href="https://github.com/lwindolf/liferea/releases/tag/v.1.16.0">https://github.com/lwindolf/liferea/releases/tag/v.1.16.0</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16 RC4 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16%20RC4%20Released</id>
@@ -838,95 +889,5 @@ updates. This will be the last release candidate. Next release will be 1.14.0.</
 * Update of Spanish translation (Christian Martinez)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC3">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC3</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14 RC2 released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14%20RC2%20released</id>
-        <link href="https://lzone.de/liferea/blog/#2022-10-24-Liferea 1.14-RC2 released"/>
-        <updated>2022-10-24T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is the second release candidate for the next stable release line 1.14. There
-will be probably one more release candidates until 1.14.0.</p>
-<p>Focus on this release was closing some long standing bugs. There is also a new
-plugin <code>add-bookmark-site</code> to allow providing a user define bookmarking site.</p>
-<h2 id="call-for-translations">Call for translations!</h2>
-<p>If you are a translator please consider updating your Liferea translation. Here is a list
-of the current translation status by language. Note the respective amount of fuzzy and
-untranslated messages.</p>
-<pre><code>ar.po 375 translated messages, 61 fuzzy translations, 102 untranslated messages.
-ast.po 338 translated messages, 84 fuzzy translations, 116 untranslated messages.
-be@latin.po 242 translated messages, 152 fuzzy translations, 144 untranslated messages.
-bg.po 143 translated messages, 201 fuzzy translations, 194 untranslated messages.
-ca.po 369 translated messages, 73 fuzzy translations, 96 untranslated messages.
-cs.po 447 translated messages, 46 fuzzy translations, 45 untranslated messages.
-da.po 370 translated messages, 71 fuzzy translations, 97 untranslated messages.
-de.po 512 translated messages, 12 fuzzy translations, 14 untranslated messages.
-el.po 238 translated messages, 147 fuzzy translations, 153 untranslated messages.
-en_GB.po 5 translated messages, 533 untranslated messages.
-es.po 408 translated messages, 55 fuzzy translations, 75 untranslated messages.
-eu.po 370 translated messages, 74 fuzzy translations, 94 untranslated messages.
-fi.po 401 translated messages, 60 fuzzy translations, 77 untranslated messages.
-fr.po 520 translated messages, 12 fuzzy translations, 6 untranslated messages.
-gl.po 312 translated messages, 105 fuzzy translations, 121 untranslated messages.
-he.po 394 translated messages, 57 fuzzy translations, 87 untranslated messages.
-hu.po 509 translated messages, 16 fuzzy translations, 13 untranslated messages.
-id.po 437 translated messages, 39 fuzzy translations, 62 untranslated messages.
-it.po 509 translated messages, 17 fuzzy translations, 12 untranslated messages.
-ja.po 384 translated messages, 55 fuzzy translations, 99 untranslated messages.
-ko.po 138 translated messages, 210 fuzzy translations, 190 untranslated messages.
-lt.po 282 translated messages, 91 fuzzy translations, 165 untranslated messages.
-lv.po 372 translated messages, 71 fuzzy translations, 95 untranslated messages.
-mk.po 99 translated messages, 214 fuzzy translations, 225 untranslated messages.
-nl.po 520 translated messages, 12 fuzzy translations, 6 untranslated messages.
-pl.po 508 translated messages, 17 fuzzy translations, 13 untranslated messages.
-pt_BR.po 537 translated messages, 1 fuzzy translation.
-pt.po 312 translated messages, 105 fuzzy translations, 121 untranslated messages.
-ro.po 316 translated messages, 104 fuzzy translations, 118 untranslated messages.
-ru.po 377 translated messages, 66 fuzzy translations, 95 untranslated messages.
-sk.po 312 translated messages, 104 fuzzy translations, 122 untranslated messages.
-sq.po 507 translated messages, 18 fuzzy translations, 13 untranslated messages.
-sv.po 402 translated messages, 56 fuzzy translations, 80 untranslated messages.
-tr.po 410 translated messages, 56 fuzzy translations, 72 untranslated messages.
-uk.po 403 translated messages, 56 fuzzy translations, 79 untranslated messages.
-vi.po 403 translated messages, 56 fuzzy translations, 79 untranslated messages.
-zh_CN.po 342 translated messages, 86 fuzzy translations, 110 untranslated messages.
-zh_TW.po 133 translated messages, 199 fuzzy translations, 206 untranslated messages.</code></pre>
-<p>Please help updating translations for Liferea!</p>
-<h2 id="changes">Changes</h2>
-<pre><code>    * #1152: Reduces height of the status bar to save vertical space.
-      (Lars Windolf)
-
-    * #1070: Added new plugin 'add-bookmark-site' that allows to configure
-      a custom bookmarking site.
-      (Lars Windolf)
-
-    * Fixes #1155: Toolbar/menu actions disabling wrong for search
-      folders/folders
-      (Lars Windolf)
-
-    * Fixes #1154: Search folder property "Hide read items" has wrong
-      initial state when opening dialog
-      (Lars Windolf)
-
-    * Fixes #1100: Dates are overwritten on every update for feeds
-      that do not provide date information.
-      (Lars Windolf)
-
-    * Fixes #923: Reading folders with unread filtering active often
-      has remnant read items
-      (Lars Windolf)
-
-    * Fixes #723: LiveJournal feeds parsing can make the headline link
-      a link to an XML document. Liferea now checks for the line MIME type.
-      (Lars Windolf)
-
-    * Fixes #720: Mark all as read doesn't clear Unread folder if one entry is selected
-      (Lars Windolf)
-
-    * Fixes #501: Fixes segfault when deleting a search folder that is rebuilding
-      (Lars Windolf)
-
-    * Updated pr-BR translation (Alexandre Erwin Ittner)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2">https://github.com/lwindolf/liferea/releases/tag/v1.14-RC2</a></p>]]></summary>
     </entry>
 </feed>
