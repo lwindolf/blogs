@@ -2,11 +2,47 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-09-03T22:10:58.475Z</updated>
+    <updated>2025-09-05T15:17:28.666Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16.3 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%201.16.3%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2025-09-05-Liferea 1.16.3 Released"/>
+        <updated>2025-09-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This release brings smaller improvements for the 1.16 release line.</p>
+<h2 id="fixes-pane-position-restore">Fixes pane position restore</h2>
+<p>Pane position should now be properly restored after restart. Before the did change to arbitrary versions
+due to some race condition in the Liferea GUI setup sequence.</p>
+<h2 id="printing-support">Printing support</h2>
+<p>There is a new "Print" action under "Tools" which allows printing the currently active browser/headline view.</p>
+<h2 id="advanced-subscribing-dialog">"Advanced" subscribing dialog</h2>
+<p>Next there is a change to "Advanced" subscribing. In the past the "Advanced" button
+did allow you to specify filters and special feed sources. Now the "Advanced" button
+launches the complete feed properties dialog. This way you can configure all options
+before subscribing to the feed.</p>
+<h2 id="automatic-pygobject--girepository-12-version-switching">Automatic pygobject + girepository 1/2 version switching</h2>
+<p>This is important for maintainers. Thanks to a PR by <a href="https://github.com/loqs">loqs</a> configure.ac
+now auto-detects the pygobject version and selects the proper dependency.</p>
+<p>For this to work it is important that the <code>pygobject-3.0.pc</code> pkg-config file is available.
+While it is not a direct dependency it is needed to detect the pygobject version.</p>
+<h2 id="changes">Changes</h2>
+<pre><code>* Rewrite GtkPaned position restoration to GSettings bindings
+  (Lars Windolf)
+
+* #1239 Add print support, new menu option in 'Tools'
+  (Lars Windolf)
+
+* #1304 Show full feed properties dialog on 'Advanced' subscribe
+  (Lars Windolf)
+
+* #1453 Automatically determine girepository version to use
+  (loqs)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the newest release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16.3">https://github.com/lwindolf/liferea/releases/tag/v1.16.3</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.2 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.2%20Released</id>
@@ -757,36 +793,5 @@ of you feeds. This can be done in the feed properties dialog,</p>
       (patch by Alexander Erwin Ittner)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.12.10">https://github.com/lwindolf/liferea/releases/tag/v1.12.10</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14.1 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14.1%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-03-12-Liferea 1.14.1 Released"/>
-        <updated>2023-03-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is an important security fix for 1.14. Please upgrade!</p>
-<h2 id="cve-2023-1350-remote-code-execution-on-feed-enrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
-<p>If you have enabled "Extract full content from HTML5 and Google AMP" for one or 
-more of your feed subscriptions it is possible for a an attacker to inject a script command
-that would run any command on your system.</p>
-<p>Upgrading to 1.14.1 solves this security problem. </p>
-<p>If you cannot upgrade disable "Extract full content from HTML5 and Google AMP" for all
-of you feeds. This can be done in the feed properties dialog,</p>
-<p>If you have many feeds you might want to do this automatically:</p>
-<ol>
-<li>Close Liferea</li>
-<li>Open <code>~/.config/liferea/feedlist.opml</code> in an editor</li>
-<li>Replace all occurences of <code>html5Extract="true"</code> with an empty string</li>
-</ol>
-<h2 id="changes">Changes</h2>
-<pre><code>    * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
-      (patch by Alexander Erwin Ittner)
-
-    * Fixes #1200: Crash on double free
-      (mozbugbox)
-
-    * Improve #1192 be reordering widget creation order
-      (Lars Windolf)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.1">https://github.com/lwindolf/liferea/releases/tag/v1.14.1</a></p>]]></summary>
     </entry>
 </feed>
