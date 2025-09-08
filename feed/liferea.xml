@@ -2,11 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-09-05T15:17:28.666Z</updated>
+    <updated>2025-09-08T22:57:33.743Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16.4 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%201.16.4%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2025-09-09-Liferea 1.16.4 Released"/>
+        <updated>2025-09-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is a bugfix release fixing regressions in 1.16.3 please upgrade!</p>
+<h2 id="changes">Changes</h2>
+<pre><code>    * Fixes a regression introduced in 1.16.3 that broken newsbins. The "type"
+      attribute in the exported OPML was wrong. If you are affected please manually
+      change "type" for your news bins back to "newsbin" in the OPML file
+      usually ~/.config/liferea/feedlist.opml.
+      (Lars Windolf)
+
+    * Fixes #1423 regression in main window geometry restoration
+      (Lars Windolf)
+
+    * Fixes #1454 deprecated icon in headerbar plugin
+      (Branko Grubić)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the latest release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16.4">https://github.com/lwindolf/liferea/releases/tag/v1.16.4</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.3 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.3%20Released</id>
@@ -768,30 +789,5 @@ problem!</p>
   (Lars Windolf)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.2">https://github.com/lwindolf/liferea/releases/tag/v1.14.2</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.12.10 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.12.10%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-03-12-Liferea 1.12.10 Released"/>
-        <updated>2023-03-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is an important security fix for 1.12. Please upgrade!</p>
-<h2 id="cve-2023-1350-remote-code-execution-on-feed-enrichment">CVE-2023-1350 Remote code execution on feed enrichment</h2>
-<p>If you have enabled "Extract full content from HTML5 and Google AMP" for one or 
-more of your feed subscriptions it is possible for a an attacker to inject a script command
-that would run any command on your system.</p>
-<p>Upgrading to 1.12.10 or 1.14.1 solves this security problem. </p>
-<p>If you cannot upgrade disable "Extract full content from HTML5 and Google AMP" for all
-of you feeds. This can be done in the feed properties dialog,</p>
-<p>If you have many feeds you might want to do this automatically:</p>
-<ol>
-<li>Close Liferea</li>
-<li>Open <code>~/.config/liferea/feedlist.opml</code> in an editor</li>
-<li>Replace all occurences of <code>html5Extract="true"</code> with an empty string</li>
-</ol>
-<h2 id="changes">Changes</h2>
-<pre><code>    * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
-      (patch by Alexander Erwin Ittner)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.12.10">https://github.com/lwindolf/liferea/releases/tag/v1.12.10</a></p>]]></summary>
     </entry>
 </feed>
