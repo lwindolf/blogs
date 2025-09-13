@@ -2,11 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-09-08T22:57:33.743Z</updated>
+    <updated>2025-09-13T11:22:46.733Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16.5 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%201.16.5%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2025-09-13-Liferea 1.16.5 Released"/>
+        <updated>2025-09-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is a bugfix release for 1.16. Please upgrade.</p>
+<h2 id="changes">Changes</h2>
+<pre><code>* Fixes a crash on subscribing when at least one news bin does exist.
+  (Lars Windolf)
+
+* Fixes #1455 crash on viewing items with comment feeds.
+  (Lars Windolf)
+
+* Fix input field vertical expand and margins in several dialogs
+  (Lars Windolf)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the new release at <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16.5">https://github.com/lwindolf/liferea/releases/tag/v1.16.5</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.4 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.4%20Released</id>
@@ -772,22 +790,5 @@ faster than every two years. So not so much features will be introduced before 1
       auto_test permission issue (reported by PandaJim)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.3">https://github.com/lwindolf/liferea/releases/tag/v1.14.3</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14.2 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14.2%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-03-20-Liferea 1.14.2 Released"/>
-        <updated>2023-03-20T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is a stability fix for 1.14.1. The fix of CVE-2023-1350 in 1.14.1 did contain 
-a memory error that leads to crashes. Sorry about that. Please upgrade to avoid the 
-problem!</p>
-<h2 id="changes">Changes</h2>
-<pre><code>* Fixes #1212: 1.14.1 crash when refreshing feeds.
-  (mozbugbox, reported by Froggy232)
-
-* Fixes a memory leak when reloading CSS
-  (Lars Windolf)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.2">https://github.com/lwindolf/liferea/releases/tag/v1.14.2</a></p>]]></summary>
     </entry>
 </feed>
