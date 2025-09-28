@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   	<title>Liferea FAQ</title>
+		
+	<link rel="stylesheet" type="text/css" href="reference.css">
+	<style type="text/css">
+		ul {margin-left: 0; margin-right: 4px; padding: 5px}
+		li {margin-left: 15px;padding:2px;}
+		dl.faq dt { font-weight: bold; padding: 1em;}
+		dl.faq dd {padding-bottom: 2em;}
+		span.code {font-family: courier, monospaced; padding-left: 1ex; padding-right: 1ex;}
+	</style>
+</head>
+<body>
+
+<!-- navigation header start -->
+<table width="100%">
+   <tr>
+ 	      <!-- back --><td width="50px"></td>
+      	      <!-- home --><td style="text-align:center;"><b>Liferea - Frequently Asked Questions</b></td>
+      	      <!-- next --><td width="50px;" style="text-align:right;"></td>
+   </tr>
+</table>
+<hr />
+<!-- navigation header end -->
+
+<p>
+Note: This FAQ is also available <a href="http://liferea.sf.net/faq.htm">
+online</a>.
+</p>
+
+<dl class="faq">
+
+<dt>Q: Where can I get it?</dt>
+<dd>
+A: The easiest way is to download the source package from
+the <a href="http://sourceforge.net/project/showfiles.php?group_id=87005">SourceForge project page</a>.
+But you should also consider checking if your Linux distribution
+provides an own package for Liferea. A list of all known prebuilt
+packages is provided in the <a href="http://liferea.sf.net/install.htm">installation section</a>.
+
+</dd>
+
+<dt>Q: Security and Liferea</dt>
+<dd>A: 
+Liferea might be quite functional but is not the best choice
+when you consider security to be very important. There are
+some points you should know:
+<ul>
+<li>When using feed or proxy authentication usernames and
+passwords are saved plain text in ~/.liferea/feedlist.opml.
+File Permissions: 0600.</li>
+<li>The ~/.liferea directory depending on the users umask
+can be readable for everyone. This is useful to allow other 
+programs access to the new_subscription pipe.</li>
+<li>The feed cache is saved in a binary database file.</li>
+<li>This list may not be complete!</li>
+</ul>
+</dd>
+
+<dt>Q: Enclosures download with Gwget doesn't work</dt>
+<dd>A: Most likely you have Gwget 1.0.0 or 1.0.1 installed, and
+due to a temporary breakage in the dbus API of Gwget these versions
+don't work with Liferea. Both older and more recent versions of Gwget
+do work.</dd>
+
+<dt>Q: I'm using Firefox/Seamonkey, and when opening items in the browser the focus goes to the browser.</dt>
+<dd>A: That's done by your browser. For changing it, open <tt>about:config</tt> in your browser and set <tt>browser.tabs.loadDivertedInBackground</tt> to true.
+</dd>
+
+<dt>Q: Liferea is buggy! It does not close when I click on the window
+managers close button and the tray icon is activated.</dt>
+<dd>A: 
+This is a pretty disputed topic. We see this as a useful feature, other
+people don't. If you don't like the behaviour you can change it in the
+preferences under "GUI". There you can enable the check box "Terminate
+instead of minimizing to tray icon".
+</dd>
+
+<dt>Q: I want cookies!</dt>
+<dd>A: 
+Liferea supports cookies provided by a text file ~/.liferea_1.6/cookies.txt
+which contains cookies in Netscape format. The easiest way is to copy
+the file from your Mozilla profile after you created the cookies
+with the browser.
+</dd>
+
+<dt>Q: I don't like the HTML styles Liferea uses!
+</dt>
+<dd>A: You can have your own stylesheet. Just place a liferea.css into ~/.liferea_1.6/.
+During startup it will be loaded additionally to the default stylesheets so you can
+modify some or all style definitions. To learn about the styles have a 
+look at the default stylesheets in &lt;install root&gt;/share/liferea/css.
+</dd>
+
+<dt>Q: How do I see my LiveJournal friend's friends-only entries?</dt>
+<dd>A: Use the authenticated LiveJournal RSS feed. For example use
+
+<a href="http://www.livejournal.com/users/pigrew/data/rss?auth=digest">
+http://www.livejournal.com/users/pigrew/data/rss?auth=digest</a>. You
+will need to use the feed properties dialog box to set the username
+and password of your LiveJournal account.
+</dd>
+
+<dt>Q: Why do feed items keep being displayed as new?</dt>
+<dd>A: This is usually due to a bad feed which associated a
+particular ID to multiple items. You should check your feed against a
+feed validator such as <a href="http://feedvalidator.org/">
+feedvalidator.org</a>. If the validator does not report any
+error, please submit a bug report including the URL of the problem
+feed to the <a href="http://sourceforge.net/tracker/?atid=581684&group_id=87005">Liferea
+bugtracker</a>.<br>
+
+<br/>
+Note: If you experience this problem with a planet feed the reason
+might be that the planet feed does not provide unique item ids
+for one or all off its source feeds. If this is the case Liferea
+has no chance to match identical items.</dd>
+
+<dt>Q: Liferea crashes too much.</dt>
+
+<dd>A: We hear this complaint a lot, but we rarely do not get information
+on how it crashed. If you find a way to make Liferea crash, we would
+love to know about it. Please send us a copy of the output of running
+Liferea with the "--debug-all" flag, plus a backtrace if possible. To
+create a backtrace, open up a terminal and type two commands: <span
+class="code">ulimit -c unlimited</span> and then <span
+class="code">liferea</span>. This causes Liferea to create a core dump
+when it crashes. Then, run <span class="code">gdb liferea
+core</span> and type <span class="code">bt</span> at the gdb
+prompt. This will display the backtrace of the crash, which should be
+sent along with the bug report.</dd>
+
+<dt>Q: Why doesn't Liferea have feature X?</dt>
+<dd>A: If you miss a feature in Liferea please consider contributing
+code to implement the feature! Please also consider that the Liferea 
+project aims to provide a simple feed reader that might lack more
+complex functionality.</dd>
+
+</dl>
+
+</body>
+</html>
