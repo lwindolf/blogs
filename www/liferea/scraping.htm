@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+        <title>Liferea- Scraping</title>
+        <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="../../blog/css/main.css">
+        <style>
+                body {
+                        overflow: scroll;
+                }
+
+                #main-content-wrap {
+                        max-width: 1024px;
+                        margin: auto;
+                }
+        </style>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="feed/liferea.xml" rel="alternate" title="Liferea Development Blog" type="application/atom+xml">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+        <div id="main-content-wrap">
+                <h1 id="website-scraping">Website Scraping</h1>
+
+                <p>Not every interesting website provides a feed. And some websites do provide summaries only or no
+                        content at
+                        all. Besides asking the owner of the website to add a feed or provide more details the only
+                        choice left
+                        is to “scrape” the website content.</p>
+                <p>Liferea provides two ways to do website scraping:</p>
+                <ol>
+                        <li>
+                                <p>By running a <strong>Unix command</strong> (usually some script witten in your
+                                        favourite scripting language) which writes a feed to stdout.</p>
+                                <img src="screenshots/scraping.png" alt="How to setup scraping" />
+                        </li>
+                        <li>
+                                <p>By applying a <strong>postprocessing filter</strong> after downloading some web resource.
+                                This way it is possible to augment an existing feed or extract contents from a HTML page. The
+                                resulting feeds needs to be printed to stdout.</p>
+                                <img src="screenshots/filter.png" alt="How to setup filter scripts" />
+                        </li>
+                </ol>
+                <p>The difference of both approaches is that when using a Unix command the script or command can save
+                        its state
+                        and retrieve multiple source documents, which is not possible with a post-processing filter. The
+                        advantage when using a post-processing filter is that you do not need to retrieve the source
+                        document
+                        because Liferea will download it and pass it on stdin.</p>
+
+                <h2 id="scraping-script-repository"> Scraping Script Repository</h2>
+
+                <p>To easily find a good scraping solution check out the <a
+                                href="https://github.com/lwindolf/rss-scraping">rss-scraping</a> repository which
+                        provides
+                        examples to write your own scraper, links to existing scraping scripts and useful existing
+                        scraping
+                        services.</p>
+        </div>
+</body>
+
+</html>
