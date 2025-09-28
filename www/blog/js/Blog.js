@@ -31,7 +31,7 @@ export class BlogView {
         if (document.location.hash.length > 1) {
             const path = document.location.hash.substring(1);
             const source = blogSource + path + '.md';
-            let title = decodeURI(path);
+            let title = decodeURIComponent(path);
             let date = title.match(/^\d{4}-\d{2}-\d{2}/);
             if (date) {
                 // Strip date from title
