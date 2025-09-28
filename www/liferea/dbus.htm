@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <title>Liferea - Controlling Liferea via DBUS</title>
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../blog/css/main.css">
+  <style>
+    body {
+      overflow: scroll;
+    }
+
+    #main-content-wrap {
+      max-width: 1024px;
+      margin: auto;
+    }
+  </style>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="feed/liferea.xml" rel="alternate" title="Liferea Development Blog" type="application/atom+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div id="main-content-wrap">
+    <h1 id="controlling-liferea-via-dbus">Controlling Liferea via DBUS</h1>
+
+    <p>Liferea provides the following DBUS interfaces which you can use to control the program from other
+      program, scripts or the command line:</p>
+
+    <h2 id="pinging-liferea">Pinging Liferea</h2>
+
+    <ul>
+      <li>Service Name: org.gnome.rss.FeedReader
+      <li>Object Path: /org/gnome/rss/FeedReader
+      <li>Method: Ping()
+    </ul>
+
+    <p>Example command line call:</p>
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>dbus-send --session --dest=org.gnome.feed.Reader \
+  --print-reply=literal --type=method_call \
+  /org/gnome/feed/Reader \
+  org.gnome.feed.Reader.Ping
+</code></pre>
+      </div>
+    </div>
+
+    <h2 id="adding-subscriptions">Adding Subscriptions</h2>
+
+    <ul>
+      <li>Service Name: org.gnome.rss.FeedReader
+      <li>Object Path: /org/gnome/rss/FeedReader
+      <li>Method: boolean Subscribe(string)
+    </ul>
+
+    <p>Example command line call:</p>
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>dbus-send --session --dest=org.gnome.feed.Reader \
+  /org/gnome/feed/Reader \
+  org.gnome.feed.Reader.Subscribe \
+  string:http://osnews.com/files/recent.rdf
+</code></pre>
+      </div>
+    </div>
+
+    <h2 id="changing-the-online-state">Changing the Online State</h2>
+
+    <ul>
+      <li>Service Name: org.gnome.rss.FeedReader
+      <li>Object Path: /org/gnome/rss/FeedReader
+      <li>Method: SetOnline(boolean)
+    </ul>
+
+    <p>Example command line call:</p>
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>dbus-send --session --dest=org.gnome.feed.Reader \
+  /org/gnome/feed/Reader \
+  org.gnome.feed.Reader.SetOnline \
+  boolean:false
+</code></pre>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
