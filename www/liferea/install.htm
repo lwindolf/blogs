@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+        <title>Liferea - Installation</title>
+        <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="../../blog/css/main.css">
+        <style>
+                body {
+                        overflow: scroll;
+                }
+
+                #main-content-wrap {
+                        max-width: 1024px;
+                        margin: auto;
+                }
+        </style>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="feed/liferea.xml" rel="alternate" title="Liferea Development Blog" type="application/atom+xml">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+        <div id="main-content-wrap">
+                <h1 id="installation">Installation</h1>
+
+                <h2 id="supported-platforms">Supported Platforms</h2>
+
+                <p>The following list provides some short notes on the installation of Liferea on
+                        different platforms. If you have questions or problems with the specific
+                        packages please contact the package maintainer. Thanks to all the packagers for
+                        their efforts!</p>
+
+                <p><a href="https://repology.org/project/liferea/versions"> <img
+                                        src="https://repology.org/badge/vertical-allrepos/liferea.svg"
+                                        alt="Packaging status" /> </a></p>
+
+                <h2 id="how-to-install-liferea">How to Install Liferea</h2>
+
+                <h3 id="from-binary-packages">From Binary Packages</h3>
+                <div class="table-wrapper">
+                        <table border="0" cellspacing="2px">
+                                <tr>
+                                        <th>Snap
+                                        <td>You can find a snap package at <a
+                                                        href="https://snapcraft.io/liferea/">Snapcraft</a>
+                                                <pre class="command">snap install liferea</pre>
+                                <tr>
+                                        <th>Flatpak
+                                        <td> You can find a flatpak package at <a
+                                                        href="https://flathub.org/apps/details/net.sourceforge.liferea">flathub.org</a>
+                                                <pre
+                                                        class="command">flatpak install flathub net.sourceforge.liferea</pre>
+                                                and run it with
+                                                <pre class="command">flatpak run net.sourceforge.liferea</pre>
+                        </table>
+                </div>
+                <h3 id="gnulinux-distributions">GNU/Linux Distributions</h3>
+                <div class="table-wrapper">
+                        <table border="0" cellspacing="2px">
+                                <tr>
+                                        <th>Debian, Ubuntu, Mint
+                                        <td>There are official packages which can be installed by
+                                                running
+                                                <pre class="command">apt-get install liferea</pre>
+                                                <p>If you are a Ubuntu novice user check out this video
+                                                        on how to install Liferea</p><iframe width="420" height="315"
+                                                        src="http://www.youtube.com/embed/NXdIOBPkDVU" frameborder="0"
+                                                        allowfullscreen=""></iframe>
+                                <tr>
+                                        <th>Red Hat, CentOS, Fedora
+                                        <td>There are official packages which can be installed like
+                                                this:
+                                                <pre class="command">yum install liferea</pre>
+                                <tr>
+                                        <th>SUSE
+                                        <td>Since SuSE 10.1 there are official Liferea packages in SuSE.
+                                                Please use the yast2 package manager to install
+                                                them.<br /> Up-to-date SuSE and OpenSuSE packages can
+                                                also be found <a
+                                                        href="http://packman.links2linux.org/package/liferea">here</a>.
+                                                <pre class="command">yast2 -i liferea</pre>
+                                <tr>
+                                        <th>Gentoo
+                                        <td>There is a package in the <a
+                                                        href="http://packages.gentoo.org/package/net-news/liferea">official
+                                                        portage repository</a> that can be installed
+                                                with
+                                                <pre class="command">emerge liferea</pre>
+                                <tr>
+                                        <th>Mandriva
+                                        <td>There is an official Mandriva package maintained by Tibor
+                                                Pittich and Goectz Waschk. To install it execute
+                                                <pre class="command">urpmi liferea</pre>
+                                <tr>
+                                        <th>Zenwalk
+                                        <td>There is an official Zenwalk package maintained by George
+                                                Vlahavas. To install it execute
+                                                <pre class="command">netpkg liferea</pre>
+                        </table>
+                </div>
+                <h3 id="other-unix">Other Unix</h3>
+                <div class="table-wrapper">
+                        <table border="0" cellspacing="2px">
+                                <tr>
+                                        <th>FreeBSD
+                                        <td>There are always up-to-date Liferea packages (built by
+                                                Hye-Shik Chang) at <a
+                                                        href="http://www.freshports.org/net/liferea/">http://www.freshports.org/net/liferea/</a>.
+                        </table>
+                </div>
+                <p><a name="compiling"></a></p>
+                <h2 id="how-to-compile-liferea">How to Compile Liferea</h2>
+                <p>Please check the instructions at <a
+                                href="https://github.com/lwindolf/liferea">https://github.com/lwindolf/liferea</a>.
+                </p>
+        </div>
+</body>
+</html>
