@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<title>&Auml;ndern der Einstellungen</title>
+  <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="reference.css">
+</head>
+<body>
+
+	<header>
+  <nav>
+	<table class="fullwidth">
+	   <tr>
+	      <td class="back left"><a rel="prev" href="updating_de.html">Zurück</a></td>
+	      <td class="home center"><h1>Ändern der Einstellungen</h1></td>
+	      <td class="next right"><a rel="next" href="searching_de.html">Vor</a></td>
+	   </tr>
+	</table>
+	
+	</nav>
+  </header>
+
+	<main>
+
+	<h3>Ändern der Einstellungen</h3>
+
+	<p>Der Einstellungen-Dialog kann über den Menüpunkt
+	"Einstellungen" im "Abonnements" Menü aufgerufen werden.
+	Der Dialog ist in sieben Registerkarten unterteilt
+	die im Folgenden beschrieben sind.</p>
+
+	<h4>Abonnement Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_feeds_1.14.0.png">
+	</p>
+	<ul>
+
+	<li>
+	<b>Caching von Abonnements:</b> Hier kann die Default-Anzahl
+	zu sichernder Schlagzeilen konfiguriert werden. Diese
+	Einstellung kann jedoch für jedes Abonnement einzeln in den
+	Eigenschaften des Abonnements überschrieben werden.
+	</li>
+
+	<li>
+	<p>
+	<b>Aktualisierung von Abonnements:</b> Hier kann das
+	Default-Aktualisierungsintervall konfiguriert werden.
+	Diese Einstellung kann jedoch für jedes Abonnement einzeln in den
+	Eigenschaften des Abonnements überschrieben werden.
+	</p>
+	<p>
+	Mit "Aktualisieren aller Abonnements beim Start" kann das Verhalten
+	nach dem Start von Liferea angepa&szlig;t werden.
+	</p>
+	</li>
+
+	</ul>
+
+	<h4>Ordner Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_folders_1.14.0.png">
+	</p>
+
+	<ul>
+	<li>
+	<b>Anzeigen von Ordnern:</b> Ist die erste Option aktiviert wird
+	Liferea beim Anklicken eines Ordern die Schlagzeilen aller in
+	diesem enthaltenen Abonnements anzeigen. Ist die zweite Option
+	aktiviert werden gelesene Schlagzeilen zusätzlich ausgeblendet.
+	Das Standardverhalten ist es keine Schlagzeilen anzuzeigen.
+	</li>
+
+	<li>
+	<b>Abonnement Icons (Favicons):</b> Dieser Button erlaubt
+	die Aktualisierung aller Favicons.
+	</li>
+	</ul>
+
+	<h4>Schlagzeilen Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_headlines_1.14.0.png">
+	</p>
+
+	<ul>
+	<li>
+	<b>Schlagzeilen anzeigen:</b> Hier kann der Hotkey zum
+	Auswählen der nächsten ungelesenen Schlagzeilen eingestellt
+	werden. Zudem kann der Standard-Anzeigemodus ausgewählt werden.
+	</li>
+
+	<li>
+	<b>Standardansicht</b> Hier kann die Standardansicht festgelegt werden.
+	</li>
+
+	<li>
+	<b>Verzögertes Entfernen gelesener Schlagzeilen aus Ordnern und Suchordnern.</b>
+	Beim Lesen von Schlagzeilen innerhalb eines Ordners oder Suchordners, wie
+	"Ungelesen" werden diese beim Wechsel auf die nächste Schlagzeilen entfernt. 
+	Mit dieser Option kann dies unterbunden werden. Die Schlagzeilen werden erst 
+	nach Verlassen des Ordners nicht mehr in diesem angezeigt. Auf diese Weise 
+	kann man schnell noch mal zu einer gerade gelesenen Schlagzeile zurückwechseln.
+	Bereits gelesene Schlagzeilen werden heller dargestellt.
+	</li>
+
+	<li>
+	<b>Web-Integration:</b> Hier kann konfiguriert werden
+	welchen Lesezeichen-Dienst Liferea verwenden soll und
+	welcher Blogsuch-Dienst in der Schlagzeilenansicht
+	verlinkt werden soll.
+	</li>
+	</ul>
+
+	<a name="browser">
+	<h4>Browser Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_browser_1.14.0.png">
+	</p>
+
+	<ul>
+	<li>
+	<b>Einstellungen für internen Browser:</b> Hier können drei
+	verschiedene Dinge konfiguriert werden. Erstens kann eingestellt werden
+	ob Liferea angeforderte Links im internen oder externen Browser
+	laden soll. Zweitens ob für den internen Browser und die
+	Schlagzeilenanzeige Javascript aktiviert sein soll und ob
+	Browser-Plugins aktiv sein sollen.
+	</li>
+
+	<li>
+	<b>Externe Browser Einstellungen:</b> Werden Links im zur
+	Anzeige im externen Browser angefordert startet Liferea ein
+	Browser Kommando, das hier konfiguriert werden kann.
+	Im ersten Auswahlmenü kann der zu verwendende Browser verändert
+	werden oder mit "Manuell" ein benutzerspezifisches Kommando
+	eingestellt werden. Mit dem zweiten Auswahlmenü kann eingestellt
+	werden wie der Link im eingestellten Browser geöffnet werden
+	soll.<br>
+	<br>
+	Nur wenn "Manuell" im ersten Auswahlmenü eingestellt ist wird
+	das Kommadoeingabefeld auswählbar. Bei der Angabe eines Kommando
+	darf ein <i>"%s"</i> das später durch die URL ersetzt wird
+	nicht fehlen. Der Platzhalter sollte doppelt gequoted werden
+	um Shellprobleme z.B. mit dem #-Zeichen in URLs zu vermeiden.
+	</li>
+	</ul>
+
+	<h4>Desktop Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_desktop_1.14.0.png">
+	</p>
+
+	<ul>
+	<li>
+	<b>Menü-Einstellungen:</b> Hier kann eingestellt werden, ob
+	Liferea die Werkzeugleiste verbergen soll und wie die
+	Werkzeugleiste aussieht.
+	</li>
+
+	<li><b>Anderes:</b> Hier kann ausgewählt werden ob beim Markieren
+	aller Schlagzeilen als gelesen eine Sicherheitsabfrage erfolgen soll.
+	</li>
+	</ul>
+
+	<h4>Proxy Einstellungen</h4>
+
+	<p align="center">
+	<img src="help_prefs_proxy_1.14.0.png">
+	</p>
+
+	<ul>
+	<li>
+	<p>
+	<b>HTTP-Proxy-Server:</b> Mit dieser Registerkarte kann ein
+	HTTP-Proxy konfiguriert werden, den Liferea zum Herunterladen
+	von Feeds benutzt. GNOME-Benutzer sollten hier keine Einstellungen
+	vornehmen sondern den Proxy in der GNOME-Konfiguration einrichten
+	(sofern das nicht bereits geschehen). Liferea wird dann die
+	GNOME-Proxy-Einstellungen automatisch übernehmen.
+	</p>
+	<p>
+ 	Zur Zeit erlaubt Liferea keine Angabe von Rechnern, für
+	die Proxy-Einstellungen ignoriert werden soll.
+	</p>
+	<p>
+	Um einen SOCKS Proxy zu nutzen, muss "Auto Detect" ausgew&auml;hlt
+	werden und der SOCKS Proxy im Desktop (GNOME, KDE, ...) konfiguriert
+	werden.
+	</p>
+	</li>
+	</ul>
+	</main>
+
+	<footer>
+  <nav>
+	
+	<table class="fullwidth">
+	   <tr>
+	      <td class="back left"><a rel="prev" href="updating_de.html">Zurück</a></td>
+	      <td class="home center"><a href="topics_de.html">Inhalt</a></td>
+	      <td class="next right"><a rel="next" href="searching_de.html">Vor</a></td>
+	   </tr>
+	</table>
+	</nav>
+  </footer>
+</body>
+</html>
