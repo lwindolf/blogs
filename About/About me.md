@@ -8,11 +8,21 @@ content portal swiss army knife for the knowledge needed in my daily work.
 ## Projects
 
  <ul>
-     <li><a href="/liferea">Liferea</a> (<a href="https://github.com/lwindolf/liferea">Github</a>) - 20+ years old RSS feed reader for Linux</li>
-     <li><a href="/multi-status">Multi-Status</a> (<a href="https://github.com/lwindolf/multi-status">Github</a>) - SaaS status aggregator</li>
-     <li><a href="/#/wurmterm">WurmTerm</a> (<a href="https://github.com/lwindolf/wurmterm-backend">Github</a>) - DevOps problem discovery agent</li>
-     <li>Cheat Sheet Collection (<a href="https://github.com/lwindolf/lzone-cheat-sheets">Github</a>)</li>
-     <li>Cloud Outage Index (<a href="https://github.com/lwindolf/cloud-outages">Github</a>)</li>
+     <li>DevOps
+     <ul>
+       <li><a href="https://lzone.de/multi-status">Multi-Status</a> (<a href="https://github.com/lwindolf/multi-status">Github</a>) - SaaS status aggregator</li>
+       <li>WurmTerm (<a href="https://github.com/lwindolf/wurmterm-backend">Github</a>) - DevOps problem discovery agent</li>
+       <li>Cheat Sheet Collection (<a href="https://github.com/lwindolf/lzone-cheat-sheets">Github</a>) - accessible here on the website</li>
+       <li>Cloud Outage Index (<a href="https://github.com/lwindolf/cloud-outages">Github</a>) - 10+ years of SaaS outages</li>
+     </ul>
+     </li>
+     <li>RSS News Aggregation
+     <ul>
+       <li><a href="https://lzone.de/liferea">Liferea</a> (<a href="https://github.com/lwindolf/liferea">Github</a>) - 20+ years old RSS feed reader for Linux</li>
+       <li>RSS Feed Index (<a href="https://github.com/lwindolf/rss-feed-index">Github</a>)</li>
+       <li>RSS Finder (<a href="https://github.com/lwindolf/rss-finder">Github</a>)</li>
+     </ul>
+     </li>
  </ul>
 
 ## Profiles
