@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-11-21T23:54:11.322Z</updated>
+    <updated>2025-11-21T23:57:12.963Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Cleaning up feature requests]]></title>
+        <id>https://lzone.de/liferea/blog//Cleaning%20up%20feature%20requests</id>
+        <link href="https://lzone.de/liferea/blog/#2025-11-22-Cleaning up feature requests"/>
+        <updated>2025-11-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Today I've cleanup the issue tracker of old feature requests. In general
+I closed all that have no chance of implementation.</p>
+<p>Please note that this does not mean that the closed feature requests were
+bad. It is just that I have no time to work on those and to maintain them.</p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Gopher support]]></title>
         <id>https://lzone.de/liferea/blog//Gopher%20support</id>
@@ -804,25 +814,5 @@ faster than every two years. So not so much features will be introduced before 1
     * Drop pane plugin (old workaround for pane issues)</code></pre>
 <h2 id="download">Download</h2>
 <p>As always you can get the release tarball from Github: <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.0">https://github.com/lwindolf/liferea/releases/tag/v1.15.0</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14.5 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14.5%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-04-09-Liferea 1.14.5 Released"/>
-        <updated>2023-04-09T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is another stabilizitation release for 1.14. I'm cautiously optimistic that we have solved most of the instabilities now :-) </p>
-<h2 id="changes">Changes</h2>
-<pre><code>* Dropping tray icon plugin from list of per-default activated plugins
-
-* Fixes #1127: corrupted double-linked list
-  (reported by Paul Gevers)
-
-* Fixes #1229: assertion when deleting feeds too quickly
-  (reported by Tasos Sahanidis)
-
-* Fixing format and cast errors (#1223)
-  (reported by Paul Gevers)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.5">https://github.com/lwindolf/liferea/releases/tag/v1.14.5</a></p>]]></summary>
     </entry>
 </feed>
