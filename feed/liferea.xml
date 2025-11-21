@@ -2,11 +2,38 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-11-17T14:23:45.292Z</updated>
+    <updated>2025-11-21T23:54:11.322Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Gopher support]]></title>
+        <id>https://lzone.de/liferea/blog//Gopher%20support</id>
+        <link href="https://lzone.de/liferea/blog/#2025-11-22-Gopher support"/>
+        <updated>2025-11-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>In 1.16.6 gopher support was introduced! There are two ways you can use Gopher:</p>
+<ol>
+<li>In the internal browser</li>
+<li>When subscribing to feeds you can pass gopher URLs</li>
+</ol>
+<h2 id="why">Why?</h2>
+<p>Mostly for fun and to learn this <a href="https://en.wikipedia.org/wiki/Gopher_(protocol)">arcane technology</a>. 
+But also to be able to see who is still posting "underground" in their gopher phlogs.</p>
+<h2 id="what-is-a-phlog">What is a phlog?</h2>
+<p>In short "phlogs" are what blogs are on the web. Just another name and format.</p>
+<p>Technically phlogs are just a convention to name a folder and have menu entries
+in it pointing to posts. Liferea can parse phlogs menues, but cannot reliably
+determine time stamps as they are usually provided in titles in different formats.
+Still it it easy to follow phlogs and posting is rare anyway.</p>
+<h2 id="how-to-subscribe">How to subscribe?</h2>
+<p>On a gopher server find the phlog menu link. If a user has a phlog it is usually 
+linked as a menu option on the main menu page. An random example would be </p>
+<pre><code>gopher://sdf.org:70/1/users/jdd/phlog/</code></pre>
+<p>You can discover active phlogs at the <a href="https://gopher.floodgap.com/gopher/gw?=sdf.org+70+312f6d6170732f">phlogosphere.org</a>.</p>
+<h2 id="what-about-gemini">What about Gemini?</h2>
+<p>So far I did not look into Gemini. Mabye one day :-)</p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.6 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.6%20Released</id>
@@ -797,23 +824,5 @@ faster than every two years. So not so much features will be introduced before 1
   (reported by Paul Gevers)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.5">https://github.com/lwindolf/liferea/releases/tag/v1.14.5</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14.4 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14.4%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-03-30-Liferea 1.14.4 Released"/>
-        <updated>2023-03-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>1.14 is not as stable yet as intended and is suffering from startup race conditions. This bugfix release tries to further eliminate those issues.</p>
-<h2 id="changes">Changes</h2>
-<pre><code>* Fixes #1217, #1224: Endless recursion in 1.14.3
-  (reported by uduecoder, mokraemer)
-
-* Additional fixes for #1214: crash in conf_get_bool_value_from_schema
-  (reported by Mikel Olasagasti)
-
-* Fixes a g_object_unref warning on shutdown
-* Drops a debug output in the plugin installer</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.4">https://github.com/lwindolf/liferea/releases/tag/v1.14.4</a></p>]]></summary>
     </entry>
 </feed>
