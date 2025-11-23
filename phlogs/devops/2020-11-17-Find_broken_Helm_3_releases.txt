@@ -1,0 +1,3 @@
+With Helm3 find releases in unexpected state:
+
+     helm ls -A -o json | jq  -r '.[] | select(.status != "deployed") | .name'

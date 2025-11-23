@@ -1,0 +1,38 @@
+Today sees a new 1.12 release which addresses some long-standing user concerns. One being accidentally marking all your headlines as read, we have no a confirmation dialog. Another issue addressed is that of custom download tools. The list provided is not always sufficient so we now provide a CLI command you can enter to use you favorite downloader. A lot of refactoring also allowed us to provide a GTK headerbar plugin for all fans of GNOME style window decorations.
+
+<h2>Changes</h2>
+
+<pre>
+    * #634: Added setting for custom download commands
+      (Leiaz)
+    * #614: GTK Headerbar support via plugin
+      (Lars Windolf)
+    * #608: Refactoring UI code to switch to GAction and GtkBuilder
+      Note: this implies not having icons in the main menu anymore
+      which were still there for all non-GNOME users (see #626).
+      (Leiaz)
+    * #589: Item list view column order rework as a preparation for
+      possible real column drag&drop. Introduces a new DConf setting
+      for the column order.
+      (Yanki Kaneti)
+
+    * Fixes #280: Mark read toolbar button always disabled for search folders
+      (Lars Windolf, reported by dvahalev)
+    * Fixes #591: Please add a safety question when "marking all read"
+      (Leiaz, reported by Nudin)
+    * Fixes #625: Avoid exception in trayicon.py
+      (Lars Windolf)
+    * Fixes #627: GnomeKeyring plugin fails to activate when keyring doesn't exist
+      (Lars Windolf)
+    * Fixes #630: Fix feed list selection after DnD
+      (Peter Zaitev)
+    * Fixes #633: Big Memory leak in date code
+      (Leiaz)
+
+    * Update of Turkish translation (emintufan)
+    * Update of French translation (guilieb)
+</pre>
+
+<h2>Download</h2>
+
+You can download the release tarball at <a rel="nofollow" href="https://github.com/lwindolf/liferea/releases/tag/v1.12.3">github</a>.

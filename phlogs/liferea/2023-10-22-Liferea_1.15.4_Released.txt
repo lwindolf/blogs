@@ -1,0 +1,25 @@
+This release brings small fixes and a rework of the trayicon plugin.
+
+## Improved trayicon
+
+Thanks to the work of Yuri Konotopov the trayicon plugin now supports AppIndicator
+and libayatana. The important difference here is that the new item counter can be shown
+as a text label next to the icon which makes for much improved rendering.
+
+There are some limitations though as AppIndicator might not work perfect in all implementations
+(e.g. XFCE). 
+
+## Changes
+
+        * Improve on #1192 by doing pane sanity checks on each resize
+          (Lars Windolf)
+
+        * Fixes #1297: Reorder loading plugins and deactivating webkit-settings
+          (Lars Windolf)
+
+        * #1305 Refactoring of the trayicon plugin to support  AppIndicator and libayatana
+          (Yuri Konotopov)
+
+## Download
+
+You can download the new release from [https://github.com/lwindolf/liferea/releases/tag/v1.15.4](https://github.com/lwindolf/liferea/releases/tag/v1.15.4)

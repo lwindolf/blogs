@@ -1,0 +1,27 @@
+This is a bugfix release for the recent 1.12.0 release. Thanks to Leiaz tackling several complicated issues. Most prominent is a hopefully solved issue with the pane sizing with maximized window. Last but not least we have Italian and Indonesian translation updates.
+
+<h2>Changes</h2>
+
+<pre>* Fixes #562: Lintian spelling errors
+  (reported by Paul Gevers)
+* Fixes #563: Appstream data has new format
+  (patch by Paul Gevers)
+* Fixes #572: Doesn't remember some sort orders
+  (reported by geplus)
+* Fixes #504: Fix assertions/crashes on changing view layouts
+  (Leiaz)
+* Fixes #573: Workaround to avoid GtkPaned shrinking
+  (Leiaz)
+
+* #566: Update of Italian translation (Gianvito Cavasoli)
+* #566: Update of Italian default feed list (Gianvito Cavasoli)
+* #514: Update of Indonesian translation (Samsul Ma'arif)
+* #514: Added Indonesian default feed list (Samsul Ma'arif)
+* Update of German translation</pre>
+
+
+<h2>Thanks for the stars!</h2>
+
+Finally I wanted to say thank to all of you who starred the <a href="https://github.com/lwindolf/liferea">github repo</a> after the 1.12.0 release! It really makes a difference to know how many people are out there caring.
+
+<h2>Download</h2>Get a tarball or checkout the code from <a href="https://github.com/lwindolf/liferea">Github</a>!

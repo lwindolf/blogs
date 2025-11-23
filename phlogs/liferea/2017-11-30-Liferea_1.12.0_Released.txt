@@ -1,0 +1,44 @@
+This is the first release of the new stable release line 1.12. Many thanks to all the contributors and package maintainers that made this possible!
+
+<h2>Important changes compared to 1.10</h2>
+
+<pre>
+    * Wide view is now default view
+    * HTML view now has a 'View Image' context menu
+    * Redesign of the wide view: large icons with teaser text for better using 16:9 screen ratios
+      and making Liferea usable on touchscreen
+    * Optional AMP / HTML5 rich content fetching feature
+    * Upgrade to WebKit2: This is an important security improvement!
+    * Added a "Do Not Track" preference (disabled per-default)
+    * Reordered columns in 'Normal' email-like view to have the date column always at the end
+    * Plugins switched to Python3 libpeas loader
+    * Full screen support for videos
+    * Simplified external browser support
+
+    * Experimental support for InoReader and Reedah online services
+    * Added category/folder support for TheOldReader
+    * Added folder auto-removal for TinyTinyRSS & TheOldReader
+
+    * Removed libindicate support
+    * Removed libnotify code (re-added as a plugin)
+    * Removed tray icon code (re-added as a plugin)
+</pre>
+
+<h2>Important fixes</h2>
+
+<pre>
+    * Fixes unhiding from tray icon when activated via GApplication (hidden window problem)
+    * Fixes #538: toggle_visibility() does not make a minimized window visible again (trayicon problem)
+    * Liferea now uses ETags and If-None-Matches on feed updates
+</pre>
+
+Please help fixing any leftover bugs and UX issues!
+
+<h2>Show Your Support</h2>
+
+<p>Nowadays it is hard to know how many users are left out there. If you like the release
+of 1.12 show it by giving the <a href="https://github.com/lwindolf/liferea">project</a> a star at Github!!!</p>
+
+<h2>Download</h2>
+
+Get a tarball or checkout the code from <a href="https://github.com/lwindolf/liferea">Github</a>!

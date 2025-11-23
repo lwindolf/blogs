@@ -1,0 +1,38 @@
+This is a major bug fix release. It addresses a long standing multithreading issue. Please upgrade to benefit from the fix.
+
+## Changes
+
+        * Removes GAsyncQueue usage and uses proper GThreadPools, this
+          significantly speeds up updating and reduced GUI lag a lot
+          (Rich Coe)
+
+        * Add support for subscribing to phlog gopher listings
+          (Lars Windolf)
+
+        * Add support for gopher:// URI schema in internal browser
+          (Lars Windolf)
+
+        * Readd incorrectly removed reference.css file
+          (Lars Windolf)
+
+        * Dark mode: dimmed images filter gets reset when hovering over image
+          (Lars Windolf)
+
+        * Fixes #1457 link rel=alternate/self parsing
+          (Lars Windolf)
+
+        * Fixes frozen HTML page after launching feed:// links
+          (Lars Windolf)
+
+        * Fixes #1459 better requiring girepository-2.0
+          (oreo639)
+
+        * Fixes #1462 panes too small on start
+          (Lars Windolf)
+
+        * Fixes #1466 zoom in from browser context menu broken
+          (Lars Windolf)
+
+## Download
+
+Get the latest release at [https://github.com/lwindolf/liferea/releases/tag/v1.16.6](https://github.com/lwindolf/liferea/releases/tag/v1.16.6)

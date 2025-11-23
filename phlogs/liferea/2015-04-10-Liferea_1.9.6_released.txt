@@ -1,0 +1,3 @@
+Fixes mass downloading enclosures. Introduces support for downloading using the steadyflow download manager. Removes support for curl/wget. Improves spacing of browser tab buttons. Prevent DnD problems with Google Reader.
+
+Download the recent Liferea source from: <a href="http://liferea.sf.net">liferea.sf.net</a>

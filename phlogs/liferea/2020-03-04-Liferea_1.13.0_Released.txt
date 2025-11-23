@@ -1,0 +1,37 @@
+This is the first release in the new unstable line. While this release does not have 
+any large changes or new features there will be breaking changes soon :-)
+
+## Changes
+
+        * #764: Add MediaRSS support (e.g. Youtube feeds) to display
+          descriptions and thumbnails
+          (Mikel Olasagasti)
+        * #773: Add WebKit Inspector menu option to HTML view when
+          run with --debug-html (by sillyslux)
+        * #714: Replaces deprecated gtk_menu_popup
+          (Leiaz)
+        * #705: New hotkey Ctrl-O to open enclosures
+          (Leiaz)
+        * #680: Add xdg-email command to item list popup menu
+          (poetsmeniet)
+
+        * Drop unused glade/google_source.ui
+        * #699: Refactoring of duplicate check handlingg
+          (dymoksc)
+
+        * #746: Fix accessibility fatals reported by gla11y
+          (reported by Paul Gevers)
+        * Fixes #730: "Update all subscriptions at startup" overrides
+          "Don't update this feed automatically"
+          (Dymtro Kyrychuk, reported by Paul Wise)
+        * Fixes #639: Right clicking on article no longer selects it
+          (Leiaz, reported by Bruce Guenter)
+
+        * #737: Update of Italian translation
+          (madmurphy)
+        * #745: URL fix for French example feeds
+          (sblondon)
+
+## Download
+
+Grab the tarball on the Github release page [https://github.com/lwindolf/liferea/releases/tag/v1.13.0](https://github.com/lwindolf/liferea/releases/tag/v1.13.0)

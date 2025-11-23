@@ -1,0 +1,3 @@
+Git master now features categories support when subscribing to <a href="http://theoldreader.com">theoldreader.com</a> accounts. As TheOldReader allows only level of folders nested folders are not possible. Still this allows to organize the feeds neatly. If you already have a subscription don't worry your feeds will be automatically reorganized without loosing any items.
+
+The TheOldReader category support will be first included in release 1.11.0

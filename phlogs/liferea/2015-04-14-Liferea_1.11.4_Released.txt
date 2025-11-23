@@ -1,0 +1,34 @@
+This unstable release focuses on bug fixes. There is an UI change
+significantly simplifying the handling of external browsers. Finally it
+provides several translation updates.
+
+Give 1.11.4 a try and send feedback to the mailing list <a href="mailto:liferea-devel@lists.sf.net">liferea-devel@lists.sf.net</a>!
+
+<h2>ChangeLog</h2>
+
+<pre>
+    * Fixes Github #154: Crashes while starting (corrupt icon)
+      (reported by jcamposz)
+    * Github #149: Fixes a random crash on startup
+      (patch by mozbugbox)
+    * Fixes Github #79: RTL ordering of Back/Forward icons
+      (reported by GreenLunar)
+    * Fixes Github #30: Segfault after updating from 1.8 to 1.10
+      (reported by vakuum)
+    * Fixes Github #87: URL resolving wrong if base tag involved
+      (reported by DanMan, fixed by mozbugbox)
+    * Fixes all defects reported by Coverity scan
+    * Simplied external browser handling. Now Liferea only supports
+      the gtk_show_uri() launch mechanism for the system default browser
+      and a user specified browser command.
+
+    * Update of Albanian translation (Besnik Bleta)
+    * Update of Hebrew translation (Genghis Khan)
+    * Update of Spanish translation (Juan Campos Zambrana)
+    * Fixes typo in Italian translation
+</pre>
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+<a href="https://github.com/lwindolf/liferea/releases/tag/v1.11.4">https://github.com/lwindolf/liferea/releases/tag/v1.11.4</a>

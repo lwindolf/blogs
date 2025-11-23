@@ -1,0 +1,5 @@
+Today I set up <a href="https://travis-ci.org/lwindolf/liferea">Travis for Liferea git master</a>. This should reduce mistakes like forgetting to add files or dependencies as well as testing compilation with LLVM.
+
+I also converted the README to Markdown syntax and the new README.md now has a Liferea screenshot and a Travis build status badge looking like this:
+
+<a href="https://travis-ci.org/lwindolf/liferea.svg?branch=master"><img src="https://travis-ci.org/lwindolf/liferea.svg?branch=master"/></a>

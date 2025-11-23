@@ -1,0 +1,19 @@
+This is a maintenance release fixing some bugs. It also introduces a backport of the Google Reader migration feature introduced in 1.10. This allows you to convert you Google Reader subscription to local Liferea subscription keeping all items downloaded so far.
+
+Note: This migration will also work after Google Reader shutting down, as Liferea keeps a local cache of the Google Reader items.
+
+Please upgrade to this release if you are/were using Google Reader and click "Convert to Local Subscriptions" from the context menu of the subscription list to migrate your Google data. Read more in <a href="http://www.lzone.de/Save%20Your%20Google%20Reader%20Data%20with%20Liferea">this recent blog post</a>.
+
+Changes:
+<pre>
+* Added an option to convert Google Reader subscriptions
+  to local feeds (Lars Windolf)
+* Fixes SF #1080: segfault opening attachment due to incorrect g_free()
+  (reported by Adam Nielsen)
+* Fixes SF #1075: GLib warnings of "string != NULL" assertion failure
+  (reported by Simon Kågedal Reimer)
+* Fixes search folders including comment items
+  (reported by David Willmore)
+</pre>
+
+Download the newest code from the <a href="http://lzone.de/liferea/">project homepage</a>!

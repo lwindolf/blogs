@@ -1,0 +1,21 @@
+This is a maintenance release that brings the following changes.
+
+<h2>ChangeLog</h2>
+
+<pre>
+    * Fixes #287: media:content support broken
+      (patch by Leiaz)
+    * Fixes #279: Rules not visible in searchdialog
+      (patch by Leiaz)
+    * Fixes #83: Segfault when sorting feeds in folder
+      (patch by Leiaz)
+    * Fixes #302: Broken compilation with --disable-notify
+      (reported by vostorga)
+</pre>
+
+Please upgrade in case you have compilation issues when disabling libnotify.
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+<a href="https://github.com/lwindolf/liferea/releases/tag/v1.10.18">https://github.com/lwindolf/liferea/releases/tag/v1.10.18</a>

@@ -1,0 +1,28 @@
+This is an important security fix for 1.12. Please upgrade!
+
+## CVE-2023-1350 Remote code execution on feed enrichment
+
+If you have enabled "Extract full content from HTML5 and Google AMP" for one or 
+more of your feed subscriptions it is possible for a an attacker to inject a script command
+that would run any command on your system.
+
+Upgrading to 1.12.10 or 1.14.1 solves this security problem. 
+
+If you cannot upgrade disable "Extract full content from HTML5 and Google AMP" for all
+of you feeds. This can be done in the feed properties dialog,
+
+If you have many feeds you might want to do this automatically:
+1. Close Liferea
+2. Open `~/.config/liferea/feedlist.opml` in an editor
+3. Replace all occurences of `html5Extract="true"` with an empty string
+
+## Changes
+
+        * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
+          (patch by Alexander Erwin Ittner)
+
+
+  
+## Download
+
+Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.12.10

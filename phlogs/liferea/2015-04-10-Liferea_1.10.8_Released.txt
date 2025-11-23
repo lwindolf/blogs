@@ -1,0 +1,11 @@
+Today sees another maintenance release for 1.10. This release tries to address the startup crashes some users experience. If you are affected please upgrade and give feedback if it helped!
+
+<pre>* Fixes Github #13: Parsing errors not visible with dark themes
+  (reported by Steve Kelly)
+* Fixes SF #1137, #1142: startup race with LifereaHtmlView
+  (reported by Yanko Kaneti)
+</pre>
+
+<h2>Download Liferea 1.10.8</h2>
+
+<a href="https://github.com/lwindolf/liferea/releases/download/v1.10.8/liferea-1.10.8.tar.bz2">https://github.com/lwindolf/liferea/releases/download/v1.10.8/liferea-1.10.8.tar.bz2</a>

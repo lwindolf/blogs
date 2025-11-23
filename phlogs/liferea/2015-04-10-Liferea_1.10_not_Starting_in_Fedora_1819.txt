@@ -1,0 +1,12 @@
+Several users reporting startup problems of a self-compiled 1.10 in Fedora (<a href="https://sourceforge.net/p/liferea/bugs/1093/">SF bug #1093</a>):
+
+<pre>
+(liferea:3798): GLib-GIO-ERROR **: Settings schema 'net.sf.liferea' does not contain a key named 'last-node-selected'
+Trace/breakpoint trap
+</pre>
+
+As you can see from the error message Liferea doesn't start because a dconf schema key is not known. A solution was suggested by nmdias: if you experience this problem please try to run
+
+<pre>/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas</pre>
+
+to properly install the schema.

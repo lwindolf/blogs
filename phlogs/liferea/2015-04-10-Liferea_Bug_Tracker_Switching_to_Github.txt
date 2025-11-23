@@ -1,0 +1,15 @@
+Dear maintainers and contributing end users,
+
+I plan to switch the bug tracker from SourceForge to Github <b>to the end of the month (31.05.2014)</b> to further simplify the workflow of maintaining Liferea. As a benefit at Github I'll maintain milestones with due dates and assigned issues. The Github bug tracker is already in use by some users. Feel free to use it right now.
+
+<h2>Nothing Gets Lost!</h2>
+
+I won't ignore the old tickets, they will just become invisible. I promise to process all important SF tickets. I believe you will still get mail notifications on state changes. For the maintainers: if you still need to access the tickets I we can find a solution (admin user role...). I know this pains you guys probably the most and don't want to mess up your valuable work more than absolutely necessary.
+
+If you are in any doubt please drop a short mail on the mailing list or just recreate all the tickets at Github: https://github.com/lwindolf/liferea/issues?milestone=2&state=open
+
+<h2>The Future</h2>
+
+I plan to entirely stop using the Sourceforge tools in favour of Github. Sourceforge is just not very useable. Code formatting looks funny all the time. One needs to edit tickets to change state. Also the commit correlation with tickets in Github is just a killer feature for me.
+
+For the future I also hope to invite more contributions via Github forking and merging. By also switching more code to Python plugins I can imagine some more users crossing the barrier, that coding in C is, and contribute.

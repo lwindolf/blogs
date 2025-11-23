@@ -1,0 +1,31 @@
+This is another bug fix release which resolves several usability problems.
+
+<h2>Changes</h2>
+
+<pre>
+    * #658: Add confirmation dialog when adding duplicate subscription
+      (dymoksc)
+
+    * Fixes #689: When resuming from sleep feeds were being fetched
+      before Wifi came up
+      (ghost)
+    * Fixes #685: Headerbar plugin "Mark All Read" button is not
+      feed-specific
+      (Robbie Cooper)
+    * Fixes #549: Scrollbars not always present in the headline area
+      (Leiaz)
+    * Fixes #543: Next update overrides HTML5 enrichment
+      (Lars Windolf)
+    * Fixes overly wide label in enclosure preferences dialog
+      (Lars Windolf)
+    * Dropped unencrypted warning from auth dialog (not true anymore)
+      (Lars Windolf)
+
+    * #692: Update of Czech translation
+      (RadimNo)
+    * #688: Adding translatable tooltips for the headerbar plugin
+      (Robbie Cooper)</pre>
+
+<h2>Download</h2>
+
+You can download the release tarball at <a rel="nofollow" href="https://github.com/lwindolf/liferea/releases/tag/v1.12.6">github</a>.

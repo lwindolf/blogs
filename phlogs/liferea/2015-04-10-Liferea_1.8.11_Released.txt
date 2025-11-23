@@ -1,0 +1,23 @@
+This is a new bugfix release. It fixes a problem with the browser preferences and a Google Reader notification issue. It removed feedvalidator.org support because of a malware alert. Finally it provides an Hebrew and German translation update. Please upgrade!
+
+Grab the newest release from <a href="http://lzone.de/liferea/">http://lzone.de/liferea/</a>.
+
+The detailed changes:
+
+<pre>
+        Version 1.8.11
+
+        Please note that due to the SourceForge upgrade bug ticket numbering
+        did change. This might be confusing... Old numbers are 7 figures, 
+        newer ones only 4!
+
+        * Added Google Plus to social bookmarking options.
+        * Fix for Debian #668197: x-www-browser preference not working
+          (David Smith)
+        * Updated Hebrew translation (Genghis Khan, Yaron Sheffer)
+        * Fixes SF #1037: Incorrect notifications for Google Reader 
+          (patch by David Smith)
+        * Fixes SF #1048: Removed all feedvalidator.org references from FAQ 
+          and XSLT as it was reported to host malware.
+          (reported by bkat)
+</pre>

@@ -1,0 +1,90 @@
+This is a new development release adding a new major feature "Reader mode".
+"Reader mode" is always on filtering all feed content and HTML5 enriched content
+to remove ads, visual noise and any left-over website navigation elements that
+might end up in your feeds content.
+
+Please test the feature and give feedback on your experiences!
+
+Additionally Youtube videos from MediaRSS feeds are now automatically
+rendered and there are two new powerful search folder rules available to match
+parent folder and subscription URL.
+
+## Feature Deprecations
+
+### Combined View
+
+1.13 will drop the combined view aka 2-pane view mode. The feature was not
+maintained well, did not provide the same functionality as the 3-pane modes and
+did not scale well. Removing it will significantly simplify the code base and allows
+to implement "Reader mode" for the now single-item/single-document only views. 
+
+### "photo" namespace
+
+The rarely seen photo namespace support has been dropped to simplify the 
+rendering templates.
+
+### Disabling JS in internal browser
+
+To allow for "Reader mode" which (using Readability.js) is Javascript based
+we now cannot disable Javascript in the item view anymore. The global preference
+for disabling Javascript has been renamed to indicate that it only affects loading
+websites in the internal browser.
+
+## Changes
+
+        * #846, #864, #735: Fix main menu/toolbar not being translated
+          (reported by nesfla, Qik000, SingleMalt2104)
+
+        * #854: Adding new search folder options to match
+          subscription source URL and parent folder name.
+          (suggested by muhlinux)
+
+        * #851: Add accessibility check to code tests
+          (Lars Windolf)
+
+        * #851: Fix accessibility annotations for several combo boxes.
+          (Lars Windolf)
+
+        * #850: Fix embedded youtube video bug.
+          (reported by sblondon)
+
+        * #765: Embed YouTube videos from MediaRSS feeds
+          (Mikel Olasagasti)
+
+        * #749: Add Readability.js library (Apache 2.0 licensed)
+          and auto-apply Readability.js to all headlines
+          (Lars Windolf)
+
+        * Drop unused glade/google_source.ui
+          (Lars Windolf)
+
+        * Drop support of combined view mode, this is necessary
+          to add rich content support which relies on DOM
+          transformation and Readability.js
+          (Lars Windolf)
+
+        * Drop ns_photo support, as it is rarely used and
+          allows us to get rid of XSLT extra handling
+          (Lars Windolf)
+
+        * #747: Font improvements
+          (Azhar Mithani)
+
+        * #250 Update some dialog labels
+          (GreenLunar)
+
+        * #803: Fix legacy links to mailing list and IRC in
+          documentation.
+          (reported by Bill Dietrich)
+
+        * Updated German translation
+          (Lars Windolf)
+
+        * #861: Updated Spanish translation
+          (vosian)
+
+
+
+## Download
+
+Grab the tarball on the Github release page [https://github.com/lwindolf/liferea/releases/tag/v1.13.2](https://github.com/lwindolf/liferea/releases/tag/v1.13.2)

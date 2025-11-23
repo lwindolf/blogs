@@ -1,0 +1,78 @@
+This is the first release candidate for the next stable release line 1.14. There
+will be probably 2 more release candidates until 1.14.0.
+
+## Fixing hidden panes
+
+Many Liferea users did suffer from invisible pane (e.g. a minimized feed list
+or HTML view) upon startup. With certain desktop environments / themes making
+the pane grips invisible it is hard to grip the correct pixel to restore a pane.
+
+Now Liferea will never allow the panes to be smaller than 5% in height or width
+regarding to there orientation. If a pane is smaller than 5% height/width it will be 
+set to 30% width or 50% height on startup.
+
+The intention here is that panes are **never** invisible after startup. 
+
+## Last minute features
+
+This release brings some small last minutes features
+
+* Liferea now supports the new GTK dark theme logic, where in the preferences
+  you define wether you "prefer" dark mode or light mode.
+
+* New search folder rule to match podcasts
+* New search folder rule to match headline authors
+* Support for <media:description> field of Youtube feeds
+
+## Changes
+
+        * Liferea now supports gtk-application-prefer-dark-theme based
+          dark mode switching.
+          (Lars Windolf, Alexander Erwin Ittner)
+
+        * #1148: Add search rule to find items from a given author.
+          (Alexander Erwin Ittner)
+
+        * #1147: Exported OPML feed lists are now UTF-8 encoded for better readability.
+          (Alexander Erwin Ittner)
+
+        * #1145: Render <media:description> field for Youtube feeds
+          (Lars Windolf)
+
+        * #1143: Updated default feed sources (HTTP->HTTPS)
+          (Alexander Erwin Ittner)
+
+        * #1133: Added new "podcast" search folder rule.
+          (Alexander Erwin Ittner)
+
+        * #1139: Also add enclosures when saving items to file.
+          (Alexander Erwin Ittner)
+
+        * Fixes #1132: Improved timeout error handling in feed commands
+          (Alexander Erwin Ittner)
+
+        * Fixes #1129: Accessibility errors in .ui files
+          (reported by Paul Gevers)
+
+        * Fixes #1126: Some images broken in reader mode
+          (reported by Saijin-Naib)
+
+        * Fixes #901, #1123: resize view panes to sensible positions
+          when they were at min or max position on last shutdown. Makes
+          left pane 30% window width and item list pane 50% height/width
+          when pane position is 0 or 95% of height/width. (Lars Windolf)
+
+        * Fixes #992: HTML with self-closing tags not rendering properly.
+          (Rich Coe)
+
+        * Fixes #644, #901, #909: restoring window size/position with header
+          bar plugin active. (Lars Windolf)
+
+        * #1137: Updated French translation (Guillaume Bernard)
+
+        * #1134, #1135: Updated Spanish example feeds (Joel Barrios)
+
+
+## Download
+
+Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14-RC1

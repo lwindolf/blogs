@@ -1,0 +1,3 @@
+A few days ago Feedly sent sandbox accounts around to developers that registered to be interested in the API. I intend to try to implement it and if everything works well to request a production API token. Stay tuned! 
+
+Meanwhile I'm working on adding Tiny Tiny RSS API v1.7.6 based features: subscribing and unsubscribing feeds from within Liferea.

@@ -1,0 +1,27 @@
+This unstable release introduces full screen support for videos, brings performance improvements compared to 1.11.4 and fixes some bugs. Last but not least there is an update to the Russian translation.
+
+Give 1.11.5 a try and please give feedback on the changes in the comments!
+
+<h2>ChangeLog</h2>
+
+<pre>
+    * Github #178: Implementing full screen mode for videos
+      (mozbugbox)
+    * Fixes Github #32: Prevent erroneous "Mark all as read"
+      (reported by Mno-hime)
+    * Improves Github #36, #113: UI lock up during refresh
+      (suggested by mozbugbox)
+    * Fixes Github #180: Removing item from (v)folder marks all read
+      (reported by GreenLunar)
+    * Fixes Github #140, #158: Vertical pane placement is forgotten.
+      (patch by foresto)
+    * Fixes Github #182: Missing config.h include in date.c
+      (reported by Paul Gevers)
+
+    * Update of Russian translation (bboa)
+</pre>
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+<a href="https://github.com/lwindolf/liferea/releases/tag/v1.11.5">https://github.com/lwindolf/liferea/releases/tag/v1.11.5</a>

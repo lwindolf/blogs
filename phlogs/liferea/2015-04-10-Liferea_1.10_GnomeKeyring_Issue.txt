@@ -1,0 +1,11 @@
+If you are using 1.10 with the GnomeKeyring plugin, which will be automatically activated in GNOME environments, you might run into a strange bug (see <a href="https://sourceforge.net/p/liferea/bugs/1099/">SF #1099</a>).
+
+It appears that the keyring "liferea" created by the plugin can become "stale" - it just doesn't work anymore. At the moment I have no idea what triggers this and what is exactly the problem. If this happens Liferea cannot store passwords into the keyring anymore and you get password prompts all the time.
+
+<b>Workaround:</b> Delete the "liferea" keyring from GnomeKeyring using the "seahorse" keyring editor. Ensure you have installed "seahorse" and launch it from the command line 
+
+<pre>seahorse</pre>
+
+and delete the keyring as shown in the screenshot:
+
+<img src="/images/gnome-keyring-delete.png"/>

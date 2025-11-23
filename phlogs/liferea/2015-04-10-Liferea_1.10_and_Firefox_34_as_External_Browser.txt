@@ -1,0 +1,16 @@
+Today I learned that newest Firefox release 34 drops some Mozilla legacy command line options that Liferea used for a long time to open links in a Firefox tab or window.
+
+When you upgrade to Firefox 34 opening links might suddenly stop to work, because Liferea uses the wrong launch command.
+
+<h2>Workarounds</h2>
+
+Here are 2 simple workaround alternatives. For both you need to open the "Browser" tab in the preferences dialog (via menu /Tools/Preferences):
+
+<ol>
+<li>Either simply choose "GNOME Default Browser".</li>
+<li>Or choose "Manual" and set command to <pre>firefox %s</pre></li>
+</ol>
+
+Screenshot of the browser settings tab:
+
+<img src="/liferea/help110/help_prefs_browser_1.6.0.png">

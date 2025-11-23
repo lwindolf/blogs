@@ -1,0 +1,58 @@
+It's Christmas so let's have a small present for everyone. Here is a new unstable release.
+
+There are some visual fixes concerning [favicons](https://lzone.de/liferea/blog/Better-Favicons-Part-2) and fixing the blurry trayicon. Additionally many early testers of "reader mode" asked for ways to disable it. So there is now a global preference to disable it altogether and there is also a button to right top of the headline view to toggle it on demand while you read.
+
+This release also fixes a longstanding bug where search folder rules where not case insensitive as intenteded. So you searches might not have found every hit they should have.
+
+## Changes
+
+        * Prevent endless loop on favicon discovery
+          (Lars Windolf)
+
+        * #903: Prevent endless loop in feed autodiscovery
+          (reported by Leiaz)
+
+        * #912: Allow mutiple feed in same libnotify notification
+          (Tasos Sahanidis)
+
+        * Further favicon discovery improvements: now detects all types of
+          Apple Touch Icons, MS Tile Images and Safari Mask Icons
+          Fixes #440
+          (Lars Windolf)
+
+        * Add reader mode toggle in the item view
+          (Lars Windolf)
+
+        * #876 Add reader mode preference
+          (Lars Windolf)
+
+        * Implement support for subscribing to LD+Json metadata
+          listings e.g. concert or theater event listings
+          (Lars Windolf)
+
+        * Provide the default icon for feeds with no favicon as SVG
+          for nicer rendering in wide view. Drop some unused icons.
+          Replace tray icon with scalable version.
+          (Lars Windolf)
+
+        * Fixes CRITICAL on trayicon plugin init
+          (Lars Windolf)
+
+        * Fixes #884: Content of wrong feed is shown
+          (Leiaz, reported by Michael F. Schönitzer)
+
+        * Fixes #900: Flatpak needs icon named after appid
+          (Mikel Olasagasti)
+
+        * Fixes #908, #332: Search folder are not case-insensitive as documented
+          (reported by Heinz Peter Hippenstiel and Jeff Fortin)
+
+        * Fixes #899: Truncated articles (on 'Extract full content')
+          (reported by Leiaz)
+
+        * #902: Updated Polish translation
+          (sunwire)
+
+## Download
+
+Grab the tarball on the Github release page [https://github.com/lwindolf/liferea/releases/tag/v1.13.4](https://github.com/lwindolf/liferea/releases/tag/v1.13.4)

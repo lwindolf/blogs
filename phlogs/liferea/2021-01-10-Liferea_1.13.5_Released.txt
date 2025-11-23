@@ -1,0 +1,50 @@
+This is a new development release mostly focussing on usability. There is also a fix
+of a long-standing bug that search folder searches were not case-insensitive as
+documented.
+
+## Changes
+
+        * #907: Add new search folder property that allows hiding read items
+          (Lars Windolf, suggested by Jeff Fortin)
+
+        * Now always shows the unread count of a search folder (instead of the
+          item count) in the feed list
+          (Lars Windolf)
+
+        * Now search folders are automatically rebuild when rules are changed
+          (Lars Windolf)
+
+        * Adds a new simple focus plugin that adds transparency on the feed list
+          when it is not focussed.
+          (sunwire)
+
+        * Add F10 hotkey to headerbar plugin to allow triggering the hamburger menu
+          (sunwire)
+
+        * Update Flatpak AppData with release dates
+          (Mikel Olasagasti)
+
+        * Make several plugins support gettext
+          (sunwire)
+
+        * Fixes #192: wrong button order of media player in RTL locales
+          (patch by GreenLunar)
+
+        * Fixes #343: Usability of update infos in status bar. Now a total
+          count is displayed on mass-updates and a per-feed info on single
+          feed updates
+          (Lars Windolf)
+
+        * Fixes #809: Usability of feed fetching errors.
+          (Lars Windolf)
+
+        * Updated Polish translation
+          (sunwire)
+
+        * Updated German translation
+          (Lars Windolf)
+
+
+## Download
+
+Grab the tarball on the Github release page [https://github.com/lwindolf/liferea/releases/tag/v1.13.5](https://github.com/lwindolf/liferea/releases/tag/v1.13.5)

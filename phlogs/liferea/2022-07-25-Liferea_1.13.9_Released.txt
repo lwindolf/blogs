@@ -1,0 +1,70 @@
+Here comes a new development release in the 1.13 line.
+
+This will be the last unstable release before the first 1.14 release candidate. It contains
+bugfixes and a generalization of the Google Reader API implementation we already had
+for TheOldReader. This implementation was improved, fixing some bugs and can now
+be used with arbitrary Google Reader services.
+
+## New feature: Google Reader API support
+
+If you are a FeedHQ, FreshRSS, Basquz user or a a user of any other Google Reader 
+compatible service, you can now subscribe to those services.
+
+Note: it currently doesn't work with Miniflux due to this [https://github.com/miniflux/v2/issues/1498](https://github.com/miniflux/v2/issues/1498)
+which is probably a bug in Miniflux. Once it is solved Miniflux also can be used.
+
+If you experience any issues please open a ticket for support!
+
+## GUI simplification: less cluttered item list
+
+The item list has seen some rework. The quite large left padding (cause by reserved space
+for expansion header) is now gone. Also the enclosures icon column was dropped. When 
+using Liferea in wide mode this really gives back a lot of vertical space, so Liferea in wide mode
+becomes more useful half-maximized or in split screen situations.
+
+Please give feedback how you like the change, especially the rather small padding left of the
+favicon column (when in wide mode)!
+
+## Changes
+
+        * Update to Readability.js 0.41 (better image and table handling)
+          (Lars Windolf)
+          
+        * Changes to UserAgent handling: same UA is now used for both feed fetching
+          and internal browsing. User agent now indicates Android+Mobile per default
+          instead of suggesting a Linux desktop to better adapt to the smaller
+          (in comparison to browsers) rendering pane. Additionally special env
+          vars LIFEREA_UA and LIFEREA_UA_ANONYMOUS now also affect the internal
+          browsing.
+
+        * Improve HTML5 extraction: extract <main> if it exists and no article
+          was found.
+
+        * #1117: Hide unused expander space in item list. This saves horizontal
+          space. (Sefler Zhou)
+
+        * Drop enclosure icon from item list. This saves horizontal space.
+          (Lars Windolf)
+
+        * #515, #962, #1113 adds generic Google Reader API support
+          (this enables access to FeedHQ, FreshRSS, Miniflux...)
+
+        * #1108, #113: Improve performance by different check order in itemset
+          merging (suggested by mozbugbox)
+
+        * Fixes #1033: Subscribing defaulted to HTML5 feeds even when real
+          feeds do exist. (reported by Hanno Braun)
+
+        * Fixes #1111: wrong base URI in reader mode
+          (Lars Windolf)
+        
+        * Fixes #1112: Image duplication caused by feeds providing an image
+          link which is also in the item description as additional metadata.
+          (Lars Windolf)
+
+        * Update of Dutch translation (Gert-dev)
+
+
+## Download
+
+Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.13.9

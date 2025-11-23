@@ -1,0 +1,30 @@
+This is a bugfix release for 1.16. It also introduces smaller improvements
+like a standard GTK shortcuts dialog accessible with the Ctrl-? hotkey, F1 now
+points to the help pages.
+
+## Changes
+
+        * Fix #1421 "Mark all as read ?" warning dialog does not appear on middle-click
+          (Lars Windolf)
+
+        * Fixes #904: charset related issue with links
+          (Lars Windolf)
+
+        * Fixes crash when subscribing with "Discover feeds"
+          (Lars Windolf)
+
+        * URL bar is now hidden for special help tabs
+          (Lars Windolf)
+
+        * Removes outdated FAQ menu entry
+          (Lars Windolf)
+
+        * GtkShortCutsWindow is now used for displaying hotkeys, new hotkey is Ctrl-?
+          (Lars Windolf)
+
+        * Fixes incorrectly emitting "move-cursor" signal in GtkTreeView
+          (Lars Windolf)
+
+## Download
+
+Get the new release at [https://github.com/lwindolf/liferea/releases/tag/v1.16.2](https://github.com/lwindolf/liferea/releases/tag/v1.16.2)

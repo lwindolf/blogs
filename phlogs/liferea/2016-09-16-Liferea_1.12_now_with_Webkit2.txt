@@ -1,0 +1,23 @@
+Some minutes ago I'v added Leiaz extensive <a href='https://github.com/Leiaz/liferea/tree/webkit2'>change</a> for switching to Webkit2. This is great news because for quite some time Webkit1 has not seen any security updates anymore and many applications still on Webkit1 expose there users to quite <a href='https://blogs.gnome.org/mcatanzaro/2016/02/01/on-webkit-security-updates/'>some risk</a>.
+
+<h2>What's different in Webkit2?</h2>
+
+The most important change is Webkit being multi-process. For applications using Webkit this means they have to talk to the background process to scroll, copy text, get context menues and other stuff. The Webkit2 way to do the talking is to write a <a href="https://webkitgtk.org/reference/webkit2gtk/stable/WebKitWebExtension.html">Webkit extension</a> that is loaded when the background process starts which allows us to send DBUS commands.
+
+As for performance it seems faster. But you might want to try yourself!
+
+<h2>Distro Support</h2>
+
+To compile with Webkit2 you need at least the following Linux distribution versions
+
+<ul>
+<li>Debian 8 Jessie</li>
+<li>Ubuntu 16.04 Xenial</li>
+<li>Fedora 21</li>
+<li>OpenSuSE 13.2</li>
+<li>...</li>
+</ul>
+
+<h2>No Travis CI anymore</h2>
+
+Due to the Ubuntu 16.04 not yet supported by Travis I had to disable the test builds as the fail installing the Webkit2 package :-(

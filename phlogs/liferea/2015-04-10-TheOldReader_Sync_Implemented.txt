@@ -1,0 +1,22 @@
+I originally intended to make AOL Reader work, but failed due to the undocumented and propably not yet published authentication API. I'll ask AOL about it, but if anyone knows please drop me a mail.
+
+So I could not work on AOL Reader, so I choose to work on TheOldReader (<a href="http://theoldreader.com">http://theoldreader.com</a>) which I found very pleasant and stable. The <a href="https://github.com/krasnoukhov/theoldreader-api">API</a> is close to Google Reader with the only limitation that it sometimes only has JSON support and no XML. As we use JSON already for TinyTinyRSS synching I could build on existing code.
+
+<b>So git master now has working experimental TheOldReader support!</b>
+
+This will be released soon with the initial 1.10 release. 
+
+So Liferea now has the following online synchronization support:
+
+<table border="1" cellpadding="6px">
+<tr><th>Name</th><th>Status</th><th>Import Google Reader</td></tr>
+<tr><td>Google Reader</td><td>Deprecated</td><td>%</td></tr>
+<tr><td>TinyTinyRSS</td><td><b>Implemented, Stable</b></td><td>No</td></tr>
+<tr><td>TheOldReader</td><td><b>Implemented, Experimental</b></td><td>No</td></tr>
+<tr><td>AOL Reader</td><td>Planned, API not complete</td><td>Yes</td></tr>
+<tr><td>Digg Reader</td><td>Planned, API not public</td><td>Yes</td></tr>
+<tr><td>NewsBlur</td><td>Not Planned, API too different</td><td>Yes</td><tr>
+<tr><td>Feedly</td><td>I registered Liferea as interested Client</td><td>Yes</td></tr>
+</table>
+
+On the long term I'd like to support to new Google Reader clones to give Liferea users some choice along with TinyTinyRSS for the self-hosting choice.

@@ -1,0 +1,61 @@
+This is a maintenance release fixing a translation bug and a Youtube video embedding issue.
+
+## Changes:
+
+    * #850: Fix embedded youtube video bug.
+      (reported by sblondon)
+
+    * Fixes #846, #864: Translations not applied to application
+      menu bar and tool bar.
+      (Skif-off)
+
+
+## Download
+
+Grab the tarball on the Github release page [https://github.com/lwindolf/liferea/releases/tag/v1.12.9](https://github.com/lwindolf/liferea/releases/tag/v1.12.9)
+
+## Side-notes
+
+There is amazing work hidden in the quite simple typo fix of the bug reports #846, #864
+done by Github user Skif-off. The actual fix being this patch:
+
+    diff --git a/po/POTFILES.in b/po/POTFILES.in
+    index 74a065b1..27ce8291 100644
+    --- a/po/POTFILES.in
+    +++ b/po/POTFILES.in
+    @@ -189,8 +189,8 @@ plugins/headerbar.py
+     [type: gettext/glade]glade/about.ui
+     [type: gettext/glade]glade/auth.ui
+     [type: gettext/glade]glade/enclosure_handler.ui
+    -[tyep: gettext/glade]glade/liferea_menu.ui
+    -[tyep: gettext/glade]glade/liferea_toolbar.ui
+    +[type: gettext/glade]glade/liferea_menu.ui
+    +[type: gettext/glade]glade/liferea_toolbar.ui
+     [type: gettext/glade]glade/mainwindow.ui
+     [type: gettext/glade]glade/mark_read_dialog.ui
+     [type: gettext/glade]glade/new_folder.ui
+
+To isolate the issue though Skif-off performed some serious permutation testing through
+different versions / compilation mechanism and PO updating. Have a look at this analysis
+table showing affected release tarballs depending on the way you compiled those!!!
+
+    --------------------------------------------------------------
+    Ver.   | as is 1    | as is 2    | update-po 1 | update-po 2 |
+    -------|------------|------------|-------------|-------------|
+    1.12.0 | translated | translated | translated  | translated  |
+    1.12.1 | translated | translated | translated  | translated  |
+    1.12.2 | translated | translated | translated  | translated  |
+    1.12.3 | translated | translated | no          | no          |
+    1.12.4 | translated | translated | no          | no          |
+    1.12.5 | translated | translated | no          | no          |
+    1.12.6 | no         | translated | no          | no          |
+    1.12.7 | no         | no         | no          | no          |
+    1.12.8 | no         | no         | no          | no          |
+    1.13.0 | translated | translated | no          | no          |
+    1.13.1 | translated | translated | no          | no          |
+    master |            | translated |             | no          |
+    --------------------------------------------------------------
+    
+ I won't go into details here (which you can read in the [bug report](https://github.com/lwindolf/liferea/issues/846)
+ I just want to illustrate that this dedicated amount of testing done for this 
+ project done by sudden contributions never ceases to amaze me!!!

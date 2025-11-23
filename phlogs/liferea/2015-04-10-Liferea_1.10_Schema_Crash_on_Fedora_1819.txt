@@ -1,0 +1,10 @@
+In case you want to self-compile Liferea 1.10 on Fedora and you find it crashing on startup with something like this
+
+<pre>(liferea:3798): GLib-GIO-ERROR **: Settings schema 'net.sf.liferea' 
+does not contain a key named 'last-node-selected'</pre>
+
+please run
+
+<pre>/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas</pre>
+
+It seems like the schema installation doesn't work properly on Fedora. This was reported and solved by nmdias in ticket <a href="https://sourceforge.net/p/liferea/bugs/1093">SF #1093</a>.

@@ -1,0 +1,19 @@
+This is a new maintenance release for the 1.10 line. Please upgrade if you use <a href="http://lzone.de/liferea/blog/Liferea%201.10%20and%20Firefox%2034%20as%20External%20Browser">Firefox</a>!
+
+<h2>ChangeLog</h2>
+
+<pre>
+    * Fixes launching URLs in Firefox 36+
+      (reported by Geoffrey Leach)
+    * Fixes Github #30: Segfault after updating from 1.8 to 1.10
+      (reported by vakuum)
+    * Improves Github #36, #113: UI lock up during refresh
+      (suggested by mozbugbox)
+
+    * Fixes typo in Italian translation.
+</pre>
+
+<h2>Download</h2>
+
+You can download the release on Github: 
+<a href="https://github.com/lwindolf/liferea/releases/tag/v1.10.15">https://github.com/lwindolf/liferea/releases/tag/v1.10.15</a>

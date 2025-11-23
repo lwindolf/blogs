@@ -1,0 +1,44 @@
+This is the first release of the new unstable line 1.15. The current idea is to release a bit
+faster than every two years. So not so much features will be introduced before 1.16
+
+## Changes
+
+        * Fixes #1217, #1224: Endless recursion in 1.14.3
+          (reported by uduecoder, mokraemer)
+
+        * Fixes #1214: crash in conf_get_bool_value_from_schema
+          (mozbugbox, reported by Mikel Olasagasti)
+
+        * Fixes #1215: failed to build in launchpad PPA due to
+          auto_test permission issue (reported by PandaJim)
+
+        * Fixes #1212: 1.14.1 crash when refreshing feeds.
+          (mozbugbox, reported by Froggy232)
+
+        * Fixes #1198: FreshRSS logging in correctly but can't get posts
+          (reported by Roger Gonzalez)
+
+        * Fixes a memory leak when reloading CSS
+          (Lars Windolf)
+
+        * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
+          (patch by Alexander Erwin Ittner)
+
+        * Fixes #1200: Crash on double free
+          (mozbugbox)
+
+        * Improve #1192 be reordering widget creation order
+          (Lars Windolf)
+
+        * Improvements to the libnotify plugin
+          (Tasos Sahanidis)
+
+        * Fixes a g_object_unref warning on shutdown
+        * Drops a debug output in the plugin installer
+        * Drop webkit inspector from installable plugins in favour of --debug-html
+        * Drop pane plugin from default plugins
+        * Drop pane plugin (old workaround for pane issues)
+
+## Download
+
+As always you can get the release tarball from Github: [https://github.com/lwindolf/liferea/releases/tag/v1.15.0](https://github.com/lwindolf/liferea/releases/tag/v1.15.0)

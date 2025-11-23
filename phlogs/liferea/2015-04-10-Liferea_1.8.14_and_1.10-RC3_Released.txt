@@ -1,0 +1,3 @@
+Following the previous releases this new stable and unstable release fix a problem with the TinyTinyRSS support which caused broken headline rendering.
+
+Please upgrade if you use TinyTinyRSS!

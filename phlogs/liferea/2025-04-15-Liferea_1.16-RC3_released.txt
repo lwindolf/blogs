@@ -1,0 +1,52 @@
+This is another release candidate for 1.16 which brings an unexpected emergency upgrade
+to libpeas2 and some smaller fixes.
+
+##  Emergency upgrade to libpeas2
+
+Due to an unfortunate [change in pygobject](https://gitlab.archlinux.org/archlinux/packaging/packages/pygobject/-/issues/3) libpeas1 will probably be and stay broken 
+for all Python use cases including Liferea. To avoid this 1.16-RC3 switches to libpeas2.
+
+Sadly libpeas2 is not compatible to libpeas1 and causes the following breaking:
+
+- All 3rd party plugins you have installed break as they are incompatible.
+- 3rd party plugins providers need to provide new versions for their plugins compatible with 1.16
+- It is no longer possible to install 3rd party plugins.
+- The get_focus plugin looses its configure option.
+
+In general I'm a bit sad with both pygobject introducing a breaking change in a minor version update as well a with libpeas causing the plugin breakage by not caring about a compatible upgrade path. Documentation in API migrations nowadays amounts to what "developers ought to do" dropping stuff all around. 
+
+This is one more reason to continue focussing on Liferea successor [NewsAgain](https://github.com/lwindolf/newsagain) purely based in the Javascript world with as few reliable dependencies as possible getting out of the GNOME universe.
+
+If you care about Liferea there is still some time left for it and still plans for a final GTK4 port.
+
+## Changes
+
+	* Removes long deprecated manual proxy setting
+	  (Lars Windolf)
+
+	* #1462 Drop the possibility to save passwords to OPML feed list when
+	  no keyring is available. This is too insecure.
+	  (Lars Windolf)
+
+	* #1426 Migration to libpeas2, this means
+	  (Lars Windolf)
+
+	* #1426 New configure option to set girepository dependency version
+	  (Lars Windolf)
+	  
+	* Fixes escaping of JS exception texts
+	  (Lars Windolf)
+
+	* Fixes Youtube video embedding regression
+	  (Lars Windolf)
+
+## Note for maintainers
+
+There is some uncertainty about the girepository version to use. It depends on which pygobject
+you package for. You might need to change the version in configure.ac.
+
+See also [https://gitlab.gnome.org/GNOME/libpeas/-/issues/60](https://gitlab.gnome.org/GNOME/libpeas/-/issues/60)
+
+## Download
+
+You can download the release from [https://github.com/lwindolf/liferea/releases/tag/v1.16-RC3](https://github.com/lwindolf/liferea/releases/tag/v1.16-RC3)

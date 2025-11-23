@@ -1,0 +1,11 @@
+This is a bugfix release. It provides an important stability fix regarding feed parsing.
+Kudos to Rich Coe for debugging and fixing the issue!
+
+## Changes
+
+        * Fixes #1291: Feed parsing is broken
+          (Rich Coe)
+
+## Download
+
+You can get the latest tarball from [https://github.com/lwindolf/liferea/releases/tag/v1.15.2](https://github.com/lwindolf/liferea/releases/tag/v1.15.2)

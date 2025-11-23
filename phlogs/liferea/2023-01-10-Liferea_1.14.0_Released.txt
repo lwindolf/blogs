@@ -1,0 +1,120 @@
+Here comes the newest stable release line of Liferea 1.14!
+
+## Features introduced with 1.14
+
+First: Many thanks to all the contributors and package maintainers that made this possible!
+
+### Internal Browser
+
+<ul>
+              <li>New 'Reader mode' preference that allows stripping all web content</li>
+              <li>Implement support for Webkits Intelligent Tracking Protection</li>
+              <li>New progress bar when loading websites</li>
+              <li>Youtube videos from media:video can be embedded now with a click on the video preview picture.</li>
+              <li>Changes to UserAgent handling: same UA is now used for both feed fetching
+              and internal browsing. User agent now indicates Android+Mobile per default
+              instead of suggesting a Linux desktop to better adapt to the smaller
+              (in comparison to browsers) rendering pane. Additionally special env
+              vars LIFEREA_UA and LIFEREA_UA_ANONYMOUS now also affect the internal
+              browsing.</li>
+</ul>
+
+### GUI
+
+<ul>
+              <li>New view mode 'Automatic' which switches between 'Normal' and 'Wide' mode based 
+              on the window proportions.</li>
+              <li>Liferea now supports the new GTK dark theme logic, where in the GTK/GNOME preferences
+              you define wether you "prefer" dark mode or light mode</li>
+              <li>Favicon discovery improvements: now detects all types of Apple Touch Icons, MS Tile 
+              Images and Safari Mask Icons</li>
+              <li>Increase size of stored favicons to 128x128px to improve icon quality in 3-pane wide view.</li>
+              <li>Make several plugins support gettext</li>
+              <li>Allow mutiple feed in same libnotify notification</li>
+              <li>Redesign of the update message in the status bar. It now shows a
+              update counter of the feeds being in update.</li>
+              <li>You can now export a feed to XML file</li>
+              <li>Added an option to show news bins in reduced feed list</li>
+              <li>Added menu option to send item per mail</li>
+</ul>
+
+### Feed parsing
+
+<ul>
+              <li>Default to https:// instead of http:// when user doesn't
+              provide protocol on subscribing feed</li>
+              <li>Implement support for subscribing to LD+Json metadata
+              listings e.g. concert or theater event listings</li>
+              <li>Implement support for subscribing to HTML5 websites</li>
+              <li>Support for media:description field of Youtube feeds</li>
+              <li>Improve HTML5 extraction: extract main tag if it exists and no article was found.</li>
+              <li>Execute feed pipe/filter commands asynchronously</li>
+              <li>Better explanation of feed update errors.</li>
+</ul>
+
+### Online services
+
+<ul>
+              <li>Added generic Google Reader API support (allows using FeedHQ, FreshRSS, Miniflux...)</li>
+              <li>Now allow converting TinyTinyRSS subscriptions to local subscriptions</li>
+</ul>
+
+### Search folders
+
+<ul>
+              <li>New search folder rule to match podcasts</li>
+              <li>New search folder rule to match headline authors</li>
+              <li>New search folder rule to match subscription source</li>
+              <li>New search folder rule to match parent folder name</li>
+              <li>New search folder property that allows hiding read items</li>
+              <li>Now search folders are automatically rebuild when rules are changed</li>
+</ul>
+
+### Plugins
+
+<ul>
+              <li>Added new plugin 'add-bookmark-site' that allows to configure a custom bookmarking site.</li>
+              <li>Added new plugin 'getfocus' that adds transparency on the feed list when it is not focussed.</li>
+              <li>Trayicon plugin has now a configuration option to change the behaviour when closing Liferea.</li>
+              <li>Trayicon plugin has now an option to disable minimizing to tray</li>
+</ul>
+
+### Hotkeys
+
+<ul>
+              <li>New hot key Ctrl-D for 'Open in External Browser'</li>
+              <li>New hot key F10 for headerbar plugin to allow triggering the hamburger menu</li>
+              <li>New hot key Ctrl-0 to reset zoom</li>
+              <li>New hot key Ctrl-O to open enclosures</li>
+</ul>
+
+## Important bugfixes
+
+- Fixing hidden panes:
+  Many Liferea users did suffer from invisible pane (e.g. a minimized feed list
+  or HTML view) upon startup. With certain desktop environments / themes making
+  the pane grips invisible it is hard to grip the correct pixel to restore a pane.
+
+  Now Liferea will never allow the panes to be smaller than 5% in height or width
+  regarding to there orientation. If a pane is smaller than 5% height/width it will be
+  set to 30% width or 50% height on startup.
+
+  The intention here is that panes are never invisible after startup.
+- Wait for network to be fully available before updating: sometimes when real internet
+  access takes longer to come up then your WLAN connection Liferea did update feeds to
+  early resulting in errors. Now Liferea waits for full internet connection.
+ 
+## Deprecations
+
+<ul>
+  <li>2-pane mode was removed</li>
+  <li>Dropped CDF channel support</li>
+  <li>Dropped Atom 0.2/0.3 (aka Pie) support</li>
+  <li>Dropped blogChannel namespace support</li>
+  <li>Dropped photo namespace support</li>
+</ul>
+
+  
+## Download
+
+Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.0

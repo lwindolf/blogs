@@ -1,0 +1,16 @@
+1.14 is not as stable yet as intended and is suffering from startup race conditions. This bugfix release tries to further eliminate those issues.
+
+## Changes
+
+    * Fixes #1217, #1224: Endless recursion in 1.14.3
+      (reported by uduecoder, mokraemer)
+
+    * Additional fixes for #1214: crash in conf_get_bool_value_from_schema
+      (reported by Mikel Olasagasti)
+
+    * Fixes a g_object_unref warning on shutdown
+    * Drops a debug output in the plugin installer
+          
+## Download
+
+Get Liferea from https://github.com/lwindolf/liferea/releases/tag/v1.14.4
