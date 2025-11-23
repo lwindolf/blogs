@@ -91,7 +91,7 @@ function createPhlogs() {
         const gopherServer = 'gopher.lzone.de\t70';
 
         // Ensure output directory exists
-        const outputDir = path.join(import.meta.dirname, 'phlogs');
+        const outputDir = path.join(import.meta.dirname, 'gopher', 'phlogs');
         if (!fs.existsSync(outputDir)) {
                 fs.mkdirSync(outputDir, { recursive: true });
         }
@@ -115,6 +115,11 @@ function createPhlogs() {
                 ];
                 const posts = fs.readdirSync(f.input)
                 .filter(file => file.endsWith('.md'))
+                .sort((a, b) => {
+                        const dateA = new Date(a.match(/^\d{4}-\d{2}-\d{2}/) ? a.match(/^\d{4}-\d{2}-\d{2}/)[0] : 0);
+                        const dateB = new Date(b.match(/^\d{4}-\d{2}-\d{2}/) ? b.match(/^\d{4}-\d{2}-\d{2}/)[0] : 0);
+                        return dateB - dateA;
+                })
                 .forEach(file => {
                         const content = fs.readFileSync(path.join(f.input, file), 'utf-8');
                         const frontMatterRegex = /^---[\s\S]*?---(?:\r?\n|\r)/m;

@@ -1,0 +1,28 @@
+iThis is the DevOps phlog		fake	1
+i 		fake	1
+02024-05-27-ArgoCD delete hanging Application	/gopher/phlogs/devops/2024-05-27-ArgoCD_delete_hanging_Application.txt	gopher.lzone.de	70
+02024-02-28-ArgoCD Debugging Reconciliation Loops	/gopher/phlogs/devops/2024-02-28-ArgoCD_Debugging_Reconciliation_Loops.txt	gopher.lzone.de	70
+02024-01-18-How to get Openshift SCC UID ranges	/gopher/phlogs/devops/2024-01-18-How_to_get_Openshift_SCC_UID_ranges.txt	gopher.lzone.de	70
+02023-05-02-Disable sleep key on keyboard	/gopher/phlogs/devops/2023-05-02-Disable_sleep_key_on_keyboard.txt	gopher.lzone.de	70
+02022-03-25-Useful Github search to find all PRs in all your repos	/gopher/phlogs/devops/2022-03-25-Useful_Github_search_to_find_all_PRs_in_all_your_repos.txt	gopher.lzone.de	70
+02021-04-06-Accessing Grafeas with a swagger client	/gopher/phlogs/devops/2021-04-06-Accessing_Grafeas_with_a_swagger_client.txt	gopher.lzone.de	70
+02021-03-03-Store multi-line secrets in Azure DevOps pipelines	/gopher/phlogs/devops/2021-03-03-Store_multi-line_secrets_in_Azure_DevOps_pipelines.txt	gopher.lzone.de	70
+02021-03-01-Convert JSON to YAML in Linux bash	/gopher/phlogs/devops/2021-03-01-Convert_JSON_to_YAML_in_Linux_bash.txt	gopher.lzone.de	70
+02021-02-17-Easily fix async video with ffmpeg	/gopher/phlogs/devops/2021-02-17-Easily_fix_async_video_with_ffmpeg.txt	gopher.lzone.de	70
+02021-02-15-Adding custom CA certificates in Openshift	/gopher/phlogs/devops/2021-02-15-Adding_custom_CA_certificates_in_Openshift.txt	gopher.lzone.de	70
+02020-12-01-Jenkins search for unmasked passwords	/gopher/phlogs/devops/2020-12-01-Jenkins_search_for_unmasked_passwords.txt	gopher.lzone.de	70
+02020-11-19-ffmpeg video transcoding from nautilus	/gopher/phlogs/devops/2020-11-19-ffmpeg_video_transcoding_from_nautilus.txt	gopher.lzone.de	70
+02020-11-17-Find broken Helm 3 releases	/gopher/phlogs/devops/2020-11-17-Find_broken_Helm_3_releases.txt	gopher.lzone.de	70
+02020-05-12-HTTP requests from jenkins pipeline	/gopher/phlogs/devops/2020-05-12-HTTP_requests_from_jenkins_pipeline.txt	gopher.lzone.de	70
+02020-03-30-Jekyll collections without frontmatter	/gopher/phlogs/devops/2020-03-30-Jekyll_collections_without_frontmatter.txt	gopher.lzone.de	70
+02020-03-12-How to get docker BuildKit to show RUN command output	/gopher/phlogs/devops/2020-03-12-How_to_get_docker_BuildKit_to_show_RUN_command_output.txt	gopher.lzone.de	70
+02020-03-10-How to use custom CSS with Jekyll Minima theme	/gopher/phlogs/devops/2020-03-10-How_to_use_custom_CSS_with_Jekyll_Minima_theme.txt	gopher.lzone.de	70
+02020-03-10-Jenkins list all pod templates	/gopher/phlogs/devops/2020-03-10-Jenkins_list_all_pod_templates.txt	gopher.lzone.de	70
+02020-02-11-Helm Best Practices	/gopher/phlogs/devops/2020-02-11-Helm_Best_Practices.txt	gopher.lzone.de	70
+02020-02-11-Old helm chart repos will disappear	/gopher/phlogs/devops/2020-02-11-Old_helm_chart_repos_will_disappear.txt	gopher.lzone.de	70
+02020-02-05-Redis list all keys	/gopher/phlogs/devops/2020-02-05-Redis_list_all_keys.txt	gopher.lzone.de	70
+02019-11-13-Helm causes Could not get apiVersions from Kubernetes	/gopher/phlogs/devops/2019-11-13-Helm_causes_Could_not_get_apiVersions_from_Kubernetes.txt	gopher.lzone.de	70
+02019-06-07-Helm template check if key exists	/gopher/phlogs/devops/2019-06-07-Helm_template_check_if_key_exists.txt	gopher.lzone.de	70
+02019-05-29-ANSI color in Jenkins pipelines	/gopher/phlogs/devops/2019-05-29-ANSI_color_in_Jenkins_pipelines.txt	gopher.lzone.de	70
+02019-05-29-Helm templates lists using range	/gopher/phlogs/devops/2019-05-29-Helm_templates_lists_using_range.txt	gopher.lzone.de	70
+02019-05-29-Log detailed output in bats	/gopher/phlogs/devops/2019-05-29-Log_detailed_output_in_bats.txt	gopher.lzone.de	70

@@ -30,4 +30,4 @@ Build blogs + phlogs with
 ## Deploy
 
 - Copy the `www` directory to your a subfolder in your webserver root.
-- Copy the `phlogs` directory into your gopher root.
+- Copy the `gopher` directory into your gopher root.

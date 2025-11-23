@@ -1,0 +1,40 @@
+
+         _____  _____  __   _ _____
+ |       ____/ |     | | \  | |_____
+ |_____ /_____ |_____| |  \_| |______
+                                     
+                                                              
+Gopher content matching the web version of lzone.de
+And at the same time it is much calmer here...
+
+
+_____ About me _____
+
+
+Well, I mostly do technical stuff out on the internet.
+Other than that I live for philosophy and gardening at our 
+house at the edge of the wood.
+
+
+_____ Projects _____
+
+
+I care about keeping RSS alive:
+
+hLiferea         (RSS reader)	URL:https://lzone.de/liferea
+hrss-feed-index  (RSS feed catalog)	URL:https://github.com/lwindolf/rss-feed-index
+hrss-feed-finder (RSS discovery)	URL:https://github.com/lwindolf/rss-feed-finder
+
+and try to share DevOps knowledge
+
+hCheat Sheet collection	URL:https://github.com/lwindolf/lzone-cheat-sheets
+hSaaS Multi Status	URL:https://github.com/lwindolf/multi-status
+hCloud Outage Index	URL:https://github.com/lwindolf/cloud-outages
+
+
+_____ Content on gopher ______
+
+I mirror my two web logs:
+
+1DevOps Notes	/phlogs/devops	gopher.lzone.de	70
+1Liferea Development	/phlogs/liferea	gopher.lzone.de	70
