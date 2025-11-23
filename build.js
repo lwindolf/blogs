@@ -125,7 +125,7 @@ function createPhlogs() {
                                 fs.mkdirSync(phlogDir, { recursive: true });
                         }
                         fs.writeFileSync(phlogPath, cleanedContent, 'utf-8');
-                        gophermap.push(`0${file.replace('.md', '')}\t${path.relative(import.meta.dirname, phlogPath)}\t${gopherServer}`);
+                        gophermap.push(`0${file.replace('.md', '')}\t/${path.relative(import.meta.dirname, phlogPath)}\t${gopherServer}`);
                 });
                 // Write the gophermap file
                 const gophermapPath = path.join(f.output, 'gophermap');
