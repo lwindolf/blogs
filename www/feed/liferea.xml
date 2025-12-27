@@ -2,11 +2,42 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-11-23T21:55:09.031Z</updated>
+    <updated>2025-12-27T21:40:50.062Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 1.16.7 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%201.16.7%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2025-12-27-Liferea 1.16.7 Released"/>
+        <updated>2025-12-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is a new bugfix release. Due to further enshittification at Youtube the video embedding
+had to be removed, which is probably a good idea anyway. A bug in the favicon handling was
+solved so if you had some missing ones they will surely show up now. There was a visual
+improvement to the "Important" label coloring and finally BlueSky feeds will now show a link
+to the post, which they were missing due to having no titles (which normally have the link).</p>
+<p>And last I want to wish everyone a <strong>Happy New Year 2026!</strong></p>
+<h2 id="changes">Changes</h2>
+<pre><code>* Drop Youtube video embedding due to "error 153" and the general
+  privacy implications
+  (Lars Windolf)
+
+* Fixes #805: use white on red instead of black on red for 
+  item list "Important" label
+  (Lars Windolf)
+
+* Fixes #1478: No favicons for several feeds
+  (Lars Windolf)
+
+* Fixes #1477: bsky.app links not being used
+  (Lars Windolf)
+
+* Fixes #1480: Extract item content is sometimes unexpectedly colored
+  (Lars Windolf)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the new release tarball from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16.7">https://github.com/lwindolf/liferea/releases/tag/v1.16.7</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Cleaning up feature requests]]></title>
         <id>https://lzone.de/liferea/blog//Cleaning%20up%20feature%20requests</id>
@@ -768,51 +799,5 @@ that you can download and import in Liferea using <code>Subscriptions</code> -&g
   (reported by ksso83)</code></pre>
 <h2 id="download">Download</h2>
 <p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.6">https://github.com/lwindolf/liferea/releases/tag/v1.14.6</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.15.0 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.15.0%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-04-15-Liferea 1.15.0 Released"/>
-        <updated>2023-04-15T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is the first release of the new unstable line 1.15. The current idea is to release a bit
-faster than every two years. So not so much features will be introduced before 1.16</p>
-<h2 id="changes">Changes</h2>
-<pre><code>    * Fixes #1217, #1224: Endless recursion in 1.14.3
-      (reported by uduecoder, mokraemer)
-
-    * Fixes #1214: crash in conf_get_bool_value_from_schema
-      (mozbugbox, reported by Mikel Olasagasti)
-
-    * Fixes #1215: failed to build in launchpad PPA due to
-      auto_test permission issue (reported by PandaJim)
-
-    * Fixes #1212: 1.14.1 crash when refreshing feeds.
-      (mozbugbox, reported by Froggy232)
-
-    * Fixes #1198: FreshRSS logging in correctly but can't get posts
-      (reported by Roger Gonzalez)
-
-    * Fixes a memory leak when reloading CSS
-      (Lars Windolf)
-
-    * Fixes CVE-2023-1350: RCE vulnerability on feed enrichment
-      (patch by Alexander Erwin Ittner)
-
-    * Fixes #1200: Crash on double free
-      (mozbugbox)
-
-    * Improve #1192 be reordering widget creation order
-      (Lars Windolf)
-
-    * Improvements to the libnotify plugin
-      (Tasos Sahanidis)
-
-    * Fixes a g_object_unref warning on shutdown
-    * Drops a debug output in the plugin installer
-    * Drop webkit inspector from installable plugins in favour of --debug-html
-    * Drop pane plugin from default plugins
-    * Drop pane plugin (old workaround for pane issues)</code></pre>
-<h2 id="download">Download</h2>
-<p>As always you can get the release tarball from Github: <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.0">https://github.com/lwindolf/liferea/releases/tag/v1.15.0</a></p>]]></summary>
     </entry>
 </feed>
