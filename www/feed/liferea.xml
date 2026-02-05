@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2025-12-30T17:51:01.167Z</updated>
+    <updated>2026-02-05T23:14:13.602Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
@@ -779,7 +779,7 @@ Still there is an issue remaining where feed updates are getting stuck when upda
         <summary type="html"><![CDATA[<p>If you are native German speaker and want to consume public TV station
 content using Liferea you can do so by following the RSS feeds provided
 by <a href="https://mediathekviewweb.de/">https://mediathekviewweb.de/</a>.</p>
-<p>To easily import some of the most important feeds here is an <a href="/liferea/blog/assets/german-tv.opml">OPML file</a>
+<p>To easily import some of the most important feeds here is an <a href="https://raw.githubusercontent.com/lwindolf/blogs/refs/heads/main/Blogs/Liferea/assets/german-tv.opml">OPML file</a>
 that you can download and import in Liferea using <code>Subscriptions</code> -&gt; <code>Import Feedlist</code>.</p>]]></summary>
     </entry>
     <entry>
