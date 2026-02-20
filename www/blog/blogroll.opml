@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head>
+    <title>DevOps Blogroll</title>
+    <ownerName>Lars Windolf</ownerName>
+    <ownerEmail>lars.windolf@gmx.de</ownerEmail>
+    <dateCreated>Fri, 20 Feb 2026 21:33:18 GMT</dateCreated>
+		<dateModified>Fri, 20 Feb 2026 21:33:18 GMT</dateModified>
+  </head>
+  <body>
+    <outline title="Blogs" text="Local" description="Local" type="folder" id="iaofkcv" sortColumn="time" expanded="true">
+      <outline title="Pete Zaitcev" text="Pete Zaitcev" description="Pete Zaitcev" type="rss" id="toqkggv" sortColumn="time" xmlUrl="https://zaitcev.livejournal.com/data/rss" htmlUrl="https://zaitcev.livejournal.com/" updateInterval="-1" collapsed="true"/>
+      <outline title="Chris's Wiki :: blog" text="Chris's Wiki :: blog" description="Chris's Wiki :: blog" type="atom" id="yeeoxfl" sortColumn="time" xmlUrl="https://utcc.utoronto.ca/~cks/space/blog/?atom" htmlUrl="https://utcc.utoronto.ca/~cks/space/blog/" updateInterval="-1" collapsed="true"/>
+      <outline title="plasmasturm.org" text="plasmasturm.org" description="plasmasturm.org" type="atom" id="dcfkcst" sortColumn="time" xmlUrl="http://plasmasturm.org/feed" htmlUrl="http://plasmasturm.org/" updateInterval="-1" collapsed="true"/>
+      <outline title="Fabien Sanglard" text="Fabien Sanglard" description="Fabien Sanglard" type="rss" id="yyjiclq" sortColumn="time" xmlUrl="https://fabiensanglard.net/rss.xml" htmlUrl="https://fabiensanglard.net" updateInterval="-1" html5Extract="true" collapsed="true"/>
+      <outline title="Planet GNOME" text="Planet GNOME" description="Planet GNOME" type="atom" id="nvxhcjr" sortColumn="time" xmlUrl="https://planet.gnome.org/atom.xml" htmlUrl="https://planet.gnome.org/" updateInterval="-1" collapsed="true"/>
+      <outline title="halting problem" text="halting problem" description="halting problem" type="atom" id="oabjlax" sortColumn="time" xmlUrl="https://www.bassi.io/feeds/all.atom.xml" htmlUrl="https://www.bassi.io/" updateInterval="-1" collapsed="true"/>
+      <outline title="Fabien Sanglard" text="Fabien Sanglard" description="Fabien Sanglard" type="rss" id="lvdfldn" sortColumn="time" xmlUrl="https://fabiensanglard.net/rss.xml" htmlUrl="https://fabiensanglard.net" updateInterval="-1" html5Extract="true" collapsed="true"/>
+      <outline title="Tech Notes" text="Tech Notes" description="Tech Notes" type="rss" id="qgvejbm" sortColumn="time" xmlUrl="https://www.figuiere.net/technotes/index.xml" htmlUrl="https://www.figuiere.net/technotes/" updateInterval="-1" collapsed="true"/>
+      <outline title="Nekohayo !" text="Nekohayo !" description="Nekohayo !" type="rss" id="kfmxjwp" sortColumn="time" xmlUrl="https://fortintam.com/blog/feed/" htmlUrl="https://fortintam.com/blog" updateInterval="-1" collapsed="true"/>
+      <outline title="Pete Zaitcev" text="Pete Zaitcev" description="Pete Zaitcev" type="rss" id="atidjdw" sortColumn="time" xmlUrl="https://zaitcev.livejournal.com/data/rss" htmlUrl="https://zaitcev.livejournal.com/" updateInterval="-1" collapsed="true"/>
+      <outline title="The Open Sourcerer" text="The Open Sourcerer" description="The Open Sourcerer" type="rss" id="ewdllmb" sortColumn="time" xmlUrl="https://fortintam.com/blog/feed/" htmlUrl="https://fortintam.com/blog" updateInterval="-1" collapsed="true"/>
+      <outline title="plasmasturm.org" text="plasmasturm.org" description="plasmasturm.org" type="atom" id="siwubln" sortColumn="time" xmlUrl="http://plasmasturm.org/feed" htmlUrl="http://plasmasturm.org/" updateInterval="-1" collapsed="true"/>
+      <outline title="@swardley.bsky.social - Simon Wardley." text="@swardley.bsky.social - Simon Wardley." description="@swardley.bsky.social - Simon Wardley." type="rss" id="ilngtxx" sortColumn="time" xmlUrl="https://bsky.app/profile/did:plc:jinf3wk7cfionx6h4afrxbbm/rss" htmlUrl="https://bsky.app/profile/swardley.bsky.social" updateInterval="-1" collapsed="true"/>
+      <outline title="Hugging Face - Blog" text="Hugging Face - Blog" description="Hugging Face - Blog" type="rss" id="lcyohfe" sortColumn="time" xmlUrl="https://huggingface.co/blog/feed.xml" htmlUrl="https://huggingface.co/blog" updateInterval="-1" html5Extract="true" collapsed="true"/>
+    </outline>
+    <outline title="News" text="News">
+      <outline title="Golem.de" text="Golem.de" description="Golem.de" type="atom" id="gyvuuqe" sortColumn="time" xmlUrl="https://rss.golem.de/rss.php?feed=ATOM1.0" htmlUrl="http://golem.superfeedr.com/" updateInterval="-1" collapsed="true"/>
+      <outline title="heise online News" text="heise online News" description="heise online News" type="atom" id="nmabpjc" sortColumn="time" xmlUrl="https://www.heise.de/rss/heise-atom.xml" htmlUrl="https://www.heise.de/" updateInterval="-1" collapsed="true"/>
+      <outline title="Phoronix" text="Phoronix" description="Phoronix" type="rss" id="junbsrx" sortColumn="time" xmlUrl="https://www.phoronix.com/rss.php" htmlUrl="https://www.phoronix.com/" updateInterval="-1" html5Extract="true" collapsed="true"/>
+    </outline>
+    <outline title="LLM" text="LLM" description="LLM" type="folder" id="mvetxir" sortColumn="time" expanded="true">
+      <outline title="Stories by Cogni Down Under on Medium" text="Stories by Cogni Down Under on Medium" description="Stories by Cogni Down Under on Medium" type="rss" id="ikyyriu" sortColumn="time" xmlUrl="https://medium.com/feed/@cognidownunder" htmlUrl="https://medium.com/@cognidownunder?source=rss-3853103833a5------2" updateInterval="-1" collapsed="true"/>
+      <outline title="Ollama" text="Ollama" description="Ollama" type="rss" id="dedxjqt" sortColumn="time" xmlUrl="https://ollama.com/blog/rss.xml" htmlUrl="https://ollama.com/blog" updateInterval="-1" html5Extract="true" collapsed="true"/>
+    </outline>
+    <outline title="Enterprise" text="Enterprise">
+      <outline title="Cloud" text="Cloud" description="Cloud" type="folder" id="fl_ttrss-folder-7" sortColumn="time" expanded="true">
+        <outline title="All Things Distributed" text="All Things Distributed" description="All Things Distributed" type="rss" id="hktclai" sortColumn="time" xmlUrl="https://www.allthingsdistributed.com/atom.xml" htmlUrl="https://www.allthingsdistributed.com/" updateInterval="-1" html5Extract="true" collapsed="true"/>
+        <outline title="AWS Architecture Blog" text="AWS Architecture Blog" description="AWS Architecture Blog" type="rss" id="qydlftf" sortColumn="time" xmlUrl="https://aws.amazon.com/blogs/architecture/feed/" htmlUrl="https://aws.amazon.com/blogs/architecture/" updateInterval="-1" collapsed="true"/>
+        <outline title="AWS CloudFormation – AWS News Blog" text="AWS CloudFormation – AWS News Blog" description="AWS CloudFormation – AWS News Blog" type="rss" id="olkqtig" sortColumn="time" xmlUrl="https://aws.amazon.com/blogs/aws/tag/aws-cloud-formation/feed/" htmlUrl="https://aws.amazon.com/blogs/aws/" updateInterval="-1" collapsed="true"/>
+        <outline title="AWS DevOps Blog" text="AWS DevOps Blog" description="AWS DevOps Blog" type="rss" id="slstxjp" sortColumn="time" xmlUrl="https://aws.amazon.com/blogs/devops/feed/" htmlUrl="https://aws.amazon.com/blogs/devops/" updateInterval="-1" collapsed="true"/>
+        <outline title="Google Cloud Platform" text="Google Cloud Platform" description="Google Cloud Platform" type="rss" id="ijijiex" sortColumn="time" xmlUrl="https://cloudplatform.googleblog.com/feeds/posts/default" htmlUrl="https://cloud.google.com/blog/products/gcp/" updateInterval="-1" collapsed="true"/>
+        <outline title="Jakub Bujny – personal blog" text="Jakub Bujny – personal blog" description="Jakub Bujny – personal blog" type="rss" id="gvtptjg" sortColumn="time" xmlUrl="https://jakubbujny.com/feed/" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        <outline title="Microsoft Azure Blog" text="Microsoft Azure Blog" description="Microsoft Azure Blog" type="rss" id="bvidbkw" sortColumn="time" xmlUrl="https://azure.microsoft.com/de-de/blog/feed/" htmlUrl="https://azure.microsoft.com/en-us/blog/" updateInterval="-1" collapsed="true"/>
+        <outline title="Microsoft Azure Blog &gt; Serverless" text="Microsoft Azure Blog &gt; Serverless" description="Microsoft Azure Blog &gt; Serverless" type="rss" id="abxdxyf" sortColumn="time" xmlUrl="https://azure.microsoft.com/de-de/blog/topics/serverless/feed/" htmlUrl="https://azure.microsoft.com/en-us/blog/category/serverless/" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="Automation" text="Automation" description="Automation" type="folder" id="fl_ttrss-folder-8" sortColumn="time" expanded="true">
+        <outline title="HashiCorp Blog" text="HashiCorp Blog" description="HashiCorp Blog" type="atom" id="rjtmhqc" sortColumn="time" xmlUrl="https://www.hashicorp.com/blog/feed.xml" htmlUrl="https://hashicorp.com/blog" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="kubernetes" text="kubernetes" description="kubernetes" type="folder" id="fl_ttrss-folder-9" sortColumn="time" expanded="true">
+        <outline title="Kubernetes – Production-Grade Container Orchestration" text="Kubernetes – Production-Grade Container Orchestration" description="Kubernetes – Production-Grade Container Orchestration" type="rss" id="ogyskom" sortColumn="time" xmlUrl="https://kubernetes.io/feed.xml" htmlUrl="https://kubernetes.io/" updateInterval="-1" collapsed="true"/>
+        <outline title="Red Hat OpenShift Blog" text="Red Hat OpenShift Blog" description="Red Hat OpenShift Blog" id="scenlkb" sortColumn="time" xmlUrl="https://cloud.redhat.com/rss/blog/channel/hybrid-cloud-infrastructure" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        <outline title="Tigera" text="Tigera" description="Tigera" type="rss" id="cvjllcy" sortColumn="time" xmlUrl="https://www.tigera.io/feed/" htmlUrl="https://www.tigera.io/" updateInterval="-1" collapsed="true"/>
+        <outline title="DEV Community: kubernetes" text="DEV Community: kubernetes" description="DEV Community: kubernetes" type="rss" id="iqsbcwy" sortColumn="time" xmlUrl="https://dev.to/feed/tag/kubernetes" htmlUrl="https://dev.to/t/kubernetes" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="TSDB" text="TSDB" description="TSDB" type="folder" id="fl_ttrss-folder-10" sortColumn="time" expanded="true">
+        <outline title="Blogs on Grafana Labs Blog" text="Blogs on Grafana Labs Blog" description="Blogs on Grafana Labs Blog" type="html5" id="pwyjfro" sortColumn="time" xmlUrl="https://grafana.com/blog/" htmlUrl="https://grafana.com/blog/" updateInterval="-1" loadItemLink="true" collapsed="true"/>
+        <outline title="InfluxData" text="InfluxData" description="InfluxData" type="rss" id="lxhgrem" sortColumn="time" xmlUrl="https://www.influxdata.com/feed/" htmlUrl="https://www.influxdata.com/blog/" updateInterval="-1" html5Extract="true" collapsed="true"/>
+        <outline title="Prometheus Blog" text="Prometheus Blog" description="Prometheus Blog" type="atom" id="pukcxvg" sortColumn="time" xmlUrl="https://prometheus.io/blog/feed.xml" htmlUrl="https://prometheus.io/blog/" updateInterval="-1" collapsed="true"/>
+        <outline title="Timescale - Medium" text="Timescale - Medium" description="Timescale - Medium" type="rss" id="somgffk" sortColumn="time" xmlUrl="https://www.timescale.com/blog/rss/" htmlUrl="https://www.tigerdata.com/blog" updateInterval="-1" collapsed="true"/>
+        <outline title="Blocks and Files" text="Blocks and Files" description="Blocks and Files" type="rss" id="eegqmaj" sortColumn="time" xmlUrl="https://blocksandfiles.com/feed/" htmlUrl="https://www.blocksandfiles.com" updateInterval="-1" collapsed="true"/>
+        <outline title="The Cutter Blog" text="The Cutter Blog" description="The Cutter Blog" type="rss" id="fgckvpt" sortColumn="time" xmlUrl="https://blog.cutter.com/feed/" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        <outline title="via @codeship" text="via @codeship" description="via @codeship" id="sadaovu" sortColumn="time" xmlUrl="https://www.cloudbees.com/blog/feed/" htmlUrl="" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="Sysadmin" text="Sysadmin" description="Sysadmin" type="folder" id="fl_ttrss-folder-3" sortColumn="time" expanded="true">
+        <outline title="Rcarrata's Blog" text="Rcarrata's Blog" description="Rcarrata's Blog" type="atom" id="rfhhjys" sortColumn="time" xmlUrl="https://rcarrata.com/feed.xml" htmlUrl="https://rcarrata.com/" updateInterval="-1" html5Extract="true" collapsed="true"/>
+        <outline title="Network" text="Network" description="Network" type="folder" id="fl_ttrss-folder-4" sortColumn="time" expanded="true">
+          <outline title="CDN Planet Blog" text="CDN Planet Blog" description="CDN Planet Blog" type="atom" id="dsgimgn" sortColumn="time" xmlUrl="https://www.cdnplanet.com/blog/feed.xml" htmlUrl="https://www.cdnplanet.com" updateInterval="-1" collapsed="true"/>
+        </outline>
+        <outline title="DB" text="DB" description="DB" type="folder" id="fl_ttrss-folder-5" sortColumn="time" expanded="true">
+          <outline title="Comments on: Blog" text="Comments on: Blog" description="Comments on: Blog" type="rss" id="pnfduyv" sortColumn="time" xmlUrl="https://redis.com/blog/feed/" htmlUrl="https://redis.io/en/blog" updateInterval="-1" collapsed="true"/>
+          <outline title="DB-Engines.com Blog" text="DB-Engines.com Blog" description="DB-Engines.com Blog" type="rss" id="fieyify" sortColumn="time" xmlUrl="https://db-engines.com/de/rss/blog.xml" htmlUrl="https://db-engines.com/de/blog" updateInterval="-1" collapsed="true"/>
+          <outline title="Hack MySQL" text="Hack MySQL" description="Hack MySQL" type="rss" id="semedhb" sortColumn="time" xmlUrl="https://hackmysql.com/index.xml" htmlUrl="https://hackmysql.com/" updateInterval="-1" collapsed="true"/>
+          <outline title="MySQL Performance Blog" text="MySQL Performance Blog" description="MySQL Performance Blog" type="rss" id="ugxaqjn" sortColumn="time" xmlUrl="https://www.percona.com/blog/feed/" htmlUrl="https://www.percona.com/blog/" updateInterval="-1" collapsed="true"/>
+          <outline title="Splunk Blogs" text="Splunk Blogs" description="Splunk Blogs" type="rss" id="buelern" sortColumn="time" xmlUrl="https://www.splunk.com/blog/feed/" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        </outline>
+        <outline title="21x9.org" text="21x9.org" description="21x9.org" type="rss" id="bvipnjb" sortColumn="time" xmlUrl="https://www.21x9.org/" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        <outline title="Etsy Engineering | Code as Craft" text="Etsy Engineering | Code as Craft" description="Etsy Engineering | Code as Craft" type="rss" id="fxiotnv" sortColumn="time" xmlUrl="https://www.etsy.com/codeascraft/rss" htmlUrl="http://www.etsy.com/codeascraft/rss" updateInterval="-1" collapsed="true"/>
+        <outline title="High Scalability" text="High Scalability" description="High Scalability" type="rss" id="djjkosf" sortColumn="time" xmlUrl="http://feeds.feedburner.com/HighScalability" htmlUrl="http://highscalability.com/blog/" updateInterval="-1" collapsed="true"/>
+        <outline title="major.io" text="major.io" description="major.io" type="rss" id="uolqqjm" sortColumn="time" xmlUrl="https://major.io/feed" htmlUrl="https://major.io/" updateInterval="-1" collapsed="true"/>
+        <outline title="Metadata" text="Metadata" description="Metadata" type="atom" id="uowcfvg" sortColumn="time" xmlUrl="http://muratbuffalo.blogspot.com/feeds/posts/default" htmlUrl="http://www.blogger.com/feeds/8436330762136344379/posts/default?start-index=26&amp;max-results=25" updateInterval="-1" collapsed="true"/>
+        <outline title="Planet SysAdmin" text="Planet SysAdmin" description="Planet SysAdmin" id="kaamcwe" sortColumn="time" xmlUrl="http://planetsysadmin.com/atom.xml" htmlUrl="" updateInterval="-1" collapsed="true"/>
+        <outline title="Sebest's Nuage ☁️" text="Sebest's Nuage ☁️" description="Sebest's Nuage ☁️" type="rss" id="xnothxe" sortColumn="time" xmlUrl="https://sebest.github.io/index.xml" htmlUrl="https://sebest.github.io/" updateInterval="-1" collapsed="true"/>
+        <outline title="SysAdmin1138 Expounds" text="SysAdmin1138 Expounds" description="SysAdmin1138 Expounds" type="atom" id="pcoqleb" sortColumn="time" xmlUrl="https://feeds.feedburner.com/Sysadmin1138" htmlUrl="https://sysadmin1138.net/mt/blog/" updateInterval="-1" collapsed="true"/>
+        <outline title="the agile admin" text="the agile admin" description="the agile admin" type="rss" id="oqifnqi" sortColumn="time" xmlUrl="https://theagileadmin.com/feed/" htmlUrl="https://theagileadmin.com" updateInterval="-1" collapsed="true"/>
+        <outline title="The Netflix Tech Blog" text="The Netflix Tech Blog" description="The Netflix Tech Blog" type="rss" id="pvylxsc" sortColumn="time" xmlUrl="https://medium.com/feed/netflix-techblog" htmlUrl="https://netflixtechblog.com?source=rss----2615bd06b42e---4" updateInterval="-1" collapsed="true"/>
+        <outline title="Psychosomatic, Lobotomy, Saw" text="Psychosomatic, Lobotomy, Saw" description="Psychosomatic, Lobotomy, Saw" type="atom" id="vhcwyuu" sortColumn="time" xmlUrl="http://psy-lob-saw.blogspot.com/feeds/posts/default" htmlUrl="http://www.blogger.com/feeds/5171098727364395242/posts/default?start-index=26&amp;max-results=25" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="Security" text="Security">
+        <outline title="Have I Been Pwned latest breaches" text="Have I Been Pwned latest breaches" description="Have I Been Pwned latest breaches" type="rss" id="bpvyiaj" sortColumn="time" xmlUrl="https://feeds.feedburner.com/HaveIBeenPwnedLatestBreaches" htmlUrl="https://haveibeenpwned.com/" updateInterval="-1" collapsed="true"/>
+      </outline>
+      <outline title="The Pragmatic Engineer" text="The Pragmatic Engineer" description="The Pragmatic Engineer" type="rss" id="filnqeh" sortColumn="time" xmlUrl="https://newsletter.pragmaticengineer.com/feed" htmlUrl="https://newsletter.pragmaticengineer.com" updateInterval="-1" collapsed="true"/>
+    </outline>
+  </body>
+</opml>
