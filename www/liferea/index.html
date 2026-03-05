@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
     <title>Liferea</title>
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
     <link rel="stylesheet" href="../../blog/css/main.css">
+    <link rel="stylesheet" href="webmention.css">
+    <link rel="webmention" href="https://webmention.io/lzone.de/webmention">  
+    <script src="webmention.min.js" data-id="webmention-container" async></script>
     <style>
         body {
             overflow: scroll;
@@ -20,7 +21,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="blog/feed.xml" rel="alternate" title="Liferea Development Blog" type="application/atom+xml">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -52,6 +52,7 @@
         <li>Permanently save headlines in news bins.</li>
         <li>Match items using search folders.</li>
         <li>Play Podcasts in Liferea</li>
+        <li>Read gopher phlogs</li>
       </ul>
       
       <h2 id="more-information">More Information</h2>
@@ -90,8 +91,19 @@
             <li><a href="https://github.com/lwindolf/liferea/blob/master/plugins/README.md#plugin-tutorial">Writing Plugins</a></li>
           </ul>
         </li>
-      </ul>     
-    </div>
-</body>
+      </ul>
+      
+      <h2>Webmentions</h2>
 
+      <div id="webmention-container">
+      </div>
+
+      <form action="https://webmention.io/lzone.de/webmention" method="POST">
+        <p>You wrote about Liferea? Link it here:</p>
+        <input type="url" autocomplete="url" pattern="^https?:\\/\\/.+" name="source" size="10" placeholder="Your post URL" />
+        <input id="webmention-format" type="hidden" name="format" value="html">
+        <input id="webmention-target" type="hidden" name="target" value="https://lzone.de/liferea">
+        <button>Ping me!</button>
+      </form>
+</body>
 </html>

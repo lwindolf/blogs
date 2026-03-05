@@ -3,11 +3,12 @@
 
 <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
         <title>Liferea - Scraping</title>
-        <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
         <link rel="stylesheet" href="../../blog/css/main.css">
+        <link rel="stylesheet" href="webmention.css">
+        <link rel="webmention" href="https://webmention.io/lzone.de/webmention">  
+        <script src="webmention.min.js" data-id="webmention-container" async></script>
         <style>
                 body {
                         overflow: scroll;
@@ -21,7 +22,6 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="feed/liferea.xml" rel="alternate" title="Liferea Development Blog" type="application/atom+xml">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -62,7 +62,19 @@
                         examples to write your own scraper, links to existing scraping scripts and useful existing
                         scraping
                         services.</p>
+
+                <h2>Webmentions</h2>
+
+                <div id="webmention-container">
+                </div>
+
+                <form action="https://webmention.io/lzone.de/webmention" method="POST">
+                        <p>You wrote about Liferea? Link it here:</p>
+                        <input type="url" autocomplete="url" pattern="^https?:\\/\\/.+" name="source" size="10" placeholder="Your post URL" />
+                        <input id="webmention-format" type="hidden" name="format" value="html">
+                        <input id="webmention-target" type="hidden" name="target" value="https://lzone.de/liferea/scraping.htm">
+                        <button>Ping me!</button>
+                </form>
         </div>
 </body>
-
 </html>
