@@ -19,8 +19,8 @@ content portal swiss army knife for the knowledge needed in my daily work.
      <li>RSS News Aggregation
      <ul>
        <li><a href="https://lzone.de/liferea">Liferea</a> (<a href="https://github.com/lwindolf/liferea">Github</a>) - 20+ years old RSS feed reader for Linux</li>
-       <li>RSS Feed Index (<a href="https://github.com/lwindolf/rss-feed-index">Github</a>)</li>
-       <li>RSS Finder (<a href="https://github.com/lwindolf/rss-finder">Github</a>)</li>
+       <li><a href="https://lwindolf.github.io/rss-feed-index">RSS Feed Index</a> (<a href="https://github.com/lwindolf/rss-feed-index">Github</a>)</li>
+       <li><a href="https://lwindolf.github.io/rss-finder">RSS Finder</a> (<a href="https://github.com/lwindolf/rss-finder">Github</a>)</li>
      </ul>
      </li>
  </ul>
