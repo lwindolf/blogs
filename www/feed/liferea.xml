@@ -2,11 +2,108 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2026-03-19T08:15:15.697Z</updated>
+    <updated>2026-04-25T17:40:08.305Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[]]></title>
+        <id>https://lzone.de/liferea/blog//</id>
+        <link href="https://lzone.de/liferea/blog/#2026-04-25 Liferea 1.16.8 Released"/>
+        <updated>2026-04-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is a new stable Liferea 1.16 release with several improvements and bugfixes</p>
+<h2 id="performance-bugfix">Performance Bugfix</h2>
+<p>The 1.16.7 change to the feed updating did make it faster, but some code paths did unintentionally
+block the GUI. This could lead to UI freezes on initial updating.</p>
+<p>This should now be improved significantly. If you still experience long freezes please open an issue! </p>
+<h2 id="more-customizing">More customizing</h2>
+<p>If you really dislike or miss something with the rendering Liferea does, you now can with
+a little bit of Javascript skill modify the rendering. There is a pre-render and a post-render
+hook were you can modify data before rendering or extend/modify/remove the rendering
+after the default rendering happens.</p>
+<p>The hook boiler-plate is prepared in <code>~/.config/liferea/user.js</code></p>
+<pre><code>// This is a JS hook that allows you to hack the Liferea rendering
+//
+// It is invoked by the htmlview.js rendering scripting and provides you
+// with hooks one to modify the data before rendering and one to modify
+// or enhance the rendering after it is done.
+
+// hooks to modify item info rendering
+
+window.hookPreItemRendering = (data) =&gt; {
+        return data;
+};
+window.hookPostItemRendering = () =&gt; {
+        // Modify DOM as you like
+};
+
+// hooks to modify node info rendering
+
+window.hookPreNodeRendering = (data) =&gt; {
+        return data;
+
+};
+window.hookPostNodeRendering = () =&gt; {
+        // Modify DOM as you like
+};</code></pre>
+<h2 id="better-contrast">Better contrast</h2>
+<p>Jeff Fortin suggested to be more bold with contrast and now Liferea is. Light theme
+contrast has been increased significantly and dark contrast has been lowered a bit.</p>
+<h2 id="added-blogroll-support">Added Blogroll support</h2>
+<p>Long ago Liferea already had support for the userland originated "blogchannel" namespace.
+This RSS module did not get traction back then and for many years there was no way for a
+feed to indicate the blogroll of the author. With the new "source" namespace (<a href="https://source.scripting.com/">https://source.scripting.com/</a>) 
+defined by Dave Winer there is again a way to put your blogroll into your feed. </p>
+<p>Liferea now fetches the OPML automatically and presents you the blogroll when you click 
+the feed.</p>
+<p>Additionally Liferea also detects blogrolls defined (via <code>&lt;link rel="blogroll"&gt;</code> in the HTML of the feeds 
+homepage when initially subscribing to a feed. The <a href="https://lwindolf.github.io/rss-feed-index/">rss-feed-index crawler</a> which is the source of 
+the "Discover feeds" feature in Liferea found over 900 OPML subscription lists out there, so it might
+well be that feeds you subscribe to will have a blogroll to show.</p>
+<p><strong>If you have blog with an OPML blogroll and do not yet have either a <code>&lt;link rel="blogroll"&gt;</code> tag in your
+HTML or a <code>&lt;source:blogroll&gt;</code> tag in your feed please add it to make it easier for other users to automatically
+find your OPML!</strong></p>
+<h2 id="changes">Changes</h2>
+<pre><code>    * Reimplements category display, improves metadata display by
+      displaying all in a wrapped line to optimize vertical space usage
+
+    * Add a new user.js which is automatically installed to ~/.config/liferea/user.js
+      that provides hooks for data and rendering manipulation.
+      (Lars Windolf)
+
+    * #1490: Add blogroll support. For feeds with &lt;source:blogroll&gt; element or homepages
+      with &lt;link rel="blogroll"&gt; blogroll URLs are detected and the blogroll is downloaded
+      and shown in the feed view.
+      (Lars Windolf)
+
+    * Change "Discover Feeds" to open in external browser. Due to
+      rss-finder using ESM and Webkit enforcing CORS for ESM and 
+      Cloudflares corsproxy.io now not available anymore there is no
+      easy and secure way to simply embed it.
+      (Lars Windolf)
+
+    * Security updates for JS modules
+      (Lars Windolf)
+
+    * Fixes #1494: Better contrast in light mode, a bit less in dark mode
+      (Lars Windolf)
+
+    * Fixes #1482: Extraneous white space in item header
+      (Lars Windolf)
+
+    * Fixes #1481: Updating feeds satuarates the main look making
+      interaction difficult
+      (Lars Windolf)
+
+    * Fixes a memory leak when loading subscription metadata
+      (Lars Windolf)
+
+    * Update of Spanish translation
+      (Cristian Othón Martínez Vera)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the new release from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.16.8">https://github.com/lwindolf/liferea/releases/tag/v1.16.8</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.7 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.7%20Released</id>
@@ -781,23 +878,5 @@ content using Liferea you can do so by following the RSS feeds provided
 by <a href="https://mediathekviewweb.de/">https://mediathekviewweb.de/</a>.</p>
 <p>To easily import some of the most important feeds here is an <a href="https://raw.githubusercontent.com/lwindolf/blogs/refs/heads/main/Blogs/Liferea/assets/german-tv.opml">OPML file</a>
 that you can download and import in Liferea using <code>Subscriptions</code> -&gt; <code>Import Feedlist</code>.</p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.14.6 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.14.6%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-08-02-Liferea 1.14.6 Released"/>
-        <updated>2023-08-02T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is a bugfix release for 1.14. Please upgrade!</p>
-<h2 id="changes">Changes</h2>
-<pre><code>* Fixes #1272: crash when moving feed to empty folder
-  (reported by Jakub T. Jankiewicz)
-
-* Fixes #1198: FreshRSS logging in correctly but can't get posts
-  (reported by Roger Gonzalez)
-
-* Fixes #1248 Can’t maximize for reading feeds
-  (reported by ksso83)</code></pre>
-<h2 id="download">Download</h2>
-<p>Get Liferea from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.14.6">https://github.com/lwindolf/liferea/releases/tag/v1.14.6</a></p>]]></summary>
     </entry>
 </feed>
