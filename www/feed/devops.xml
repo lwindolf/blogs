@@ -2,11 +2,42 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/blog/</id>
     <title>DevOps Blog Feed</title>
-    <updated>2026-04-25T17:40:08.232Z</updated>
+    <updated>2026-04-30T09:28:39.562Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/blog/"/>
     <subtitle>Latest posts from the DevOps blog</subtitle>
     <icon>https://lzone.de/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Get freeplane working again on Ubuntu 26.04]]></title>
+        <id>https://lzone.de/blog//Get%20freeplane%20working%20again%20on%20Ubuntu%2026.04</id>
+        <link href="https://lzone.de/blog/#2026-04-30-Get freeplane working again on Ubuntu 26.04"/>
+        <updated>2026-04-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>The Debian/Ubuntu freeplane package is broken with more recent Java version due to Java 
+having dropped a security feature. Sadly there is no upstream freeplane release fixing this.</p>
+<h2 id="hacking-the-freeplane-start-script">Hacking the freeplane start script</h2>
+<p>The <code>/usr/bin/freeplane</code> start script has different code paths for JVM selection. The
+relevant code is</p>
+<pre><code>if [ -r /usr/lib/java-wrappers/java-wrappers.sh ] 
+then # the Debian method 
+        . /usr/lib/java-wrappers/java-wrappers.sh 
+        require_java_runtime java8 
+else 
+        findjava 
+        if [ $? -ne 0 ] 
+        then 
+                exit 1 
+        fi 
+fi</code></pre>
+<p>Above code is the reason why setting  <code>FREEPLANE_JAVA_HOME</code> will not work. On Debian only the
+java-wrapper is used to select the JVM.</p>
+<p>This is why you want to change</p>
+<pre><code>require_java_runtime java8 </code></pre>
+<p>to</p>
+<pre><code>require_java_runtime openjdk21</code></pre>
+<p>After which freeplane should run again. If you do not have OpenJDK 21 installed use </p>
+<pre><code>update-java-alternatives --list</code></pre>
+<p>to check which versions you have installed.</p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ArgoCD delete hanging Application]]></title>
         <id>https://lzone.de/blog//ArgoCD%20delete%20hanging%20Application</id>
@@ -1011,20 +1042,5 @@ Helm uses the Sprig template library which has support for <a href="https://gith
 <pre><code> ansiColor('xterm') {
     // pipeline goes here
  }</code></pre>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Helm templates lists using range]]></title>
-        <id>https://lzone.de/blog//Helm%20templates%20lists%20using%20range</id>
-        <link href="https://lzone.de/blog/#2019-05-29-Helm templates lists using range"/>
-        <updated>2019-05-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>When you write a Helm template and want to create a list using range use the following syntax</p>
-<pre><code>---
-spec:
-  something:
-    myList:
-    {{ "{{" }}- range .Values.myList }}
-    {{ "{{" }} print "- " (. | quote) }}
-    {{ "{{" }}- end }}</code></pre>
-<p>The thing to know is that "." accesses the current element in the list and the <code>print "- "</code> in front makes it a list item.</p>]]></summary>
     </entry>
 </feed>
