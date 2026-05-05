@@ -2,11 +2,65 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzone.de/liferea/blog/</id>
     <title>Liferea Development Blog</title>
-    <updated>2026-05-02T12:24:04.704Z</updated>
+    <updated>2026-05-05T22:46:44.475Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzone.de/liferea/blog/"/>
     <subtitle>Latest posts from the Liferea blog</subtitle>
     <icon>https://lzone.de/liferea/favicon.svg</icon>
+    <entry>
+        <title type="html"><![CDATA[Liferea 2.0 RC1 Released]]></title>
+        <id>https://lzone.de/liferea/blog//Liferea%202.0%20RC1%20Released</id>
+        <link href="https://lzone.de/liferea/blog/#2026-05-05-Liferea 2.0-RC1 Released"/>
+        <updated>2026-05-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>This is the first release candidate for the new 2.0 release line that contains the GTK4 port of Liferea.</p>
+<h2 id="migration-from-1x">Migration from 1.x</h2>
+<p>Migration from 1.14/1.16 to 2.0 is supported and should be seamless. The database schema is compatible 
+with 1.16 so you can fall back to 1.16 at any time if you encounter problems.</p>
+<h2 id="removed-features">Removed features</h2>
+<p>Major porting efforts always have some side-effects with features being lost. Despite this rather
+large refactoring almost all features stay as they are with the following exceptions:</p>
+<ul>
+<li>Dropped menu bar in favour of a header bar</li>
+<li>Dropped support for girepository-1.0</li>
+<li>Removed status bar in favour of raising toasts</li>
+<li>Trayicon plugin was removed as incompatible with GTK4</li>
+</ul>
+<h2 id="known-issues">Known issues</h2>
+<p>This entirely new code base has still some issues:</p>
+<ul>
+<li>Item/feed list popup menus show overflow</li>
+<li>Some dialogs sometimes freeze</li>
+</ul>
+<p>Please help with testing and report any bugs you discover!</p>
+<h2 id="changes">Changes</h2>
+<pre><code>* Build system switched from autotools to meson. Tarballs are now .tar.xz
+  (Lars Windolf)
+
+* All message dialogs and auth dialog are now modal.
+  (Lars Windolf)
+
+* Source UI definitions are now provided by a Cambalache 1.0 workflow, single source
+  of truth for all .ui files is liferea.cmb
+  (Lars Windolf)
+
+* Ported code base to GTK4. Note that the port is a minimal port, a lot of
+  GTK4 deprecated widgets (like GtkTreeView) are still in use. Those will be
+  replaced over time.
+  (Lars Windolf)
+
+* New dependency libadwaita, some dialogs are already implemented as AdwDialog
+  and AdwAlertDialog more will follow.
+  (Lars Windolf)
+
+* Removed HTML shortcut documentation in favour of GtkShortCutsWindow
+  Also changed hotkey F1 to point a shortcuts
+  (Lars Windolf)
+
+* Changed simple search from a dialog to a search bar
+  (Lars Windolf)</code></pre>
+<h2 id="download">Download</h2>
+<p>Get the release here: <a href="https://github.com/lwindolf/liferea/releases/tag/v2.0-RC1">https://github.com/lwindolf/liferea/releases/tag/v2.0-RC1</a></p>]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Liferea 1.16.9 Released]]></title>
         <id>https://lzone.de/liferea/blog//Liferea%201.16.9%20Released</id>
@@ -830,61 +884,5 @@ Kudos to Rich Coe for debugging and fixing the issue!</p>
       (Rich Coe)</code></pre>
 <h2 id="download">Download</h2>
 <p>You can get the latest tarball from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.2">https://github.com/lwindolf/liferea/releases/tag/v1.15.2</a></p>]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Liferea 1.15.1 Released]]></title>
-        <id>https://lzone.de/liferea/blog//Liferea%201.15.1%20Released</id>
-        <link href="https://lzone.de/liferea/blog/#2023-08-14-Liferea 1.15.1 Released"/>
-        <updated>2023-08-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>This is a new feature release. It introduces the long awaited switch to libsoup3 and libwebkit2gtk-4.1.
-Thanks to many testers helping testing the latest code from git some errors were ironed out already. 
-Still there is an issue remaining where feed updates are getting stuck when updating while <a href="https://github.com/lwindolf/liferea/issues/1276">DNS resolution/Wifi/network…  fails</a>. Please comment if you also experience this issue!</p>
-<p>Also noteworthy is a simplification of the debug handling which removes three CLI parameters
-<code>--debug-performance</code>, <code>--debug-trace</code> and <code>--debug-verbose</code>.</p>
-<h2 id="changes">Changes</h2>
-<pre><code>    * Update to libsoup3 and libwebkit2gtk-4.1
-      (Lars Windolf)
-
-    * Fixes #1285: HTTP 304 incorrectly caused error state
-      (Rich Coe)
-
-    * Fixes #1272: Crash on moving feed into new folder
-      (Lars Windolf, reported by Jakub T. Jankiewicz)
-
-    * Fixes #1262: Plugin installer: duplicate punctuation
-      (Christian Stadelmann)
-
-    * Fixes #1250: Incorrect item_id when downloading AMP URLs
-      (Alexandre Erwin Ittner)
-
-    * Fixes #1248: Can't maximize for reading feeds
-      (Lars Windolf)
-
-    * Fixes #1242: Dropping not-functioning Pocket bookmark URL
-      (Lars Windolf)
-
-    * Fixes #1241: Dropping not-functioning identi.ca bookmark URL
-      (Lars Windolf)
-
-    * Fixes #1240: TypeError on add-bookmark-site preferences
-      (Lucidiot)
-
-    * Many fixes for static code analysis warnings
-      (Lars Windolf)
-
-    * Simplified debug handling. Drop --debug-performance
-      --debug-trace and --debug-verbose CLI parameters.
-
-    * Removed stale Deutsche Welle Brasil feed from pt-BR default feed list
-      (Alexandre Erwin Ittner)
-
-    * Updated appdata description and summary
-      (bbhtt)
-
-    * Add Russian user documentation (slichtzzz)
-    * Updated Czech translation (Amerey)
-    * Updated Brazilian Portugese translation (Fúlvio Alves)</code></pre>
-<h2 id="download">Download</h2>
-<p>You can fetch the latest tarball from <a href="https://github.com/lwindolf/liferea/releases/tag/v1.15.1">https://github.com/lwindolf/liferea/releases/tag/v1.15.1</a></p>]]></summary>
     </entry>
 </feed>
