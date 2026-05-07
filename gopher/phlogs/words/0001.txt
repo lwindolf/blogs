@@ -1,0 +1,96 @@
+This is my first word vomit. I learned about this concept meadow.cafe in their 
+first word vomit post (https://meadow.cafe/blog/0001-setting-wordvomit-goals/). 
+The idea seems to be to write 1000 words daily or as often as you can without 
+any script or goal. The frigthening thing about it is to write 1000 of those. 
+The interesting thing about it is that most necessarily your writing has to 
+become better. Well - we will see.
+
+Language-wise I'm not sure if it is smart to not write this in my mother tongue,
+but then again this content here is English and it is always good to improve my
+English further and to ensure it sounds a little bit less German than the day
+before.
+
+Some thoughts for today are on LLMs. Having read recent post on Reddit channel
+/r/LocalLlama with the obliguatory "I did not believe it before, but I tried the
+newest model and it will change everything" post I felt the need to summarize
+what I know about the thing (let's come back to what that thing is later) that 
+is actually happening:
+
+1. LLM models work in the medium of language only
+2. LLM models do symbol processing in the form of token prediction
+3. The tokens they predict are symbols for us human users
+4. Humans operate in a multitude of media (music, art, math, logic, money, 
+   power, influence) of which all are distinct from pure language
+
+With above statements I do primarily refer to the term "medium" as understand by
+Talcott Parsons sociological theory of Generalized Symbolic Media and its
+generalization to all communiction by Luhmann. All the media being properties 
+of the social systems we live in, are part of, do constitute.
+
+If this holds true LLMs in their agent form we see today do fail to replace
+human living/being part of/constituting of social systems. The reduction in
+those discussions is so far away from human life. And at the same time the
+actual will-to-power medium in which those statements do work is not reflected
+at all. Do I reflect it when talking about it? Maybe not fully, but I'm at least
+pointing a finger at it.
+
+One standard argument arising from a discussion where you argument like above is
+a reduction in the form of "all those derived media originate from language" 
+and language is the primary unversial medium. Which of course is a very American
+position of analytical philosophy of language. I won't bring the arguments
+against it (others have). I just feel a need to mark the need for this
+reduction.
+
+My immediate layman psychological diagnosis is the childish god complex which
+requires things to be easy, LLMs make things easier, so the medium they work
+in MUST be easy and general. To be honest I often take part in this feeling.
+
+What I learned from the constant online pro/contra AGI/breakthrough arguments
+is that so far I value my IT programming, abstract thinking, design, 
+architecture skills to high and in the same way more general than they are.
+LLMs have shown how they can do the same and now I know these are skillls purely
+or mostly language based. Pattern recognition, examplification and touching upon
+problems, solutions, ideas. This in contrast to my intuition of those being more
+grounded in wordly feed back loops of all kinds. Then again in IT engineering
+we have requirements engineering and design to address this lack of world 
+mapping. This should be a hint. The reality is often that those two activities
+are mostly skipped in projects. And now we suddenly have prompt engineering and
+to "stay relevant" you ought to be good in it. And prompt engineering is "just"
+about the experience to write the best prompt to elicit perfect result from the
+zoo of AI agents.
+
+So it seems that prompt engineering is the new skill name where the actual
+world mapping (of requirements, use cases, scenarios and designs) hides. This 
+leads to the question if this world mapping maps from THE WORLD to a medium of
+language easily processed by LLMs what are the source media? And how does the
+translation magic work. There must be real translation otherwise software just
+would not do anything useful. So there is necessarily a way to translate needs, 
+power, money to software structure / information. I guess there is propably
+structuralist literature. Sadly I do not have an overview on it. But funnily
+the thought nudges: "Why not ask a chat bot?". I won't for now.
+
+Argh... still 250 words to go.
+
+One thing worth making explicit for me is that I want to enjoy the optimism of
+those "this newest model will change everything" people. I do recognize the 
+child in this with boundless positivity and Nietzsches holy will-to-power "yes"
+at work. In my opposition I recognize the imprint of generations of adults 
+putting down such childish behaviour as fruitless, over-the-top, far from 
+reality, in German a "Wolkenkuckucksheim". As always both views must be able
+to hold true at the same time. Letting both be true mean not damping the 
+will-to-power "yes" while grounding the result of the things being done. 
+
+And here we are back at the question from the start: there is something being 
+done. The label is "AI". The macro-economic form is maybe a Kondratjew cycle. 
+But we are doing something. Sure it is definitively a new wave of capitalistic
+overcoding. But we are doing something. 
+
+As always we invent new machines to use. New tools to attach to our bodily
+being. Extending limbs, senses, in this case extending the tool set with which
+we work in the medium language. As always there is a fear that the new tool or
+machine becomes a monster to big to let us move, tying us down with its
+gargantuan instrumentarium. 
+
+But looking back did we every invent machines that were to big for us? A bicycle
+that prevented us from cycling? A car that we cannot move anymore? A steam 
+machine whose power we could not direct to producing something?
