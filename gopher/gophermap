@@ -16,6 +16,15 @@ Other than that I live for philosophy and gardening at our
 house at the edge of the wood.
 
 
+_____ Content on gopher ______
+
+I've started a word vomit phlog I only keep on gopher, but I also mirror
+my web logs here:
+
+1Word Vomit	/phlogs/words	gopher.lzone.de	70        
+1DevOps Notes	/phlogs/devops	gopher.lzone.de	70
+1Liferea Development	/phlogs/liferea	gopher.lzone.de	70
+
 _____ Projects _____
 
 
@@ -32,9 +41,4 @@ hSaaS Multi Status	URL:https://github.com/lwindolf/multi-status
 hCloud Outage Index	URL:https://github.com/lwindolf/cloud-outages
 
 
-_____ Content on gopher ______
 
-I mirror my two web logs:
-
-1DevOps Notes	/phlogs/devops	gopher.lzone.de	70
-1Liferea Development	/phlogs/liferea	gopher.lzone.de	70
