@@ -1,0 +1,109 @@
+This is a new stable Liferea 1.16 release with several improvements and bugfixes
+
+## Performance Bugfix
+
+The 1.16.7 change to the feed updating did make it faster, but some code paths did unintentionally
+block the GUI. This could lead to UI freezes on initial updating.
+
+This should now be improved significantly. If you still experience long freezes please open an issue! 
+
+## More customizing
+
+If you really dislike or miss something with the rendering Liferea does, you now can with
+a little bit of Javascript skill modify the rendering. There is a pre-render and a post-render
+hook were you can modify data before rendering or extend/modify/remove the rendering
+after the default rendering happens.
+
+The hook boiler-plate is prepared in `~/.config/liferea/user.js`
+    
+    // This is a JS hook that allows you to hack the Liferea rendering
+    //
+    // It is invoked by the htmlview.js rendering scripting and provides you
+    // with hooks one to modify the data before rendering and one to modify
+    // or enhance the rendering after it is done.
+    
+    // hooks to modify item info rendering
+    
+    window.hookPreItemRendering = (data) => {
+            return data;
+    };
+    window.hookPostItemRendering = () => {
+            // Modify DOM as you like
+    };
+    
+    // hooks to modify node info rendering
+    
+    window.hookPreNodeRendering = (data) => {
+            return data;
+    
+    };
+    window.hookPostNodeRendering = () => {
+            // Modify DOM as you like
+    };
+
+## Better contrast
+
+Jeff Fortin suggested to be more bold with contrast and now Liferea is. Light theme
+contrast has been increased significantly and dark contrast has been lowered a bit.
+
+## Added Blogroll support
+
+Long ago Liferea already had support for the userland originated "blogchannel" namespace.
+This RSS module did not get traction back then and for many years there was no way for a
+feed to indicate the blogroll of the author. With the new "source" namespace (https://source.scripting.com/) 
+defined by Dave Winer there is again a way to put your blogroll into your feed. 
+
+Liferea now fetches the OPML automatically and presents you the blogroll when you click 
+the feed.
+
+Additionally Liferea also detects blogrolls defined (via `<link rel="blogroll">` in the HTML of the feeds 
+homepage when initially subscribing to a feed. The [rss-feed-index crawler](https://lwindolf.github.io/rss-feed-index/) which is the source of 
+the "Discover feeds" feature in Liferea found over 900 OPML subscription lists out there, so it might
+well be that feeds you subscribe to will have a blogroll to show.
+
+**If you have blog with an OPML blogroll and do not yet have either a `<link rel="blogroll">` tag in your
+HTML or a `<source:blogroll>` tag in your feed please add it to make it easier for other users to automatically
+find your OPML!**
+
+## Changes
+
+        * Reimplements category display, improves metadata display by
+          displaying all in a wrapped line to optimize vertical space usage
+
+        * Add a new user.js which is automatically installed to ~/.config/liferea/user.js
+          that provides hooks for data and rendering manipulation.
+          (Lars Windolf)
+        
+        * #1490: Add blogroll support. For feeds with <source:blogroll> element or homepages
+          with <link rel="blogroll"> blogroll URLs are detected and the blogroll is downloaded
+          and shown in the feed view.
+          (Lars Windolf)
+
+        * Change "Discover Feeds" to open in external browser. Due to
+          rss-finder using ESM and Webkit enforcing CORS for ESM and 
+          Cloudflares corsproxy.io now not available anymore there is no
+          easy and secure way to simply embed it.
+          (Lars Windolf)
+
+        * Security updates for JS modules
+          (Lars Windolf)
+
+        * Fixes #1494: Better contrast in light mode, a bit less in dark mode
+          (Lars Windolf)
+
+        * Fixes #1482: Extraneous white space in item header
+          (Lars Windolf)
+
+        * Fixes #1481: Updating feeds satuarates the main look making
+          interaction difficult
+          (Lars Windolf)
+        
+        * Fixes a memory leak when loading subscription metadata
+          (Lars Windolf)
+
+        * Update of Spanish translation
+          (Cristian Othón Martínez Vera)
+
+## Download
+
+Get the new release from [https://github.com/lwindolf/liferea/releases/tag/v1.16.8](https://github.com/lwindolf/liferea/releases/tag/v1.16.8)

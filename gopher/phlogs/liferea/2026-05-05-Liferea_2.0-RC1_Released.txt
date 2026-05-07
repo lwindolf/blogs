@@ -1,0 +1,57 @@
+This is the first release candidate for the new 2.0 release line that contains the GTK4 port of Liferea.
+
+## Migration from 1.x
+
+Migration from 1.14/1.16 to 2.0 is supported and should be seamless. The database schema is compatible 
+with 1.16 so you can fall back to 1.16 at any time if you encounter problems.
+
+## Removed features
+
+Major porting efforts always have some side-effects with features being lost. Despite this rather
+large refactoring almost all features stay as they are with the following exceptions:
+
+* Dropped menu bar in favour of a header bar
+* Dropped support for girepository-1.0
+* Removed status bar in favour of raising toasts
+* Trayicon plugin was removed as incompatible with GTK4
+
+## Known issues
+
+This entirely new code base has still some issues:
+
+* Item/feed list popup menus show overflow
+* Some dialogs sometimes freeze
+
+Please help with testing and report any bugs you discover!
+
+## Changes
+
+	* Build system switched from autotools to meson. Tarballs are now .tar.xz
+	  (Lars Windolf)
+
+	* All message dialogs and auth dialog are now modal.
+	  (Lars Windolf)
+
+	* Source UI definitions are now provided by a Cambalache 1.0 workflow, single source
+	  of truth for all .ui files is liferea.cmb
+	  (Lars Windolf)
+
+	* Ported code base to GTK4. Note that the port is a minimal port, a lot of
+	  GTK4 deprecated widgets (like GtkTreeView) are still in use. Those will be
+	  replaced over time.
+	  (Lars Windolf)
+
+	* New dependency libadwaita, some dialogs are already implemented as AdwDialog
+	  and AdwAlertDialog more will follow.
+	  (Lars Windolf)
+	
+	* Removed HTML shortcut documentation in favour of GtkShortCutsWindow
+	  Also changed hotkey F1 to point a shortcuts
+	  (Lars Windolf)
+
+	* Changed simple search from a dialog to a search bar
+	  (Lars Windolf)
+
+## Download
+
+Get the release here: [https://github.com/lwindolf/liferea/releases/tag/v2.0-RC1](https://github.com/lwindolf/liferea/releases/tag/v2.0-RC1)
