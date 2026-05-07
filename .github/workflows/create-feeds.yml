@@ -24,6 +24,8 @@ jobs:
 
                 git config user.email "noreply@example.com"
                 git config user.name "Create Feeds Workflow"
-                git commit -m "Update feeds." www/feed/*.xml || exit 0
+                git add www/feed/*.xml || exit 0
+                git add gopher/phlogs/*/* || exit 0
+                git commit -m "Update feeds."
                 git push
 
