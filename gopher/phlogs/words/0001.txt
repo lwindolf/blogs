@@ -22,9 +22,9 @@ is actually happening:
 4. Humans operate in a multitude of media (music, art, math, logic, money, 
    power, influence) of which all are distinct from pure language
 
-With above statements I do primarily refer to the term "medium" as understand by
+With above statements I do primarily refer to the term "medium" as understoo by
 Talcott Parsons sociological theory of Generalized Symbolic Media and its
-generalization to all communiction by Luhmann. All the media being properties 
+generalization to all communication by Luhmann. All the media being properties 
 of the social systems we live in, are part of, do constitute.
 
 If this holds true LLMs in their agent form we see today do fail to replace
